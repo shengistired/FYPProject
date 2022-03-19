@@ -245,23 +245,42 @@ public class TerrainGeneration : MonoBehaviour
                 else
                 {
                     //top layer of map
-                    if (biome != "desert")
-                    {
-                        tileSprites = tileAtlas.grass.tileSprites;
-                    }
                     if (biome == "snow")
                     {
                         tileSprites = tileAtlas.snow.tileSprites;
                     }
-                    if (biome == "forest")
+                     else if (biome == "desert")
+                        {
+                            tileSprites = tileAtlas.sand.tileSprites;
+                        }
+
+                    if (biome != "desert" && biome != "snow")
                     {
                         tileSprites = tileAtlas.grass.tileSprites;
                     }
-
                     else
                     {
-                        tileSprites = tileAtlas.sand.tileSprites;
+                        if (biome == "snow")
+                        {
+                            tileSprites = tileAtlas.snow.tileSprites;
+                        }
+                        else if (biome == "desert")
+                        {
+                            tileSprites = tileAtlas.sand.tileSprites;
+                        }
+                        else
+                        {
+
+                            tileSprites = tileAtlas.grass.tileSprites;
+
+                        }
+
+
                     }
+
+
+
+
 
 
                 }
@@ -343,7 +362,7 @@ public class TerrainGeneration : MonoBehaviour
             newTile.AddComponent<BoxCollider2D>().size = Vector2.one;
 
             //uncomment the one below after player walking is done.
-            //newTile.tag = "Ground";
+            newTile.tag = "Ground";
 
             int spriteIndex = UnityEngine.Random.Range(0, tileSprites.Length);
             newTile.GetComponent<SpriteRenderer>().sprite = tileSprites[spriteIndex];
