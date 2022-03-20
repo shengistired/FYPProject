@@ -36,7 +36,6 @@ public class Projectile : MonoBehaviour
     }    
     public void SetDirection(float _direction)
     {
-        lifeTime = 0;
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;

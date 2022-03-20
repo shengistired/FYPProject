@@ -5,10 +5,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackCooldown;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject[] fireballs;
+    [SerializeField] private GameObject staff;
+
 
     private Animator ani;
     private PlayerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
+    public int rotationOffset = 0;
 
     private void Awake()
     {
@@ -18,15 +21,26 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown && playerMovement.canAttack())
         {
+
            attack();
+            if (ani.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            {
+                staff.SetActive(true);
+            }
+            else
+            {
+                staff.SetActive(false);
+            }
         }
+
         cooldownTimer += Time.deltaTime;
     }
     private void attack()
     {
-        ani.SetTrigger("attack");
+        ani.SetBool("isAttacking", true);
         cooldownTimer = 0;
 
         //object pooling
