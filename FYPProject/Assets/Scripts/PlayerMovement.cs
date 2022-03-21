@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;   
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
@@ -10,20 +9,82 @@ public class PlayerMovement : MonoBehaviour
     private Animator ani;
     private BoxCollider2D boxCollider;
     private float wallJumpCoolDown;
-    private float horizontalInput; 
+    private float horizontalInput;
+    private Inventory inventory;
+    [SerializeField] private UI_Inventory uiInventory;
+    public float runSpeed = 50f;
+    private float horizontalMove = 0f;
+    [SerializeField] private GameObject axe;
+    private int count = 0;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();    
+        boxCollider = GetComponent<BoxCollider2D>();
+
+        inventory = new Inventory(UseItem);
+        uiInventory.SetPlayer(this);
+        uiInventory.SetInventory(inventory);
+
+    }
+    public Vector3 getPosition()
+    {
+        return transform.position;
+    }
+
+    private void UseItem(Item item)
+    {
+        switch (item.itemType)
+        {
+            case Item.ItemType.Potion:
+                inventory.RemoveItem(new Item { itemType = Item.ItemType.Potion, amount = 1 });
+                break;
+
+            case Item.ItemType.Food:
+                inventory.RemoveItem(new Item { itemType = Item.ItemType.Food, amount = 1 });
+                break;
+
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
+        if(itemWorld!= null)
+        {
+            inventory.AddItem(itemWorld.GetItem());
+            itemWorld.DestroySelf();
+        }
     }
     private void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        ani.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.6f, 10f));
+        if (Input.GetKeyDown("i"))
+        {
+            if(count == 0)
+            {
+                uiInventory.transform.position = centerPos;
+                uiInventory.gameObject.SetActive(true);
+                count = 1;
+            }
+            else
+            {
+                uiInventory.gameObject.SetActive(false);
+                count = 0;
+            }
 
-        //flip character
-        if(horizontalInput > 0.001f)
+        }
+
+
+            Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
+        float distance = position.x - transform.position.x;
+        Debug.Log(distance);
+
+        if (horizontalInput > 0.001f)
         {
             transform.localScale = Vector3.one;
         }      
@@ -31,14 +92,28 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
-       
-        ani.SetBool("run", horizontalInput!=0);
-        ani.SetBool("grounded", isGrounded());
 
-        if (wallJumpCoolDown > 0.2f)
+        if (isGrounded()){
+            ani.SetBool("isJumping", false);
+            if (Input.GetMouseButton(0) && position.y < -3.6 && distance <= 1.5 && distance >= -1.5)
+            {
+                ani.SetBool("isMining", true);
+                axe.SetActive(true);
+
+            }
+            else
+            {
+                ani.SetBool("isMining", false);
+                axe.SetActive(false);
+
+            }
+
+        }
+
+            if (wallJumpCoolDown > 0.2f)
         {
 
-            body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y);
+            body.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed/10, body.velocity.y);
 
             if (onWall() && isGrounded())
             {
@@ -56,15 +131,29 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             wallJumpCoolDown += Time.deltaTime;
-        print(onWall());
     }
 
+
+    public int getDirection()
+    {
+        if (transform.localScale == Vector3.one)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
     private void Jump()
     {
+
+        ani.SetBool("isMining", false);
+        axe.SetActive(false);
         if (isGrounded())
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
-            ani.SetTrigger("jump");
+            ani.SetBool("isJumping", true);
         }
         else if(onWall() && !isGrounded())
         {
@@ -88,6 +177,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }    
+
     private bool onWall()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
@@ -96,6 +186,6 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canAttack()
     {
-        return horizontalInput == 0 && isGrounded() && !onWall();
+        return !onWall();
     }
 }
