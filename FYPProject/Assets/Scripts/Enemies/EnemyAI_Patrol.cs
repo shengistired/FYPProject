@@ -21,8 +21,7 @@ public class EnemyAI_Patrol : MonoBehaviour
     void Start()
     {
         mustPatrol = true;
-        //Physics2D.IgnoreCollision(rb.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>(), false);
-        Physics2D.IgnoreLayerCollision(7, 7, true);
+        Physics2D.IgnoreCollision(rb.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>(), false);
         //Rigidbody rb = GetComponent<Rigidbody>();
         //rb.AddForce(thrust, 0, 0, ForceMode.Impulse);
     }
