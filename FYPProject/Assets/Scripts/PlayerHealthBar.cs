@@ -16,22 +16,16 @@ public class PlayerHealthBar : MonoBehaviour
 		currentHealth = maxHealth;
 		healthBar.SetMaxHealth(maxHealth);
 	}
-<<<<<<< HEAD
+
 
     private void Update()
     {
 		UpdateHealth();
     }
-    void UpdateHealth()
-=======
-	
-	private void Update()
-	{
-			UpdateHealth();
-	}
+
 	
 	void UpdateHealth()
->>>>>>> aeca45b7142645692d05fe2f797a5c0cc4fb3317
+
 	{
 	if (Input.GetKeyDown(KeyCode.F5))
 		{
