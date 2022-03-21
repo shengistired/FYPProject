@@ -19,14 +19,11 @@ public class PlayerAttack : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void Update()
+
+    public void attack()
     {
-
-        if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown && playerMovement.canAttack())
-        {
-
-           attack();
-            if (ani.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        ani.SetTrigger("Attack");
+        if (ani.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
                 staff.SetActive(true);
             }
@@ -34,13 +31,11 @@ public class PlayerAttack : MonoBehaviour
             {
                 staff.SetActive(false);
             }
-        }
+        
 
         cooldownTimer += Time.deltaTime;
-    }
-    private void attack()
-    {
-        ani.SetBool("isAttacking", true);
+
+
         cooldownTimer = 0;
 
         //object pooling

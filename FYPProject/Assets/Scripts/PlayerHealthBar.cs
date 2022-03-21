@@ -16,8 +16,12 @@ public class PlayerHealthBar : MonoBehaviour
 		currentHealth = maxHealth;
 		healthBar.SetMaxHealth(maxHealth);
 	}
-	
-	void UpdateHealth()
+
+    private void Update()
+    {
+		UpdateHealth();
+    }
+    void UpdateHealth()
 	{
 	if (Input.GetKeyDown(KeyCode.F5))
 		{

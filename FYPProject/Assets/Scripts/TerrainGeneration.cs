@@ -8,6 +8,7 @@ public class TerrainGeneration : MonoBehaviour
     public BiomeClass ForestBiome;
     public BiomeClass DesertBiome;
     public BiomeClass SnowBiome;
+    private bool isTree;
 
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
@@ -358,8 +359,16 @@ public class TerrainGeneration : MonoBehaviour
             newTile.transform.parent = worldChunks[(int)chunkCoordinate].transform;
 
             newTile.AddComponent<SpriteRenderer>();
-            newTile.AddComponent<BoxCollider2D>();
-            newTile.AddComponent<BoxCollider2D>().size = Vector2.one;
+            
+            if(isTree == false)
+            {
+                newTile.AddComponent<BoxCollider2D>();
+                newTile.AddComponent<BoxCollider2D>().size = Vector2.one;
+                
+            }
+
+
+            
 
             //uncomment the one below after player walking is done.
             newTile.tag = "Ground";
@@ -371,15 +380,18 @@ public class TerrainGeneration : MonoBehaviour
             newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
 
             worldTiles.Add(newTile.transform.position - Vector3.one * 0.5f);
+
         }
     }
 
     void GenerateTree(int x, int y)
     {
+        isTree = true;
         //generate tree log
         int treeHeight = UnityEngine.Random.Range(minTreeHeight, maxTreeHeight);
         if (biome != "desert")
         {
+            
             for (int i = 0; i <= treeHeight; i++)
             {
                 PlaceTiles(tileAtlas.treeLog.tileSprites, x, y + i);
@@ -413,6 +425,7 @@ public class TerrainGeneration : MonoBehaviour
             }
 
         }
+        isTree = false;
         // if (biome == "desert")
         // {
         //     for (int i = 0; i <= treeHeight; i++)

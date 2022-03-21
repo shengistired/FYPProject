@@ -5,11 +5,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
-    private Rigidbody2D body;
-    private Animator ani;
-    private BoxCollider2D boxCollider;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject[] fireballs;
+    [SerializeField] private GameObject staff;
+
+    private float cooldownTimer = Mathf.Infinity;
+    private float attackCoolDown = 1;
+    private float animationTime = 0;
     private float wallJumpCoolDown;
     private float horizontalInput;
+
+    public int rotationOffset = 0;
+
+    private Rigidbody2D body;
+    private Animator ani;
+
+    private BoxCollider2D boxCollider;
+
     private Inventory inventory;
     [SerializeField] private UI_Inventory uiInventory;
     public float runSpeed = 50f;
@@ -22,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
-
         inventory = new Inventory(UseItem);
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
@@ -80,9 +91,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-            Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
+        Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
-        Debug.Log(distance);
+
 
         if (horizontalInput > 0.001f)
         {
@@ -95,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded()){
             ani.SetBool("isJumping", false);
-            if (Input.GetMouseButton(0) && position.y < -3.6 && distance <= 1.5 && distance >= -1.5)
+            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && position.y < 76.6 && distance <= 1.5 && distance >= -1.5)
             {
                 ani.SetBool("isMining", true);
                 axe.SetActive(true);
@@ -105,12 +116,23 @@ public class PlayerMovement : MonoBehaviour
             {
                 ani.SetBool("isMining", false);
                 axe.SetActive(false);
+                if( Input.GetMouseButtonDown(0) && cooldownTimer > attackCoolDown)
+                {        
+                    attack();
+                }
+
 
             }
 
         }
+        cooldownTimer += Time.deltaTime;
+        if (animationTime > 0.5)
+        {
+            staff.SetActive(false);
+        }
+        animationTime += Time.deltaTime;
 
-            if (wallJumpCoolDown > 0.2f)
+        if (wallJumpCoolDown > 0.2f)
         {
 
             body.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed/10, body.velocity.y);
@@ -187,5 +209,30 @@ public class PlayerMovement : MonoBehaviour
     public bool canAttack()
     {
         return !onWall();
+    }
+
+    public void attack()
+    {
+        
+        ani.SetTrigger("Attack");
+        staff.SetActive(true);
+
+
+        cooldownTimer = 0;
+        animationTime = 0;
+        fireballs[findFireball()].transform.position = firePoint.position;
+        fireballs[findFireball()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+    }
+
+    private int findFireball()
+    {
+        for (int i = 0; i < fireballs.Length; i++)
+        {
+            if (!fireballs[i].activeInHierarchy)
+            {
+                return i;
+            }
+        }
+        return 0;
     }
 }
