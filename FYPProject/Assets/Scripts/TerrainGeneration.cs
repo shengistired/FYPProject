@@ -363,6 +363,7 @@ public class TerrainGeneration : MonoBehaviour
 
             //uncomment the one below after player walking is done.
             newTile.tag = "Ground";
+            newTile.layer = 6;
 
             int spriteIndex = UnityEngine.Random.Range(0, tileSprites.Length);
             newTile.GetComponent<SpriteRenderer>().sprite = tileSprites[spriteIndex];
