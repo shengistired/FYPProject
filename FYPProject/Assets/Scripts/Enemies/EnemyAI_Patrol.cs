@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class EnemyAI_Patrol : MonoBehaviour
 {
-    public float walkSpeed;
-    // public float distance;
-    //public float thrust = 1.0f;
+    public float walkSpeed, range;
+    private float disToPlayer;
 
     [HideInInspector]
     public bool mustPatrol;
@@ -15,16 +14,15 @@ public class EnemyAI_Patrol : MonoBehaviour
     public Rigidbody2D rb;
     public Transform groundcheckPos;
     public LayerMask groundLayer;
-    //public LayerMask Enemies;
     public Collider2D bodyCollider;
+    public Transform newplayer;
 
     void Start()
     {
         mustPatrol = true;
         //Physics2D.IgnoreCollision(rb.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>(), false);
         Physics2D.IgnoreLayerCollision(7, 7, true);
-        //Rigidbody rb = GetComponent<Rigidbody>();
-        //rb.AddForce(thrust, 0, 0, ForceMode.Impulse);
+        newplayer = GameObject.Find("NewPlayer").transform;
     }
 
     void Update()
@@ -33,22 +31,20 @@ public class EnemyAI_Patrol : MonoBehaviour
         {
             Patrol();
         }
-        
-        /*transform.Translate(Vector2.right * walkSpeed * Time.deltaTime);
-         RaycastHit2D groundInfo = Physics2D.Raycast(groundcheckPos.position, Vector2.down, groundLayer);
-         if (groundInfo.collider == false)
-         {
-             if (mustTurn == true)
-             {
-                 transform.eulerAngles = new Vector3(0, -180, 0);
-                 mustTurn = false;
-             }
-             else
-             {
-                 transform.eulerAngles = new Vector3(0, 0, 0);
-                 mustTurn = true;
-             }
-         }*/
+
+        disToPlayer = Vector2.Distance(transform.position, newplayer.position);
+
+        if(disToPlayer <= range)
+        {
+            if(newplayer.position.x > transform.position.x && transform.localScale.x < 0
+               || newplayer.position.x < transform.position.x && transform.localScale.x > 0)
+            {
+                Flip();
+            }
+
+            mustPatrol = false;   
+            Shoot();
+        }
     }
 
     private void FixedUpdate()
@@ -75,5 +71,10 @@ public class EnemyAI_Patrol : MonoBehaviour
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         walkSpeed *= -1;
         mustTurn = false;
+    }
+
+    void Shoot()
+    {
+        //Shoot
     }
 }
