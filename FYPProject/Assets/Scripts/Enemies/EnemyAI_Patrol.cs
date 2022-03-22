@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class EnemyAI_Patrol : MonoBehaviour
 {
-    public float walkSpeed, range;
+    public float walkSpeed, range, timeBTWshots, shootSpeed;
     private float disToPlayer;
 
     [HideInInspector]
     public bool mustPatrol;
-    private bool mustTurn;
+    private bool mustTurn, canShoot;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
-    public Transform newplayer;
+    public Transform player, shootPos;
+    public GameObject bullet;
 
     void Start()
     {
         mustPatrol = true;
-        //Physics2D.IgnoreCollision(rb.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>(), false);
         Physics2D.IgnoreLayerCollision(7, 7, true);
-        newplayer = GameObject.Find("NewPlayer").transform;
+        player = GameObject.Find("Mage").transform;
+        canShoot = true;
     }
 
     void Update()
@@ -32,18 +33,27 @@ public class EnemyAI_Patrol : MonoBehaviour
             Patrol();
         }
 
-        disToPlayer = Vector2.Distance(transform.position, newplayer.position);
+        disToPlayer = Vector2.Distance(transform.position, player.position);
 
         if(disToPlayer <= range)
         {
-            if(newplayer.position.x > transform.position.x && transform.localScale.x < 0
-               || newplayer.position.x < transform.position.x && transform.localScale.x > 0)
+            if(player.position.x > transform.position.x && transform.localScale.x < 0
+               || player.position.x < transform.position.x && transform.localScale.x > 0)
             {
                 Flip();
             }
 
-            mustPatrol = false;   
-            Shoot();
+            mustPatrol = false;
+            rb.velocity = Vector2.zero;
+
+            if(canShoot)
+            {
+                StartCoroutine(Shoot());
+            }
+        }
+        else
+        {
+            mustPatrol = true;
         }
     }
 
@@ -73,8 +83,14 @@ public class EnemyAI_Patrol : MonoBehaviour
         mustTurn = false;
     }
 
-    void Shoot()
+    IEnumerator Shoot()
     {
-        //Shoot
+        canShoot = false;
+
+        yield return new WaitForSeconds(timeBTWshots);
+        GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
+
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
+        canShoot = true;
     }
 }
