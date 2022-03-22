@@ -35,7 +35,7 @@ public class TerrainGeneration : MonoBehaviour
     public int dirtLayerHeight = 5;
     public string worldSizeSet = "small";
     public string biome = "forest";
-    public int worldSize = 0;
+    public int worldSize = 260;
     public float heightMultiplier = 4f;
     public int heightAddition = 75;
 
@@ -57,10 +57,11 @@ public class TerrainGeneration : MonoBehaviour
 
     //x,y pos of all tiles in the generated world.
     private List<Vector2> worldTiles = new List<Vector2>();
+    //object of every tile
+    private List<GameObject> worldTileObjects = new List<GameObject>();
 
-
-    // private void OnValidate()
-    // {
+    private void OnValidate()
+    {
     //     // if (worldSizeSet == "small")
     //     // {
     //     //     worldSize = 250;
@@ -75,21 +76,24 @@ public class TerrainGeneration : MonoBehaviour
     //     // } 
 
     //     //DrawTextures();
-    //     //DrawBiomeTexture(grassland);
-
-    // }
+    //     //DrawBiomeTexture(grassland); 
+    GenerateNoiseTexture(caveFreq, surfaceValue, caveNoiseTexture);
+    }
 
 
     private void Start()
     {
-        // if (caveNoiseTexture == null)
-        // {
+        
         caveNoiseTexture = new Texture2D(worldSize, worldSize);
+        //coal
         ores[0].spreadTexture = new Texture2D(worldSize, worldSize);
+        //iron
         ores[1].spreadTexture = new Texture2D(worldSize, worldSize);
+        //gold
         ores[2].spreadTexture = new Texture2D(worldSize, worldSize);
+        //diamond
         ores[3].spreadTexture = new Texture2D(worldSize, worldSize);
-        // }
+        
 
 
         if (seed == 0)
@@ -287,7 +291,8 @@ public class TerrainGeneration : MonoBehaviour
                 }
                 //make cave spawn when below 5 height
                 //if (generateCave && y < height - 5)
-                if (generateCave && y < height)
+                //if (generateCave && y < height)
+                if (generateCave)
                 {
                     if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
                     {
@@ -349,7 +354,9 @@ public class TerrainGeneration : MonoBehaviour
 
     public void PlaceTiles(Sprite[] tileSprites, int x, int y)
     {
-        if (!worldTiles.Contains(new Vector2Int(x, y)))
+        //if (!worldTiles.Contains(new Vector2Int(x, y)))
+        //place blocks within world border
+        if (!worldTiles.Contains(new Vector2Int(x, y)) && x>= 0 && x<= worldSize && y >= 0 && y<= worldSize )
         {
             GameObject newTile = new GameObject();
 
@@ -369,7 +376,6 @@ public class TerrainGeneration : MonoBehaviour
 
 
             
-
             //uncomment the one below after player walking is done.
             newTile.tag = "Ground";
             newTile.layer = 6;
@@ -379,8 +385,8 @@ public class TerrainGeneration : MonoBehaviour
             newTile.name = tileSprites[0].name;
             newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
 
-            worldTiles.Add(newTile.transform.position - Vector3.one * 0.5f);
-
+            worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));    
+            worldTileObjects.Add(newTile);
         }
     }
 
@@ -439,6 +445,15 @@ public class TerrainGeneration : MonoBehaviour
 
 
 
+    }
+
+    public void BreakTile(int x , int y)
+    {
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x>= 0 && x<= worldSize && y >= 0 && y<= worldSize )
+        {
+           //breaks the tile of pos x y which is player's mouse pos
+           Destroy(worldTileObjects [worldTiles.IndexOf(new Vector2(x,y))]);
+        }
     }
 
 }

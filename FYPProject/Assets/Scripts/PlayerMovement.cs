@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject[] fireballs;
     [SerializeField] private GameObject staff;
 
+    public TerrainGeneration terrainGenerator;
+    public Vector2Int mousePosition;
+
     private float cooldownTimer = Mathf.Infinity;
     private float attackCoolDown = 1;
     private float animationTime = 0;
@@ -62,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
-        if(itemWorld!= null)
+        if (itemWorld != null)
         {
             inventory.AddItem(itemWorld.GetItem());
             itemWorld.DestroySelf();
@@ -70,13 +73,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        //mousePosition.x = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x);
+        //mousePosition.y = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+
         horizontalInput = Input.GetAxis("Horizontal");
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         ani.SetFloat("Speed", Mathf.Abs(horizontalMove));
         Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.6f, 10f));
         if (Input.GetKeyDown("i"))
         {
-            if(count == 0)
+            if (count == 0)
             {
                 uiInventory.transform.position = centerPos;
                 uiInventory.gameObject.SetActive(true);
@@ -98,26 +104,33 @@ public class PlayerMovement : MonoBehaviour
         if (horizontalInput > 0.001f)
         {
             transform.localScale = Vector3.one;
-        }      
-        else if(horizontalInput < -0.001f)
+        }
+        else if (horizontalInput < -0.001f)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
 
-        if (isGrounded()){
+        if (isGrounded())
+        {
             ani.SetBool("isJumping", false);
-            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && position.y < 76.6 && distance <= 1.5 && distance >= -1.5)
+            //if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && position.y < 76.6 && distance <= 1.5 && distance >= -1.5)
+            if ((Input.GetMouseButton(0)) && position.y < 30 && distance <= 1.5 && distance >= -1.5)
             {
                 ani.SetBool("isMining", true);
                 axe.SetActive(true);
+                //mining code
+
+                terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                //terrainGenerator.BreakTile(mousePosition.x, mousePosition.y);
+
 
             }
             else
             {
                 ani.SetBool("isMining", false);
                 axe.SetActive(false);
-                if( Input.GetMouseButtonDown(0) && cooldownTimer > attackCoolDown)
-                {        
+                if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
+                {
                     attack();
                 }
 
@@ -135,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         if (wallJumpCoolDown > 0.2f)
         {
 
-            body.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed/10, body.velocity.y);
+            body.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed / 10, body.velocity.y);
 
             if (onWall() && isGrounded())
             {
@@ -177,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             ani.SetBool("isJumping", true);
         }
-        else if(onWall() && !isGrounded())
+        else if (onWall() && !isGrounded())
         {
             if (horizontalInput == 0)
             {
@@ -189,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
                 body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, 6);
             }
             wallJumpCoolDown = 0;
- 
+
         }
 
     }
@@ -198,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
-    }    
+    }
 
     private bool onWall()
     {
@@ -213,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void attack()
     {
-        
+
         ani.SetTrigger("Attack");
         staff.SetActive(true);
 
