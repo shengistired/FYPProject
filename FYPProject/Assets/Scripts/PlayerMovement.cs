@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
-
+        float distanceY = position.y - transform.position.y;
 
         if (horizontalInput > 0.001f)
         {
@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         {
             ani.SetBool("isJumping", false);
             //if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && position.y < 76.6 && distance <= 1.5 && distance >= -1.5)
-            if ((Input.GetMouseButton(0)) && position.y < 30 && distance <= 1.5 && distance >= -1.5)
+            if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
             {
                 ani.SetBool("isMining", true);
                 axe.SetActive(true);
