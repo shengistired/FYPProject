@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 326611048074426207}
   - component: {fileID: 326611048074426204}
   - component: {fileID: 3521876420602542695}
+  - component: {fileID: 2178506141445939061}
   m_Layer: 0
   m_Name: Enemy Bullet
   m_TagString: Untagged
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925f0a68c8032df43ab174a77f93e39a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieTime: 5
+  dieTime: 2
   damage: 0
   diePEFFECT: {fileID: 0}
 --- !u!61 &3521876420602542695
@@ -147,3 +148,14 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.12, y: 5.12}
   m_EdgeRadius: 0
+--- !u!210 &2178506141445939061
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326611048074426205}
+  m_Enabled: 1
+  m_SortingLayerID: -2057585541
+  m_SortingLayer: 3
+  m_SortingOrder: 1
