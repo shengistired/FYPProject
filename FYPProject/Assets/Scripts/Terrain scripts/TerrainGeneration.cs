@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using UnityEngine;
@@ -5,10 +6,11 @@ using System.Collections.Generic;
 
 public class TerrainGeneration : MonoBehaviour
 {
-    public BiomeClass ForestBiome;
-    public BiomeClass DesertBiome;
-    public BiomeClass SnowBiome;
-    private bool isTree;
+    // public BiomeClass ForestBiome;
+    // public BiomeClass DesertBiome;
+    // public BiomeClass SnowBiome;
+    public PlayerMovement player;
+    public CameraController cameraView;
 
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
@@ -62,28 +64,28 @@ public class TerrainGeneration : MonoBehaviour
 
     private void OnValidate()
     {
-    //     // if (worldSizeSet == "small")
-    //     // {
-    //     //     worldSize = 250;
-    //     // }
-    //     // if (worldSizeSet == "medium")
-    //     // {
-    //     //     worldSize = 500;
-    //     // }
-    //     // if (worldSizeSet == "large")
-    //     // {
-    //     //     worldSize = 1000;
-    //     // } 
+        //     // if (worldSizeSet == "small")
+        //     // {
+        //     //     worldSize = 250;
+        //     // }
+        //     // if (worldSizeSet == "medium")
+        //     // {
+        //     //     worldSize = 500;
+        //     // }
+        //     // if (worldSizeSet == "large")
+        //     // {
+        //     //     worldSize = 1000;
+        //     // } 
 
-    //     //DrawTextures();
-    //     //DrawBiomeTexture(grassland); 
-    GenerateNoiseTexture(caveFreq, surfaceValue, caveNoiseTexture);
+        //     //DrawTextures();
+        //     //DrawBiomeTexture(grassland); 
+        //GenerateNoiseTexture(caveFreq, surfaceValue, caveNoiseTexture);
     }
 
 
     private void Start()
     {
-        
+
         caveNoiseTexture = new Texture2D(worldSize, worldSize);
         //coal
         ores[0].spreadTexture = new Texture2D(worldSize, worldSize);
@@ -93,7 +95,7 @@ public class TerrainGeneration : MonoBehaviour
         ores[2].spreadTexture = new Texture2D(worldSize, worldSize);
         //diamond
         ores[3].spreadTexture = new Texture2D(worldSize, worldSize);
-        
+
 
 
         if (seed == 0)
@@ -103,13 +105,41 @@ public class TerrainGeneration : MonoBehaviour
             DrawTextures();
             CreateChunks();
             GenerateTerrain();
-
+            player.spawn();
+            //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
+            //cameraView.worldSize = worldSize;
+            
         }
         else
         {
             DrawTextures();
             CreateChunks();
             GenerateTerrain();
+            //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
+            //cameraView.worldSize = worldSize;
+            player.spawn();
+        }
+
+    }
+
+    public void Update()
+    {
+        RefreshChunks();
+    }
+
+    void RefreshChunks()
+    {
+        for (int i = 0; i < worldChunks.Length; i++)
+        {
+            if (Vector2.Distance(new Vector2((i * chunkSize) + (chunkSize / 2), 0), new Vector2(player.transform.position.x, 0)) > Camera.main.orthographicSize * 4f)
+            {
+                worldChunks[i].SetActive(false);
+            }
+            else
+            {
+                worldChunks[i].SetActive(true);
+            }
+
         }
 
     }
@@ -188,20 +218,6 @@ public class TerrainGeneration : MonoBehaviour
     public void GenerateTerrain()
     {
 
-        // if (worldSizeSet == "small")
-        // {
-        //     worldSize = 250;
-        // }
-        // if (worldSizeSet == "medium")
-        // {
-        //     worldSize = 500;
-        // }
-        // if (worldSizeSet == "large")
-        // {
-        //     worldSize = 1000;
-        // }
-
-
         for (int x = 0; x < worldSize; x++)
         {
             float height = Mathf.PerlinNoise((x + seed) * terrainFreq, seed * terrainFreq) * heightMultiplier + heightAddition;
@@ -212,6 +228,13 @@ public class TerrainGeneration : MonoBehaviour
 
                 if (y < height - dirtLayerHeight)
                 {
+
+                    if (x == worldSize / 2)
+                    {
+                        player.spawnPosition = new Vector2(x, height + 15);
+                    }
+
+
                     //make stones first
                     tileSprites = tileAtlas.stone.tileSprites;
 
@@ -254,10 +277,10 @@ public class TerrainGeneration : MonoBehaviour
                     {
                         tileSprites = tileAtlas.snow.tileSprites;
                     }
-                     else if (biome == "desert")
-                        {
-                            tileSprites = tileAtlas.sand.tileSprites;
-                        }
+                    else if (biome == "desert")
+                    {
+                        tileSprites = tileAtlas.sand.tileSprites;
+                    }
 
                     if (biome != "desert" && biome != "snow")
                     {
@@ -296,12 +319,12 @@ public class TerrainGeneration : MonoBehaviour
                 {
                     if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
                     {
-                        PlaceTiles(tileSprites, x, y);
+                        PlaceTiles(tileSprites, x, y, true);
                     }
                 }
                 else
                 {
-                    PlaceTiles(tileSprites, x, y);
+                    PlaceTiles(tileSprites, x, y, true);
                 }
 
                 if (y >= height - 1)
@@ -352,11 +375,11 @@ public class TerrainGeneration : MonoBehaviour
         noiseTexture.Apply();
     }
 
-    public void PlaceTiles(Sprite[] tileSprites, int x, int y)
+    public void PlaceTiles(Sprite[] tileSprites, int x, int y, bool isSolidTile)
     {
         //if (!worldTiles.Contains(new Vector2Int(x, y)))
         //place blocks within world border
-        if (!worldTiles.Contains(new Vector2Int(x, y)) && x>= 0 && x<= worldSize && y >= 0 && y<= worldSize )
+        if (!worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
             GameObject newTile = new GameObject();
 
@@ -366,72 +389,73 @@ public class TerrainGeneration : MonoBehaviour
             newTile.transform.parent = worldChunks[(int)chunkCoordinate].transform;
 
             newTile.AddComponent<SpriteRenderer>();
-            
-            if(isTree == false)
+
+            if (isSolidTile)
             {
                 newTile.AddComponent<BoxCollider2D>();
                 newTile.AddComponent<BoxCollider2D>().size = Vector2.one;
-                
+
             }
 
 
-            
+
             //uncomment the one below after player walking is done.
             newTile.tag = "Ground";
             newTile.layer = 6;
 
             int spriteIndex = UnityEngine.Random.Range(0, tileSprites.Length);
             newTile.GetComponent<SpriteRenderer>().sprite = tileSprites[spriteIndex];
+            newTile.GetComponent<SpriteRenderer>().sortingOrder = -5;
             newTile.name = tileSprites[0].name;
             newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
 
-            worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));    
+            worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
             worldTileObjects.Add(newTile);
         }
     }
 
     void GenerateTree(int x, int y)
     {
-        isTree = true;
+
         //generate tree log
         int treeHeight = UnityEngine.Random.Range(minTreeHeight, maxTreeHeight);
         if (biome != "desert")
         {
-            
+
             for (int i = 0; i <= treeHeight; i++)
             {
-                PlaceTiles(tileAtlas.treeLog.tileSprites, x, y + i);
+                PlaceTiles(tileAtlas.treeLog.tileSprites, x, y + i, false);
             }
 
             if (biome == "snow")
             {
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight + 1);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight + 2);
+                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight, false);
+                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight + 1, false);
+                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight + 2, false);
 
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x - 1, y + treeHeight);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x - 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x - 1, y + treeHeight, false);
+                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x - 1, y + treeHeight + 1, false);
 
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x + 1, y + treeHeight);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x + 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x + 1, y + treeHeight, false);
+                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x + 1, y + treeHeight + 1, false);
 
             }
             else
             {
                 //generate leaves
-                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight + 1);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight + 2);
+                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight, false);
+                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight + 1, false);
+                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight + 2, false);
 
-                PlaceTiles(tileAtlas.leaf.tileSprites, x - 1, y + treeHeight);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x - 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.leaf.tileSprites, x - 1, y + treeHeight, false);
+                PlaceTiles(tileAtlas.leaf.tileSprites, x - 1, y + treeHeight + 1, false);
 
-                PlaceTiles(tileAtlas.leaf.tileSprites, x + 1, y + treeHeight);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x + 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.leaf.tileSprites, x + 1, y + treeHeight, false);
+                PlaceTiles(tileAtlas.leaf.tileSprites, x + 1, y + treeHeight + 1, false);
             }
 
         }
-        isTree = false;
+
         // if (biome == "desert")
         // {
         //     for (int i = 0; i <= treeHeight; i++)
@@ -447,12 +471,12 @@ public class TerrainGeneration : MonoBehaviour
 
     }
 
-    public void BreakTile(int x , int y)
+    public void BreakTile(int x, int y)
     {
-        if (worldTiles.Contains(new Vector2Int(x, y)) && x>= 0 && x<= worldSize && y >= 0 && y<= worldSize )
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
-           //breaks the tile of pos x y which is player's mouse pos
-           Destroy(worldTileObjects [worldTiles.IndexOf(new Vector2(x,y))]);
+            //breaks the tile of pos x y which is player's mouse pos
+            Destroy(worldTileObjects[worldTiles.IndexOf(new Vector2(x, y))]);
         }
     }
 

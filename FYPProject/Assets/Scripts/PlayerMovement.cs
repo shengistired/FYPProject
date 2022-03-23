@@ -10,7 +10,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject staff;
 
     public TerrainGeneration terrainGenerator;
-    public Vector2Int mousePosition;
+    public UnityEngine.Vector2Int mousePosition;
+    public UnityEngine.Vector2 spawnPosition;
 
     private float cooldownTimer = Mathf.Infinity;
     private float attackCoolDown = 1;
@@ -41,8 +42,17 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
 
+
     }
-    public Vector3 getPosition()
+
+    public void spawn()
+    {
+        GetComponent<Transform>().position = spawnPosition;
+        body = GetComponent<Rigidbody2D>();
+        ani = GetComponent<Animator>();
+    }
+
+    public UnityEngine.Vector3 getPosition()
     {
         return transform.position;
     }
