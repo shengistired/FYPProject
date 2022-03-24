@@ -15,3 +15,5 @@ MonoBehaviour:
   tileName: dirt
   tileSprites:
   - {fileID: 21300000, guid: c14c741974a553e43b03bacd84877b5e, type: 3}
+  isSolidTile: 1
+  tileDrop: 1

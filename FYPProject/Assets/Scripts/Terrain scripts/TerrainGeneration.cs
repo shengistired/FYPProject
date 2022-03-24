@@ -11,6 +11,7 @@ public class TerrainGeneration : MonoBehaviour
     // public BiomeClass SnowBiome;
     public PlayerMovement player;
     public CameraController cameraView;
+    public GameObject tileDrop;
 
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
@@ -61,6 +62,9 @@ public class TerrainGeneration : MonoBehaviour
     private List<Vector2> worldTiles = new List<Vector2>();
     //object of every tile
     private List<GameObject> worldTileObjects = new List<GameObject>();
+    //tile class list
+    private List<TileClass> worldTileClasses = new List<TileClass>();
+
 
     private void OnValidate()
     {
@@ -108,7 +112,7 @@ public class TerrainGeneration : MonoBehaviour
             player.spawn();
             //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
             //cameraView.worldSize = worldSize;
-            
+
         }
         else
         {
@@ -224,7 +228,7 @@ public class TerrainGeneration : MonoBehaviour
 
             for (int y = 0; y < height; y++)
             {
-                Sprite[] tileSprites;
+                TileClass tileClass;
 
                 if (y < height - dirtLayerHeight)
                 {
@@ -236,24 +240,24 @@ public class TerrainGeneration : MonoBehaviour
 
 
                     //make stones first
-                    tileSprites = tileAtlas.stone.tileSprites;
+                    tileClass = tileAtlas.stone;
 
                     //coal
                     if (ores[0].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[0].minSpawnHeight && height - y <= ores[0].maxSpawnHeight)
                     {
-                        tileSprites = tileAtlas.coal.tileSprites;
+                        tileClass = tileAtlas.coal;
                     }
                     if (ores[1].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[1].minSpawnHeight && height - y <= ores[1].maxSpawnHeight)
                     {
-                        tileSprites = tileAtlas.iron.tileSprites;
+                        tileClass = tileAtlas.iron;
                     }
                     if (ores[2].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[2].minSpawnHeight && height - y <= ores[2].maxSpawnHeight)
                     {
-                        tileSprites = tileAtlas.gold.tileSprites;
+                        tileClass = tileAtlas.gold;
                     }
                     if (ores[3].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[3].minSpawnHeight && height - y <= ores[3].maxSpawnHeight)
                     {
-                        tileSprites = tileAtlas.diamond.tileSprites;
+                        tileClass = tileAtlas.diamond;
                     }
 
 
@@ -263,11 +267,11 @@ public class TerrainGeneration : MonoBehaviour
                 {
                     if (biome == "desert")
                     {
-                        tileSprites = tileAtlas.sand.tileSprites;
+                        tileClass = tileAtlas.sand;
                     }
                     else
                     {
-                        tileSprites = tileAtlas.dirt.tileSprites;
+                        tileClass = tileAtlas.dirt;
                     }
                 }
                 else
@@ -275,40 +279,36 @@ public class TerrainGeneration : MonoBehaviour
                     //top layer of map
                     if (biome == "snow")
                     {
-                        tileSprites = tileAtlas.snow.tileSprites;
+                        tileClass = tileAtlas.snow;
                     }
                     else if (biome == "desert")
                     {
-                        tileSprites = tileAtlas.sand.tileSprites;
+                        tileClass = tileAtlas.sand;
                     }
 
                     if (biome != "desert" && biome != "snow")
                     {
-                        tileSprites = tileAtlas.grass.tileSprites;
+                        tileClass = tileAtlas.grass;
                     }
                     else
                     {
                         if (biome == "snow")
                         {
-                            tileSprites = tileAtlas.snow.tileSprites;
+                            tileClass = tileAtlas.snow;
                         }
                         else if (biome == "desert")
                         {
-                            tileSprites = tileAtlas.sand.tileSprites;
+                            tileClass = tileAtlas.sand;
                         }
                         else
                         {
 
-                            tileSprites = tileAtlas.grass.tileSprites;
+                            tileClass = tileAtlas.grass;
 
                         }
 
 
                     }
-
-
-
-
 
 
                 }
@@ -319,12 +319,12 @@ public class TerrainGeneration : MonoBehaviour
                 {
                     if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
                     {
-                        PlaceTiles(tileSprites, x, y, true);
+                        PlaceTiles(tileClass, x, y);
                     }
                 }
                 else
                 {
-                    PlaceTiles(tileSprites, x, y, true);
+                    PlaceTiles(tileClass, x, y);
                 }
 
                 if (y >= height - 1)
@@ -375,42 +375,79 @@ public class TerrainGeneration : MonoBehaviour
         noiseTexture.Apply();
     }
 
-    public void PlaceTiles(Sprite[] tileSprites, int x, int y, bool isSolidTile)
+    public void TileCheck(TileClass tile, int x, int y, bool isSolid)
+    {
+        if (x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+        {
+            //place blocks within world border
+            if (!worldTiles.Contains(new Vector2Int(x, y)))
+            {
+                //place tile down
+                PlaceTiles(tile, x, y);
+            }
+            else
+            {
+                //check if tile is background tile
+                if (!worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isSolidTile)
+                {
+                    //remove and replace current tile       
+                    BreakTile(x, y);
+                    PlaceTiles(tile, x, y);
+                }
+
+            }
+        }
+
+    }
+
+    public void PlaceTiles(TileClass tile, int x, int y)
     {
         //if (!worldTiles.Contains(new Vector2Int(x, y)))
-        //place blocks within world border
-        if (!worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+
+        bool isSolidTile = tile.isSolidTile;
+
+        if (x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
+
             GameObject newTile = new GameObject();
 
             //int chunkCoordinate = (Mathf.RoundToInt(Mathf.Round(x / chunkSize)) * chunkSize);
-            float chunkCoordinate = (Mathf.FloorToInt((x / chunkSize)) * chunkSize);
+            //float chunkCoordinate = (Mathf.FloorToInt((x / chunkSize)) * chunkSize);
+            int chunkCoordinate = Mathf.RoundToInt(Mathf.Round(x / chunkSize) * chunkSize);
             chunkCoordinate /= chunkSize;
+
             newTile.transform.parent = worldChunks[(int)chunkCoordinate].transform;
 
             newTile.AddComponent<SpriteRenderer>();
 
+            // adds a collider2D if the tileClass is not a background tile.
             if (isSolidTile)
             {
                 newTile.AddComponent<BoxCollider2D>();
                 newTile.AddComponent<BoxCollider2D>().size = Vector2.one;
 
             }
-
-
-
-            //uncomment the one below after player walking is done.
             newTile.tag = "Ground";
             newTile.layer = 6;
 
-            int spriteIndex = UnityEngine.Random.Range(0, tileSprites.Length);
-            newTile.GetComponent<SpriteRenderer>().sprite = tileSprites[spriteIndex];
-            newTile.GetComponent<SpriteRenderer>().sortingOrder = -5;
-            newTile.name = tileSprites[0].name;
+            int spriteIndex = UnityEngine.Random.Range(0, tile.tileSprites.Length);
+            newTile.GetComponent<SpriteRenderer>().sprite = tile.tileSprites[spriteIndex];
+            if (tile.isSolidTile)
+            {
+                //background tiles
+                newTile.GetComponent<SpriteRenderer>().sortingOrder = -10;
+            }
+            else
+            {
+                //normal world tiles
+                newTile.GetComponent<SpriteRenderer>().sortingOrder = -5;
+            }
+            newTile.name = tile.tileSprites[0].name;
             newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
 
             worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
             worldTileObjects.Add(newTile);
+            worldTileClasses.Add(tile);
         }
     }
 
@@ -424,34 +461,34 @@ public class TerrainGeneration : MonoBehaviour
 
             for (int i = 0; i <= treeHeight; i++)
             {
-                PlaceTiles(tileAtlas.treeLog.tileSprites, x, y + i, false);
+                PlaceTiles(tileAtlas.treeLog, x, y + i);
             }
 
             if (biome == "snow")
             {
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight, false);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight + 1, false);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x, y + treeHeight + 2, false);
+                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight);
+                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 2);
 
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x - 1, y + treeHeight, false);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x - 1, y + treeHeight + 1, false);
+                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight);
+                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight + 1);
 
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x + 1, y + treeHeight, false);
-                PlaceTiles(tileAtlas.snowLeaf.tileSprites, x + 1, y + treeHeight + 1, false);
+                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight);
+                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight + 1);
 
             }
             else
             {
                 //generate leaves
-                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight, false);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight + 1, false);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x, y + treeHeight + 2, false);
+                PlaceTiles(tileAtlas.leaf, x, y + treeHeight);
+                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 2);
 
-                PlaceTiles(tileAtlas.leaf.tileSprites, x - 1, y + treeHeight, false);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x - 1, y + treeHeight + 1, false);
+                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight);
+                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight + 1);
 
-                PlaceTiles(tileAtlas.leaf.tileSprites, x + 1, y + treeHeight, false);
-                PlaceTiles(tileAtlas.leaf.tileSprites, x + 1, y + treeHeight + 1, false);
+                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight);
+                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight + 1);
             }
 
         }
@@ -477,6 +514,19 @@ public class TerrainGeneration : MonoBehaviour
         {
             //breaks the tile of pos x y which is player's mouse pos
             Destroy(worldTileObjects[worldTiles.IndexOf(new Vector2(x, y))]);
+
+            if (worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileDrop)
+            {
+                //drop a tile as an item
+                GameObject newTileDrop = Instantiate(tileDrop, new Vector2(x, y + 0.5f), Quaternion.identity);
+                newTileDrop.GetComponent<SpriteRenderer>().sprite = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0];
+
+            }
+            //remove the object from list
+            worldTileObjects.RemoveAt(worldTiles.IndexOf(new Vector2(x, y)));
+            worldTileClasses.RemoveAt(worldTiles.IndexOf(new Vector2(x, y)));
+            worldTiles.RemoveAt(worldTiles.IndexOf(new Vector2(x, y)));
+
         }
     }
 

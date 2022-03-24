@@ -8,4 +8,5 @@ public class TileClass : ScriptableObject
     // public Sprite tileSprite;
     public Sprite[] tileSprites;
     public bool isSolidTile = true;
+    public bool tileDrop = true;
 }

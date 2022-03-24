@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public TerrainGeneration terrainGenerator;
     public UnityEngine.Vector2Int mousePosition;
     public UnityEngine.Vector2 spawnPosition;
+    public bool placeTiles;
+    public TileClass selectedTile;
+    public int playerPlaceRange;
 
     private float cooldownTimer = Mathf.Infinity;
     private float attackCoolDown = 1;
@@ -48,8 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public void spawn()
     {
         GetComponent<Transform>().position = spawnPosition;
-        body = GetComponent<Rigidbody2D>();
-        ani = GetComponent<Animator>();
+
     }
 
     public UnityEngine.Vector3 getPosition()
@@ -83,8 +85,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        //mousePosition.x = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x);
-        //mousePosition.y = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        mousePosition.x = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x);
+        mousePosition.y = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 
         horizontalInput = Input.GetAxis("Horizontal");
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
@@ -111,42 +113,55 @@ public class PlayerMovement : MonoBehaviour
         float distance = position.x - transform.position.x;
         float distanceY = position.y - transform.position.y;
 
-        if (horizontalInput > 0.001f)
+        if (horizontalInput > 0)
         {
-            transform.localScale = Vector3.one;
+            //transform.localScale = Vector3.one;
+            transform.localScale =new Vector3(1,1,1);
         }
-        else if (horizontalInput < -0.001f)
+        else if (horizontalInput < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            //transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale =new Vector3(-1,1,1);
         }
+
+        //placing block
+        placeTiles = Input.GetMouseButton(2);
+
+         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 1f )
+            {
+                if(Input.GetMouseButton(0))
+                {
+                    ani.SetBool("isMining", placeTiles || true);
+                    axe.SetActive(true);
+                    //mining code
+                    terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+
+                }
+            else if (placeTiles)
+                {
+                    //place down a block 
+                    terrainGenerator.TileCheck(selectedTile,mousePosition.x,mousePosition.y,true);
+                }
+                else
+                {
+                    ani.SetBool("isMining", false);
+                    axe.SetActive(false);
+                    if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
+                    {
+                        attack();
+                    }
+
+                }
+
+            }
+
 
         if (isGrounded())
         {
             ani.SetBool("isJumping", false);
             //if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && position.y < 76.6 && distance <= 1.5 && distance >= -1.5)
-            if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
-            {
-                ani.SetBool("isMining", true);
-                axe.SetActive(true);
-                //mining code
 
-                terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                //terrainGenerator.BreakTile(mousePosition.x, mousePosition.y);
-
-
-            }
-            else
-            {
-                ani.SetBool("isMining", false);
-                axe.SetActive(false);
-                if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
-                {
-                    attack();
-                }
-
-
-            }
-
+            //if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
         }
         cooldownTimer += Time.deltaTime;
         if (animationTime > 0.5)
