@@ -1,4 +1,3 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +13,6 @@ public class Inventory
     {
         this.useItemAction = useItemAction;
         itemList = new List<Item>();
-
     }
 
     public void AddItem(Item item)
@@ -22,9 +20,9 @@ public class Inventory
         if (item.isStackable())
         {
             bool itemAlreadyInInventory = false;
-            foreach(Item inventoryItem in itemList)
+            foreach (Item inventoryItem in itemList)
             {
-                if(inventoryItem.itemType == item.itemType)
+                if (inventoryItem.itemType == item.itemType)
                 {
                     inventoryItem.amount += item.amount;
                     itemAlreadyInInventory = true;
@@ -66,13 +64,25 @@ public class Inventory
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
+    public void MoveItem(Item item)
+    {
+        Debug.Log(GetItemList().Count);
+
+        itemList.Remove(item);
+        Debug.Log(GetItemList().Count);
+
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+
+    }
 
     public void UseItem(Item item)
     {
         useItemAction(item);
     }
+
     public List<Item> GetItemList()
     {
         return itemList;
     }
 }
+

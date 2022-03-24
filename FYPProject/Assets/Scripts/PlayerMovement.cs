@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     public TerrainGeneration terrainGenerator;
     public UnityEngine.Vector2Int mousePosition;
     public UnityEngine.Vector2 spawnPosition;
+    [SerializeField] private GameObject options;
+
     public bool placeTiles;
     public TileClass selectedTile;
     public int playerPlaceRange;
@@ -28,9 +30,14 @@ public class PlayerMovement : MonoBehaviour
     private Animator ani;
 
     private BoxCollider2D boxCollider;
+    private EdgeCollider2D edgeCollider;
 
     private Inventory inventory;
+    private Equipment equipment;
+
     [SerializeField] private UI_Inventory uiInventory;
+    [SerializeField] private UI_Equipment uiEquip;
+
     public float runSpeed = 50f;
     private float horizontalMove = 0f;
     [SerializeField] private GameObject axe;
@@ -44,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         inventory = new Inventory(UseItem);
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
+        uiEquip.SetEquipment(equipment);
 
 
     }
@@ -91,23 +99,12 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         ani.SetFloat("Speed", Mathf.Abs(horizontalMove));
-        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.6f, 10f));
-        if (Input.GetKeyDown("i"))
-        {
-            if (count == 0)
-            {
-                uiInventory.transform.position = centerPos;
-                uiInventory.gameObject.SetActive(true);
-                count = 1;
-            }
-            else
-            {
-                uiInventory.gameObject.SetActive(false);
-                count = 0;
-            }
 
-        }
+        uiInventory.inventory_Position();
 
+        //options.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.9f, 0.9f, 10f));
+
+        uiEquip.equipment_Position();
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
@@ -164,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
             //if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
         }
         cooldownTimer += Time.deltaTime;
-        if (animationTime > 0.5)
+        if (animationTime > 0.3)
         {
             staff.SetActive(false);
         }

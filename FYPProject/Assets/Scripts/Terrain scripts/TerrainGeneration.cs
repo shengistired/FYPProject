@@ -77,7 +77,6 @@ public class TerrainGeneration : MonoBehaviour
     private void Start()
     {
         worldSizeSet = NewGame.worldsizeSelection;
-        Debug.Log(worldSizeSet);
         biome = NewGame.biomeSelection;
 
         if (biome == "random")
