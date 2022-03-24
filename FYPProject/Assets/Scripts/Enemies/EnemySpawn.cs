@@ -10,18 +10,23 @@ public class EnemySpawn : MonoBehaviour
     private int rand;
     private int randPosition;
 
-    public float startTimeBtweenSpawn;
-    private float timeBtweenSpawn;
+    public static bool spawnAllowed;
 
-    public int enemyMin, enemyMax;
+    //public float startTimeBtweenSpawn;
+    //private float timeBtweenSpawn;
+
+    //public int enemyMin, enemyMax;
 
     // Start is called before the first frame update
     private void Start()
     {
-        timeBtweenSpawn = startTimeBtweenSpawn;
+        //timeBtweenSpawn = startTimeBtweenSpawn;
+        //SpawnEnemies();
+        spawnAllowed = true;
+        InvokeRepeating("SpawnEnemies", 0f, 1f);
     }
 
-    // Update is called once per frame
+    /* // Update is called once per frame
     private void Update()
     {
         if (timeBtweenSpawn <= 0)
@@ -38,5 +43,22 @@ public class EnemySpawn : MonoBehaviour
         {
             timeBtweenSpawn -= Time.deltaTime;
         }
+    } */
+
+    void SpawnEnemies()
+    {
+       if (spawnAllowed)
+        {
+            randPosition = Random.Range(0, spawnPoint.Length);
+            rand = Random.Range(0, enemies.Length);
+            Instantiate(enemies[rand], spawnPoint[randPosition].position, Quaternion.identity);
+        }
+        
+        /*if (enemyMin < enemyMax)
+        {
+            Instantiate(enemies[rand], spawnPoint[randPosition].position, Quaternion.identity);
+            //enemies[rand].GetComponent<Rigidbody2D>().velocity = mousePos - transform.position;
+            ++enemyMin;
+        }*/
     }
 }

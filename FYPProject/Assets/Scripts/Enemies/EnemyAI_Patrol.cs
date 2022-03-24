@@ -9,7 +9,7 @@ public class EnemyAI_Patrol : MonoBehaviour
 
     [HideInInspector]
     public bool mustPatrol;
-    private bool mustTurn, canShoot;
+    private bool mustTurn /* , canShoot */;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
@@ -23,7 +23,7 @@ public class EnemyAI_Patrol : MonoBehaviour
         mustPatrol = true;
         Physics2D.IgnoreLayerCollision(7, 7, true);
         player = GameObject.Find("Mage").transform;
-        canShoot = true;
+        // canShoot = true;
     }
 
     void Update()
@@ -46,16 +46,28 @@ public class EnemyAI_Patrol : MonoBehaviour
             mustPatrol = false;
             rb.velocity = Vector2.zero;
 
-            if(canShoot)
+            /* if(canShoot)
             {
                 StartCoroutine(Shoot());
-            }
+            } */
         }
         else
         {
             mustPatrol = true;
         }
     }
+
+    /*void OnTriggerEnter2D(Collider2D col)
+    {
+        switch (col.gameObject.name)
+        {
+            case "Fireball":
+                //EnemySpawn.spawnAllowed = false;
+                //Instantiate(explosion, col.gameObject.transform.position, Quaternion.identity);
+                Destroy(gameObject);
+                break;
+        }
+    }*/
 
     private void FixedUpdate()
     {
@@ -83,7 +95,7 @@ public class EnemyAI_Patrol : MonoBehaviour
         mustTurn = false;
     }
 
-    IEnumerator Shoot()
+   /* IEnumerator Shoot()
     {
         canShoot = false;
 
@@ -92,5 +104,5 @@ public class EnemyAI_Patrol : MonoBehaviour
 
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
         canShoot = true;
-    }
+    } */
 }
