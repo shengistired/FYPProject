@@ -10,7 +10,6 @@ public class TerrainGeneration : MonoBehaviour
     // public BiomeClass DesertBiome;
     // public BiomeClass SnowBiome;
     public PlayerMovement player;
-    public CameraController cameraView;
     public GameObject tileDrop;
 
     [Header("Tile Atlas")]
@@ -36,9 +35,9 @@ public class TerrainGeneration : MonoBehaviour
     public bool generateCave = true;
     public float surfaceValue = 0.25f;
     public int dirtLayerHeight = 5;
-    public string worldSizeSet = "small";
-    public string biome = "forest";
-    public int worldSize = 260;
+    public string worldSizeSet;
+    public string biome;
+    public int worldSize;
     public float heightMultiplier = 4f;
     public int heightAddition = 75;
 
@@ -68,18 +67,6 @@ public class TerrainGeneration : MonoBehaviour
 
     private void OnValidate()
     {
-        //     // if (worldSizeSet == "small")
-        //     // {
-        //     //     worldSize = 250;
-        //     // }
-        //     // if (worldSizeSet == "medium")
-        //     // {
-        //     //     worldSize = 500;
-        //     // }
-        //     // if (worldSizeSet == "large")
-        //     // {
-        //     //     worldSize = 1000;
-        //     // } 
 
         //     //DrawTextures();
         //     //DrawBiomeTexture(grassland); 
@@ -89,7 +76,27 @@ public class TerrainGeneration : MonoBehaviour
 
     private void Start()
     {
+        worldSizeSet = NewGame.worldsizeSelection;
+        Debug.Log(worldSizeSet);
+        biome = NewGame.biomeSelection;
 
+        if (biome == "random")
+        {
+            string[] array = { "forest", "desert", "snow" };
+            biome = array[UnityEngine.Random.Range(0, 2)];
+        }
+        if (worldSizeSet == "small")
+        {
+            worldSize = 250;
+        }
+        if (worldSizeSet == "medium")
+        {
+            worldSize = 500;
+        }
+        if (worldSizeSet == "large")
+        {
+            worldSize = 1000;
+        }
         caveNoiseTexture = new Texture2D(worldSize, worldSize);
         //coal
         ores[0].spreadTexture = new Texture2D(worldSize, worldSize);
