@@ -43,21 +43,21 @@ public class EnemyAI_Patrol : MonoBehaviour
                 Flip();
             }
 
-            mustPatrol = false;
-            rb.velocity = Vector2.zero;
+            //mustPatrol = false;
+            //rb.velocity = Vector2.zero;
 
             /* if(canShoot)
             {
                 StartCoroutine(Shoot());
             } */
         }
-        else
+        /*else
         {
             mustPatrol = true;
-        }
+        }*/
     }
 
-    /*void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
         switch (col.gameObject.name)
         {
@@ -67,7 +67,7 @@ public class EnemyAI_Patrol : MonoBehaviour
                 Destroy(gameObject);
                 break;
         }
-    }*/
+    }
 
     private void FixedUpdate()
     {
