@@ -9,7 +9,8 @@ public class StaminaBar : MonoBehaviour
     public Slider staminaBar;
     
     private int maxStamina = 200;
-    private int currentStamina;
+    public int currentStamina;
+    
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     private Coroutine regen;
@@ -43,10 +44,11 @@ public class StaminaBar : MonoBehaviour
             }
             else 
             {
+                
                 Debug.Log("Not enough stamina!");
             }
     }
-    
+
     private IEnumerator RegenStamina()
     {
         yield return new WaitForSeconds(2);
@@ -59,4 +61,7 @@ public class StaminaBar : MonoBehaviour
         }
         regen = null;
     }
+
+    
+
 }

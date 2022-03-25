@@ -32,11 +32,11 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         switch (item.itemType)
         {
             case Item.ItemType.Potion:
-                equipment.RemoveItem(new Item { itemType = Item.ItemType.Potion, amount = 1 });
+               // equipment.RemoveItem(new Item { itemType = Item.ItemType.Potion, amount = 1 });
                 break;
 
             case Item.ItemType.Food:
-                equipment.RemoveItem(new Item { itemType = Item.ItemType.Food, amount = 1 });
+               // equipment.RemoveItem(new Item { itemType = Item.ItemType.Food, amount = 1 });
                 break;
         }
     }
@@ -109,13 +109,13 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
                 OnEndDragHandler?.Invoke(eventData, true);
                 canvasGroup.alpha = 1f;
                 canvasGroup.blocksRaycasts = true;
+
                 equipment.AddItem(item);
                 uiInventory.Move(item);
-                Debug.Log(equipment.GetEquipmentList().Count);
+
                 return;
             }
         }
-        Destroy(go.gameObject);
         rectTransform.position = StartPosition;
         OnEndDragHandler?.Invoke(eventData, false);
         canvasGroup.alpha = 1f;

@@ -8,7 +8,6 @@ public class UI_Equipment : MonoBehaviour
     // [SerializeField] private Transform equipmentSlotTemplate;
 
 
-    private Equipment equipment;
     // Start is called before the first frame update
     public void equipment_Position()
     {
@@ -17,9 +16,5 @@ public class UI_Equipment : MonoBehaviour
         transform.position = leftBottomPos;
 
     }
-    public void SetEquipment(Equipment equipment)
-    {
-        this.equipment = equipment;
 
-    }
 }

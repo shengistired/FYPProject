@@ -20,7 +20,6 @@ public class TerrainGeneration : MonoBehaviour
     // public Texture2D biomeMap;
 
 
-    public Item item;
 
 
     [Header("Tree settings")]
@@ -528,15 +527,16 @@ public class TerrainGeneration : MonoBehaviour
 
                 foreach (Item.ItemType itemtype in Item.ItemType.GetValues(typeof(Item.ItemType)))
                 {
+
                     int amount = 0;
                     if (itemtype.ToString().ToUpper().Equals(tileName))
                     {
                         amount = 1;
-                        //Debug.Log(itemtype);
+                        Item item = new Item();
                         item.itemType = itemtype;
                         item.amount = amount;
                         ItemWorld.SpawnItemWorld(new Vector2(x, y + 0.5f), item);
-                        //Debug.Log(item.amount);
+
                     }
 
                 }

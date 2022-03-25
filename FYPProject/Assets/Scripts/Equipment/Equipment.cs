@@ -5,38 +5,43 @@ using UnityEngine;
 public class Equipment
 {
     public event EventHandler OnItemListChanged;
-    private List<Item> equipmentList;
+    private Item equipment;
     private Action<Item> useItemAction;
+    private Inventory inventory;
 
 
     public Equipment(Action<Item> useItemAction)
     {
         this.useItemAction = useItemAction;
-        equipmentList = new List<Item>();
+        equipment = new Item();
 
     }
 
     public void AddItem(Item item)
     {
+
         if (item.isStackable())
         {
-            bool itemAlreadyInInventory = false;
-            foreach (Item equipmentItem in equipmentList)
-            {
-                if (equipmentItem.itemType == item.itemType)
+            bool itemAlreadyInInventory = true;
+
+
+            if (equipment.itemType == item.itemType)
                 {
-                    equipmentItem.amount += item.amount;
+                    equipment.amount += item.amount;
                     itemAlreadyInInventory = true;
                 }
-            }
+            
             if (!itemAlreadyInInventory)
             {
-                equipmentList.Add(item);
+                equipment = item;
+
             }
+   
         }
         else
         {
-            equipmentList.Add(item);
+
+            equipment = item;
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -45,34 +50,40 @@ public class Equipment
         if (item.isStackable())
         {
             Item itemInEquipment = null;
-            foreach (Item inventoryItem in equipmentList)
-            {
-                if (inventoryItem.itemType == item.itemType)
+
+                if (equipment.itemType == item.itemType)
                 {
-                    inventoryItem.amount -= item.amount;
-                    itemInEquipment = inventoryItem;
+                    equipment.amount -= item.amount;
+                    itemInEquipment = equipment;
                 }
-            }
+            
             if (itemInEquipment != null && itemInEquipment.amount <= 0)
             {
-                equipmentList.Remove(itemInEquipment);
+                equipment = null;
             }
 
         }
         else
         {
-            equipmentList.Remove(item);
+            equipment = null;
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
+    public void MoveItem(Item item)
+    {
 
+        equipment = null;
+
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+
+    }
     public void UseEquipment(Item item)
     {
         useItemAction(item);
     }
 
-    public List<Item> GetEquipmentList()
+    public Item GetEquipment()
     {
-        return equipmentList;
+        return equipment;
     }
 }
