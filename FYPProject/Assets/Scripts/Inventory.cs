@@ -24,8 +24,12 @@ public class Inventory
             {
                 if (inventoryItem.itemType == item.itemType)
                 {
+                    Debug.Log("Adding " + item.amount);
+                    Debug.Log("Inventory " + inventoryItem.amount);
                     inventoryItem.amount += item.amount;
                     itemAlreadyInInventory = true;
+                    Debug.Log("Inventory After Adding " + item.amount);
+
                 }
             }
             if (!itemAlreadyInInventory)

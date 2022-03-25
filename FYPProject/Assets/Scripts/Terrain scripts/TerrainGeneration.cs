@@ -1,6 +1,3 @@
-
-using System;
-using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -23,6 +20,7 @@ public class TerrainGeneration : MonoBehaviour
     // public Texture2D biomeMap;
 
 
+    public Item item;
 
 
     [Header("Tree settings")]
@@ -48,7 +46,6 @@ public class TerrainGeneration : MonoBehaviour
     public float terrainFreq = 0.1f;
     public float seed;
     public Texture2D caveNoiseTexture;
-
     [Header("Ore settings")]
     public OreClass[] ores;
 
@@ -523,9 +520,28 @@ public class TerrainGeneration : MonoBehaviour
 
             if (worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileDrop)
             {
+                //Debug.Log(worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))]);
                 //drop a tile as an item
-                GameObject newTileDrop = Instantiate(tileDrop, new Vector2(x, y + 0.5f), Quaternion.identity);
-                newTileDrop.GetComponent<SpriteRenderer>().sprite = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0];
+                //GameObject newTileDrop = Instantiate(tileDrop, new Vector2(x, y + 0.5f), Quaternion.identity); 
+
+                string tileName = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0].name.ToUpper();
+
+                foreach (Item.ItemType itemtype in Item.ItemType.GetValues(typeof(Item.ItemType)))
+                {
+                    int amount = 0;
+                    if (itemtype.ToString().ToUpper().Equals(tileName))
+                    {
+                        amount = 1;
+                        //Debug.Log(itemtype);
+                        item.itemType = itemtype;
+                        item.amount = amount;
+                        ItemWorld.SpawnItemWorld(new Vector2(x, y + 0.5f), item);
+                        //Debug.Log(item.amount);
+                    }
+
+                }
+   
+                //newTileDrop.GetComponent<SpriteRenderer>().sprite = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0];
 
             }
             //remove the object from list

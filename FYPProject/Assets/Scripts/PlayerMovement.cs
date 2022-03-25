@@ -5,8 +5,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject[] fireballs;
     [SerializeField] private GameObject staff;
 
     public TerrainGeneration terrainGenerator;
@@ -37,14 +35,18 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private UI_Inventory uiInventory;
     [SerializeField] private UI_Equipment uiEquip;
+    [SerializeField] private PlayerAttack attack;
+
+    public static int directionNum;
 
     public float runSpeed = 50f;
     private float horizontalMove = 0f;
     [SerializeField] private GameObject axe;
     private int count = 0;
-
+    public int direct;
     private void Awake()
     {
+        directionNum = 1;
         body = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -52,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
         uiEquip.SetEquipment(equipment);
-
+        direct = 1;
 
     }
 
@@ -109,22 +111,34 @@ public class PlayerMovement : MonoBehaviour
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
         float distanceY = position.y - transform.position.y;
+        
 
         if (horizontalInput > 0)
         {
             //transform.localScale = Vector3.one;
             transform.localScale =new Vector3(1,1,1);
+            direct = 1;
+            directionNum = 1;
         }
         else if (horizontalInput < 0)
         {
             //transform.localScale = new Vector3(-1, 1, 1);
             transform.localScale =new Vector3(-1,1,1);
+            direct = -1;
+            directionNum = -1;
         }
 
         //placing block
         placeTiles = Input.GetMouseButton(2);
 
-         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 1f )
+        if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
+        {
+            ani.SetTrigger("Attack");
+            attack.attack();
+            cooldownTimer = 0;
+            animationTime = 0;
+        }
+        if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 1f )
             {
                 if(Input.GetMouseButton(0))
                 {
@@ -143,10 +157,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     ani.SetBool("isMining", false);
                     axe.SetActive(false);
-                    if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
-                    {
-                        attack();
-                    }
+
 
                 }
 
@@ -246,28 +257,6 @@ public class PlayerMovement : MonoBehaviour
         return !onWall();
     }
 
-    public void attack()
-    {
-
-        ani.SetTrigger("Attack");
-        staff.SetActive(true);
 
 
-        cooldownTimer = 0;
-        animationTime = 0;
-        fireballs[findFireball()].transform.position = firePoint.position;
-        fireballs[findFireball()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
-    }
-
-    private int findFireball()
-    {
-        for (int i = 0; i < fireballs.Length; i++)
-        {
-            if (!fireballs[i].activeInHierarchy)
-            {
-                return i;
-            }
-        }
-        return 0;
-    }
 }

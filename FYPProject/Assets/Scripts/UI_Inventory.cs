@@ -125,6 +125,7 @@ public class UI_Inventory : MonoBehaviour, IPointerDownHandler
 
     private void ItemDragged(Item item)
     {
+        Debug.Log(itemDrag);
         itemDrag = item;
     }
     public Item item()
@@ -134,7 +135,7 @@ public class UI_Inventory : MonoBehaviour, IPointerDownHandler
 
     public void inventory_Position()
     {
-        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 10f));
+        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.7f, 0.65f, 10f));
         transform.position = centerPos;
         if (Input.GetKeyDown("i"))
         {

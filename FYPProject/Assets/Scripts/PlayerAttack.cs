@@ -2,56 +2,36 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField] private float attackCooldown;
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject[] fireballs;
+    public int directionNum;
     [SerializeField] private GameObject staff;
 
 
-    private Animator ani;
-    private PlayerMovement playerMovement;
-    private float cooldownTimer = Mathf.Infinity;
     public int rotationOffset = 0;
-
-    private void Awake()
-    {
-        ani = GetComponent<Animator>();
-        playerMovement = GetComponent<PlayerMovement>();
-    }
+    [SerializeField] private GameObject fireball;
 
 
     public void attack()
     {
-        ani.SetTrigger("Attack");
-        if (ani.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-            {
-                staff.SetActive(true);
-            }
-            else
-            {
-                staff.SetActive(false);
-            }
-        
 
-        cooldownTimer += Time.deltaTime;
+        staff.SetActive(true);
 
+        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f) - transform.position);
+        difference.Normalize();
 
-        cooldownTimer = 0;
+        float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        Quaternion quan = Quaternion.Euler(0f, 0f, 180);
 
-        //object pooling
-        fireballs[findFireball()].transform.position = firePoint.position;
-        fireballs[findFireball()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
-    }
-
-    private int findFireball()
-    {
-        for (int i = 0; i < fireballs.Length; i++)
+        if(PlayerMovement.directionNum == 1)
         {
-            if (!fireballs[i].activeInHierarchy)
-            {
-                return i;
-            }
+            Instantiate(fireball, transform.position, Quaternion.identity);
+
         }
-        return 0;
+        else
+        {
+            Instantiate(fireball, transform.position, quan);
+
+        }
     }
+
+
 }

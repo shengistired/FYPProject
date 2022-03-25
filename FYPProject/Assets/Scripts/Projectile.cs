@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    public float speed;
     private bool hit;
     private float direction;
     private float lifeTime;
@@ -10,50 +10,39 @@ public class Projectile : MonoBehaviour
     private BoxCollider2D boxCollider;
     private Animator ani;
 
-    private void Awake()
+    private void Start()
     {
+
+
         ani = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
+
+        gameObject.GetComponent<Rigidbody2D>().velocity = transform.right * speed;
     }
 
-    private void Update()
-    {
-        if (hit) return;
-        float movementSpeed = speed * Time.deltaTime * direction;
-        transform.Translate(movementSpeed, 0, 0);
+       private void Update()
+       {
+           if (hit) return;
 
-        lifeTime += Time.deltaTime;
-        if (lifeTime > 5)
-        {
-            gameObject.SetActive(false);
-        }
-    }
+           lifeTime += Time.deltaTime;
+           if (lifeTime > 5)
+           {
+               Destroy(gameObject);
+           }
+       }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         hit = true;
-        boxCollider.enabled = false;
+        Debug.Log("BOOM");
         ani.SetTrigger("explode");
-    }    
-    public void SetDirection(float _direction)
-    {
-        direction = _direction;
-        gameObject.SetActive(true);
-        hit = false;
-        boxCollider.enabled = true;
-
-        float localScaleX = transform.localScale.x;
-        if (Mathf.Sign(localScaleX) != direction)
-        {
-            localScaleX = -localScaleX;
-        }
-        transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
-
-
+        Destroy(gameObject);
     }
+
 
     private void Deactivate()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemAssets : MonoBehaviour
@@ -15,5 +13,17 @@ public class ItemAssets : MonoBehaviour
     public Sprite potionSprite;
     public Sprite foodSprite;
     public Sprite coinSprite;
+    public Sprite dirtSprite;
+    public Sprite coalSprite;
+    public Sprite diamondSprite;
+    public Sprite goldSprite;
+    public Sprite grassSprite;
+    public Sprite ironSprite;
+    public Sprite leafSprite;
+    public Sprite sandSprite;
+    public Sprite snowSprite;
+    public Sprite snowLeafSprite;
+    public Sprite stoneSprite;
+    public Sprite treeLogsSprite;
 
 }
