@@ -15,5 +15,5 @@ MonoBehaviour:
   tileName: snowLeaf
   tileSprites:
   - {fileID: 21300004, guid: 83c2725403972d94a913c6549e48b03b, type: 3}
-  - {fileID: 21300006, guid: 83c2725403972d94a913c6549e48b03b, type: 3}
   isSolidTile: 0
+  tileDrop: 1

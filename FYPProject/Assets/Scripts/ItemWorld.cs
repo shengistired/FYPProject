@@ -9,6 +9,8 @@ public class ItemWorld : MonoBehaviour
     public static ItemWorld SpawnItemWorld(Vector3 position, Item item)
     {
 
+        ItemAssets.Instance.pitemWorld.gameObject.GetComponent<BoxCollider2D>().size = Vector2.one;
+        ItemAssets.Instance.pitemWorld.Find("Rigid").GetComponent<BoxCollider2D>().size = Vector2.one;
         Transform transform = Instantiate(ItemAssets.Instance.pitemWorld, position, Quaternion.identity);
 
         ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
