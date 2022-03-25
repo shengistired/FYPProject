@@ -15,7 +15,7 @@ public class EnemySpawn : MonoBehaviour
     //public float startTimeBtweenSpawn;
     //private float timeBtweenSpawn;
 
-    public int enemyMin, enemyMax;
+    //public int enemyMin, enemyMax;
 
     //public Transform player;
     //float randPos;
@@ -29,7 +29,7 @@ public class EnemySpawn : MonoBehaviour
         //SpawnEnemies();
         //spawnAllowed = true;
         //player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 4.5f);
+        InvokeRepeating("SpawnEnemies", 0f, 8f);
     }
 
     /* // Update is called once per frame
@@ -78,18 +78,18 @@ public class EnemySpawn : MonoBehaviour
             ++enemyMin;
         } */
 
-        if(enemyMin < enemyMax)
+        
+        for (int i = 0; i < 3; i++)
         {
             rand = Random.Range(0, enemies.Length);
-            float x = Random.Range(0.10f, 0.95f);
-            float y = Random.Range(0.10f, 0.95f);
+            /*float x = Random.Range(0.05f, 0.95f);
+            float y = Random.Range(0.05f, 0.95f);
             Vector3 pos = new Vector3(x, y, 15.0f);
-            pos = Camera.main.ViewportToWorldPoint(pos);
-            //Vector3 screenPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Random.Range(0, Screen.height), Camera.main.farClipPlane));
-            Instantiate(enemies[rand], pos, Quaternion.identity);
-            ++enemyMin;
+            pos = Camera.main.ViewportToWorldPoint(pos);*/
+            Vector3 screenPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Random.Range(0, Screen.height), Camera.main.farClipPlane));
+            Instantiate(enemies[rand], screenPosition, Quaternion.identity);
         }
-
+            
         /*if (enemyMin < enemyMax)
         {
             float spawnY = Random.Range
