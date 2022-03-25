@@ -29,7 +29,7 @@ public class EnemySpawn : MonoBehaviour
         //SpawnEnemies();
         //spawnAllowed = true;
         //player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 3.5f);
+        InvokeRepeating("SpawnEnemies", 0f, 4.5f);
     }
 
     /* // Update is called once per frame
