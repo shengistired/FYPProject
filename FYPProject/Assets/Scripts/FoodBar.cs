@@ -2,61 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+
 
 public class FoodBar : MonoBehaviour
 {
     public Slider foodBar;
     
-    private int maxFood = 200;
-    private int currentFood;
+    public float food;
+    float maxFood = 200f;
 
-    private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
-    private Coroutine regen;
-
-    public static FoodBar instance;
-
-    private void Awake()
+    void start()
     {
-        instance = this;
+        food = maxFood;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void Update()
     {
-        currentFood = maxFood;
-        foodBar.maxValue = maxFood;
-        foodBar.value = maxFood;
-    }
+        foodBar.value = food;
 
-    public void UseFood(int amount)
-    {
-            if(currentFood - amount >= 0)
-            {
-                currentFood -= amount;
-                foodBar.value = currentFood;
-
-                if (regen != null)
-                    StopCoroutine(regen);
-
-                regen = StartCoroutine (RegenFood());
-            }
-            else 
-            {
-                Debug.Log("Not enough food!");
-            }
-    }
-    
-    private IEnumerator RegenFood()
-    {
-        yield return new WaitForSeconds(2);
-
-        while(currentFood < maxFood)
+        if (food >= 0)
         {
-            currentFood += maxFood / 100;
-            foodBar.value = currentFood;
-            yield return regenTick;
+            food -= 1f * Time.deltaTime;
+        
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+            food -= 2f * Time.deltaTime;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+            food -= 5f;
+            }
         }
-        regen = null;
     }
 }
