@@ -61,10 +61,11 @@ public class EnemyAI_Patrol : MonoBehaviour
     {
         switch (col.gameObject.name)
         {
-            case "Fireball":
+            case "Fireball(Clone)":
                 //EnemySpawn.spawnAllowed = false;
                 //Instantiate(explosion, col.gameObject.transform.position, Quaternion.identity);
                 Destroy(gameObject);
+                Debug.Log("Killed");
                 break;
         }
     }
