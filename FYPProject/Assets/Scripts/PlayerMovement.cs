@@ -109,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
         float distanceY = position.y - transform.position.y;
+        
 
         if (horizontalInput > 0)
         {
