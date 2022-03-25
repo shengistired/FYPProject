@@ -33,6 +33,11 @@ public class FoodBar : MonoBehaviour
             {
             food -= 5f;
             }
+
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                food +=10f;
+            }
         }
     }
 }
