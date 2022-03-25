@@ -29,7 +29,7 @@ public class EnemySpawn : MonoBehaviour
         //SpawnEnemies();
         //spawnAllowed = true;
         //player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 7f);
+        InvokeRepeating("SpawnEnemies", 0f, 3.5f);
     }
 
     /* // Update is called once per frame
@@ -81,9 +81,9 @@ public class EnemySpawn : MonoBehaviour
         if(enemyMin < enemyMax)
         {
             rand = Random.Range(0, enemies.Length);
-            float x = Random.Range(0.05f, 0.95f);
-            float y = Random.Range(0.05f, 0.95f);
-            Vector3 pos = new Vector3(x, y, 10.0f);
+            float x = Random.Range(0.10f, 0.95f);
+            float y = Random.Range(0.10f, 0.95f);
+            Vector3 pos = new Vector3(x, y, 15.0f);
             pos = Camera.main.ViewportToWorldPoint(pos);
             //Vector3 screenPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Random.Range(0, Screen.height), Camera.main.farClipPlane));
             Instantiate(enemies[rand], pos, Quaternion.identity);
