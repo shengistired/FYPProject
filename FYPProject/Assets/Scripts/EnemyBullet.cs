@@ -6,6 +6,8 @@ public class EnemyBullet : MonoBehaviour
 {
     public float dieTime, damage;
     public GameObject diePEFFECT;
+    //public GameObject boom;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,7 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Instantiate(boom, collision.gameObject.transform.position, Quaternion.identity);
         Die();
     }
 
