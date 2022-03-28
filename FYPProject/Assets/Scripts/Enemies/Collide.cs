@@ -56,11 +56,14 @@ public class Collide : MonoBehaviour
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
-                //EnemySpawn.spawnAllowed = false;
-                //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-                Destroy(gameObject);
-                Debug.Log("Killed");
-                break;
+            //EnemySpawn.spawnAllowed = false;
+            //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+                    
+            Destroy(gameObject);
+            GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+            Debug.Log("Killed collide");
+
+            break;
         }
     }
 
