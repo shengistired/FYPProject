@@ -17,8 +17,12 @@ public class Equipment
 
     }
 
+  
     public void AddItem(Item item)
     {
+        equipment = item;
+      //  Debug.Log("From Equipment : " + item.itemType);
+      //  Debug.Log("From Equipment Equipment type  : " + equipment.itemType);
 
         if (item.isStackable())
         {

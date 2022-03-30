@@ -71,7 +71,6 @@ public class UI_Inventory : MonoBehaviour
             trigger.triggers.Add(enter);
 
 
-
             image.sprite = item.GetSprite();
             TextMeshProUGUI uiText = itemSlotRectTransform.Find("amountText").GetComponent<TextMeshProUGUI>();
 
@@ -121,11 +120,12 @@ public class UI_Inventory : MonoBehaviour
 
     private void ItemDragged(Item item)
     {
-        Debug.Log(itemDrag);
         itemDrag = item;
     }
     public Item item()
     {
+        Debug.Log("From UI_Inventory : " + itemDrag.itemType);
+
         return itemDrag;
     }
 

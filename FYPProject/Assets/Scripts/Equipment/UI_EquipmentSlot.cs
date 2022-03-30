@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,17 +21,25 @@ public class UI_EquipmentSlot : MonoBehaviour
     {
         RefreshEquipmentItem();
     }
+    public void Refresh()
+    {
+        RefreshEquipmentItem();
+    }
 
     private void RefreshEquipmentItem()
     {
-            equipSlotTemplate = GetComponent<RectTransform>();
 
-            Item item = equipment.GetEquipment();
+            equipSlotTemplate = GetComponent<RectTransform>();
+             Debug.Log(equipSlotTemplate);
+
+             Item item = equipment.GetEquipment();
+            Debug.Log(item.itemType);
             equipSlotTemplate.GetComponent<Button>().onClick.AddListener(delegate { click(item); });
 
             Image image = equipSlotTemplate.Find("Image").GetComponent<Image>();
 
             EventTrigger trigger = equipSlotTemplate.GetComponent<EventTrigger>();
+
             var enter = new EventTrigger.Entry();
             enter.eventID = EventTriggerType.PointerDown;
           //  enter.callback.AddListener((e) => ItemDragged(item));
@@ -42,7 +48,7 @@ public class UI_EquipmentSlot : MonoBehaviour
 
 
          image.sprite = item.GetSprite();
-         Debug.Log(equipSlotTemplate);
+         //Debug.Log(equipSlotTemplate);
          TextMeshProUGUI uiText = equipSlotTemplate.Find("amountText").GetComponent<TextMeshProUGUI>();
             if (item.amount > 1)
         {
@@ -62,7 +68,7 @@ public class UI_EquipmentSlot : MonoBehaviour
         equipment.UseEquipment(item);
 
         Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount };
-        //equipment.RemoveItem(item);
+        equipment.RemoveItem(item);
         /*        Vector3 direction;
                 if (player.getDirection() == 1)
                 {

@@ -19,13 +19,16 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     public Vector3 StartPosition;
 
     public bool CanDrag { get; set; } = true;
+    [SerializeField] private UI_EquipmentSlot[] uiEquipmentList;
+
     private void Awake()
     {
-        equipment = new Equipment(UseItem);
+
 
 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+
     }
     private void UseItem(Item item)
     {
@@ -94,6 +97,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         {
 
             dropArea = result.gameObject.GetComponentInParent<DropArea>();
+            string name = result.gameObject.GetComponentInParent<EquipmentSlot>().name;
 
             if (dropArea != null)
             {
@@ -105,14 +109,44 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         {
             if (dropArea.Accepts(this))
             {
+
                 dropArea.Drop(this);
                 OnEndDragHandler?.Invoke(eventData, true);
                 canvasGroup.alpha = 1f;
                 canvasGroup.blocksRaycasts = true;
 
-                equipment.AddItem(item);
+                Debug.Log("From Drag and Drop " + item.itemType);
                 uiInventory.Move(item);
+                if(name == "equipSlotTemplate1")
+                {
+                    equipment.AddItem(item);
 
+                    equipment = new Equipment(UseItem);
+                    uiEquipmentList[0].SetEquipment(equipment);
+
+                }
+                else if (name == "equipSlotTemplate2")
+                {
+                    equipment.AddItem(item);
+
+                    equipment = new Equipment(UseItem);
+                    uiEquipmentList[1].SetEquipment(equipment);
+
+                }
+                else if (name == "equipSlotTemplate3")
+                {
+                    equipment.AddItem(item);
+                    equipment = new Equipment(UseItem);
+                    uiEquipmentList[2].SetEquipment(equipment);
+
+                }
+                else if (name == "equipSlotTemplate4")
+                {
+                    equipment.AddItem(item);
+                    equipment = new Equipment(UseItem);
+                    uiEquipmentList[3].SetEquipment(equipment);
+
+                }
                 return;
             }
         }

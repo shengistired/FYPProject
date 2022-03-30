@@ -54,14 +54,13 @@ public class PlayerMovement : MonoBehaviour
         ani = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         inventory = new Inventory(UseItem);
+       // equipment = new Equipment(UseItem);
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
-        equipment = new Equipment(UseItem);
-        Debug.Log(uiEquipmentList[0]);
-        uiEquipmentList[0].SetEquipment(equipment);
-        uiEquipmentList[1].SetEquipment(equipment);
-        uiEquipmentList[2].SetEquipment(equipment);
-        uiEquipmentList[3].SetEquipment(equipment);
+     //   uiEquipmentList[0].SetEquipment(equipment);
+     //   uiEquipmentList[1].SetEquipment(equipment);
+     //   uiEquipmentList[2].SetEquipment(equipment);
+    //    uiEquipmentList[3].SetEquipment(equipment);
         direct = 1;
 
     }
@@ -139,7 +138,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                Debug.Log(stamina.currentStamina);
                 runSpeed = 100f;
 
 

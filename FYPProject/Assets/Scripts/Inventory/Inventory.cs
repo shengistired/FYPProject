@@ -17,7 +17,6 @@ public class Inventory
 
     public void AddItem(Item item)
     {
-        Debug.Log("ADDED" + item.itemType + " " + item.amount);
 
         if (item.isStackable())
         {
