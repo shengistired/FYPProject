@@ -15,3 +15,6 @@ MonoBehaviour:
   tileName: gold
   tileSprites:
   - {fileID: 21300000, guid: e7c36af5624ca6243a829bb2e82b7c5d, type: 3}
+  isSolidTile: 1
+  tileDrop: 1
+  tileHealth: 10

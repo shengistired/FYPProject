@@ -15,4 +15,6 @@ MonoBehaviour:
   tileName: sand
   tileSprites:
   - {fileID: 21300000, guid: 033664ec394e8f049baae3a38df9fccd, type: 3}
-  isSolid: 1
+  isSolidTile: 1
+  tileDrop: 1
+  tileHealth: 2

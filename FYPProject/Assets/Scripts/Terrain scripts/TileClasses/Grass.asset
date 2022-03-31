@@ -15,3 +15,6 @@ MonoBehaviour:
   tileName: grass
   tileSprites:
   - {fileID: 21300000, guid: 64308edb47a46d549b6e28ac1ca428fd, type: 3}
+  isSolidTile: 1
+  tileDrop: 1
+  tileHealth: 2

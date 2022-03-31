@@ -15,4 +15,6 @@ MonoBehaviour:
   tileName: cactus
   tileSprites:
   - {fileID: 0}
-  isSolid: 1
+  isSolidTile: 1
+  tileDrop: 1
+  tileHealth: 5

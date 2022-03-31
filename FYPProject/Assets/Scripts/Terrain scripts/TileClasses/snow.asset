@@ -15,4 +15,6 @@ MonoBehaviour:
   tileName: snow
   tileSprites:
   - {fileID: 21300000, guid: 75ab306d18e3ac048b0d7e65204d7330, type: 3}
-  isSolid: 1
+  isSolidTile: 1
+  tileDrop: 1
+  tileHealth: 2

@@ -16,3 +16,5 @@ MonoBehaviour:
   tileSprites:
   - {fileID: 21300002, guid: 9a24dfc21c315a14786e932f86148da3, type: 3}
   isSolidTile: 0
+  tileDrop: 1
+  tileHealth: 5

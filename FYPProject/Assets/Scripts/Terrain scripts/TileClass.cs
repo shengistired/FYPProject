@@ -9,4 +9,5 @@ public class TileClass : ScriptableObject
     public Sprite[] tileSprites;
     public bool isSolidTile = true;
     public bool tileDrop = true;
+    public int tileHealth;
 }

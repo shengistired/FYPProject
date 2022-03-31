@@ -15,3 +15,6 @@ MonoBehaviour:
   tileName: iron
   tileSprites:
   - {fileID: 21300000, guid: 205ad80e131cbaa40bb36d87a6a0198c, type: 3}
+  isSolidTile: 1
+  tileDrop: 1
+  tileHealth: 5

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject staff;
 
     public TerrainGeneration terrainGenerator;
+
+
     public UnityEngine.Vector2Int mousePosition;
     public UnityEngine.Vector2 spawnPosition;
     [SerializeField] private GameObject options;
@@ -15,6 +18,12 @@ public class PlayerMovement : MonoBehaviour
     public bool placeTiles;
     public TileClass selectedTile;
     public int playerPlaceRange;
+
+    public int miningPower;
+    private Boolean miningCounter = false;
+    private float timeRemaining;
+    int lockMousePointerX;
+    int lockMousePointerY;
 
     private float cooldownTimer = Mathf.Infinity;
     private float attackCoolDown = 1;
@@ -41,13 +50,13 @@ public class PlayerMovement : MonoBehaviour
 
     public float runSpeed;
     private float horizontalMove = 0f;
-    [SerializeField]private StaminaBar stamina;
+    [SerializeField] private StaminaBar stamina;
     [SerializeField] private GameObject axe;
     private int count = 0;
     public int direct;
     private void Awake()
     {
-        
+
         runSpeed = 50f;
         directionNum = 1;
         body = GetComponent<Rigidbody2D>();
@@ -56,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         inventory = new Inventory(UseItem);
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
-        equipment = new Equipment(UseItem);  
+        equipment = new Equipment(UseItem);
 
         direct = 1;
 
@@ -100,12 +109,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void AddEquipment(Item item, int index)
     {
-        
+
         equipment.AddItem(item, index);
         uiEquipmentSlot[index].SetEquipment(equipment);
     }
     private void Update()
     {
+
         mousePosition.x = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x);
         mousePosition.y = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 
@@ -122,29 +132,27 @@ public class PlayerMovement : MonoBehaviour
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
         float distanceY = position.y - transform.position.y;
-        
+
 
         if (horizontalInput > 0)
         {
             //transform.localScale = Vector3.one;
-            transform.localScale =new Vector3(1,1,1);
+            transform.localScale = new Vector3(1, 1, 1);
             direct = 1;
             directionNum = 1;
         }
         else if (horizontalInput < 0)
         {
             //transform.localScale = new Vector3(-1, 1, 1);
-            transform.localScale =new Vector3(-1,1,1);
+            transform.localScale = new Vector3(-1, 1, 1);
             direct = -1;
             directionNum = -1;
         }
-        if(stamina.currentStamina != 0)
+        if (stamina.currentStamina != 0)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                runSpeed = 100f;
-
-
+                runSpeed = 75f;
 
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -161,6 +169,8 @@ public class PlayerMovement : MonoBehaviour
         //placing block
         placeTiles = Input.GetMouseButton(2);
 
+
+
         if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
         {
             ani.SetTrigger("Attack");
@@ -168,30 +178,68 @@ public class PlayerMovement : MonoBehaviour
             cooldownTimer = 0;
             animationTime = 0;
         }
-        if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 1f )
+        if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
+        {
+
+            if (Input.GetMouseButton(0))
             {
-                if(Input.GetMouseButton(0))
-                {
-                    ani.SetBool("isMining", placeTiles || true);
-                    axe.SetActive(true);
-                    //mining code
-                    terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                ani.SetBool("isMining", placeTiles || true);
+                axe.SetActive(true);
 
-                }
-            else if (placeTiles)
-                {
-                    //place down a block 
-                    terrainGenerator.TileCheck(selectedTile,mousePosition.x,mousePosition.y,true);
-                }
-                else
-                {
-                    ani.SetBool("isMining", false);
-                    axe.SetActive(false);
+                //The tile's health
+                int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
 
 
+                //mining code
+                // add equipment's mining power to this to mine faster.
+                // miningPower = ??; <<< add equipment value to current mining power
+                if (tileHealth > 0)
+                {
+
+                    miningCounter = true;
+ 
+
+                    if (miningCounter == true)
+                    {
+                        timeRemaining += Time.deltaTime;
+                        Debug.Log("tilehealth..." + tileHealth);
+                        Debug.Log("timeRemaining..." + timeRemaining);
+                        Debug.Log("mining..." + Time.deltaTime);
+
+                        if (timeRemaining >= tileHealth - miningPower)
+                        {
+                            terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                            miningCounter = false;
+                            tileHealth = 0;
+                            timeRemaining = 0;
+
+                        }
+
+                    }
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        miningCounter = false;
+                        timeRemaining = 0;
+                    }
+
                 }
+
 
             }
+            else if (placeTiles)
+            {
+                //place down a block 
+                terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, true);
+            }
+            else
+            {
+                ani.SetBool("isMining", false);
+                axe.SetActive(false);
+
+
+            }
+
+        }
 
 
         if (isGrounded())

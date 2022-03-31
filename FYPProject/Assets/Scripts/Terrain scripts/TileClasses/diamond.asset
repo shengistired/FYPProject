@@ -15,3 +15,6 @@ MonoBehaviour:
   tileName: diamond
   tileSprites:
   - {fileID: 21300000, guid: f5401838044fb074b92750de3603c91b, type: 3}
+  isSolidTile: 1
+  tileDrop: 1
+  tileHealth: 20

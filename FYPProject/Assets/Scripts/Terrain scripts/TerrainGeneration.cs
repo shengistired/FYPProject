@@ -510,8 +510,33 @@ public class TerrainGeneration : MonoBehaviour
 
     }
 
+    public int checkTileHealth(int miningPower, int x, int y)
+    {
+        //only check for blocks that are generated
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+        {
+            //break block if mining power higher than tile's health
+            // if (miningPower - worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileHealth >= 0)
+            // {
+            //     BreakTile(x, y);
+            // }
+            //string tileName = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0].name.ToUpper();
+            int tileHealth = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileHealth;
+            return tileHealth;
+            
+        }
+        else
+        {
+            return 0;
+        }
+
+
+
+    }
+
     public void BreakTile(int x, int y)
     {
+        //only check blocks that are generated in the world
         if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
             //breaks the tile of pos x y which is player's mouse pos
@@ -540,7 +565,7 @@ public class TerrainGeneration : MonoBehaviour
                     }
 
                 }
-   
+
                 //newTileDrop.GetComponent<SpriteRenderer>().sprite = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0];
 
             }
@@ -551,5 +576,6 @@ public class TerrainGeneration : MonoBehaviour
 
         }
     }
-
 }
+
+
