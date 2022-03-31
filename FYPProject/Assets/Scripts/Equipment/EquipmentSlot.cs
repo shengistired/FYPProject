@@ -20,40 +20,12 @@ public class EquipmentSlot : MonoBehaviour
     {
         Image pointerImage = draggable.GetComponent<RectTransform>().Find("Image").GetComponent<Image>();
         Image image = gameObject.GetComponent<RectTransform>().Find("Image").GetComponent<Image>();
-        string amount = draggable.GetComponent<RectTransform>().Find("amountText").GetComponent<TMP_Text>().text.ToString();
-
-        try
-        {
-            if (image.sprite.name == pointerImage.sprite.name)
-            {
-                if (int.TryParse((text.text), out int num))
-                {
-                    if (int.TryParse((amount), out int num2))
-                    {
-                        int total = num + num2;
-                        text.text = total.ToString();
-                    }
-                }
-
-            }
-            else
-            {
-                text.text = amount;
-
-            }
-        }
-        catch(Exception ex)
-        {
-            text.text = amount;
-        }
-
 
         
 
 
         var tempColor = image.color;
         tempColor.a = 1f;
-        image.sprite = pointerImage.sprite;
         image.color = tempColor;
 
 

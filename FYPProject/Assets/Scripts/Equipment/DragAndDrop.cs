@@ -13,19 +13,17 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     private GameObject go;
     private CanvasGroup canvasGroup;
     [SerializeField] private UI_Inventory uiInventory;
-    private Equipment equipment;
+    [SerializeField] private PlayerMovement player;
     private Item item;
     public bool FollowCursor { get; set; } = true;
     public Vector3 StartPosition;
-
+    public static int index = -1;
     public bool CanDrag { get; set; } = true;
     [SerializeField] private UI_EquipmentSlot[] uiEquipmentList;
-
+    public static Equipment equipment;
     private void Awake()
     {
-
-
-
+        
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
 
@@ -97,7 +95,6 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         {
 
             dropArea = result.gameObject.GetComponentInParent<DropArea>();
-            string name = result.gameObject.GetComponentInParent<EquipmentSlot>().name;
 
             if (dropArea != null)
             {
@@ -109,44 +106,66 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         {
             if (dropArea.Accepts(this))
             {
+                string name = dropArea.GetComponentInParent<EquipmentSlot>().name;
 
                 dropArea.Drop(this);
                 OnEndDragHandler?.Invoke(eventData, true);
                 canvasGroup.alpha = 1f;
                 canvasGroup.blocksRaycasts = true;
 
-                Debug.Log("From Drag and Drop " + item.itemType);
                 uiInventory.Move(item);
-                if(name == "equipSlotTemplate1")
+                if(name == "equipSlotTemplate2")
                 {
-                    equipment.AddItem(item);
 
-                    equipment = new Equipment(UseItem);
-                    uiEquipmentList[0].SetEquipment(equipment);
-
-                }
-                else if (name == "equipSlotTemplate2")
-                {
-                    equipment.AddItem(item);
-
-                    equipment = new Equipment(UseItem);
-                    uiEquipmentList[1].SetEquipment(equipment);
+                    index = 0;
 
                 }
                 else if (name == "equipSlotTemplate3")
                 {
-                    equipment.AddItem(item);
-                    equipment = new Equipment(UseItem);
-                    uiEquipmentList[2].SetEquipment(equipment);
+
+                    index = 1;
 
                 }
                 else if (name == "equipSlotTemplate4")
                 {
-                    equipment.AddItem(item);
-                    equipment = new Equipment(UseItem);
-                    uiEquipmentList[3].SetEquipment(equipment);
+                    index = 2;
 
                 }
+                else if (name == "equipSlotTemplate5")
+                {
+                    index = 3;
+
+                }
+                else if (name == "equipSlotTemplate6")
+                {
+                    index = 4;
+
+                }
+                else if (name == "equipSlotTemplate7")
+                {
+                    index = 5;
+
+                }
+                else if (name == "equipSlotTemplate8")
+                {
+                    index = 6;
+
+                }
+                else if (name == "equipSlotTemplate9")
+                {
+                    index = 7;
+
+                }
+                else if (name == "equipSlotTemplate10")
+                {
+                    index = 8;
+                }
+
+                // equipment = PlayerMovement.equipment;
+                // equipment.AddItem(item, index);
+
+                //uiEquipmentList[index].SetEquipment(PlayerMovement.equipment);
+                player.AddEquipment(item, index);
                 return;
             }
         }
@@ -161,5 +180,10 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     {
         StartPosition = rectTransform.position;
 
+    }
+
+    public int indexReturn()
+    {
+        return index;
     }
 }

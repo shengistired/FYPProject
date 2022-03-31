@@ -5,7 +5,7 @@ using UnityEngine;
 public class Equipment
 {
     public event EventHandler OnItemListChanged;
-    private Item equipment;
+    private Item[] equipment;
     private Action<Item> useItemAction;
     private Inventory inventory;
 
@@ -13,52 +13,51 @@ public class Equipment
     public Equipment(Action<Item> useItemAction)
     {
         this.useItemAction = useItemAction;
-        equipment = new Item();
+        equipment = new Item[9];
 
     }
 
   
-    public void AddItem(Item item)
+    public void AddItem(Item item, int index)
     {
-        equipment = item;
-      //  Debug.Log("From Equipment : " + item.itemType);
-      //  Debug.Log("From Equipment Equipment type  : " + equipment.itemType);
+
 
         if (item.isStackable())
         {
-            bool itemAlreadyInInventory = true;
-
-
-            if (equipment.itemType == item.itemType)
-                {
-                    equipment.amount += item.amount;
-                    itemAlreadyInInventory = true;
-                }
-            
-            if (!itemAlreadyInInventory)
+            if (equipment[index] != null)
             {
-                equipment = item;
+                if (equipment[index].itemType == item.itemType)
+                {
+                    equipment[index].amount += item.amount;
+
+                }
+            }
+
+            else
+            {
+
+                equipment[index] = item;
 
             }
-   
+
         }
         else
         {
 
-            equipment = item;
+            equipment[index] = item;
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
-    public void RemoveItem(Item item)
+    public void RemoveItem(Item item, int index)
     {
         if (item.isStackable())
         {
             Item itemInEquipment = null;
 
-                if (equipment.itemType == item.itemType)
+                if (equipment[index].itemType == item.itemType)
                 {
-                    equipment.amount -= item.amount;
-                    itemInEquipment = equipment;
+                    equipment[index].amount -= item.amount;
+                    itemInEquipment = equipment[index];
                 }
             
             if (itemInEquipment != null && itemInEquipment.amount <= 0)
@@ -86,8 +85,8 @@ public class Equipment
         useItemAction(item);
     }
 
-    public Item GetEquipment()
+    public Item GetEquipment(int index)
     {
-        return equipment;
+        return equipment[index];
     }
 }
