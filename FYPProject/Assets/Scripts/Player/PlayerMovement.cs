@@ -31,13 +31,12 @@ public class PlayerMovement : MonoBehaviour
     private EdgeCollider2D edgeCollider;
 
     private Inventory inventory;
-    private Equipment equipment;
+    public static Equipment equipment;
 
     [SerializeField] private UI_Inventory uiInventory;
+    [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
     [SerializeField] private UI_Equipment uiEquip;
     [SerializeField] private PlayerAttack attack;
-    [SerializeField] private UI_EquipmentSlot[] uiEquipmentList;
-
     public static int directionNum;
 
     public float runSpeed;
@@ -48,19 +47,17 @@ public class PlayerMovement : MonoBehaviour
     public int direct;
     private void Awake()
     {
+        
         runSpeed = 50f;
         directionNum = 1;
         body = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         inventory = new Inventory(UseItem);
-       // equipment = new Equipment(UseItem);
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
-     //   uiEquipmentList[0].SetEquipment(equipment);
-     //   uiEquipmentList[1].SetEquipment(equipment);
-     //   uiEquipmentList[2].SetEquipment(equipment);
-    //    uiEquipmentList[3].SetEquipment(equipment);
+        equipment = new Equipment(UseItem);  
+
         direct = 1;
 
     }
@@ -99,6 +96,13 @@ public class PlayerMovement : MonoBehaviour
             inventory.AddItem(itemWorld.GetItem());
             itemWorld.DestroySelf();
         }
+    }
+
+    public void AddEquipment(Item item, int index)
+    {
+        
+        equipment.AddItem(item, index);
+        uiEquipmentSlot[index].SetEquipment(equipment);
     }
     private void Update()
     {

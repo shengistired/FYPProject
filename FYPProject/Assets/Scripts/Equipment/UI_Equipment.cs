@@ -12,7 +12,7 @@ public class UI_Equipment : MonoBehaviour
     public void equipment_Position()
     {
         
-        Vector3 leftBottomPos = Camera.main.ViewportToWorldPoint(new Vector3(0.0f, 0.0f, 10f));
+        Vector3 leftBottomPos = Camera.main.ViewportToWorldPoint(new Vector3(0.15f, 0.0f, 10f));
         transform.position = leftBottomPos;
 
     }
