@@ -66,6 +66,18 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
         equipment = new Equipment(UseItem);
+        for(int i = 0; i< 9; i++)
+        {
+            try
+            {
+                uiEquipmentSlot[i].SetEquipment(equipment);
+            }
+            catch
+            {
+
+            }
+
+        }
 
         direct = 1;
 
@@ -97,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
@@ -111,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         equipment.AddItem(item, index);
-        uiEquipmentSlot[index].SetEquipment(equipment);
+        //uiEquipmentSlot[index].SetEquipment(equipment);
     }
     private void Update()
     {

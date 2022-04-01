@@ -10,6 +10,7 @@ public class UI_EquipmentSlot : MonoBehaviour
     private Equipment equipment;
     [SerializeField] private Transform equipSlotTemplate;
     public Item itemDrag;
+    int i = 0;
     public void SetEquipment(Equipment equipment)
     {
         this.equipment = equipment;
@@ -29,9 +30,8 @@ public class UI_EquipmentSlot : MonoBehaviour
     private void RefreshEquipmentItem()
     {
         Item item;
-
-        equipSlotTemplate = GetComponent<RectTransform>();
-        // Debug.Log("From UI_EquipmentSlot" + item.itemType);
+        string name = equipSlotTemplate.name;
+        Button button = equipSlotTemplate.GetComponent<Button>();
         if (name == "equipSlotTemplate2")
         {
             index = 0;
@@ -68,39 +68,50 @@ public class UI_EquipmentSlot : MonoBehaviour
         {
             index = 8;
         }
-        Debug.Log(index);
-        item = equipment.GetEquipment(index);
-        Debug.Log(item);
 
-
-        equipSlotTemplate.GetComponent<Button>().onClick.AddListener(delegate { click(item, index); });
-
-            Image image = equipSlotTemplate.Find("Image").GetComponent<Image>();
-            Debug.Log("From UI_EquipmentSlot" + equipSlotTemplate);
-
-            EventTrigger trigger = equipSlotTemplate.GetComponent<EventTrigger>();
-
-            var enter = new EventTrigger.Entry();
-            enter.eventID = EventTriggerType.PointerDown;
-            //  enter.callback.AddListener((e) => ItemDragged(item));
-            trigger.triggers.Add(enter);
-
-
-
-            image.sprite = item.GetSprite();
-            //Debug.Log(equipSlotTemplate);
-            TextMeshProUGUI uiText = equipSlotTemplate.Find("amountText").GetComponent<TextMeshProUGUI>();
-            if (item.amount > 1)
+        try
+        {
+            item = equipment.GetEquipment(index);
+            
+            if(item != null)
             {
-                uiText.SetText(item.amount.ToString());
-            }
-            else
-            {
-                uiText.SetText("");
-            }
+                button.onClick.AddListener(delegate { click(item, index); });
+                
+                Image image = equipSlotTemplate.Find("Image").GetComponent<Image>();
+
+                EventTrigger trigger = equipSlotTemplate.GetComponent<EventTrigger>();
+
+                var enter = new EventTrigger.Entry();
+                enter.eventID = EventTriggerType.PointerDown;
+                //  enter.callback.AddListener((e) => ItemDragged(item));
+                trigger.triggers.Add(enter);
 
 
-        
+
+                image.sprite = item.GetSprite();
+                //Debug.Log(equipSlotTemplate);
+                TextMeshProUGUI uiText = equipSlotTemplate.Find("amountText").GetComponent<TextMeshProUGUI>();
+                if (item.amount > 1)
+                {
+                    uiText.SetText(item.amount.ToString());
+                }
+                else
+                {
+                    uiText.SetText("");
+                }
+            }
+
+           
+
+        }
+        catch
+        {
+
+        }
+
+
+
+
 
 
 
@@ -110,8 +121,7 @@ public class UI_EquipmentSlot : MonoBehaviour
     {
         //equipment.UseEquipment(item);
 
-
-
+        Debug.Log("Number of Clicks " + i);
         Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount };
         equipment.RemoveItem(item, index);
         /*        Vector3 direction;
@@ -125,6 +135,7 @@ public class UI_EquipmentSlot : MonoBehaviour
                 }
                 ItemWorld.DropItem(direction, player.getPosition(), duplicateItem);
         */
+        i++;
     }
     public void Move(Item item)
     {

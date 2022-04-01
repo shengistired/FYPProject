@@ -50,25 +50,26 @@ public class Equipment
     }
     public void RemoveItem(Item item, int index)
     {
+
         if (item.isStackable())
         {
-            Item itemInEquipment = null;
-
-                if (equipment[index].itemType == item.itemType)
+            if (equipment[index].itemType == item.itemType)
                 {
-                    equipment[index].amount -= item.amount;
-                    itemInEquipment = equipment[index];
-                }
-            
-            if (itemInEquipment != null && itemInEquipment.amount <= 0)
+                Debug.Log("Before Remove :" + equipment[index].amount);
+                    equipment[index].amount = item.amount - 1;
+                Debug.Log("After Remove :" + equipment[index].amount);
+
+            }
+
+            if (equipment[index].amount <= 0)
             {
-                equipment = null;
+                equipment[index] = null;
             }
 
         }
         else
         {
-            equipment = null;
+            equipment[index] = null;
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -88,5 +89,10 @@ public class Equipment
     public Item GetEquipment(int index)
     {
         return equipment[index];
+    }
+
+    public Item[] GetEquipmentList()
+    {
+        return equipment;
     }
 }
