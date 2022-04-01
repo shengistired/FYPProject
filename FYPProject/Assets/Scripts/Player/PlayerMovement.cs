@@ -184,7 +184,8 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
+
+            if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
         {
             ani.SetTrigger("Attack");
             attack.attack();
@@ -263,10 +264,10 @@ public class PlayerMovement : MonoBehaviour
             //if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
         }
         cooldownTimer += Time.deltaTime;
-        if (animationTime > 0.3)
-        {
-            staff.SetActive(false);
-        }
+   //     if (animationTime > 0.3)
+   //     {
+   //         staff.SetActive(false);
+     //   }
         animationTime += Time.deltaTime;
 
         if (wallJumpCoolDown > 0.2f)

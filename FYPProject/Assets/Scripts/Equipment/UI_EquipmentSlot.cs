@@ -75,7 +75,7 @@ public class UI_EquipmentSlot : MonoBehaviour
             
             if(item != null)
             {
-                button.onClick.AddListener(delegate { click(item, index); });
+                //button.onClick.AddListener(delegate { click(item, index); });
                 
                 Image image = equipSlotTemplate.Find("Image").GetComponent<Image>();
 
@@ -137,6 +137,51 @@ public class UI_EquipmentSlot : MonoBehaviour
         */
         i++;
     }
+    public void keySelected()
+    {
+        if (Input.GetKeyDown("1"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("2"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("3"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("4"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("6"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("7"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("8"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("9"))
+        {
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("0"))
+        {
+            //staff.SetActive(true);
+        }
+
+    }
+
     public void Move(Item item)
     {
 
