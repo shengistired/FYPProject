@@ -17,12 +17,14 @@ public class Collide : MonoBehaviour
     public Collider2D bodyCollider;
     public Transform player;
 
+    public int enemyMin;
+
     void Start()
     {
         mustPatrol = true;
         Physics2D.IgnoreLayerCollision(7, 7, true);
         player = GameObject.Find("Mage").transform;
-
+        enemyMin = GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin;
     }
 
     void Update()
@@ -49,7 +51,30 @@ public class Collide : MonoBehaviour
         {
             mustPatrol = true;
         }
+
+        /*if(disToPlayer < Screen.width)
+         {
+             GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+             Destroy(gameObject);
+             Debug.Log("Invisible");
+         }*/
+
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        if (screenPosition.y > Screen.height || screenPosition.y < 0)
+        {
+            Destroy(gameObject);
+            GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+            Debug.Log("Invisible");
+        }
+       
     }
+
+    /*void OnBecameInvisible()
+    {
+        GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin-=1;
+        Destroy(gameObject);
+        Debug.Log("Invisible");
+    }*/
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -58,13 +83,17 @@ public class Collide : MonoBehaviour
             case "Fireball(Clone)":
             //EnemySpawn.spawnAllowed = false;
             //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-                    
-            Destroy(gameObject);
-            GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+
+            Die();
             Debug.Log("Killed collide");
 
             break;
         }
+
+        /*if (col.gameObject.tag == "PlatformKiller")
+        {
+            Destroy(gameObject);
+        }*/
     }
 
     private void FixedUpdate()
@@ -91,5 +120,12 @@ public class Collide : MonoBehaviour
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         walkSpeed *= -1;
         mustTurn = false;
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+        GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+        Debug.Log("Die");
     }
 }
