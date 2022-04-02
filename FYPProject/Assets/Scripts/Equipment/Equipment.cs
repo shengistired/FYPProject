@@ -55,9 +55,7 @@ public class Equipment
         {
             if (equipment[index].itemType == item.itemType)
                 {
-                Debug.Log("Before Remove :" + equipment[index].amount);
                     equipment[index].amount = item.amount - 1;
-                Debug.Log("After Remove :" + equipment[index].amount);
 
             }
 
@@ -88,6 +86,7 @@ public class Equipment
 
     public Item GetEquipment(int index)
     {
+        Debug.Log("Index: " + index + " Equipment " + equipment[index]);
         return equipment[index];
     }
 

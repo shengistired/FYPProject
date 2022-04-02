@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private GameObject staff;
+    [SerializeField] private Image[] background;
 
     public TerrainGeneration terrainGenerator;
 
@@ -30,7 +32,10 @@ public class PlayerMovement : MonoBehaviour
     private float animationTime = 0;
     private float wallJumpCoolDown;
     private float horizontalInput;
-
+    private bool mine = false;
+    private bool staffActive = false;
+    private bool axeActive = false;
+    private bool axeJump = false;
     public int rotationOffset = 0;
 
     private Rigidbody2D body;
@@ -47,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private UI_Equipment uiEquip;
     [SerializeField] private PlayerAttack attack;
     public static int directionNum;
-
+    private Item item;
     public float runSpeed;
     private float horizontalMove = 0f;
     [SerializeField] private StaminaBar stamina;
@@ -137,16 +142,12 @@ public class PlayerMovement : MonoBehaviour
         ani.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
         uiInventory.inventory_Position();
-
-        //options.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.9f, 0.9f, 10f));
-
         uiEquip.equipment_Position();
+        keySelected();
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
         float distanceY = position.y - transform.position.y;
-
-
         if (horizontalInput > 0)
         {
             //transform.localScale = Vector3.one;
@@ -178,14 +179,18 @@ public class PlayerMovement : MonoBehaviour
             runSpeed = 50f;
         }
 
+        if(axeActive == true)
+        {
+            axe.SetActive(true);
+        }
+        else
+        {
+            axe.SetActive(false);
+        }
 
-        //placing block
         placeTiles = Input.GetMouseButton(2);
 
-
-
-
-            if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown)
+        if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
         {
             ani.SetTrigger("Attack");
             attack.attack();
@@ -195,11 +200,10 @@ public class PlayerMovement : MonoBehaviour
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
         {
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && mine == true)
             {
-                ani.SetBool("isMining", placeTiles || true);
-                axe.SetActive(true);
-
+                ani.SetBool("isMining", true);
+               // placeTiles = true;
                 //The tile's health
                 int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
 
@@ -240,18 +244,16 @@ public class PlayerMovement : MonoBehaviour
 
 
             }
-            else if (placeTiles)
+            else
+            {
+                ani.SetBool("isMining", false);
+            }
+            if (Input.GetMouseButton(2))
             {
                 //place down a block 
                 terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, true);
             }
-            else
-            {
-                ani.SetBool("isMining", false);
-                axe.SetActive(false);
 
-
-            }
 
         }
 
@@ -259,6 +261,10 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded())
         {
             ani.SetBool("isJumping", false);
+            if(axeJump == true)
+            {
+                axeActive = true;
+            }
             //if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && position.y < 76.6 && distance <= 1.5 && distance >= -1.5)
 
             //if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
@@ -308,12 +314,14 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
 
-        ani.SetBool("isMining", false);
-        axe.SetActive(false);
+        //ani.SetBool("isMining", false);
+        axeActive = false;
+
         if (isGrounded())
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             ani.SetBool("isJumping", true);
+            
         }
         else if (onWall() && !isGrounded())
         {
@@ -349,6 +357,165 @@ public class PlayerMovement : MonoBehaviour
         return !onWall();
     }
 
+    public void keySelected()
+    {
+        Color backgroundColor = new Color32(0,0,0,255);
+        Color selectedColor = new Color32(60, 60, 60, 255);
+        if (Input.GetKeyDown("1"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }   
 
+            background[0].color = selectedColor;
+            staffActive = true;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(true);
+        }
+
+        if (Input.GetKeyDown("2"))
+        {
+            mine = true;
+            for(int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+
+            }
+            staffActive = false;
+            axeActive = true;
+            axeJump = true;
+            background[1].color = selectedColor;
+            staff.SetActive(false);
+
+            // Debug.Log(equipment.GetEquipment(0));
+
+        }
+        if (Input.GetKeyDown("3"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[2].color = selectedColor;
+            Debug.Log(equipment.GetEquipment(1));
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("4"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[3].color = selectedColor;
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[4].color = selectedColor;
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("6"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[5].color = selectedColor;
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("7"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[6].color = selectedColor;
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("8"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[7].color = selectedColor;
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("9"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[8].color = selectedColor;
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            //staff.SetActive(true);
+        }
+        if (Input.GetKeyDown("0"))
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[9].color = selectedColor;
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            //staff.SetActive(true);
+        }
+
+    }
 
 }

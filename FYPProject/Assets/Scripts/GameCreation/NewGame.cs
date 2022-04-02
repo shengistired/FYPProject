@@ -14,6 +14,11 @@ public class NewGame : MonoBehaviour
     [SerializeField] Button forest;
     [SerializeField] Button desert;
     [SerializeField] Button snow;
+
+    [SerializeField] Button easy;
+    [SerializeField] Button normal;
+    [SerializeField] Button hard;
+
     [SerializeField] Color color;
     [SerializeField] Color colorOriginal;
     [SerializeField] TMP_Text errorMsg;
@@ -21,10 +26,12 @@ public class NewGame : MonoBehaviour
     private ColorBlock origin;
     private bool[] notEmptySize = { false, false, false };
     private bool[] notEmptyBiome = { false, false, false, false };
+    private bool[] notEmptyDifficulty = { false, false, false};
     private bool biome = false;
     private bool size = false;
     public static string worldsizeSelection;
     public static string biomeSelection;
+    public static string difficultySelection;
 
     // Start is called before the first frame update
     void Awake()
@@ -168,7 +175,63 @@ public class NewGame : MonoBehaviour
 
 
     }
+    public void easyClick()
+    {
+        var colorNew = origin;
 
+        colorNew.normalColor = color;
+
+        easy.GetComponent<Button>().colors = colorNew;
+        normal.GetComponent<Button>().colors = origin;
+        hard.GetComponent<Button>().colors = origin;
+
+
+        notEmptyDifficulty[0] = true;
+        notEmptyDifficulty[1] = false;
+        notEmptyDifficulty[2] = false;
+
+        difficultySelection = "easy";
+
+
+    }
+    public void normalClick()
+    {
+        var colorNew = origin;
+
+        colorNew.normalColor = color;
+
+        easy.GetComponent<Button>().colors = origin;
+        normal.GetComponent<Button>().colors = colorNew;
+        hard.GetComponent<Button>().colors = origin;
+
+
+        notEmptyDifficulty[0] = false;
+        notEmptyDifficulty[1] = true;
+        notEmptyDifficulty[2] = false;
+
+
+        difficultySelection = "easy";
+
+
+    }
+    public void hardClick()
+    {
+        var colorNew = origin;
+
+        colorNew.normalColor = color;
+
+        easy.GetComponent<Button>().colors = origin;
+        normal.GetComponent<Button>().colors = origin;
+        hard.GetComponent<Button>().colors = colorNew;
+
+        notEmptyDifficulty[0] = false;
+        notEmptyDifficulty[1] = false;
+        notEmptyDifficulty[2] = true;
+
+        difficultySelection = "hard";
+
+
+    }
     public void Submit()
     {
 
@@ -207,13 +270,4 @@ public class NewGame : MonoBehaviour
 
     }
 
-    public string worldsizeSelected()
-    {
-        return worldsizeSelection;
-    }
-
-    public string biomeSelected()
-    {
-        return biomeSelection;
-    }
 }

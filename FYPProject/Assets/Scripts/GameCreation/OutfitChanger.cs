@@ -26,11 +26,11 @@ public class OutfitChanger : MonoBehaviour
     public void nextOption()
     {
         currentOption++;
-        if(currentOption >= options.Count)
+
+        if (currentOption >= options.Count)
         {
             currentOption = 0;
         }
-
         image.sprite = options[currentOption];
         classText.text = optionText[currentOption];
     }
@@ -38,9 +38,12 @@ public class OutfitChanger : MonoBehaviour
     public void previousOption()
     {
         currentOption--;
-        if (currentOption <= 0)
+
+
+        if (currentOption < 0)
         {
             currentOption = options.Count - 1;
+
         }
 
         image.sprite = options[currentOption];
