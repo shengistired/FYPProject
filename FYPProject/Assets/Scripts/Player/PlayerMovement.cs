@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject axe;
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject others;
+
+  
+
+    
 
     Color backgroundColor = new Color32(0, 0, 0, 255);
     Color selectedColor = new Color32(60, 60, 60, 255);
@@ -67,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
 
+        //DontDestroyOnLoad(transform.gameObject);
+
         runSpeed = 50f;
         directionNum = 1;
         body = GetComponent<Rigidbody2D>();
@@ -76,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
         equipment = new Equipment(UseItem);
-        for(int i = 0; i< 9; i++)
+        for (int i = 0; i < 9; i++)
         {
             try
             {
@@ -188,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
             runSpeed = 50f;
         }
 
-        if(axeActive == true)
+        if (axeActive == true)
         {
             axe.SetActive(true);
         }
@@ -197,20 +204,20 @@ public class PlayerMovement : MonoBehaviour
             axe.SetActive(false);
         }
 
-        if(Input.GetMouseButtonDown(0) && itemTypeString != null)
+        if (Input.GetMouseButtonDown(0) && itemTypeString != null)
+        {
+            if (itemTypeString == "Food" && item.amount > 0)
             {
-            if(itemTypeString == "Food" && item.amount > 0)
+                equipment.RemoveItem(item, index);
+                if (item.amount == 0)
                 {
-                    equipment.RemoveItem(item, index);
-                    if(item.amount == 0) 
-                    { 
-                        background[index].color = backgroundColor;
-                        item = null;
-                    }
+                    background[index].color = backgroundColor;
+                    item = null;
                 }
-        else if (Input.GetMouseButtonDown(0) && itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            }
+            else if (Input.GetMouseButtonDown(0) && itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
             {
-                for(int i = 0; i < tile.Length; i++)
+                for (int i = 0; i < tile.Length; i++)
                 {
                     //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
                     //Debug.Log(name);
@@ -229,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
 
-            }
+        }
         if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
         {
             ani.SetTrigger("Attack");
@@ -243,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetMouseButton(0) && mine == true)
             {
                 ani.SetBool("isMining", true);
-               // placeTiles = true;
+                // placeTiles = true;
                 //The tile's health
                 int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
 
@@ -255,7 +262,7 @@ public class PlayerMovement : MonoBehaviour
                 {
 
                     miningCounter = true;
- 
+
 
                     if (miningCounter == true)
                     {
@@ -297,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded())
         {
             ani.SetBool("isJumping", false);
-            if(axeJump == true)
+            if (axeJump == true)
             {
                 axeActive = true;
             }
@@ -306,10 +313,10 @@ public class PlayerMovement : MonoBehaviour
             //if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
         }
         cooldownTimer += Time.deltaTime;
-   //     if (animationTime > 0.3)
-   //     {
-   //         staff.SetActive(false);
-     //   }
+        //     if (animationTime > 0.3)
+        //     {
+        //         staff.SetActive(false);
+        //   }
         animationTime += Time.deltaTime;
 
         if (wallJumpCoolDown > 0.2f)
@@ -357,7 +364,7 @@ public class PlayerMovement : MonoBehaviour
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             ani.SetBool("isJumping", true);
-            
+
         }
         else if (onWall() && !isGrounded())
         {
@@ -396,7 +403,7 @@ public class PlayerMovement : MonoBehaviour
     public void keySelected()
     {
 
-        if(item == null)
+        if (item == null)
         {
             itemTypeString = null;
             others.SetActive(false);
@@ -406,7 +413,7 @@ public class PlayerMovement : MonoBehaviour
             for (int i = 0; i < background.Length; i++)
             {
                 background[i].color = backgroundColor;
-            }   
+            }
 
             background[0].color = selectedColor;
             item = equipment.GetEquipment(0);
@@ -423,7 +430,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown("2"))
         {
             mine = true;
-            for(int i = 0; i < background.Length; i++)
+            for (int i = 0; i < background.Length; i++)
             {
                 background[i].color = backgroundColor;
 
@@ -597,6 +604,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
-
+ 
 
 }

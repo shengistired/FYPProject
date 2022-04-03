@@ -25,3 +25,4 @@ MonoBehaviour:
   iron: {fileID: 11400000, guid: f6ae118266a41594ba32d0e77368bc1b, type: 2}
   gold: {fileID: 11400000, guid: 76b86552156542f4bbf0a888c25ce4f5, type: 2}
   diamond: {fileID: 11400000, guid: d3ae8bc7d8df5724693ccab6fc9656fa, type: 2}
+  portal: {fileID: 11400000, guid: f4a25e33b8d20164a9d99b463ae5726b, type: 2}

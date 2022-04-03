@@ -20,6 +20,9 @@ public class TerrainGeneration : MonoBehaviour
     // public Texture2D biomeMap;
 
 
+    [Header("Portal settings")]
+    public int portalsEntered = 0;
+
 
 
     [Header("Tree settings")]
@@ -61,6 +64,8 @@ public class TerrainGeneration : MonoBehaviour
     private List<TileClass> worldTileClasses = new List<TileClass>();
 
 
+
+
     private void OnValidate()
     {
 
@@ -75,6 +80,7 @@ public class TerrainGeneration : MonoBehaviour
         worldSizeSet = NewGame.worldsizeSelection;
         biome = NewGame.biomeSelection;
 
+
         if (biome == "random")
         {
             string[] array = { "forest", "desert", "snow" };
@@ -82,15 +88,15 @@ public class TerrainGeneration : MonoBehaviour
         }
         if (worldSizeSet == "small")
         {
-            worldSize = 250;
+            worldSize = 260;
         }
         if (worldSizeSet == "medium")
         {
-            worldSize = 500;
+            worldSize = 480;
         }
         if (worldSizeSet == "large")
         {
-            worldSize = 1000;
+            worldSize = 760;
         }
         caveNoiseTexture = new Texture2D(worldSize, worldSize);
         //coal
@@ -111,6 +117,10 @@ public class TerrainGeneration : MonoBehaviour
             DrawTextures();
             CreateChunks();
             GenerateTerrain();
+
+
+            GeneratePortal(worldSize, 78);
+
             player.spawn();
             //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
             //cameraView.worldSize = worldSize;
@@ -221,7 +231,7 @@ public class TerrainGeneration : MonoBehaviour
     // }
 
 
-    public void GenerateTerrain()
+    public async void GenerateTerrain()
     {
 
         for (int x = 0; x < worldSize; x++)
@@ -265,6 +275,7 @@ public class TerrainGeneration : MonoBehaviour
 
 
                 }
+                //top layer of map
                 else if (y < height - 1)
                 {
                     if (biome == "desert")
@@ -278,7 +289,7 @@ public class TerrainGeneration : MonoBehaviour
                 }
                 else
                 {
-                    //top layer of map
+
                     if (biome == "snow")
                     {
                         tileClass = tileAtlas.snow;
@@ -329,7 +340,7 @@ public class TerrainGeneration : MonoBehaviour
                     PlaceTiles(tileClass, x, y);
                 }
 
-                if (y >= height - 1)
+                if (y >= height - 1 && x >= 5 && x <= worldSize - 20)
                 {
                     //the more treespawnrate the lesser trees will spawn
                     int tree = UnityEngine.Random.Range(0, treeSpawnRate);
@@ -344,13 +355,52 @@ public class TerrainGeneration : MonoBehaviour
 
                     }
 
+
+
+
                 }
 
 
 
 
             }
+
         }
+
+    }
+
+    public void GeneratePortal(int worldSize, int height)
+    {
+        int portalSpawnLeftRight = UnityEngine.Random.Range(1, 100);
+        //run once per map generation
+        // for (int i = 0; i < 1; i++)
+        //  {
+        //if 0 spawn at x = 0.5 , if 1 spawn at y = end of map
+        //int portalSpawnLeftRight = UnityEngine.Random.Range(0, 1);
+
+        if (portalSpawnLeftRight <= 50)
+        {
+            PlaceTiles(tileAtlas.portal, 1, height + 1);
+
+        }
+        else
+        {
+            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1);
+        }
+
+        if (portalSpawnLeftRight >= 50)
+        {
+
+            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1);
+
+        }
+        else
+        {
+            PlaceTiles(tileAtlas.portal, 1, height + 1);
+        }
+
+        //}
+
 
     }
 
@@ -408,6 +458,7 @@ public class TerrainGeneration : MonoBehaviour
 
         bool isSolidTile = tile.isSolidTile;
 
+
         if (x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
 
@@ -423,12 +474,20 @@ public class TerrainGeneration : MonoBehaviour
             newTile.AddComponent<SpriteRenderer>();
 
             // adds a collider2D if the tileClass is not a background tile.
-            if (isSolidTile)
+            if (isSolidTile && tile.name != "portal")
             {
                 newTile.AddComponent<BoxCollider2D>();
                 newTile.AddComponent<BoxCollider2D>().size = Vector2.one;
-
             }
+
+            if (tile.name == "portal")
+            {
+                BoxCollider2D portal = newTile.AddComponent<BoxCollider2D>();
+                portal.isTrigger = true;
+                portal.size = new Vector2(2f, 2f);
+                newTile.AddComponent<EnterPortal>();
+            }
+
             newTile.tag = "Ground";
             newTile.layer = 6;
 
@@ -450,8 +509,11 @@ public class TerrainGeneration : MonoBehaviour
             worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
             worldTileObjects.Add(newTile);
             worldTileClasses.Add(tile);
+
         }
     }
+
+
 
     void GenerateTree(int x, int y)
     {
@@ -577,10 +639,7 @@ public class TerrainGeneration : MonoBehaviour
         }
     }
 
-    public void GeneratePortal(int x, int y)
-    {
 
-    }
 
 }
 
