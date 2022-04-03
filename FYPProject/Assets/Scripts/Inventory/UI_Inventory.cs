@@ -124,8 +124,6 @@ public class UI_Inventory : MonoBehaviour
     }
     public Item item()
     {
-        Debug.Log("From UI_Inventory : " + itemDrag.itemType);
-
         return itemDrag;
     }
 

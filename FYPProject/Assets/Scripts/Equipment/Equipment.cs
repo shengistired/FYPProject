@@ -8,20 +8,22 @@ public class Equipment
     private Item[] equipment;
     private Action<Item> useItemAction;
     private Inventory inventory;
-
+    public static bool addInventory;
+    private Item previousEquipment;
 
     public Equipment(Action<Item> useItemAction)
     {
         this.useItemAction = useItemAction;
         equipment = new Item[9];
 
+        
     }
 
   
     public void AddItem(Item item, int index)
     {
 
-
+        addInventory = false;
         if (item.isStackable())
         {
             if (equipment[index] != null)
@@ -31,11 +33,17 @@ public class Equipment
                     equipment[index].amount += item.amount;
 
                 }
+                else
+                {
+                    previousEquipment = equipment[index];
+                    addInventory = true;
+                    equipment[index] = item;
+                }
+
             }
 
             else
             {
-
                 equipment[index] = item;
 
             }
@@ -53,16 +61,21 @@ public class Equipment
 
         if (item.isStackable())
         {
-            if (equipment[index].itemType == item.itemType)
-                {
-                    equipment[index].amount = item.amount - 1;
-
-            }
-
-            if (equipment[index].amount <= 0)
+            if(equipment[index] != null)
             {
-                equipment[index] = null;
+                if (equipment[index].itemType == item.itemType)
+                {
+
+                    equipment[index].amount = item.amount - 1;
+                    if (equipment[index].amount <= 0)
+                    {
+                        equipment[index] = null;
+                    }
+
+                }
             }
+
+
 
         }
         else
@@ -86,12 +99,16 @@ public class Equipment
 
     public Item GetEquipment(int index)
     {
-        Debug.Log("Index: " + index + " Equipment " + equipment[index]);
         return equipment[index];
     }
 
     public Item[] GetEquipmentList()
     {
         return equipment;
+    }
+
+    public Item previousItem()
+    {
+        return previousEquipment;
     }
 }

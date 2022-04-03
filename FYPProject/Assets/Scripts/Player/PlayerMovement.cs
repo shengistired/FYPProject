@@ -9,56 +9,60 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private GameObject staff;
     [SerializeField] private Image[] background;
+    [SerializeField] private UI_Inventory uiInventory;
+    [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
+    [SerializeField] private UI_Equipment uiEquip;
+    [SerializeField] private PlayerAttack attack;
+    [SerializeField] private StaminaBar stamina;
+    [SerializeField] private GameObject axe;
+    [SerializeField] private GameObject options;
+    [SerializeField] private GameObject others;
 
-    public TerrainGeneration terrainGenerator;
+    Color backgroundColor = new Color32(0, 0, 0, 255);
+    Color selectedColor = new Color32(60, 60, 60, 255);
 
 
     public UnityEngine.Vector2Int mousePosition;
     public UnityEngine.Vector2 spawnPosition;
-    [SerializeField] private GameObject options;
 
     public bool placeTiles;
-    public TileClass selectedTile;
-    public int playerPlaceRange;
+    private bool mine = false;
+    private bool staffActive = false;
+    private bool axeActive = false;
+    private bool axeJump = false;
+    private bool miningCounter = false;
 
+    public TileClass selectedTile;
+
+    public int playerPlaceRange;
     public int miningPower;
-    private Boolean miningCounter = false;
-    private float timeRemaining;
+    public static int directionNum;
     int lockMousePointerX;
     int lockMousePointerY;
+    public int rotationOffset = 0;
+    public int direct;
+    private int index;
 
+
+    private float timeRemaining;
     private float cooldownTimer = Mathf.Infinity;
     private float attackCoolDown = 1;
     private float animationTime = 0;
     private float wallJumpCoolDown;
     private float horizontalInput;
-    private bool mine = false;
-    private bool staffActive = false;
-    private bool axeActive = false;
-    private bool axeJump = false;
-    public int rotationOffset = 0;
+    public float runSpeed;
+    private float horizontalMove = 0f;
+
 
     private Rigidbody2D body;
     private Animator ani;
-
-    private BoxCollider2D boxCollider;
     private EdgeCollider2D edgeCollider;
-
     private Inventory inventory;
     public static Equipment equipment;
-
-    [SerializeField] private UI_Inventory uiInventory;
-    [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
-    [SerializeField] private UI_Equipment uiEquip;
-    [SerializeField] private PlayerAttack attack;
-    public static int directionNum;
     private Item item;
-    public float runSpeed;
-    private float horizontalMove = 0f;
-    [SerializeField] private StaminaBar stamina;
-    [SerializeField] private GameObject axe;
-    private int count = 0;
-    public int direct;
+    public TerrainGeneration terrainGenerator;
+
+    private string itemTypeString;
     private void Awake()
     {
 
@@ -66,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         directionNum = 1;
         body = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        edgeCollider = GetComponent<EdgeCollider2D>();
         inventory = new Inventory(UseItem);
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
@@ -127,8 +131,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void AddEquipment(Item item, int index)
     {
-
         equipment.AddItem(item, index);
+
+        if (Equipment.addInventory)
+        {
+            inventory.AddItem(equipment.previousItem());
+        }
         //uiEquipmentSlot[index].SetEquipment(equipment);
     }
     private void Update()
@@ -189,7 +197,20 @@ public class PlayerMovement : MonoBehaviour
         }
 
         placeTiles = Input.GetMouseButton(2);
+        if(Input.GetMouseButtonDown(0) && itemTypeString != null)
+            {
+                if(itemTypeString == "Food" && item.amount > 0)
+            {
+                equipment.RemoveItem(item, index);
+                   if(item.amount == 0) { 
+                    background[index + 1].color = backgroundColor;
+                    item = null;
 
+                }
+            }
+
+
+            }
         if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
         {
             ani.SetTrigger("Attack");
@@ -220,9 +241,9 @@ public class PlayerMovement : MonoBehaviour
                     if (miningCounter == true)
                     {
                         timeRemaining += Time.deltaTime;
-                        Debug.Log("tilehealth..." + tileHealth);
-                        Debug.Log("timeRemaining..." + timeRemaining);
-                        Debug.Log("mining..." + Time.deltaTime);
+                        //Debug.Log("tilehealth..." + tileHealth);
+                        //Debug.Log("timeRemaining..." + timeRemaining);
+                        //Debug.Log("mining..." + Time.deltaTime);
 
                         if (timeRemaining >= tileHealth - miningPower)
                         {
@@ -342,13 +363,13 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(edgeCollider.bounds.center, edgeCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
 
     private bool onWall()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(edgeCollider.bounds.center, edgeCollider.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
         return raycastHit.collider != null;
     }
 
@@ -359,8 +380,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void keySelected()
     {
-        Color backgroundColor = new Color32(0,0,0,255);
-        Color selectedColor = new Color32(60, 60, 60, 255);
+
+        if(item == null)
+        {
+            itemTypeString = null;
+            others.SetActive(false);
+        }
         if (Input.GetKeyDown("1"))
         {
             for (int i = 0; i < background.Length; i++)
@@ -374,6 +399,8 @@ public class PlayerMovement : MonoBehaviour
             axeJump = false;
             mine = false;
             staff.SetActive(true);
+            others.SetActive(false);
+
         }
 
         if (Input.GetKeyDown("2"))
@@ -389,11 +416,11 @@ public class PlayerMovement : MonoBehaviour
             axeJump = true;
             background[1].color = selectedColor;
             staff.SetActive(false);
+            others.SetActive(false);
 
-            // Debug.Log(equipment.GetEquipment(0));
 
         }
-        if (Input.GetKeyDown("3"))
+        if (Input.GetKeyDown("3") && equipment.GetEquipment(1) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -401,16 +428,18 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[2].color = selectedColor;
-            Debug.Log(equipment.GetEquipment(1));
+            index = 1;
+            item = equipment.GetEquipment(1);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
-        if (Input.GetKeyDown("4"))
+        if (Input.GetKeyDown("4") && equipment.GetEquipment(2) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -418,14 +447,18 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[3].color = selectedColor;
+            index = 2;
+            item = equipment.GetEquipment(2);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
-        if (Input.GetKeyDown("5"))
+        if (Input.GetKeyDown("5") && equipment.GetEquipment(3) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -433,14 +466,18 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[4].color = selectedColor;
+            index = 3;
+            item = equipment.GetEquipment(3);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
-        if (Input.GetKeyDown("6"))
+        if (Input.GetKeyDown("6") && equipment.GetEquipment(4) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -448,14 +485,18 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[5].color = selectedColor;
+            index = 4;
+            item = equipment.GetEquipment(4);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
-        if (Input.GetKeyDown("7"))
+        if (Input.GetKeyDown("7") && equipment.GetEquipment(5) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -463,14 +504,18 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[6].color = selectedColor;
+            index = 5;
+            item = equipment.GetEquipment(5);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
-        if (Input.GetKeyDown("8"))
+        if (Input.GetKeyDown("8") && equipment.GetEquipment(6) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -478,14 +523,19 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[7].color = selectedColor;
+            index = 6;
+
+            item = equipment.GetEquipment(6);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
-        if (Input.GetKeyDown("9"))
+        if (Input.GetKeyDown("9") && equipment.GetEquipment(7) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -493,14 +543,19 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[8].color = selectedColor;
+            index = 7;
+
+            item = equipment.GetEquipment(7);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
-        if (Input.GetKeyDown("0"))
+        if (Input.GetKeyDown("0") && equipment.GetEquipment(8) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -508,13 +563,19 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[9].color = selectedColor;
+            index = 8;
+            item = equipment.GetEquipment(8);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
             axeJump = false;
             mine = false;
             staff.SetActive(false);
-            //staff.SetActive(true);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
         }
+
+
 
     }
 

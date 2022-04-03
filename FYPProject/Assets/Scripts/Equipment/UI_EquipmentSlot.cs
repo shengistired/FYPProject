@@ -72,12 +72,12 @@ public class UI_EquipmentSlot : MonoBehaviour
         try
         {
             item = equipment.GetEquipment(index);
-            
-            if(item != null)
+            Image image = equipSlotTemplate.Find("Image").GetComponent<Image>();
+
+            if (item != null)
             {
                 //button.onClick.AddListener(delegate { click(item, index); });
                 
-                Image image = equipSlotTemplate.Find("Image").GetComponent<Image>();
 
                 EventTrigger trigger = equipSlotTemplate.GetComponent<EventTrigger>();
 
@@ -99,6 +99,11 @@ public class UI_EquipmentSlot : MonoBehaviour
                 {
                     uiText.SetText("");
                 }
+            }
+            else
+            {
+                image.color = new Color32(255, 255, 255, 0);
+                image.sprite = null;
             }
 
            
