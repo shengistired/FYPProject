@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,4 +11,9 @@ public class TileClass : ScriptableObject
     public bool isSolidTile = true;
     public bool tileDrop = true;
     public int tileHealth;
+
+    public static implicit operator TileClass(string v)
+    {
+        throw new NotImplementedException();
+    }
 }

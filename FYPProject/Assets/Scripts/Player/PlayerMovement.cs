@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private bool axeJump = false;
     private bool miningCounter = false;
 
+    public TileClass[] tile;
     public TileClass selectedTile;
 
     public int playerPlaceRange;
@@ -196,16 +197,34 @@ public class PlayerMovement : MonoBehaviour
             axe.SetActive(false);
         }
 
-        placeTiles = Input.GetMouseButton(2);
         if(Input.GetMouseButtonDown(0) && itemTypeString != null)
             {
-                if(itemTypeString == "Food" && item.amount > 0)
+            if(itemTypeString == "Food" && item.amount > 0)
+                {
+                    equipment.RemoveItem(item, index);
+                    if(item.amount == 0) 
+                    { 
+                        background[index].color = backgroundColor;
+                        item = null;
+                    }
+                }
+        else if (Input.GetMouseButtonDown(0) && itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
             {
+                for(int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                    }
+                }
+                terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, true);
                 equipment.RemoveItem(item, index);
-                   if(item.amount == 0) { 
-                    background[index + 1].color = backgroundColor;
+                if (item.amount == 0)
+                {
+                    background[index].color = backgroundColor;
                     item = null;
-
                 }
             }
 
@@ -269,11 +288,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 ani.SetBool("isMining", false);
             }
-            if (Input.GetMouseButton(2))
-            {
-                //place down a block 
-                terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, true);
-            }
+
 
 
         }
@@ -394,6 +409,8 @@ public class PlayerMovement : MonoBehaviour
             }   
 
             background[0].color = selectedColor;
+            item = equipment.GetEquipment(0);
+            itemTypeString = item.itemType.ToString();
             staffActive = true;
             axeActive = false;
             axeJump = false;
@@ -411,6 +428,8 @@ public class PlayerMovement : MonoBehaviour
                 background[i].color = backgroundColor;
 
             }
+            item = equipment.GetEquipment(1);
+            itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = true;
             axeJump = true;
@@ -420,7 +439,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         }
-        if (Input.GetKeyDown("3") && equipment.GetEquipment(1) != null)
+        if (Input.GetKeyDown("3") && equipment.GetEquipment(2) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -428,25 +447,6 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[2].color = selectedColor;
-            index = 1;
-            item = equipment.GetEquipment(1);
-            itemTypeString = item.itemType.ToString();
-            staffActive = false;
-            axeActive = false;
-            axeJump = false;
-            mine = false;
-            staff.SetActive(false);
-            others.GetComponent<Image>().sprite = item.GetSprite();
-            others.SetActive(true);
-        }
-        if (Input.GetKeyDown("4") && equipment.GetEquipment(2) != null)
-        {
-            for (int i = 0; i < background.Length; i++)
-            {
-                background[i].color = backgroundColor;
-            }
-
-            background[3].color = selectedColor;
             index = 2;
             item = equipment.GetEquipment(2);
             itemTypeString = item.itemType.ToString();
@@ -458,14 +458,14 @@ public class PlayerMovement : MonoBehaviour
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
         }
-        if (Input.GetKeyDown("5") && equipment.GetEquipment(3) != null)
+        if (Input.GetKeyDown("4") && equipment.GetEquipment(3) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
                 background[i].color = backgroundColor;
             }
 
-            background[4].color = selectedColor;
+            background[3].color = selectedColor;
             index = 3;
             item = equipment.GetEquipment(3);
             itemTypeString = item.itemType.ToString();
@@ -477,14 +477,14 @@ public class PlayerMovement : MonoBehaviour
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
         }
-        if (Input.GetKeyDown("6") && equipment.GetEquipment(4) != null)
+        if (Input.GetKeyDown("5") && equipment.GetEquipment(4) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
                 background[i].color = backgroundColor;
             }
 
-            background[5].color = selectedColor;
+            background[4].color = selectedColor;
             index = 4;
             item = equipment.GetEquipment(4);
             itemTypeString = item.itemType.ToString();
@@ -496,14 +496,14 @@ public class PlayerMovement : MonoBehaviour
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
         }
-        if (Input.GetKeyDown("7") && equipment.GetEquipment(5) != null)
+        if (Input.GetKeyDown("6") && equipment.GetEquipment(5) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
                 background[i].color = backgroundColor;
             }
 
-            background[6].color = selectedColor;
+            background[5].color = selectedColor;
             index = 5;
             item = equipment.GetEquipment(5);
             itemTypeString = item.itemType.ToString();
@@ -515,16 +515,15 @@ public class PlayerMovement : MonoBehaviour
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
         }
-        if (Input.GetKeyDown("8") && equipment.GetEquipment(6) != null)
+        if (Input.GetKeyDown("7") && equipment.GetEquipment(6) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
                 background[i].color = backgroundColor;
             }
 
-            background[7].color = selectedColor;
+            background[6].color = selectedColor;
             index = 6;
-
             item = equipment.GetEquipment(6);
             itemTypeString = item.itemType.ToString();
             staffActive = false;
@@ -535,14 +534,14 @@ public class PlayerMovement : MonoBehaviour
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
         }
-        if (Input.GetKeyDown("9") && equipment.GetEquipment(7) != null)
+        if (Input.GetKeyDown("8") && equipment.GetEquipment(7) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
                 background[i].color = backgroundColor;
             }
 
-            background[8].color = selectedColor;
+            background[7].color = selectedColor;
             index = 7;
 
             item = equipment.GetEquipment(7);
@@ -555,7 +554,27 @@ public class PlayerMovement : MonoBehaviour
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
         }
-        if (Input.GetKeyDown("0") && equipment.GetEquipment(8) != null)
+        if (Input.GetKeyDown("9") && equipment.GetEquipment(8) != null)
+        {
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].color = backgroundColor;
+            }
+
+            background[8].color = selectedColor;
+            index = 8;
+
+            item = equipment.GetEquipment(8);
+            itemTypeString = item.itemType.ToString();
+            staffActive = false;
+            axeActive = false;
+            axeJump = false;
+            mine = false;
+            staff.SetActive(false);
+            others.GetComponent<Image>().sprite = item.GetSprite();
+            others.SetActive(true);
+        }
+        if (Input.GetKeyDown("0") && equipment.GetEquipment(9) != null)
         {
             for (int i = 0; i < background.Length; i++)
             {
@@ -563,8 +582,8 @@ public class PlayerMovement : MonoBehaviour
             }
 
             background[9].color = selectedColor;
-            index = 8;
-            item = equipment.GetEquipment(8);
+            index = 9;
+            item = equipment.GetEquipment(9);
             itemTypeString = item.itemType.ToString();
             staffActive = false;
             axeActive = false;
@@ -578,5 +597,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
+
 
 }

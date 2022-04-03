@@ -14,9 +14,10 @@ public class Equipment
     public Equipment(Action<Item> useItemAction)
     {
         this.useItemAction = useItemAction;
-        equipment = new Item[9];
+        equipment = new Item[10];
 
-        
+        AddItem(new Item { itemType = Item.ItemType.Weapon, amount = 1 }, 0);
+        AddItem(new Item { itemType = Item.ItemType.Axe, amount = 1 }, 1);
     }
 
   

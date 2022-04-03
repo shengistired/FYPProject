@@ -10,6 +10,7 @@ public class ItemAssets : MonoBehaviour
     }
     public Transform pitemWorld;
     public Sprite weaponSprite;
+    public Sprite axeSprite;
     public Sprite potionSprite;
     public Sprite foodSprite;
     public Sprite coinSprite;

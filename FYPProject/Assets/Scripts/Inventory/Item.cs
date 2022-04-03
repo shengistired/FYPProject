@@ -7,6 +7,7 @@ public class Item
     public enum ItemType
     {
         Weapon,
+        Axe,
         Potion,
         Food,
         Coin,
@@ -34,6 +35,8 @@ public class Item
             default:
             case ItemType.Weapon:
                 return ItemAssets.Instance.weaponSprite;
+            case ItemType.Axe:
+                return ItemAssets.Instance.axeSprite;
             case ItemType.Potion:
                 return ItemAssets.Instance.potionSprite;
             case ItemType.Food:
