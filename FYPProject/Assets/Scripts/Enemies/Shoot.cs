@@ -19,12 +19,16 @@ public class Shoot : MonoBehaviour
     public GameObject bullet;
     //public GameObject boom;
 
+    public int enemyMin;
+
     void Start()
     {
         mustPatrol = true;
         Physics2D.IgnoreLayerCollision(7, 7, true);
         player = GameObject.Find("Mage").transform;
         canShoot = true;
+
+        enemyMin = GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin;
     }
 
     void Update()
@@ -56,7 +60,30 @@ public class Shoot : MonoBehaviour
         {
             mustPatrol = true;
         }
+
+        /*if (disToPlayer < Screen.width)
+        {
+            GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
+            Destroy(gameObject);
+            Debug.Log("Invisible");
+        }*/
+
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        if (screenPosition.y > Screen.height || screenPosition.y < 0)
+        {
+            Destroy(gameObject);
+            GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
+            Debug.Log("Invisible");
+        }
+            
     }
+
+    /*void OnBecameInvisible()
+    {
+        GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin-=1;
+        Destroy(gameObject);
+        Debug.Log("Invisible");
+    }*/
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -66,12 +93,16 @@ public class Shoot : MonoBehaviour
             //EnemySpawn.spawnAllowed = false;
             //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
 
-            Destroy(gameObject);
-            GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
+            Die();
             Debug.Log("Killed shoot");
 
             break;
         }
+
+        /*if (col.gameObject.tag == "PlatformKiller")
+        {
+            Destroy(gameObject);
+        }*/
     }
 
     private void FixedUpdate()
@@ -110,4 +141,11 @@ public class Shoot : MonoBehaviour
          newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
          canShoot = true;
      }
+
+    void Die()
+    {
+        Destroy(gameObject);
+        GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
+        Debug.Log("Die");
+    }
 }

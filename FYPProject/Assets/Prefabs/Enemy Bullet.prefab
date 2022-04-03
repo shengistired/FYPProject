@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925f0a68c8032df43ab174a77f93e39a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieTime: 2
+  dieTime: 1
   damage: 0
   diePEFFECT: {fileID: 0}
 --- !u!61 &3521876420602542695
@@ -157,5 +157,5 @@ SortingGroup:
   m_GameObject: {fileID: 326611048074426205}
   m_Enabled: 1
   m_SortingLayerID: -2057585541
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
