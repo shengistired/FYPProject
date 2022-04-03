@@ -523,7 +523,7 @@ public class TerrainGeneration : MonoBehaviour
             //string tileName = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0].name.ToUpper();
             int tileHealth = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileHealth;
             return tileHealth;
-            
+
         }
         else
         {
@@ -576,6 +576,12 @@ public class TerrainGeneration : MonoBehaviour
 
         }
     }
+
+    public void GeneratePortal(int x, int y)
+    {
+
+    }
+
 }
 
 

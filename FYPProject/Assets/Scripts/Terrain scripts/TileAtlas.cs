@@ -15,13 +15,16 @@ public class TileAtlas : ScriptableObject
     public TileClass catcus;
     public TileClass snow;
     public TileClass snowLeaf;
-    
+
 
     [Header("Ores")]
     public TileClass coal;
     public TileClass iron;
     public TileClass gold;
     public TileClass diamond;
+
+    [Header("Important objects")]
+    public TileClass portal;
 
 
 }
