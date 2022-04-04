@@ -19,9 +19,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject others;
 
-  
 
-    
+
+
 
     Color backgroundColor = new Color32(0, 0, 0, 255);
     Color selectedColor = new Color32(60, 60, 60, 255);
@@ -149,6 +149,10 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        //makes player not able to walk out of camera
+        Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, minScreenBounds.x + 1, maxScreenBounds.x - 1), Mathf.Clamp(transform.position.y, minScreenBounds.y + 1, maxScreenBounds.y - 3), transform.position.z);
 
         mousePosition.x = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x);
         mousePosition.y = Mathf.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
@@ -604,6 +608,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
- 
+
 
 }

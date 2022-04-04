@@ -8,6 +8,7 @@ public class TerrainGeneration : MonoBehaviour
     // public BiomeClass SnowBiome;
     public PlayerMovement player;
     public GameObject tileDrop;
+    public CameraFollow camera;
 
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
@@ -117,10 +118,10 @@ public class TerrainGeneration : MonoBehaviour
             DrawTextures();
             CreateChunks();
             GenerateTerrain();
-
-
             GeneratePortal(worldSize, 78);
 
+            camera.Spawn(new Vector3(player.spawnPosition.x,player.spawnPosition.y,camera.transform.position.z));
+            camera.worldSize = worldSize;
             player.spawn();
             //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
             //cameraView.worldSize = worldSize;
@@ -131,6 +132,8 @@ public class TerrainGeneration : MonoBehaviour
             DrawTextures();
             CreateChunks();
             GenerateTerrain();
+            camera.Spawn(new Vector3(player.spawnPosition.x,player.spawnPosition.y,camera.transform.position.z));
+            camera.worldSize = worldSize;
             //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
             //cameraView.worldSize = worldSize;
             player.spawn();
