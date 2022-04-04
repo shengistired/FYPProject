@@ -31,7 +31,7 @@ public class Spawn_Shoot : MonoBehaviour
         //SpawnEnemies();
 
         player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 7f);
+        InvokeRepeating("SpawnEnemies", 0f, 5f);
     }
 
     /* // Update is called once per frame
@@ -74,27 +74,22 @@ public class Spawn_Shoot : MonoBehaviour
             GameObject shoot = Instantiate(enemies, pos, Quaternion.identity) as GameObject;
             ++enemyMin;*/
 
-            /*float height = GameObject.Find("Terrain").GetComponent<TerrainGeneration>().heightAddition;
-            Vector3 spawnPos = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), (height+15), Camera.main.farClipPlane));
-            GameObject shoot = Instantiate(enemies, spawnPos, Quaternion.identity) as GameObject;
-            ++enemyMin;*/
-
             bool spawnAllowed = false;
             while (!spawnAllowed)
             {
                 //Vector3 playerPos = player.transform.position;
                 float height = GameObject.Find("Terrain").GetComponent<TerrainGeneration>().heightAddition;
-                float x = Random.Range(player.position.x - 10, player.position.x + 10);
+                float x = Random.Range(player.position.x - 15, player.position.x + 15);
                 Vector3 spawnPos = new Vector3(x, height + 10, 0.0f);
 
-                if((spawnPos - player.position).magnitude < 5)
+                if((spawnPos - player.position).magnitude < 10)
                 //if(Vector3.Distance(spawnPos, player.position) < 15)
                 {
                     continue;
                 }
                 else
                 {
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 1; i++)
                     {
                         GameObject shoot = Instantiate(enemies, spawnPos, Quaternion.identity) as GameObject;
                         ++enemyMin;
@@ -103,16 +98,6 @@ public class Spawn_Shoot : MonoBehaviour
                         
                 }
             }
-
-            /*for (int i = 0; i < 2; i++)
-            {
-                float height = GameObject.Find("Terrain").GetComponent<TerrainGeneration>().heightAddition;
-                float x = Random.Range(player.position.x - 6, player.position.x + 6);
-                Vector3 spawnPos = new Vector3(x, height + 15, 0.0f);
-                GameObject shoot = Instantiate(enemies, spawnPos, Quaternion.identity) as GameObject;
-                ++enemyMin;
-            }*/
-
         }
     }
 }

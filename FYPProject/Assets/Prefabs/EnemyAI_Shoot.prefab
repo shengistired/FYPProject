@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2283995075518586256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.49, y: 0, z: 0}
+  m_LocalPosition: {x: 0.65, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2283995077245746059}
@@ -266,9 +266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 80
-  range: 4
-  timeBTWshots: 0.5
-  shootSpeed: 3
+  range: 6
+  timeBTWshots: 1
+  shootSpeed: 2.5
   mustPatrol: 0
   rb: {fileID: 2283995077245746062}
   groundcheckPos: {fileID: 2283995076705884099}
@@ -279,3 +279,4 @@ MonoBehaviour:
   player: {fileID: 0}
   shootPos: {fileID: 2283995075518586271}
   bullet: {fileID: 326611048074426205, guid: e433964e0e522394cb1757002c7e8a52, type: 3}
+  enemyMin: 0

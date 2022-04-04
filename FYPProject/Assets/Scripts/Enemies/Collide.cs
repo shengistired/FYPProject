@@ -44,20 +44,13 @@ public class Collide : MonoBehaviour
                 Flip();
             }
 
-            mustPatrol = false;
-            rb.velocity = Vector2.zero;
+            //mustPatrol = false;
+            //rb.velocity = Vector2.zero;
         }
         else
         {
             mustPatrol = true;
         }
-
-        /*if(disToPlayer < Screen.width)
-         {
-             GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
-             Destroy(gameObject);
-             Debug.Log("Invisible");
-         }*/
 
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
         if (screenPosition.y > Screen.height || screenPosition.y < 0)
@@ -68,13 +61,6 @@ public class Collide : MonoBehaviour
         }
        
     }
-
-    /*void OnBecameInvisible()
-    {
-        GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin-=1;
-        Destroy(gameObject);
-        Debug.Log("Invisible");
-    }*/
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -89,11 +75,6 @@ public class Collide : MonoBehaviour
 
             break;
         }
-
-        /*if (col.gameObject.tag == "PlatformKiller")
-        {
-            Destroy(gameObject);
-        }*/
     }
 
     private void FixedUpdate()

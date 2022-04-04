@@ -61,13 +61,6 @@ public class Shoot : MonoBehaviour
             mustPatrol = true;
         }
 
-        /*if (disToPlayer < Screen.width)
-        {
-            GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
-            Destroy(gameObject);
-            Debug.Log("Invisible");
-        }*/
-
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
         if (screenPosition.y > Screen.height || screenPosition.y < 0)
         {
@@ -75,15 +68,7 @@ public class Shoot : MonoBehaviour
             GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
             Debug.Log("Invisible");
         }
-            
     }
-
-    /*void OnBecameInvisible()
-    {
-        GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin-=1;
-        Destroy(gameObject);
-        Debug.Log("Invisible");
-    }*/
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -98,11 +83,6 @@ public class Shoot : MonoBehaviour
 
             break;
         }
-
-        /*if (col.gameObject.tag == "PlatformKiller")
-        {
-            Destroy(gameObject);
-        }*/
     }
 
     private void FixedUpdate()
@@ -133,14 +113,21 @@ public class Shoot : MonoBehaviour
 
     IEnumerator Shot()
      {
-         canShoot = false;
+        canShoot = false;
 
-         yield return new WaitForSeconds(timeBTWshots);
-         GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
+        yield return new WaitForSeconds(timeBTWshots);
+        GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
+        //newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
 
-         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
-         canShoot = true;
-     }
+        if (gameObject.transform.localScale.x < 0)
+        {
+            newBullet.transform.localScale = new Vector2(newBullet.transform.localScale.x * -1, newBullet.transform.localScale.y);
+        }
+        
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
+
+        canShoot = true;
+    }
 
     void Die()
     {
