@@ -21,8 +21,8 @@ public class DropArea : MonoBehaviour
 	{
 		OnDropHandler?.Invoke(draggable);
 	}
-	public bool DropReturn(ReturnDragDrop draggable)
+	public void DropReturn(ReturnDragDrop draggable)
 	{
-		return DropConditions.TrueForAll(cond => cond.CheckReturn(draggable));
+		OnDropReturnHandler?.Invoke(draggable);
 	}
 }

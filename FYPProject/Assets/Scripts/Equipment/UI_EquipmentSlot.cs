@@ -92,7 +92,6 @@ public class UI_EquipmentSlot : MonoBehaviour
                 item = equipment.GetEquipment(index);
 
 
-                Debug.Log("Index " + index + " " + item.itemType);
                 if (item != null)
                 {
                     //button.onClick.AddListener(delegate { click(item, index); });
@@ -109,7 +108,6 @@ public class UI_EquipmentSlot : MonoBehaviour
                     image.color = new Color32(255, 255, 255, 255);
                     image.sprite = item.GetSprite();
 
-                    //Debug.Log(equipSlotTemplate);
                     TextMeshProUGUI uiText = itemSlot.Find("amountText").GetComponent<TextMeshProUGUI>();
                     if (item.amount > 1)
                     {
@@ -127,7 +125,6 @@ public class UI_EquipmentSlot : MonoBehaviour
             {
                 image.color = new Color32(255, 255, 255, 0);
                 image.sprite = null;
-                Debug.Log("HAHA");
             }
          
 
@@ -192,7 +189,6 @@ public class UI_EquipmentSlot : MonoBehaviour
     {
         //equipment.UseEquipment(item);
 
-        Debug.Log("Number of Clicks " + i);
         Item duplicateItem = new Item { itemType = item.itemType, amount = item.amount };
         equipment.RemoveItem(item, index);
         /*        Vector3 direction;
@@ -213,13 +209,12 @@ public class UI_EquipmentSlot : MonoBehaviour
     public void Move(Item item)
     {
 
-        equipment.MoveItem(item);
+       // equipment.MoveItem(item);
 
     }
 
     private void ItemDragged(Item item)
     {
-        Debug.Log(itemDrag);
         itemDrag = item;
     }
     public Item item()

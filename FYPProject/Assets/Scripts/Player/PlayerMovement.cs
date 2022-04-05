@@ -139,7 +139,10 @@ public class PlayerMovement : MonoBehaviour
             itemWorld.DestroySelf();
         }
     }
-
+    public Item getEquipment(int index)
+    {
+        return equipment.GetEquipment(index);
+    }
     public void AddEquipment(Item item, int index)
     {
         equipment.AddItem(item, index);
@@ -148,6 +151,12 @@ public class PlayerMovement : MonoBehaviour
         {
             inventory.AddItem(equipment.previousItem());
         }
+    }
+    public void MoveEquipment(Item item, int oldindex, int newindex)
+    {
+        equipment.MoveItem(item, oldindex, newindex);
+
+
     }
     private void Update()
     {
@@ -225,8 +234,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 for (int i = 0; i < tile.Length; i++)
                 {
-                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
-                    //Debug.Log(name);
+
                     if (tile[i].name == itemTypeString)
                     {
                         selectedTile = tile[i];

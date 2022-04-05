@@ -8,7 +8,6 @@ using System;
 public class EquipmentSlot : MonoBehaviour
 {
     protected DropArea dropArea;
-    [SerializeField] private TMP_Text text;
     
     protected virtual void Awake()
     {

@@ -12,42 +12,36 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
     public event Action<PointerEventData, bool> OnEndDragHandler;
     private GameObject go;
     private CanvasGroup canvasGroup;
-    [SerializeField] private UI_Inventory uiInventory;
-    [SerializeField] private UI_EquipmentSlot uiEquipment;
+    [SerializeField] private Transform equipTemplate;
     [SerializeField] private PlayerMovement player;
+
+    private Transform itemSlot;
     private Item item;
     public bool FollowCursor { get; set; } = true;
     public Vector3 StartPosition;
     public static int index = -1;
+    private int indexBegin = -1;
     public bool CanDrag { get; set; } = true;
     private void Awake()
     {
-        
-        rectTransform = GetComponent<RectTransform>();
+        itemSlot = equipTemplate.Find("Item").GetComponent<Transform>();
+        rectTransform = itemSlot.GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-
+        
     }
-    private void UseItem(Item item)
-    {
-        switch (item.itemType)
-        {
-            case Item.ItemType.Potion:
-               // equipment.RemoveItem(new Item { itemType = Item.ItemType.Potion, amount = 1 });
-                break;
 
-            case Item.ItemType.Food:
-               // equipment.RemoveItem(new Item { itemType = Item.ItemType.Food, amount = 1 });
-                break;
-        }
-    }
+    
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        indexBegin = int.Parse(equipTemplate.name.Substring(equipTemplate.name.Length - 1));
+        indexBegin -= 1;
+        item = player.getEquipment(indexBegin);
+        //item = uiEquipment.item();
 
-        item = uiInventory.item();
-
-        //go = Instantiate(gameObject);
-        //go.transform.position = GetComponent<RectTransform>().position;
+        go = Instantiate(itemSlot.gameObject);
+        
+        //rectTransform = go.GetComponent<RectTransform>();
 
         if (!CanDrag)
         {
@@ -72,7 +66,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
         OnDragHandler?.Invoke(eventData);
         if (FollowCursor)
         {
-            rectTransform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
+            go.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
 
         }
 
@@ -93,9 +87,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
         foreach (var result in results)
         {
-
             dropArea = result.gameObject.GetComponentInParent<DropArea>();
-
             if (dropArea != null)
             {
                 break;
@@ -104,16 +96,17 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
         if (dropArea != null)
         {
-            if (dropArea.AcceptsReturn(this))
+
+            string name = dropArea.GetComponentInParent<ReturnSlot>().name;
+
+            if (dropArea.AcceptsReturn(this) && name != equipTemplate.name)
             {
-                string name = dropArea.GetComponentInParent<EquipmentSlot>().name;
 
                 dropArea.DropReturn(this);
                 OnEndDragHandler?.Invoke(eventData, true);
                 canvasGroup.alpha = 1f;
                 canvasGroup.blocksRaycasts = true;
-
-                uiInventory.Move(item);
+                
                 if (name == "equipSlotTemplate1")
                 {
 
@@ -167,11 +160,8 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
                     index = 9;
                 }
 
-                // equipment = PlayerMovement.equipment;
-                // equipment.AddItem(item, index);
+                player.MoveEquipment(item, indexBegin, index);
 
-                //uiEquipmentList[index].SetEquipment(PlayerMovement.equipment);
-                player.AddEquipment(item, index);
                 return;
             }
         }
@@ -188,8 +178,5 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
     }
 
-    public int indexReturn()
-    {
-        return index;
-    }
+
 }

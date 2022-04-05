@@ -53,7 +53,6 @@ public class Equipment
         {
 
             equipment[index] = item;
-            Debug.Log(equipment[index].itemType);
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -85,11 +84,44 @@ public class Equipment
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
-    public void MoveItem(Item item)
+    public void MoveItem(Item item, int oldIndex,  int newIndex)
     {
 
-        equipment = null;
+        if (item.isStackable())
+        {
+            if (equipment[newIndex] != null)
+            {
+                if (equipment[newIndex].itemType == item.itemType)
+                {
 
+                    equipment[newIndex].amount += item.amount;
+                    equipment[oldIndex] = null;
+
+                }
+                else
+                {
+                    equipment[oldIndex] = equipment[newIndex];
+                    equipment[newIndex] = item;
+                }
+            }
+
+
+        }
+        else
+        {
+            if (equipment[newIndex] != null)
+            {
+                equipment[oldIndex] = equipment[newIndex];
+                equipment[newIndex] = item;
+            }
+            else
+            {
+                equipment[newIndex] = item;
+                equipment[oldIndex] = null;
+
+
+            }
+        }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
 
     }

@@ -26,19 +26,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         canvasGroup = GetComponent<CanvasGroup>();
 
     }
-    private void UseItem(Item item)
-    {
-        switch (item.itemType)
-        {
-            case Item.ItemType.Potion:
-               // equipment.RemoveItem(new Item { itemType = Item.ItemType.Potion, amount = 1 });
-                break;
 
-            case Item.ItemType.Food:
-               // equipment.RemoveItem(new Item { itemType = Item.ItemType.Food, amount = 1 });
-                break;
-        }
-    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
