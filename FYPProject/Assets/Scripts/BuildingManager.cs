@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
-    [SerializeField] private Transform wood;
-    private Building buildingToPlace;
+    private TileClass buildingToPlace;
     public CustomCursor customCursor;
     private bool build = false;
-    public void Build(Building building)
+    public void Build(TileClass building)
     {
         customCursor.gameObject.SetActive(true);
-        customCursor.GetComponent<SpriteRenderer>().sprite = building.GetComponent<SpriteRenderer>().sprite;
+        customCursor.GetComponent<SpriteRenderer>().sprite = building.tileSprites[0];
         Cursor.visible = false;
         buildingToPlace = building;
         build = true;
@@ -21,8 +20,8 @@ public class BuildingManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && build == true )
         {
-            Vector3 positioning = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
-            Instantiate(buildingToPlace, positioning, Quaternion.identity);
+            //Vector3 positioning = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
+            //Instantiate(buildingToPlace, positioning, Quaternion.identity);
             customCursor.gameObject.SetActive(false);
             Cursor.visible = true;
             build = false;

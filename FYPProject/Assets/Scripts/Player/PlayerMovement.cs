@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject axe;
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject others;
+    [SerializeField] private CustomCursor customCursor;
 
 
 
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private bool axeActive = false;
     private bool axeJump = false;
     private bool miningCounter = false;
+
 
     public TileClass[] tile;
     public TileClass selectedTile;
@@ -71,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     private string itemTypeString;
     private void Awake()
     {
-
+        placeTiles = false;
         //DontDestroyOnLoad(transform.gameObject);
 
         runSpeed = 50f;
@@ -219,7 +221,7 @@ public class PlayerMovement : MonoBehaviour
                     item = null;
                 }
             }
-            else if (Input.GetMouseButtonDown(0) && itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            else if (Input.GetMouseButtonDown(0) && placeTiles == true)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {
@@ -228,12 +230,15 @@ public class PlayerMovement : MonoBehaviour
                     if (tile[i].name == itemTypeString)
                     {
                         selectedTile = tile[i];
+
                     }
                 }
                 terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, true);
                 equipment.RemoveItem(item, index);
                 if (item.amount == 0)
                 {
+                    customCursor.gameObject.SetActive(false);
+                    Cursor.visible = true;
                     background[index].color = backgroundColor;
                     item = null;
                 }
@@ -429,6 +434,31 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(true);
             others.SetActive(false);
 
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
 
         if (Input.GetKeyDown("2"))
@@ -447,7 +477,31 @@ public class PlayerMovement : MonoBehaviour
             background[1].color = selectedColor;
             staff.SetActive(false);
             others.SetActive(false);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
 
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
 
         }
         if (Input.GetKeyDown("3") && equipment.GetEquipment(2) != null)
@@ -468,6 +522,32 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+                        
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
         if (Input.GetKeyDown("4") && equipment.GetEquipment(3) != null)
         {
@@ -487,6 +567,32 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
         if (Input.GetKeyDown("5") && equipment.GetEquipment(4) != null)
         {
@@ -506,6 +612,31 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
         if (Input.GetKeyDown("6") && equipment.GetEquipment(5) != null)
         {
@@ -525,6 +656,31 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
         if (Input.GetKeyDown("7") && equipment.GetEquipment(6) != null)
         {
@@ -544,6 +700,31 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
         if (Input.GetKeyDown("8") && equipment.GetEquipment(7) != null)
         {
@@ -564,6 +745,31 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false ;
+
+            }
         }
         if (Input.GetKeyDown("9") && equipment.GetEquipment(8) != null)
         {
@@ -584,6 +790,31 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
         if (Input.GetKeyDown("0") && equipment.GetEquipment(9) != null)
         {
@@ -603,6 +834,31 @@ public class PlayerMovement : MonoBehaviour
             staff.SetActive(false);
             others.GetComponent<Image>().sprite = item.GetSprite();
             others.SetActive(true);
+            if (itemTypeString != "Weapon" && itemTypeString != "Food" && itemTypeString != "Coin" && itemTypeString != "Axe" && itemTypeString != "Potion")
+            {
+                for (int i = 0; i < tile.Length; i++)
+                {
+                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
+                    //Debug.Log(name);
+                    if (tile[i].name == itemTypeString)
+                    {
+                        selectedTile = tile[i];
+                        customCursor.gameObject.SetActive(true);
+                        customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        Cursor.visible = false;
+                        placeTiles = true;
+
+                    }
+                }
+            }
+            else
+            {
+                customCursor.gameObject.SetActive(false);
+                Cursor.visible = true;
+                placeTiles = false;
+
+            }
         }
 
 
