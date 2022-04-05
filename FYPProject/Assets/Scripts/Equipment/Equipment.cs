@@ -23,7 +23,6 @@ public class Equipment
   
     public void AddItem(Item item, int index)
     {
-
         addInventory = false;
         if (item.isStackable())
         {
@@ -54,6 +53,7 @@ public class Equipment
         {
 
             equipment[index] = item;
+            Debug.Log(equipment[index].itemType);
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }

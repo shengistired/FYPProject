@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject staff;
     [SerializeField] private Image[] background;
     [SerializeField] private UI_Inventory uiInventory;
-    [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
+  //  [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
+    [SerializeField] private UI_EquipmentSlot uiEquipmentSlot;
     [SerializeField] private UI_Equipment uiEquip;
     [SerializeField] private PlayerAttack attack;
     [SerializeField] private StaminaBar stamina;
@@ -73,8 +74,9 @@ public class PlayerMovement : MonoBehaviour
     private string itemTypeString;
     private void Awake()
     {
-        placeTiles = false;
         //DontDestroyOnLoad(transform.gameObject);
+
+        placeTiles = false;
 
         runSpeed = 50f;
         directionNum = 1;
@@ -85,20 +87,19 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
         equipment = new Equipment(UseItem);
+        direct = 1;
+        /*
         for (int i = 0; i < 9; i++)
         {
-            try
+           if(equipment.GetEquipment(i) != null)
             {
                 uiEquipmentSlot[i].SetEquipment(equipment);
             }
-            catch
-            {
-
-            }
 
         }
+        */
+        uiEquipmentSlot.SetEquipment(equipment);
 
-        direct = 1;
 
     }
 
@@ -147,7 +148,6 @@ public class PlayerMovement : MonoBehaviour
         {
             inventory.AddItem(equipment.previousItem());
         }
-        //uiEquipmentSlot[index].SetEquipment(equipment);
     }
     private void Update()
     {

@@ -8,9 +8,16 @@ public class UI_EquipmentSlot : MonoBehaviour
 {
     int index;
     private Equipment equipment;
-    [SerializeField] private Transform equipSlotTemplate;
+  //  [SerializeField] private Transform equipSlotTemplate;
+    [SerializeField] private Transform[] equipSlotTemplate;
+  //  [SerializeField] private Transform itemTemplate;
     public Item itemDrag;
     int i = 0;
+
+    private void Awake()
+    {
+        
+    }
     public void SetEquipment(Equipment equipment)
     {
         this.equipment = equipment;
@@ -29,8 +36,7 @@ public class UI_EquipmentSlot : MonoBehaviour
 
     private void RefreshEquipmentItem()
     {
-        Item item;
-        string name = equipSlotTemplate.name;
+        /*
         if (name == "equipSlotTemplate1")
         {
             index = 0;
@@ -71,12 +77,68 @@ public class UI_EquipmentSlot : MonoBehaviour
         {
             index = 9;
         }
+        Debug.Log(index);
+        */
+        Item item;
+        foreach(Transform slot in equipSlotTemplate)
+        {
+            Transform itemSlot = slot.Find("Item").GetComponent<Transform>();
+            Image image = itemSlot.Find("Image").GetComponent<Image>();
 
+            try
+            {
+                index = int.Parse(slot.name.Substring(slot.name.Length - 1));
+                index -= 1;
+                item = equipment.GetEquipment(index);
+
+
+                Debug.Log("Index " + index + " " + item.itemType);
+                if (item != null)
+                {
+                    //button.onClick.AddListener(delegate { click(item, index); });
+                    
+
+                    EventTrigger trigger = slot.GetComponent<EventTrigger>();
+
+                    var enter = new EventTrigger.Entry();
+                    enter.eventID = EventTriggerType.PointerDown;
+                    enter.callback.AddListener((e) => ItemDragged(item));
+                    trigger.triggers.Add(enter);
+
+
+                    image.color = new Color32(255, 255, 255, 255);
+                    image.sprite = item.GetSprite();
+
+                    //Debug.Log(equipSlotTemplate);
+                    TextMeshProUGUI uiText = itemSlot.Find("amountText").GetComponent<TextMeshProUGUI>();
+                    if (item.amount > 1)
+                    {
+                        uiText.SetText(item.amount.ToString());
+                    }
+
+                    else
+                    {
+                        uiText.SetText("");
+                    }
+                }
+
+            }
+            catch
+            {
+                image.color = new Color32(255, 255, 255, 0);
+                image.sprite = null;
+                Debug.Log("HAHA");
+            }
+         
+
+        }
+        /*
         try
         {
             item = equipment.GetEquipment(index);
-            Image image = equipSlotTemplate.Find("Image").GetComponent<Image>();
+            Image image = itemTemplate.Find("Image").GetComponent<Image>();
 
+            Debug.Log("Index " + index + " " + item.itemType);
             if (item != null)
             {
                 //button.onClick.AddListener(delegate { click(item, index); });
@@ -90,10 +152,11 @@ public class UI_EquipmentSlot : MonoBehaviour
                 trigger.triggers.Add(enter);
 
 
-
+                image.color = new Color32(255, 255, 255, 255);
                 image.sprite = item.GetSprite();
+
                 //Debug.Log(equipSlotTemplate);
-                TextMeshProUGUI uiText = equipSlotTemplate.Find("amountText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI uiText = itemTemplate.Find("amountText").GetComponent<TextMeshProUGUI>();
                 if (item.amount > 1)
                 {
                     uiText.SetText(item.amount.ToString());
@@ -118,7 +181,7 @@ public class UI_EquipmentSlot : MonoBehaviour
         }
 
 
-
+        */
 
 
 

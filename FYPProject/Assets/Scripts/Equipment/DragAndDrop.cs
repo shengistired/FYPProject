@@ -19,7 +19,6 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     public Vector3 StartPosition;
     public static int index = -1;
     public bool CanDrag { get; set; } = true;
-    [SerializeField] private UI_EquipmentSlot[] uiEquipmentList;
     private void Awake()
     {
         

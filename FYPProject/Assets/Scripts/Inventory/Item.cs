@@ -93,6 +93,7 @@ public class Item
             case ItemType.treeLogs:
                 return true;
             case ItemType.Weapon:
+            case ItemType.Axe:
                 return false;
 
 

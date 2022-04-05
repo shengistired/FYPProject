@@ -18,17 +18,6 @@ public class EquipmentSlot : MonoBehaviour
 
     private void OnItemDropped(DragAndDrop draggable)
     {
-        Image pointerImage = draggable.GetComponent<RectTransform>().Find("Image").GetComponent<Image>();
-        Image image = gameObject.GetComponent<RectTransform>().Find("Image").GetComponent<Image>();
-
-        
-
-
-        var tempColor = image.color;
-        tempColor.a = 1f;
-        image.color = tempColor;
-
-
         draggable.transform.position = transform.position;
     }
 }
