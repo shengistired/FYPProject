@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private bool othersActive = false;
     private bool axeJump = false;
     private bool miningCounter = false;
+    public bool moved;
 
 
     public TileClass[] tile;
@@ -77,7 +78,6 @@ public class PlayerMovement : MonoBehaviour
     public float runSpeed;
     private float horizontalMove = 0f;
 
-
     private Rigidbody2D body;
     private Animator ani;
     private EdgeCollider2D edgeCollider;
@@ -85,7 +85,9 @@ public class PlayerMovement : MonoBehaviour
     public static Equipment equipment;
     private Item item;
     public TerrainGeneration terrainGenerator;
-
+    private int newItemIndex;
+    Vector3 difference;
+    Vector3 equipmentPosition;
     private void Awake()
     {
         //DontDestroyOnLoad(transform.gameObject);
@@ -166,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
     {
         equipment.MoveItem(item, oldindex, newindex);
 
+        newItemIndex = newindex;
 
     }
     private void Update()
@@ -197,7 +200,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (horizontalInput < 0)
         {
-            //transform.localScale = new Vector3(-1, 1, 1);
             transform.localScale = new Vector3(-1, 1, 1);
             direct = -1;
             directionNum = -1;
@@ -245,12 +247,27 @@ public class PlayerMovement : MonoBehaviour
         }
         for (int i = 0; i < background.Length; i++)
         {
+
             if (equipment.GetEquipment(i) == null)
             {
+
                 background[i].color = backgroundColor;
 
             }
+
+            else if (ReturnDragDrop.move == true)
+            {
+                background[i].color = backgroundColor;
+                staffActive = false;
+                othersActive = false;
+                axeActive = false;
+                axeJump = false;
+                mine = false;
+            }
+
         }
+        ReturnDragDrop.move = false;
+
 
         for (int i = 0; i < keys.Length; i++)
         {
@@ -263,9 +280,13 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+       equipmentPosition = uiEquipmentSlot.GetComponent<RectTransform>().position;
+        difference = position - equipmentPosition;
+
         if (Input.GetMouseButtonDown(0) && item != null)
         {
-            if (itemType == Item.ItemType.Food && item.amount > 0)
+
+            if (itemType == Item.ItemType.Food && item.amount > 0 && (difference.y > 1.5 || difference.x <0 || difference.x > 15))
             {
                 equipment.RemoveItem(item, index);
                 if (item.amount == 0)
@@ -289,7 +310,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
         {
-            if (Input.GetMouseButtonDown(0) && placeTiles == true && item!=null)
+            if (Input.GetMouseButtonDown(0) && placeTiles == true && item!= null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
                 for (int i = 0; i < tile.Length; i++)
                 {
@@ -419,6 +440,7 @@ public class PlayerMovement : MonoBehaviour
             return -1;
         }
     }
+    
     private void Jump()
     {
 

@@ -12,8 +12,8 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
     private CanvasGroup canvasGroup;
     [SerializeField] private Transform equipTemplate;
     [SerializeField] private PlayerMovement player;
-    
 
+    public static bool move;
     private Transform itemSlot;
     private Item item;
     public bool FollowCursor { get; set; } = true;
@@ -23,8 +23,8 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
     public bool CanDrag { get; set; } = true;
     private void Awake()
     {
+        move = false;
         itemSlot = equipTemplate.Find("Item").GetComponent<Transform>();
-        
         canvasGroup = GetComponent<CanvasGroup>();
 
     }
@@ -33,6 +33,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+
         try
         {
             indexBegin = int.Parse(equipTemplate.name.Substring(equipTemplate.name.Length - 1));
@@ -179,8 +180,10 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
                     }
                     else
                     {
-                        player.MoveEquipment(item, indexBegin, index);
 
+                        move = true;
+                        player.MoveEquipment(item, indexBegin, index);
+                        
                     }
 
                     return;
@@ -199,6 +202,8 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
         //StartPosition = rectTransform.position;
 
     }
+
+
 
 
 }

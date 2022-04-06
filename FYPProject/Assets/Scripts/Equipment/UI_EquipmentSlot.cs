@@ -81,7 +81,8 @@ public class UI_EquipmentSlot : MonoBehaviour
         {
             Transform itemSlot = slot.Find("Item").GetComponent<Transform>();
             Image image = itemSlot.Find("Image").GetComponent<Image>();
-
+            TextMeshProUGUI uiText = itemSlot.Find("amountText").GetComponent<TextMeshProUGUI>();
+           
             try
             {
                 index = int.Parse(slot.name.Substring(slot.name.Length - 1));
@@ -104,7 +105,6 @@ public class UI_EquipmentSlot : MonoBehaviour
                     image.color = new Color32(255, 255, 255, 255);
                     image.sprite = item.GetSprite();
 
-                    TextMeshProUGUI uiText = itemSlot.Find("amountText").GetComponent<TextMeshProUGUI>();
                     if (item.amount > 1)
                     {
                         uiText.SetText(item.amount.ToString());
@@ -117,6 +117,7 @@ public class UI_EquipmentSlot : MonoBehaviour
                 }
                 else
                 {
+                    uiText.SetText("");
                     image.color = new Color32(255, 255, 255, 0);
                     image.sprite = null;
                 }
@@ -124,6 +125,7 @@ public class UI_EquipmentSlot : MonoBehaviour
             }
             catch
             {
+
                 image.color = new Color32(255, 255, 255, 0);
                 image.sprite = null;
             }

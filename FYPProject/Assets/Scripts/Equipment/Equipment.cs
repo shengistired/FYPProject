@@ -113,6 +113,11 @@ public class Equipment
                     equipment[newIndex] = item;
                 }
             }
+            else
+            {
+                equipment[newIndex] = equipment[oldIndex];
+                equipment[oldIndex] = null;
+            }
 
 
         }
