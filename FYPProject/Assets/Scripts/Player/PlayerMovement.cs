@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     private bool axeJump = false;
     private bool miningCounter = false;
     public bool moved;
+    public static bool running;
 
 
     public TileClass[] tile;
@@ -206,13 +207,15 @@ public class PlayerMovement : MonoBehaviour
         }
         if (stamina.currentStamina != 0)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && horizontalMove != 0)
             {
+                running = true;
                 runSpeed = 75f;
 
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
+                running = false;
                 runSpeed = 40f;
             }
         }

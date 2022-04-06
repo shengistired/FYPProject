@@ -9,9 +9,13 @@ public class PlayerBars : MonoBehaviour
     // Update is called once per frame
     void Update()
     {  
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && PlayerMovement.running == true)
+        {
+            
             StaminaBar.instance.UseStamina(1);
-            //Deplete stamina
+
+        }
+        //Deplete stamina
     }
 
        private void OnCollisionEnter2D (Collision2D collide)
