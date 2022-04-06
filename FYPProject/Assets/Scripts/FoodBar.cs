@@ -8,8 +8,8 @@ public class FoodBar : MonoBehaviour
 {
     public Slider foodBar;
     
-    public float food;
-    float maxFood = 200f;
+    public static float food = 200f;
+    float maxFood;
 
     void start()
     {
@@ -22,7 +22,7 @@ public class FoodBar : MonoBehaviour
 
         if (food >= 0)
         {
-            food -= 1f * Time.deltaTime;
+            food -= 0.5f * Time.deltaTime;
         
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -31,13 +31,12 @@ public class FoodBar : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-            food -= 5f;
+            food -= 4f;
             }
 
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                food +=10f;
-            }
+            // if (Input.GetKey(KeyCode.Mouse0)){
+            //     food +=10f;
+            // }
         }
     }
 }

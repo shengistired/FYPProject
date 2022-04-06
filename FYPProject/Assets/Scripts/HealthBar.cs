@@ -9,7 +9,6 @@ public class HealthBar : MonoBehaviour
     public Slider healthBar;
     public GameObject DeathScreen;
 
-
     private int maxHealth = 200;
     private int currentHealth;
 
@@ -60,7 +59,8 @@ public class HealthBar : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
 
-        while(currentHealth < maxHealth)
+        
+        while (currentHealth < maxHealth)
         {
             currentHealth += maxHealth / 100;
             healthBar.value = currentHealth;

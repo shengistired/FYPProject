@@ -260,6 +260,8 @@ public class PlayerMovement : MonoBehaviour
             attack.attack();
             cooldownTimer = 0;
             animationTime = 0;
+            ManaBar.instance.UseMana(10);
+            // Reduce mana each usage of staff
         }
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
         {
