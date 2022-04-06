@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Equipment
 {
@@ -20,7 +18,7 @@ public class Equipment
         AddItem(new Item { itemType = Item.ItemType.Axe, amount = 1 }, 1);
     }
 
-  
+
     public void AddItem(Item item, int index)
     {
         addInventory = false;
@@ -61,7 +59,7 @@ public class Equipment
 
         if (item.isStackable())
         {
-            if(equipment[index] != null)
+            if (equipment[index] != null)
             {
                 if (equipment[index].itemType == item.itemType)
                 {
@@ -84,7 +82,7 @@ public class Equipment
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
-    public void MoveItem(Item item, int oldIndex,  int newIndex)
+    public void MoveItem(Item item, int oldIndex, int newIndex)
     {
 
         if (item.isStackable())
@@ -124,6 +122,10 @@ public class Equipment
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
 
+    }
+    public void DeleteEquipment(int index)
+    {
+        equipment[index] = null;
     }
     public void UseEquipment(Item item)
     {

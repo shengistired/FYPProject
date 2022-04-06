@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,6 +6,7 @@ using UnityEngine.EventSystems;
 public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     private RectTransform rectTransform;
+    private RectTransform goTransform;
     public event Action<PointerEventData> OnBeginDragHandler;
     public event Action<PointerEventData> OnDragHandler;
     public event Action<PointerEventData, bool> OnEndDragHandler;
@@ -27,32 +27,43 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
         itemSlot = equipTemplate.Find("Item").GetComponent<Transform>();
         rectTransform = itemSlot.GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        
+
     }
 
-    
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        indexBegin = int.Parse(equipTemplate.name.Substring(equipTemplate.name.Length - 1));
-        indexBegin -= 1;
-        item = player.getEquipment(indexBegin);
-        //item = uiEquipment.item();
-
-        go = Instantiate(itemSlot.gameObject);
-        
-        //rectTransform = go.GetComponent<RectTransform>();
-
-        if (!CanDrag)
+        try
         {
-            return;
+            indexBegin = int.Parse(equipTemplate.name.Substring(equipTemplate.name.Length - 1));
+            indexBegin -= 1;
+            item = player.getEquipment(indexBegin);
+            
+            if(item!= null)
+            {
+                go = Instantiate(itemSlot.gameObject);
+                go.transform.SetParent(equipTemplate);
 
-        
+                // go.transform.position
+                if (!CanDrag)
+                {
+                    return;
+
+
+                }
+
+                OnBeginDragHandler?.Invoke(eventData);
+                canvasGroup.alpha = .6f;
+                canvasGroup.blocksRaycasts = false;
+            }
+
         }
-        
-        OnBeginDragHandler?.Invoke(eventData);
-        canvasGroup.alpha = .6f;
-        canvasGroup.blocksRaycasts = false;
+        catch
+        {
+
+        }
+
 
     }
 
@@ -64,7 +75,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
         }
         OnDragHandler?.Invoke(eventData);
-        if (FollowCursor)
+        if (FollowCursor && item!= null)
         {
             go.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
 
@@ -75,100 +86,113 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!CanDrag)
+        if(item!= null)
         {
-            return;
-        }
+            Destroy(go);
 
-        var results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
-
-        DropArea dropArea = null;
-
-        foreach (var result in results)
-        {
-            dropArea = result.gameObject.GetComponentInParent<DropArea>();
-            if (dropArea != null)
+            if (!CanDrag)
             {
-                break;
-            }
-        }
-
-        if (dropArea != null)
-        {
-
-            string name = dropArea.GetComponentInParent<ReturnSlot>().name;
-
-            if (dropArea.AcceptsReturn(this) && name != equipTemplate.name)
-            {
-
-                dropArea.DropReturn(this);
-                OnEndDragHandler?.Invoke(eventData, true);
-                canvasGroup.alpha = 1f;
-                canvasGroup.blocksRaycasts = true;
-                
-                if (name == "equipSlotTemplate1")
-                {
-
-                    index = 0;
-
-                }
-                else if (name == "equipSlotTemplate2")
-                {
-
-                    index = 1;
-
-                }
-                else if (name == "equipSlotTemplate3")
-                {
-
-                    index = 2;
-
-                }
-                else if (name == "equipSlotTemplate4")
-                {
-                    index = 3;
-
-                }
-                else if (name == "equipSlotTemplate5")
-                {
-                    index = 4;
-
-                }
-                else if (name == "equipSlotTemplate6")
-                {
-                    index = 5;
-
-                }
-                else if (name == "equipSlotTemplate7")
-                {
-                    index = 6;
-
-                }
-                else if (name == "equipSlotTemplate8")
-                {
-                    index = 7;
-
-                }
-                else if (name == "equipSlotTemplate9")
-                {
-                    index = 8;
-
-                }
-                else if (name == "equipSlotTemplate10")
-                {
-                    index = 9;
-                }
-
-                player.MoveEquipment(item, indexBegin, index);
-
                 return;
             }
+
+            var results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+
+            DropArea dropArea = null;
+
+            foreach (var result in results)
+            {
+                dropArea = result.gameObject.GetComponentInParent<DropArea>();
+                if (dropArea != null)
+                {
+                    break;
+                }
+            }
+
+            if (dropArea != null)
+            {
+
+                string name = dropArea.GetComponentInParent<ReturnSlot>().name;
+
+                if (dropArea.AcceptsReturn(this) && name != equipTemplate.name)
+                {
+                    dropArea.DropReturn(this);
+                    OnEndDragHandler?.Invoke(eventData, true);
+                    canvasGroup.alpha = 1f;
+                    canvasGroup.blocksRaycasts = true;
+                    if (name == "equipSlotTemplate1")
+                    {
+
+                        index = 0;
+
+                    }
+                    else if (name == "equipSlotTemplate2")
+                    {
+
+                        index = 1;
+
+                    }
+                    else if (name == "equipSlotTemplate3")
+                    {
+
+                        index = 2;
+
+                    }
+                    else if (name == "equipSlotTemplate4")
+                    {
+                        index = 3;
+
+                    }
+                    else if (name == "equipSlotTemplate5")
+                    {
+                        index = 4;
+
+                    }
+                    else if (name == "equipSlotTemplate6")
+                    {
+                        index = 5;
+
+                    }
+                    else if (name == "equipSlotTemplate7")
+                    {
+                        index = 6;
+
+                    }
+                    else if (name == "equipSlotTemplate8")
+                    {
+                        index = 7;
+
+                    }
+                    else if (name == "equipSlotTemplate9")
+                    {
+                        index = 8;
+
+                    }
+                    else if (name == "equipSlotTemplate10")
+                    {
+                        index = 9;
+                    }
+
+                    if (name == "UI_Inventory")
+                    {
+
+                        player.AddItemInventory(item, indexBegin);
+                    }
+                    else
+                    {
+                        player.MoveEquipment(item, indexBegin, index);
+
+                    }
+
+                    return;
+                }
+            }
+            rectTransform.position = StartPosition;
+            OnEndDragHandler?.Invoke(eventData, false);
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
         }
-        rectTransform.position = StartPosition;
-        OnEndDragHandler?.Invoke(eventData, false);
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
+       
 
     }
 

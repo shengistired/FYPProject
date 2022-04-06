@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,7 +6,7 @@ using System;
 public class ReturnSlot : MonoBehaviour
 {
     protected DropArea dropArea;
-    
+
     protected virtual void Awake()
     {
         dropArea = GetComponent<DropArea>() ?? gameObject.AddComponent<DropArea>();
@@ -17,6 +15,7 @@ public class ReturnSlot : MonoBehaviour
 
     private void OnItemDropped(ReturnDragDrop draggable)
     {
-        draggable.transform.position = transform.position;
+        Transform itemSlot = transform.Find("Item").GetComponent<Transform>();
+        //draggable.transform.position = transform.position;
     }
 }

@@ -8,15 +8,15 @@ public class UI_EquipmentSlot : MonoBehaviour
 {
     int index;
     private Equipment equipment;
-  //  [SerializeField] private Transform equipSlotTemplate;
+    //  [SerializeField] private Transform equipSlotTemplate;
     [SerializeField] private Transform[] equipSlotTemplate;
-  //  [SerializeField] private Transform itemTemplate;
+    //  [SerializeField] private Transform itemTemplate;
     public Item itemDrag;
     int i = 0;
 
     private void Awake()
     {
-        
+
     }
     public void SetEquipment(Equipment equipment)
     {
@@ -80,7 +80,7 @@ public class UI_EquipmentSlot : MonoBehaviour
         Debug.Log(index);
         */
         Item item;
-        foreach(Transform slot in equipSlotTemplate)
+        foreach (Transform slot in equipSlotTemplate)
         {
             Transform itemSlot = slot.Find("Item").GetComponent<Transform>();
             Image image = itemSlot.Find("Image").GetComponent<Image>();
@@ -91,11 +91,10 @@ public class UI_EquipmentSlot : MonoBehaviour
                 index -= 1;
                 item = equipment.GetEquipment(index);
 
-
                 if (item != null)
                 {
                     //button.onClick.AddListener(delegate { click(item, index); });
-                    
+
 
                     EventTrigger trigger = slot.GetComponent<EventTrigger>();
 
@@ -119,6 +118,11 @@ public class UI_EquipmentSlot : MonoBehaviour
                         uiText.SetText("");
                     }
                 }
+                else
+                {
+                    image.color = new Color32(255, 255, 255, 0);
+                    image.sprite = null;
+                }
 
             }
             catch
@@ -126,7 +130,7 @@ public class UI_EquipmentSlot : MonoBehaviour
                 image.color = new Color32(255, 255, 255, 0);
                 image.sprite = null;
             }
-         
+
 
         }
         /*
@@ -209,7 +213,7 @@ public class UI_EquipmentSlot : MonoBehaviour
     public void Move(Item item)
     {
 
-       // equipment.MoveItem(item);
+        // equipment.MoveItem(item);
 
     }
 
