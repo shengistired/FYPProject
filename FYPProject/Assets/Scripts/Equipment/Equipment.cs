@@ -42,6 +42,7 @@ public class Equipment
 
             else
             {
+
                 equipment[index] = item;
 
             }
@@ -49,8 +50,18 @@ public class Equipment
         }
         else
         {
+            if(equipment[index] != null)
+            {
+                previousEquipment = equipment[index];
+                addInventory = true;
+                equipment[index] = item;
 
-            equipment[index] = item;
+            }
+            else
+            {
+                equipment[index] = item;
+
+            }
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -126,6 +137,8 @@ public class Equipment
     public void DeleteEquipment(int index)
     {
         equipment[index] = null;
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+
     }
     public void UseEquipment(Item item)
     {

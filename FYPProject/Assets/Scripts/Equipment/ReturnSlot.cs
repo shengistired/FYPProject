@@ -15,7 +15,7 @@ public class ReturnSlot : MonoBehaviour
 
     private void OnItemDropped(ReturnDragDrop draggable)
     {
-        Transform itemSlot = transform.Find("Item").GetComponent<Transform>();
+        //Transform itemSlot = transform.Find("Item").GetComponent<Transform>();
         //draggable.transform.position = transform.position;
     }
 }

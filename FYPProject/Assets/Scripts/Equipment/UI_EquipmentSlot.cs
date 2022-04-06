@@ -29,10 +29,7 @@ public class UI_EquipmentSlot : MonoBehaviour
     {
         RefreshEquipmentItem();
     }
-    public void Refresh()
-    {
-        RefreshEquipmentItem();
-    }
+
 
     private void RefreshEquipmentItem()
     {

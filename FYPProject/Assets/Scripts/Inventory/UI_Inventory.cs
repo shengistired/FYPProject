@@ -11,7 +11,7 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private Transform itemSlotContainer;
     [SerializeField] private Transform itemSlotTemplate;
     public Item itemDrag;
-
+    public Vector3 position;
     private PlayerMovement player;
     private DragAndDrop dragdrop;
     private int count = 0;
@@ -35,7 +35,10 @@ public class UI_Inventory : MonoBehaviour
         inventory.OnItemListChanged += Inventory_OnItemListChange;
         RefreshInventoryItem();
     }
-
+    public void Refresh()
+    {
+        RefreshInventoryItem();
+    }
     private void Inventory_OnItemListChange(object sender, EventArgs e)
     {
         RefreshInventoryItem();
@@ -62,12 +65,13 @@ public class UI_Inventory : MonoBehaviour
 
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
 
+            Vector3 pos = itemSlotRectTransform.position - player.getPosition();
             Image image = itemSlotRectTransform.Find("Image").GetComponent<Image>();
 
             EventTrigger trigger = itemSlotRectTransform.GetComponent<EventTrigger>();
             var enter = new EventTrigger.Entry();
             enter.eventID = EventTriggerType.PointerDown;
-            enter.callback.AddListener((e) => ItemDragged(item));
+            enter.callback.AddListener((e) => ItemDragged(item, pos));
             trigger.triggers.Add(enter);
 
 
@@ -118,13 +122,20 @@ public class UI_Inventory : MonoBehaviour
 
     }
 
-    private void ItemDragged(Item item)
+    private void ItemDragged(Item item, Vector3 pos)
     {
         itemDrag = item;
+        position = pos;
+
+        
     }
     public Item item()
     {
         return itemDrag;
+    }
+    public Vector3 positionRect()
+    {
+        return position;
     }
 
     public void inventory_Position()

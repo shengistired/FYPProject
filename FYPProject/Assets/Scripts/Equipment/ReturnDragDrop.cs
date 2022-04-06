@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
-{
-    private RectTransform rectTransform;
-    private RectTransform goTransform;
+{    
     public event Action<PointerEventData> OnBeginDragHandler;
     public event Action<PointerEventData> OnDragHandler;
     public event Action<PointerEventData, bool> OnEndDragHandler;
@@ -14,6 +12,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
     private CanvasGroup canvasGroup;
     [SerializeField] private Transform equipTemplate;
     [SerializeField] private PlayerMovement player;
+    
 
     private Transform itemSlot;
     private Item item;
@@ -25,7 +24,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
     private void Awake()
     {
         itemSlot = equipTemplate.Find("Item").GetComponent<Transform>();
-        rectTransform = itemSlot.GetComponent<RectTransform>();
+        
         canvasGroup = GetComponent<CanvasGroup>();
 
     }
@@ -187,7 +186,6 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
                     return;
                 }
             }
-            rectTransform.position = StartPosition;
             OnEndDragHandler?.Invoke(eventData, false);
             canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true;
@@ -198,7 +196,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
     public void OnInitializePotentialDrag(PointerEventData eventData)
     {
-        StartPosition = rectTransform.position;
+        //StartPosition = rectTransform.position;
 
     }
 

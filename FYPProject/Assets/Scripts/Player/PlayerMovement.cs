@@ -101,16 +101,6 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetInventory(inventory);
         equipment = new Equipment(UseItem);
         direct = 1;
-        /*
-        for (int i = 0; i < 9; i++)
-        {
-           if(equipment.GetEquipment(i) != null)
-            {
-                uiEquipmentSlot[i].SetEquipment(equipment);
-            }
-
-        }
-        */
         uiEquipmentSlot.SetEquipment(equipment);
 
 

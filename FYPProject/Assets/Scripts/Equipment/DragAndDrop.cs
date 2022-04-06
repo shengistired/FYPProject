@@ -10,7 +10,6 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     public event Action<PointerEventData> OnBeginDragHandler;
     public event Action<PointerEventData> OnDragHandler;
     public event Action<PointerEventData, bool> OnEndDragHandler;
-    private GameObject go;
     private CanvasGroup canvasGroup;
     [SerializeField] private UI_Inventory uiInventory;
     [SerializeField] private PlayerMovement player;
@@ -25,16 +24,13 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
 
+
     }
 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         item = uiInventory.item();
-
-        //go = Instantiate(gameObject);
-        //go.transform.position = GetComponent<RectTransform>().position;
-
         if (!CanDrag)
         {
             return;
@@ -67,6 +63,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
     public void OnEndDrag(PointerEventData eventData)
     {
+
         if (!CanDrag)
         {
             return;
@@ -92,76 +89,80 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         {
             if (dropArea.Accepts(this))
             {
-                string name = dropArea.GetComponentInParent<EquipmentSlot>().name;
+                try
+                {
+                    string name = dropArea.GetComponentInParent<EquipmentSlot>().name;
 
-                dropArea.Drop(this);
-                OnEndDragHandler?.Invoke(eventData, true);
-                canvasGroup.alpha = 1f;
-                canvasGroup.blocksRaycasts = true;
+                    dropArea.Drop(this);
+                    OnEndDragHandler?.Invoke(eventData, true);
+                    canvasGroup.alpha = 1f;
+                    canvasGroup.blocksRaycasts = true;
 
-                uiInventory.Move(item);
-                if (name == "equipSlotTemplate1")
+                    uiInventory.Move(item);
+                    if (name == "equipSlotTemplate1")
+                    {
+
+                        index = 0;
+
+                    }
+                    else if (name == "equipSlotTemplate2")
+                    {
+
+                        index = 1;
+
+                    }
+                    else if (name == "equipSlotTemplate3")
+                    {
+
+                        index = 2;
+
+                    }
+                    else if (name == "equipSlotTemplate4")
+                    {
+                        index = 3;
+
+                    }
+                    else if (name == "equipSlotTemplate5")
+                    {
+                        index = 4;
+
+                    }
+                    else if (name == "equipSlotTemplate6")
+                    {
+                        index = 5;
+
+                    }
+                    else if (name == "equipSlotTemplate7")
+                    {
+                        index = 6;
+
+                    }
+                    else if (name == "equipSlotTemplate8")
+                    {
+                        index = 7;
+
+                    }
+                    else if (name == "equipSlotTemplate9")
+                    {
+                        index = 8;
+
+                    }
+                    else if (name == "equipSlotTemplate10")
+                    {
+                        index = 9;
+                    }
+
+                    player.AddEquipment(item, index);
+                    return;
+                }
+                catch
                 {
 
-                    index = 0;
-
                 }
-                else if (name == "equipSlotTemplate2")
-                {
-
-                    index = 1;
-
-                }
-                else if (name == "equipSlotTemplate3")
-                {
-
-                    index = 2;
-
-                }
-                else if (name == "equipSlotTemplate4")
-                {
-                    index = 3;
-
-                }
-                else if (name == "equipSlotTemplate5")
-                {
-                    index = 4;
-
-                }
-                else if (name == "equipSlotTemplate6")
-                {
-                    index = 5;
-
-                }
-                else if (name == "equipSlotTemplate7")
-                {
-                    index = 6;
-
-                }
-                else if (name == "equipSlotTemplate8")
-                {
-                    index = 7;
-
-                }
-                else if (name == "equipSlotTemplate9")
-                {
-                    index = 8;
-
-                }
-                else if (name == "equipSlotTemplate10")
-                {
-                    index = 9;
-                }
-
-                // equipment = PlayerMovement.equipment;
-                // equipment.AddItem(item, index);
-
-                //uiEquipmentList[index].SetEquipment(PlayerMovement.equipment);
-                player.AddEquipment(item, index);
-                return;
+               
             }
         }
-        rectTransform.position = StartPosition;
+        uiInventory.Refresh();
         OnEndDragHandler?.Invoke(eventData, false);
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
@@ -170,7 +171,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
     public void OnInitializePotentialDrag(PointerEventData eventData)
     {
-        StartPosition = rectTransform.position;
+        StartPosition = uiInventory.positionRect() + player.getPosition();
 
     }
 
