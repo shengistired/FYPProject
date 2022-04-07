@@ -9,6 +9,7 @@ public class TerrainGeneration : MonoBehaviour
     public PlayerMovement player;
     public GameObject tileDrop;
     public CameraFollow camera;
+    public audio_manager music;
 
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
@@ -80,12 +81,39 @@ public class TerrainGeneration : MonoBehaviour
     {
         worldSizeSet = NewGame.worldsizeSelection;
         biome = NewGame.biomeSelection;
+        if (biome == "forest")
+        {
+            music.forest_music_play();
+        }
+
+        if (biome == "desert")
+        {
+            music.desert_music_play();
+        }
+        if (biome == "snow")
+        {
+            music.snow_music_play();
+        }
 
 
         if (biome == "random")
         {
             string[] array = { "forest", "desert", "snow" };
             biome = array[UnityEngine.Random.Range(0, 2)];
+
+            if (biome == "forest")
+            {
+                music.forest_music_play();
+            }
+
+            if (biome == "desert")
+            {
+                music.desert_music_play();
+            }
+            if (biome == "snow")
+            {
+                music.snow_music_play();
+            }
         }
         if (worldSizeSet == "small")
         {
@@ -120,7 +148,7 @@ public class TerrainGeneration : MonoBehaviour
             GenerateTerrain();
             GeneratePortal(worldSize, 78);
 
-            camera.Spawn(new Vector3(player.spawnPosition.x,player.spawnPosition.y,camera.transform.position.z));
+            camera.Spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, camera.transform.position.z));
             camera.worldSize = worldSize;
             player.spawn();
             //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
@@ -132,7 +160,7 @@ public class TerrainGeneration : MonoBehaviour
             DrawTextures();
             CreateChunks();
             GenerateTerrain();
-            camera.Spawn(new Vector3(player.spawnPosition.x,player.spawnPosition.y,camera.transform.position.z));
+            camera.Spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, camera.transform.position.z));
             camera.worldSize = worldSize;
             //cameraView.spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, cameraView.transform.position.z));
             //cameraView.worldSize = worldSize;
