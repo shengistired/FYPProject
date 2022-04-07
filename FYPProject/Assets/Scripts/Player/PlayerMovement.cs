@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject staff;
     [SerializeField] private Image[] background;
     [SerializeField] private UI_Inventory uiInventory;
-  //  [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
+    //  [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
     [SerializeField] private UI_EquipmentSlot uiEquipmentSlot;
     [SerializeField] private UI_Equipment uiEquip;
     [SerializeField] private PlayerAttack attack;
@@ -85,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
     private Inventory inventory;
     public static Equipment equipment;
     private Item item;
+    private Item original;
     public TerrainGeneration terrainGenerator;
     private int newItemIndex;
     Vector3 difference;
@@ -250,7 +251,6 @@ public class PlayerMovement : MonoBehaviour
         }
         for (int i = 0; i < background.Length; i++)
         {
-
             if (equipment.GetEquipment(i) == null)
             {
 
@@ -266,11 +266,39 @@ public class PlayerMovement : MonoBehaviour
                 axeActive = false;
                 axeJump = false;
                 mine = false;
+
             }
 
-        }
-        ReturnDragDrop.move = false;
 
+        }
+
+        ReturnDragDrop.move = false;
+        if (original != null && (equipment.GetEquipment(index) == null || equipment.GetEquipment(index) != original))
+        {
+            if (original.itemType == Item.ItemType.Weapon)
+            {
+                staffActive = false;
+
+            }
+            else if (original.itemType == Item.ItemType.Axe)
+            {
+                axeActive = false;
+                axeJump = false;
+                mine = false;
+
+            }
+            else
+            {
+                othersActive = false;
+            }
+            keySelected(index);
+
+            if (equipment.GetEquipment(index) != null)
+            {
+                background[index].color = selectedColor;
+
+            }
+        }
 
         for (int i = 0; i < keys.Length; i++)
         {
@@ -553,12 +581,13 @@ public class PlayerMovement : MonoBehaviour
                 placeTiles = false;
 
             }
-
+            original = item;
         }
         catch
         {
             item = null;
             othersActive = false;
+            original = null;
         }
 
 

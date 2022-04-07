@@ -181,7 +181,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
                     else
                     {
 
-                        move = true;
+                        
                         player.MoveEquipment(item, indexBegin, index);
                         
                     }
