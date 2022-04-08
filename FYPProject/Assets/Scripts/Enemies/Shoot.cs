@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    public float walkSpeed, range, timeBTWshots, shootSpeed;
+    public float walkSpeed, range, timeBTWshots, shootSpeed, stop;
     private float disToPlayer;
 
     [HideInInspector]
@@ -20,6 +20,7 @@ public class Shoot : MonoBehaviour
     //public GameObject boom;
 
     public int enemyMin;
+    public GameObject EnemyHealthBar;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class Shoot : MonoBehaviour
         Physics2D.IgnoreLayerCollision(7, 7, true);
         player = GameObject.Find("Mage").transform;
         canShoot = true;
-
+        EnemyHealthBar.SetActive (false);
         enemyMin = GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin;
     }
 
@@ -48,8 +49,11 @@ public class Shoot : MonoBehaviour
                 Flip();
             }
 
-            mustPatrol = false;
-            rb.velocity = Vector2.zero;
+            if(disToPlayer <= stop)
+            {
+                mustPatrol = false;
+                rb.velocity = Vector2.zero;
+            }
 
             if(canShoot)
             {
@@ -75,12 +79,11 @@ public class Shoot : MonoBehaviour
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
-            //EnemySpawn.spawnAllowed = false;
-            //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-
-            Die();
-            Debug.Log("Killed shoot");
-
+                //EnemySpawn.spawnAllowed = false;
+                //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+                EnemyHealthBar.SetActive(true);
+                //Die();
+                Debug.Log("Killed shoot");
             break;
         }
     }

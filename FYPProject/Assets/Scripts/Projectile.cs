@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed;
+    public float speed, damage;
     private bool hit;
     private float direction;
     private float lifeTime;
@@ -33,6 +33,12 @@ public class Projectile : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        GameObject collisionGameObject = collision.gameObject;
+        if (collisionGameObject.GetComponent<EnemyHealth>() != null)
+        {
+            collisionGameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+        }
+
         hit = true;
         Debug.Log("BOOM");
         ani.SetTrigger("explode");

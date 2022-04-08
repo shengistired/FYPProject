@@ -62,7 +62,7 @@ public class Collide : MonoBehaviour
        
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    /*void OnTriggerEnter2D(Collider2D col)
     {
         switch (col.gameObject.name)
         {
@@ -75,7 +75,7 @@ public class Collide : MonoBehaviour
 
             break;
         }
-    }
+    }*/
 
     private void FixedUpdate()
     {
