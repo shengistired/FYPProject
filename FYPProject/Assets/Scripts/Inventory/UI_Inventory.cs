@@ -14,7 +14,7 @@ public class UI_Inventory : MonoBehaviour
     public Vector3 position;
     private PlayerMovement player;
     private DragAndDrop dragdrop;
-    private int count = 0;
+    private bool open = false;
     public void SetPlayer(PlayerMovement player)
     {
 
@@ -140,24 +140,26 @@ public class UI_Inventory : MonoBehaviour
 
     public void inventory_Position()
     {
-        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.6f, 10f));
+        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.4f, 0.6f, 10f));
         transform.position = centerPos;
         if (Input.GetKeyDown("i"))
         {
 
-            if (count == 0)
+            if (open == false)
             {
                 gameObject.SetActive(true);
-                count = 1;
+                open = true ;
             }
             else
             {
                 gameObject.SetActive(false);
-                count = 0;
+                open = false;
 
             }
         }
     }
+
+    
 
 
 }

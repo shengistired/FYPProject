@@ -171,7 +171,6 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
     public void OnInitializePotentialDrag(PointerEventData eventData)
     {
-        StartPosition = uiInventory.positionRect() + player.getPosition();
 
     }
 

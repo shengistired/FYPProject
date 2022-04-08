@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject staff;
     [SerializeField] private Image[] background;
     [SerializeField] private UI_Inventory uiInventory;
+    [SerializeField] private UI_Craft uiCraft;
     //  [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
     [SerializeField] private UI_EquipmentSlot uiEquipmentSlot;
     [SerializeField] private UI_Equipment uiEquip;
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject others;
     [SerializeField] private CustomCursor customCursor;
+    [SerializeField] private Image craftButton;
 
 
     private KeyCode[] keys =
@@ -40,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
 
     Color backgroundColor = new Color32(0, 0, 0, 255);
     Color selectedColor = new Color32(60, 60, 60, 255);
+    Color craftColor = new Color32(255, 255, 255, 255);
+    Color selectedCraftColor = new Color32(200, 200, 200, 255);
 
 
     public UnityEngine.Vector2Int mousePosition;
@@ -53,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     private bool axeJump = false;
     private bool miningCounter = false;
     public bool moved;
+    private bool openCraft = false;
     public static bool running;
 
 
@@ -189,6 +194,7 @@ public class PlayerMovement : MonoBehaviour
 
         uiInventory.inventory_Position();
         uiEquip.equipment_Position();
+        uiCraft.craft_Position();
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
@@ -208,13 +214,15 @@ public class PlayerMovement : MonoBehaviour
         }
         if (stamina.currentStamina != 0)
         {
+
             if (Input.GetKeyDown(KeyCode.LeftShift) && horizontalMove != 0)
             {
+
                 running = true;
                 runSpeed = 75f;
 
             }
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            if (Input.GetKeyUp(KeyCode.LeftShift) || horizontalMove == 0)
             {
                 running = false;
                 runSpeed = 40f;
@@ -222,7 +230,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            runSpeed = 50f;
+            runSpeed = 40f;
         }
         if (staffActive == true)
         {
@@ -459,6 +467,22 @@ public class PlayerMovement : MonoBehaviour
             wallJumpCoolDown += Time.deltaTime;
     }
 
+    public void craftOpen()
+    {
+        if (openCraft == false)
+        {
+            openCraft = true;
+            uiCraft.gameObject.SetActive(true);
+            craftButton.color = selectedCraftColor;
+        }
+        else
+        {
+            openCraft = false;
+            uiCraft.gameObject.SetActive(false);
+            craftButton.color = craftColor;
+
+        }
+    }
 
     public int getDirection()
     {
