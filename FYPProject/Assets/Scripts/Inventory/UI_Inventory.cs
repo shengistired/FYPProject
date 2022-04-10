@@ -14,7 +14,7 @@ public class UI_Inventory : MonoBehaviour
     public Vector3 position;
     private PlayerMovement player;
     private DragAndDrop dragdrop;
-    private bool open = false;
+    public static bool open = false;
     public void SetPlayer(PlayerMovement player)
     {
 
@@ -142,6 +142,11 @@ public class UI_Inventory : MonoBehaviour
     {
         Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.4f, 0.6f, 10f));
         transform.position = centerPos;
+        if (Input.GetKeyDown(KeyCode.Escape) && open == true)
+        {
+            gameObject.SetActive(false);
+            open = false;
+        }
         if (Input.GetKeyDown("i"))
         {
 
