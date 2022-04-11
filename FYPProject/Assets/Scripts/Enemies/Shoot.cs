@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    public float walkSpeed, range, timeBTWshots, shootSpeed, stop;
+    public float walkSpeed, range, timeBTWshots, shootSpeed, stop, damage;
     private float disToPlayer;
 
     [HideInInspector]
     public bool mustPatrol;
-    private bool mustTurn , canShoot;
+    private bool mustTurn, canShoot;
+    public int enemyMin;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
+    public Transform player, shootPos;
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
-    public Transform player, shootPos;
     public GameObject bullet;
     //public GameObject boom;
 
-    public int enemyMin;
-    public GameObject EnemyHealthBar;
 
     void Start()
     {
         mustPatrol = true;
-        Physics2D.IgnoreLayerCollision(7, 7, true);
-        player = GameObject.Find("Mage").transform;
         canShoot = true;
-        EnemyHealthBar.SetActive (false);
+        Physics2D.IgnoreLayerCollision(7, 7, true);
+        //EnemyHealthBar.SetActive(false);
+
+        player = GameObject.Find("Mage").transform;
         enemyMin = GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin;
     }
 
@@ -40,7 +40,6 @@ public class Shoot : MonoBehaviour
         }
 
         disToPlayer = Vector2.Distance(transform.position, player.position);
-
         if (disToPlayer <= range)
         {
             if (player.position.x > transform.position.x && transform.localScale.x < 0
@@ -79,10 +78,9 @@ public class Shoot : MonoBehaviour
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
-                //EnemySpawn.spawnAllowed = false;
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-                EnemyHealthBar.SetActive(true);
-                //Die();
+                gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+                GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
                 Debug.Log("Killed shoot");
             break;
         }
@@ -96,7 +94,8 @@ public class Shoot : MonoBehaviour
             // Patrol();
         }
     }
-
+    
+    //enemy move
     void Patrol()
     {
         rb.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb.velocity.y);
@@ -106,6 +105,7 @@ public class Shoot : MonoBehaviour
         }
     }
 
+    //enemy flip
     void Flip()
     {
         //mustPatrol = false;
@@ -114,6 +114,7 @@ public class Shoot : MonoBehaviour
         mustTurn = false;
     }
 
+    //shooting
     IEnumerator Shot()
      {
         canShoot = false;
@@ -132,6 +133,7 @@ public class Shoot : MonoBehaviour
         canShoot = true;
     }
 
+    //enemy die
     void Die()
     {
         Destroy(gameObject);

@@ -4,36 +4,26 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float startHealth;
+    public float hitPts;
+    public float maxHitPts = 5;
+    public EnemyHB healthBar;
 
-    [HideInInspector]
-    public static float hp;
-
-    public GameObject diePEffect;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        hp = startHealth;
+        hitPts = maxHitPts;
+        healthBar.setHealth(hitPts, maxHitPts);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(float damage)
     {
-        
-    }
-
-    public void TakeDamage (float damage)
-    {
-        hp -= damage;
-
-        if(hp <= 0f)
+        hitPts -= damage;
+        healthBar.setHealth(hitPts, maxHitPts);
+        if (hitPts <= 0)
         {
-            Die();
+            Destroy(gameObject);
         }
     }
-
-    void Die()
+    /*void Die()
     {
         if(diePEffect != null)
         {
@@ -42,5 +32,5 @@ public class EnemyHealth : MonoBehaviour
 
         Destroy(gameObject);
         GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
-    }
+    }*/
 }

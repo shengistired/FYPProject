@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class Collide : MonoBehaviour
 {
-    public float walkSpeed, range;
+    public float walkSpeed, range, damage;
     private float disToPlayer;
 
     [HideInInspector]
     public bool mustPatrol;
     private bool mustTurn;
+    public int enemyMin;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
+    public Transform player;
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
-    public Transform player;
-
-    public int enemyMin;
+ 
 
     void Start()
     {
         mustPatrol = true;
         Physics2D.IgnoreLayerCollision(7, 7, true);
+
         player = GameObject.Find("Mage").transform;
         enemyMin = GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin;
     }
@@ -35,7 +36,6 @@ public class Collide : MonoBehaviour
         }
 
         disToPlayer = Vector2.Distance(transform.position, player.position);
-
         if (disToPlayer <= range)
         {
             if (player.position.x > transform.position.x && transform.localScale.x < 0
@@ -43,7 +43,6 @@ public class Collide : MonoBehaviour
             {
                 Flip();
             }
-
             //mustPatrol = false;
             //rb.velocity = Vector2.zero;
         }
@@ -62,20 +61,18 @@ public class Collide : MonoBehaviour
        
     }
 
-    /*void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
-            //EnemySpawn.spawnAllowed = false;
-            //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-
-            Die();
-            Debug.Log("Killed collide");
-
+                //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+                gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+                GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+                Debug.Log("Killed collide");
             break;
         }
-    }*/
+    }
 
     private void FixedUpdate()
     {
@@ -86,6 +83,7 @@ public class Collide : MonoBehaviour
         }
     }
 
+    //enemy move
     void Patrol()
     {
         rb.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb.velocity.y);
@@ -95,6 +93,7 @@ public class Collide : MonoBehaviour
         }
     }
 
+    //enemy flip
     void Flip()
     {
         //mustPatrol = false;
@@ -103,6 +102,7 @@ public class Collide : MonoBehaviour
         mustTurn = false;
     }
 
+    //enemy die
     void Die()
     {
         Destroy(gameObject);

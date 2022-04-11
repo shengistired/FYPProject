@@ -30,7 +30,7 @@ public class Spawn_Collide : MonoBehaviour
         //SpawnEnemies();
         
         player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 5f); 
+        InvokeRepeating("SpawnEnemies", 0f, 7f); 
     }
 
     /* // Update is called once per frame
