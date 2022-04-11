@@ -374,7 +374,7 @@ public class TerrainGeneration : MonoBehaviour
                 }
                 else
                 {
-                    PlaceTiles(tileClass, x, y ,true);
+                    PlaceTiles(tileClass, x, y, true);
                 }
 
                 if (y >= height - 1 && x >= 5 && x <= worldSize - 20)
@@ -464,7 +464,7 @@ public class TerrainGeneration : MonoBehaviour
         noiseTexture.Apply();
     }
 
-    public void TileCheck(TileClass tile, int x, int y)
+    public bool TileCheck(TileClass tile, int x, int y)
     {
         if (x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
@@ -473,6 +473,7 @@ public class TerrainGeneration : MonoBehaviour
             {
                 //place tile down
                 PlaceTiles(tile, x, y, false);
+                return true;
             }
             else
             {
@@ -482,10 +483,12 @@ public class TerrainGeneration : MonoBehaviour
                     //remove and replace current tile       
                     BreakTile(x, y);
                     PlaceTiles(tile, x, y, false);
+                    return true;
                 }
 
             }
         }
+        return false;
 
     }
 

@@ -360,8 +360,13 @@ public class PlayerMovement : MonoBehaviour
 
                     }
                 }
-                terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
-                equipment.RemoveItem(item, index);
+                bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
+                 
+                if (checker == true)
+                {
+                    equipment.RemoveItem(item, index);
+                }
+
                 if (item.amount == 0)
                 {
                     customCursor.gameObject.SetActive(false);
