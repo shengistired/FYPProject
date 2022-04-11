@@ -23,6 +23,7 @@ public class Item
         snowLeaf,
         Stone,
         treeLogs,
+        stoneWall,
     }
 
     public ItemType itemType;
@@ -67,6 +68,8 @@ public class Item
                 return ItemAssets.Instance.stoneSprite;
             case ItemType.treeLogs:
                 return ItemAssets.Instance.treeLogsSprite;
+            case ItemType.stoneWall:
+                return ItemAssets.Instance.stoneWallSprite;
 
         }
     }
@@ -92,6 +95,7 @@ public class Item
             case ItemType.Stone:
             case ItemType.treeLogs:
                 return true;
+            case ItemType.stoneWall:
             case ItemType.Weapon:
             case ItemType.Axe:
                 return false;

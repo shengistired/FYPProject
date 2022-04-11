@@ -26,5 +26,6 @@ public class ItemAssets : MonoBehaviour
     public Sprite snowLeafSprite;
     public Sprite stoneSprite;
     public Sprite treeLogsSprite;
+    public Sprite stoneWallSprite;
 
 }

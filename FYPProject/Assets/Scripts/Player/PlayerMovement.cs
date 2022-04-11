@@ -319,13 +319,13 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-       equipmentPosition = uiEquipmentSlot.GetComponent<RectTransform>().position;
+        equipmentPosition = uiEquipmentSlot.GetComponent<RectTransform>().position;
         difference = position - equipmentPosition;
 
         if (Input.GetMouseButtonDown(0) && item != null)
         {
 
-            if (itemType == Item.ItemType.Food && item.amount > 0 && (difference.y > 1.5 || difference.x <0 || difference.x > 15))
+            if (itemType == Item.ItemType.Food && item.amount > 0 && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
                 equipment.RemoveItem(item, index);
                 if (item.amount == 0)
@@ -349,7 +349,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
         {
-            if (Input.GetMouseButtonDown(0) && placeTiles == true && item!= null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
+            if (Input.GetMouseButtonDown(0) && placeTiles == true && item != null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
                 for (int i = 0; i < tile.Length; i++)
                 {
@@ -360,7 +360,7 @@ public class PlayerMovement : MonoBehaviour
 
                     }
                 }
-                terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, true);
+                terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
                 equipment.RemoveItem(item, index);
                 if (item.amount == 0)
                 {
@@ -495,7 +495,7 @@ public class PlayerMovement : MonoBehaviour
             return -1;
         }
     }
-    
+
     private void Jump()
     {
 

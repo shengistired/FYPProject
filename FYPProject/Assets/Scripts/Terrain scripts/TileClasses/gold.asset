@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: gold
   m_EditorClassIdentifier: 
   tileName: gold
+  backgroundVersion: {fileID: 11400000, guid: ac0d80e397d032445bd9e647c293edb2, type: 2}
   tileSprites:
   - {fileID: 21300000, guid: e7c36af5624ca6243a829bb2e82b7c5d, type: 3}
+  generatedNaturally: 1
   isSolidTile: 1
   tileDrop: 1
   tileHealth: 10

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: sand
   m_EditorClassIdentifier: 
   tileName: sand
+  backgroundVersion: {fileID: 11400000, guid: 4db5818d9e18d854591ccaac094b73c9, type: 2}
   tileSprites:
   - {fileID: 21300000, guid: 033664ec394e8f049baae3a38df9fccd, type: 3}
   isSolidTile: 1

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   tileName: stone
+  backgroundVersion: {fileID: 11400000, guid: ac0d80e397d032445bd9e647c293edb2, type: 2}
   tileSprites:
   - {fileID: 21300000, guid: 1e42b8d1d6bc4274da725215367db179, type: 3}
   isSolidTile: 1

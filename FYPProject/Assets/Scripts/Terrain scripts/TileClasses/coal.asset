@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: coal
   m_EditorClassIdentifier: 
   tileName: coal
+  backgroundVersion: {fileID: 11400000, guid: ac0d80e397d032445bd9e647c293edb2, type: 2}
   tileSprites:
   - {fileID: 21300000, guid: 89495738101f9be42959813a9df50036, type: 3}
+  generatedNaturally: 1
   isSolidTile: 1
   tileDrop: 1
   tileHealth: 4

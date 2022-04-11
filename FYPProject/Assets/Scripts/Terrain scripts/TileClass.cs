@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="newtileclass" , menuName ="Tile Class")]
+[CreateAssetMenu(fileName = "newtileclass", menuName = "Tile Class")]
 public class TileClass : ScriptableObject
 {
     public string tileName;
-    // public Sprite tileSprite;
+    public TileClass backgroundVersion;
     public Sprite[] tileSprites;
+    public bool generatedNaturally = false;
     public bool isSolidTile = true;
     public bool tileDrop = true;
     public int tileHealth;

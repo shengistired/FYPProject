@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -50,6 +51,7 @@ public class TerrainGeneration : MonoBehaviour
     public float terrainFreq = 0.1f;
     public float seed;
     public Texture2D caveNoiseTexture;
+
     [Header("Ore settings")]
     public OreClass[] ores;
 
@@ -178,7 +180,7 @@ public class TerrainGeneration : MonoBehaviour
     {
         for (int i = 0; i < worldChunks.Length; i++)
         {
-            if (Vector2.Distance(new Vector2((i * chunkSize) + (chunkSize / 2), 0), new Vector2(player.transform.position.x, 0)) > Camera.main.orthographicSize * 4f)
+            if (Vector2.Distance(new Vector2((i * chunkSize) + (chunkSize / 2), 0), new Vector2(player.transform.position.x, 0)) > Camera.main.orthographicSize * 5f)
             {
                 worldChunks[i].SetActive(false);
             }
@@ -363,12 +365,16 @@ public class TerrainGeneration : MonoBehaviour
                 {
                     if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
                     {
-                        PlaceTiles(tileClass, x, y);
+                        PlaceTiles(tileClass, x, y, true);
+                    }
+                    else if (tileClass.backgroundVersion != null)
+                    {
+                        PlaceTiles(tileClass.backgroundVersion, x, y, true);
                     }
                 }
                 else
                 {
-                    PlaceTiles(tileClass, x, y);
+                    PlaceTiles(tileClass, x, y ,true);
                 }
 
                 if (y >= height - 1 && x >= 5 && x <= worldSize - 20)
@@ -411,23 +417,23 @@ public class TerrainGeneration : MonoBehaviour
 
         if (portalSpawnLeftRight <= 50)
         {
-            PlaceTiles(tileAtlas.portal, 1, height + 1);
+            PlaceTiles(tileAtlas.portal, 1, height + 1, true);
 
         }
         else
         {
-            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1);
+            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1, true);
         }
 
         if (portalSpawnLeftRight >= 50)
         {
 
-            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1);
+            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1, true);
 
         }
         else
         {
-            PlaceTiles(tileAtlas.portal, 1, height + 1);
+            PlaceTiles(tileAtlas.portal, 1, height + 1, true);
         }
 
         //}
@@ -458,7 +464,7 @@ public class TerrainGeneration : MonoBehaviour
         noiseTexture.Apply();
     }
 
-    public void TileCheck(TileClass tile, int x, int y, bool isSolid)
+    public void TileCheck(TileClass tile, int x, int y)
     {
         if (x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
@@ -466,16 +472,16 @@ public class TerrainGeneration : MonoBehaviour
             if (!worldTiles.Contains(new Vector2Int(x, y)))
             {
                 //place tile down
-                PlaceTiles(tile, x, y);
+                PlaceTiles(tile, x, y, false);
             }
             else
             {
-                //check if tile is background tile
+                //check if tile is background tile and place tile
                 if (!worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isSolidTile)
                 {
                     //remove and replace current tile       
                     BreakTile(x, y);
-                    PlaceTiles(tile, x, y);
+                    PlaceTiles(tile, x, y, false);
                 }
 
             }
@@ -483,7 +489,7 @@ public class TerrainGeneration : MonoBehaviour
 
     }
 
-    public void PlaceTiles(TileClass tile, int x, int y)
+    public void PlaceTiles(TileClass tile, int x, int y, bool isGenerated)
     {
         //if (!worldTiles.Contains(new Vector2Int(x, y)))
 
@@ -526,17 +532,25 @@ public class TerrainGeneration : MonoBehaviour
             newTile.GetComponent<SpriteRenderer>().sprite = tile.tileSprites[spriteIndex];
             if (tile.isSolidTile)
             {
-                //background tiles
-                newTile.GetComponent<SpriteRenderer>().sortingOrder = -10;
+                //normal world tiles
+                newTile.GetComponent<SpriteRenderer>().sortingOrder = -5;
+
             }
             else
             {
-                //normal world tiles
-                newTile.GetComponent<SpriteRenderer>().sortingOrder = -5;
+                //background tiles minus surface tiles
+                newTile.GetComponent<SpriteRenderer>().sortingOrder = -10;
+
+
+            }
+
+            if (tile.name.ToUpper().Contains("WALL"))
+            {
+                newTile.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 0.6f);
             }
             newTile.name = tile.tileSprites[0].name;
             newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
-
+            tile.generatedNaturally = isGenerated;
             worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
             worldTileObjects.Add(newTile);
             worldTileClasses.Add(tile);
@@ -556,34 +570,34 @@ public class TerrainGeneration : MonoBehaviour
 
             for (int i = 0; i <= treeHeight; i++)
             {
-                PlaceTiles(tileAtlas.treeLog, x, y + i);
+                PlaceTiles(tileAtlas.treeLog, x, y + i, true);
             }
 
             if (biome == "snow")
             {
-                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight);
-                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 1);
-                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 2);
+                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight, true);
+                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 1, true);
+                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 2, true);
 
-                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight);
-                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight, true);
+                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight + 1, true);
 
-                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight);
-                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight, true);
+                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight + 1, true);
 
             }
             else
             {
                 //generate leaves
-                PlaceTiles(tileAtlas.leaf, x, y + treeHeight);
-                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 1);
-                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 2);
+                PlaceTiles(tileAtlas.leaf, x, y + treeHeight, true);
+                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 1, true);
+                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 2, true);
 
-                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight);
-                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight, true);
+                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight + 1, true);
 
-                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight);
-                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight + 1);
+                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight, true);
+                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight + 1, true);
             }
 
         }
@@ -629,13 +643,25 @@ public class TerrainGeneration : MonoBehaviour
 
     public void BreakTile(int x, int y)
     {
+        TileClass tile = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))];
+
         //only check blocks that are generated in the world
         if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
+            //check if tile has a background version
+            if (tile.backgroundVersion != null)
+            {
+                //replace broken tile with background version if tile is generated.
+                if (tile.generatedNaturally)
+                {
+                    PlaceTiles(tile.backgroundVersion, x, y, true);
+                }
+
+            }
             //breaks the tile of pos x y which is player's mouse pos
             Destroy(worldTileObjects[worldTiles.IndexOf(new Vector2(x, y))]);
 
-            if (worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileDrop)
+            if (tile.tileDrop)
             {
                 //Debug.Log(worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))]);
                 //drop a tile as an item

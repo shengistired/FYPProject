@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: iron
   m_EditorClassIdentifier: 
   tileName: iron
+  backgroundVersion: {fileID: 11400000, guid: ac0d80e397d032445bd9e647c293edb2, type: 2}
   tileSprites:
   - {fileID: 21300000, guid: 205ad80e131cbaa40bb36d87a6a0198c, type: 3}
+  generatedNaturally: 1
   isSolidTile: 1
   tileDrop: 1
   tileHealth: 5
