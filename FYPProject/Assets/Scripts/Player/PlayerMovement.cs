@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject others;
     [SerializeField] private CustomCursor customCursor;
     [SerializeField] private Image craftButton;
+    [SerializeField] private CraftingManager craftManager;
 
 
     private KeyCode[] keys =
@@ -89,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
     private EdgeCollider2D edgeCollider;
     private Inventory inventory;
     public static Equipment equipment;
+    public static CraftItem craftItem;
     private Item item;
     private Item original;
     public TerrainGeneration terrainGenerator;
@@ -109,8 +111,10 @@ public class PlayerMovement : MonoBehaviour
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
         equipment = new Equipment(UseItem);
+        craftItem = new CraftItem();
         direct = 1;
         uiEquipmentSlot.SetEquipment(equipment);
+        craftManager.SetCraftItem(craftItem);
 
 
     }
@@ -160,6 +164,16 @@ public class PlayerMovement : MonoBehaviour
         equipment.AddItem(item, index);
 
         if (Equipment.addInventory)
+        {
+            inventory.AddItem(equipment.previousItem());
+        }
+    }
+
+    public void AddCraftItem(Item item, int index)
+    {
+        craftItem.AddItem(item, index);
+
+        if (CraftItem.addInventory)
         {
             inventory.AddItem(equipment.previousItem());
         }

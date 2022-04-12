@@ -14,10 +14,6 @@ public class UI_EquipmentSlot : MonoBehaviour
     public Item itemDrag;
     int i = 0;
 
-    private void Awake()
-    {
-
-    }
     public void SetEquipment(Equipment equipment)
     {
         this.equipment = equipment;

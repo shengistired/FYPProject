@@ -157,7 +157,26 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
                 }
                 catch
                 {
+                    string name = dropArea.GetComponent<Craft_Slots>().name;
+                    dropArea.Drop(this);
+                    OnEndDragHandler?.Invoke(eventData, true);
+                    canvasGroup.alpha = 1f;
+                    canvasGroup.blocksRaycasts = true;
 
+                    if (name == "CraftSlotTemplate")
+                    {
+                        uiInventory.Refresh();
+                        player.AddCraftItem(item, 0);
+                        return;
+                    }
+                    else if(name == "CraftSlotTemplate1")
+                    {
+                        uiInventory.Refresh();
+                        player.AddCraftItem(item, 0);
+                        return;
+
+
+                    }
                 }
                
             }
