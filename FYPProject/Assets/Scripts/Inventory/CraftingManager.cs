@@ -10,8 +10,16 @@ public class CraftingManager : MonoBehaviour
 {
     private CraftItem craftItem;
     [SerializeField] private RectTransform[] craftSlot;
+    [SerializeField] private Sprite cross;
+    [SerializeField] private PlayerMovement player;
     private int index;
     private Item itemDrag;
+
+    public List<Item> itemList;
+    public string[] recipes;
+    public Item[] recipeResults;
+    
+
     public void SetCraftItem(CraftItem craftItem)
     {
         this.craftItem = craftItem;
@@ -25,6 +33,11 @@ public class CraftingManager : MonoBehaviour
     }
 
 
+
+    void CheckForCreatedRecipe()
+    {
+        
+    }
     private void RefreshCrafttItem()
     {
         /*
@@ -82,42 +95,50 @@ public class CraftingManager : MonoBehaviour
                 {
                     index = 0;
                 }
-                else
+                else if(slot.name == "CraftSlotTemplate1")
                 {
                     index = 1;
+                }
+                else
+                {
+                    index = 2;
                 }
 
                 item = craftItem.GetCraftItem(index);
 
                 if (item != null)
                 {
-                    //button.onClick.AddListener(delegate { click(item, index); });
+                    Craft_Slots craftslot = slot.GetComponent<Craft_Slots>();
+                    
+                    slot.GetComponent<Button>().onClick.AddListener(delegate { click(craftslot); });
 
 
+
+                    /*
                     EventTrigger trigger = slot.GetComponent<EventTrigger>();
 
                     var enter = new EventTrigger.Entry();
                     enter.eventID = EventTriggerType.PointerDown;
                     enter.callback.AddListener((e) => ItemDragged(item));
                     trigger.triggers.Add(enter);
-
+                    */
 
                     image.color = new Color32(255, 255, 255, 255);
                     image.sprite = item.GetSprite();
 
                     if (item.amount > 1)
                     {
-                        uiText.SetText(item.amount.ToString());
+                        uiText.text = item.amount.ToString();
                     }
 
                     else
                     {
-                        uiText.SetText("");
+                        uiText.text = "";
                     }
                 }
                 else
                 {
-                    uiText.SetText("");
+                    uiText.text = "";
                     image.color = new Color32(255, 255, 255, 0);
                     image.sprite = null;
                 }
@@ -125,13 +146,23 @@ public class CraftingManager : MonoBehaviour
             }
             catch
             {
+                if(index == 2)
+                {
+                    image.sprite = cross;
 
-                image.color = new Color32(255, 255, 255, 0);
-                image.sprite = null;
+                }
+                else
+                {
+                    image.color = new Color32(255, 255, 255, 0);
+                    image.sprite = null;
+                }
+
             }
 
 
         }
+
+        
         /*
         try
         {
@@ -187,6 +218,19 @@ public class CraftingManager : MonoBehaviour
 
 
 
+    }
+    public void click(Craft_Slots craft)
+    {
+        int craftIndex;
+        if(craft.name == "CraftSlotTemplate")
+        {
+            craftIndex = 0;
+        }
+        else
+        {
+            craftIndex = 1;
+        }
+        player.CraftToInventory(craftIndex, craft.item);
     }
     private void ItemDragged(Item item)
     {

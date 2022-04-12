@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Craft_Slots : MonoBehaviour
 {
     protected DropArea dropArea;
-    private Item item;
+    public Item item;
     protected virtual void Awake()
     {
         dropArea = GetComponent<DropArea>() ?? gameObject.AddComponent<DropArea>();
@@ -15,6 +15,6 @@ public class Craft_Slots : MonoBehaviour
 
     private void OnItemDropped(DragAndDrop draggable)
     {
-        
+        item = draggable.item;
     }
 }

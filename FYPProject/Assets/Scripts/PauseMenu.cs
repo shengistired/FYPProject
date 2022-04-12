@@ -8,9 +8,7 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
     public GameObject pauseUI;
     public GameObject settingUI;
-    public Image buttonImage;
-    Color original = new Color32(255,255,255,255);
-    Color selected = new Color32(200,200,200,255);
+
     // Update is called once per frame
 
     void Update()
@@ -26,14 +24,12 @@ public class PauseMenu : MonoBehaviour
     {
         pauseUI.SetActive(false);
         settingUI.SetActive(false);
-        buttonImage.color = original;
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
     void PauseGame()
     {
         pauseUI.SetActive(true);
-        buttonImage.color = selected;
         Time.timeScale = 0f;
         GameIsPaused = true;
     }

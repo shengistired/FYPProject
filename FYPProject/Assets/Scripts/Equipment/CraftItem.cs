@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class CraftItem
 {
@@ -61,8 +62,9 @@ public class CraftItem
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
-    public void RemoveItem(Item item, int index)
+    public void RemoveItem(int index)
     {
+        Debug.Log(index);
         craftItem[index] = null;        
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);

@@ -13,7 +13,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     private CanvasGroup canvasGroup;
     [SerializeField] private UI_Inventory uiInventory;
     [SerializeField] private PlayerMovement player;
-    private Item item;
+    public Item item;
     public bool FollowCursor { get; set; } = true;
     public Vector3 StartPosition;
     public static int index = -1;
@@ -165,14 +165,14 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
                     if (name == "CraftSlotTemplate")
                     {
-                        uiInventory.Refresh();
+                        uiInventory.Move(item);
                         player.AddCraftItem(item, 0);
                         return;
                     }
                     else if(name == "CraftSlotTemplate1")
                     {
-                        uiInventory.Refresh();
-                        player.AddCraftItem(item, 0);
+                        uiInventory.Move(item);
+                        player.AddCraftItem(item, 1);
                         return;
 
 

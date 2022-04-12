@@ -70,9 +70,17 @@ public class UI_Inventory : MonoBehaviour
 
             EventTrigger trigger = itemSlotRectTransform.GetComponent<EventTrigger>();
             var enter = new EventTrigger.Entry();
+            var enter1 = new EventTrigger.Entry();
+            var enter2 = new EventTrigger.Entry();
             enter.eventID = EventTriggerType.PointerDown;
+            enter1.eventID = EventTriggerType.PointerEnter;
+            enter2.eventID = EventTriggerType.PointerExit;
             enter.callback.AddListener((e) => ItemDragged(item, pos));
+            enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(item.itemType.ToString()));
+            enter2.callback.AddListener((e) => ToolTip.HideToolTip_Static());
             trigger.triggers.Add(enter);
+            trigger.triggers.Add(enter1);
+            trigger.triggers.Add(enter2);
 
 
             image.sprite = item.GetSprite();
@@ -80,11 +88,11 @@ public class UI_Inventory : MonoBehaviour
 
             if (item.amount > 1)
             {
-                uiText.SetText(item.amount.ToString());
+                uiText.text = item.amount.ToString();
             }
             else
             {
-                uiText.SetText("");
+                uiText.text = "";
             }
             x++;
             if (x > 4)

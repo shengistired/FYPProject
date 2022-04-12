@@ -663,7 +663,7 @@ public class TerrainGeneration : MonoBehaviour
             }
             //breaks the tile of pos x y which is player's mouse pos
             Destroy(worldTileObjects[worldTiles.IndexOf(new Vector2(x, y))]);
-
+            
             if (tile.tileDrop)
             {
                 //Debug.Log(worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))]);
@@ -680,7 +680,14 @@ public class TerrainGeneration : MonoBehaviour
                     {
                         amount = 1;
                         Item item = new Item();
-                        item.itemType = itemtype;
+                        if(itemtype.ToString().ToUpper() == "TREELOGS"){
+                            item.itemType = Item.ItemType.treeWood;
+                        }
+                        else
+                        {
+                            item.itemType = itemtype;
+
+                        }
                         item.amount = amount;
                         ItemWorld.SpawnItemWorld(new Vector2(x, y + 0.5f), item);
 

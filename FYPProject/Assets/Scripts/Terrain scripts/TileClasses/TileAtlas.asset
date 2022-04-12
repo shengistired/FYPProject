@@ -16,6 +16,7 @@ MonoBehaviour:
   dirt: {fileID: 11400000, guid: 4693f2b2ebf39274f83ca6fbfe183e2c, type: 2}
   stone: {fileID: 11400000, guid: 84e4e0e8b77a8644183fe188c15ce70a, type: 2}
   treeLog: {fileID: 11400000, guid: 9cb471cafa95bec45b401f0a201e75cb, type: 2}
+  treeWood: {fileID: 11400000, guid: e896ddc329a1eef4694de83c36519f36, type: 2}
   leaf: {fileID: 11400000, guid: a96584c932602f24cafb83049bc951a0, type: 2}
   sand: {fileID: 11400000, guid: 662fd8cc7abdd104a9c095587c892550, type: 2}
   catcus: {fileID: 11400000, guid: bb460df73c3af0d47994856a80dbe556, type: 2}

@@ -10,6 +10,7 @@ public class TileAtlas : ScriptableObject
     public TileClass dirt;
     public TileClass stone;
     public TileClass treeLog;
+    public TileClass treeWood;
     public TileClass leaf;
     public TileClass sand;
     public TileClass catcus;

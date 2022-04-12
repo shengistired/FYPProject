@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CustomCursor customCursor;
     [SerializeField] private Image craftButton;
     [SerializeField] private CraftingManager craftManager;
+    [SerializeField] private TileAtlas tileAtlas;
 
 
     private KeyCode[] keys =
@@ -97,11 +98,14 @@ public class PlayerMovement : MonoBehaviour
     private int newItemIndex;
     Vector3 difference;
     Vector3 equipmentPosition;
+    
+
+    private TileClass tileWood;
     private void Awake()
     {
         //DontDestroyOnLoad(transform.gameObject);
+        tileWood = tileAtlas.treeWood;
 
-        placeTiles = false;
 
         directionNum = 1;
         body = GetComponent<Rigidbody2D>();
@@ -177,6 +181,11 @@ public class PlayerMovement : MonoBehaviour
         {
             inventory.AddItem(equipment.previousItem());
         }
+    }
+    public void CraftToInventory(int index, Item item)
+    {
+        craftItem.RemoveItem(index);
+        inventory.AddItem(item);
     }
 
     public void AddItemInventory(Item item, int index)
@@ -365,15 +374,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && placeTiles == true && item != null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
-                for (int i = 0; i < tile.Length; i++)
-                {
 
-                    if (tile[i].name == itemType.ToString())
-                    {
-                        selectedTile = tile[i];
-
-                    }
-                }
                 bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
                  
                 if (checker == true)
@@ -452,15 +453,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 axeActive = true;
             }
-            //if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && position.y < 76.6 && distance <= 1.5 && distance >= -1.5)
 
-            //if ((Input.GetMouseButton(0)) && distance <= 1.5 && distance >= -1.5 && distanceY <= 3 && distanceY >= -1.5)
         }
         cooldownTimer += Time.deltaTime;
-        //     if (animationTime > 0.3)
-        //     {
-        //         staff.SetActive(false);
-        //   }
+
         animationTime += Time.deltaTime;
 
         if (wallJumpCoolDown > 0.2f)
@@ -609,7 +605,15 @@ public class PlayerMovement : MonoBehaviour
                     {
                         selectedTile = tile[i];
                         customCursor.gameObject.SetActive(true);
+                        if(tile[i].name == "treeLogs")
+                        {
+
+                            selectedTile = tileWood;
+                        }
+
                         customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
+
+                        
 
                         Cursor.visible = false;
                         placeTiles = true;
