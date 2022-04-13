@@ -64,7 +64,6 @@ public class CraftItem
     }
     public void RemoveItem(int index)
     {
-        Debug.Log(index);
         craftItem[index] = null;        
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);

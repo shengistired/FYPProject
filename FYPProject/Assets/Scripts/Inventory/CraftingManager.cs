@@ -10,12 +10,14 @@ public class CraftingManager : MonoBehaviour
 {
     private CraftItem craftItem;
     [SerializeField] private RectTransform[] craftSlot;
+    [SerializeField] private Craft_Slots[] craftSlotItems ;
+    [SerializeField] private RectTransform resultSlot;
+    [SerializeField] private Image resultImage;
     [SerializeField] private Sprite cross;
     [SerializeField] private PlayerMovement player;
+    [SerializeField] private Button craftButton;
     private int index;
     private Item itemDrag;
-
-    public List<Item> itemList;
     public string[] recipes;
     public Item[] recipeResults;
     
@@ -34,61 +36,15 @@ public class CraftingManager : MonoBehaviour
 
 
 
-    void CheckForCreatedRecipe()
-    {
-        
-    }
     private void RefreshCrafttItem()
     {
-        /*
-        if (name == "equipSlotTemplate1")
-        {
-            index = 0;
-        }
-        else if (name == "equipSlotTemplate2")
-        {
-            index = 1;
-        }
-        else if (name == "equipSlotTemplate3")
-        {
-            index = 2;
-        }
-        else if (name == "equipSlotTemplate4")
-        {
-            index = 3;
-        }
-        else if (name == "equipSlotTemplate5")
-        {
-            index = 4;
-        }
-        else if (name == "equipSlotTemplate6")
-        {
-            index = 5;
-        }
-        else if (name == "equipSlotTemplate7")
-        {
-            index = 6;
-        }
-        else if (name == "equipSlotTemplate8")
-        {
-            index = 7;
-        }
-        else if (name == "equipSlotTemplate9")
-        {
-            index = 8;
-        }
-        else if (name == "equipSlotTemplate10")
-        {
-            index = 9;
-        }
-        Debug.Log(index);
-        */
+
         Item item;
         foreach (Transform slot in craftSlot)
         {
             Image image = slot.Find("Image").GetComponent<Image>();
             TextMeshProUGUI uiText = slot.Find("amountText").GetComponent<TextMeshProUGUI>();
-
+            
             try
             {
                 if (slot.name == "CraftSlotTemplate")
@@ -99,10 +55,7 @@ public class CraftingManager : MonoBehaviour
                 {
                     index = 1;
                 }
-                else
-                {
-                    index = 2;
-                }
+
 
                 item = craftItem.GetCraftItem(index);
 
@@ -146,73 +99,56 @@ public class CraftingManager : MonoBehaviour
             }
             catch
             {
-                if(index == 2)
-                {
-                    image.sprite = cross;
 
-                }
-                else
-                {
                     image.color = new Color32(255, 255, 255, 0);
                     image.sprite = null;
-                }
+                
 
             }
 
 
         }
+        craftButton.onClick.AddListener(CheckForCreateRecipe);
+       // CheckForCreateRecipe();
 
-        
-        /*
-        try
+
+
+
+    }
+    void CheckForCreateRecipe()
+    {
+        string currentRecipeString = "";
+        resultImage = resultSlot.Find("Image").GetComponent<Image>();
+
+        foreach (Item item in craftItem.GetCraftItemList())
         {
-            item = equipment.GetEquipment(index);
-            Image image = itemTemplate.Find("Image").GetComponent<Image>();
-
-            Debug.Log("Index " + index + " " + item.itemType);
-            if (item != null)
+            if(item!= null)
             {
-                //button.onClick.AddListener(delegate { click(item, index); });
-                
-
-                EventTrigger trigger = equipSlotTemplate.GetComponent<EventTrigger>();
-
-                var enter = new EventTrigger.Entry();
-                enter.eventID = EventTriggerType.PointerDown;
-                //  enter.callback.AddListener((e) => ItemDragged(item));
-                trigger.triggers.Add(enter);
-
-
-                image.color = new Color32(255, 255, 255, 255);
-                image.sprite = item.GetSprite();
-
-                //Debug.Log(equipSlotTemplate);
-                TextMeshProUGUI uiText = itemTemplate.Find("amountText").GetComponent<TextMeshProUGUI>();
-                if (item.amount > 1)
-                {
-                    uiText.SetText(item.amount.ToString());
-                }
-                else
-                {
-                    uiText.SetText("");
-                }
+                currentRecipeString += item.itemType.ToString();
             }
             else
             {
-                image.color = new Color32(255, 255, 255, 0);
-                image.sprite = null;
+                currentRecipeString += "empty";
+                Debug.Log(currentRecipeString);
+
             }
-
-           
-
-        }
-        catch
-        {
-
         }
 
+            for (int i = 0; i < recipes.Length; i++)
+            {
+                if (recipes[i] == currentRecipeString)
+                {
 
-        */
+                    resultImage.sprite = recipeResults[i].GetSprite();
+                    resultImage.color = new Color32(200, 200, 200, 200);
+                    player.CraftSuccessful(recipeResults[i]);
+                    craftSlotItems[0].item = null;
+                    craftSlotItems[1].item = null;
+
+                }
+
+            
+        }
 
 
 
@@ -222,6 +158,7 @@ public class CraftingManager : MonoBehaviour
     public void click(Craft_Slots craft)
     {
         int craftIndex;
+        
         if(craft.name == "CraftSlotTemplate")
         {
             craftIndex = 0;
@@ -230,8 +167,15 @@ public class CraftingManager : MonoBehaviour
         {
             craftIndex = 1;
         }
-        player.CraftToInventory(craftIndex, craft.item);
+        if(craft.item != null)
+        {
+            player.CraftToInventory(craftIndex, craft.item);
+            craft.item = null;
+        }
+
     }
+
+
     private void ItemDragged(Item item)
     {
         itemDrag = item;

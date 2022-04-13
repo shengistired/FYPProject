@@ -10,6 +10,7 @@ public class UI_Inventory : MonoBehaviour
     private Inventory inventory;
     [SerializeField] private Transform itemSlotContainer;
     [SerializeField] private Transform itemSlotTemplate;
+    [SerializeField] private GameObject craftingMenu;
     public Item itemDrag;
     public Vector3 position;
     private PlayerMovement player;
@@ -153,6 +154,8 @@ public class UI_Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && open == true)
         {
             gameObject.SetActive(false);
+            PlayerMovement.openCraft = true;
+            player.craftOpen();
             open = false;
         }
         if (Input.GetKeyDown("i"))
@@ -167,6 +170,8 @@ public class UI_Inventory : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 open = false;
+                PlayerMovement.openCraft = true;
+                player.craftOpen();
 
             }
         }
