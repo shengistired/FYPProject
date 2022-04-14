@@ -95,10 +95,11 @@ public class PlayerMovement : MonoBehaviour
     private Item item;
     private Item original;
     public TerrainGeneration terrainGenerator;
+    public BossMapGenerator bossMapGenerator;
     private int newItemIndex;
     Vector3 difference;
     Vector3 equipmentPosition;
-    
+
 
     private TileClass tileWood;
     private void Awake()
@@ -126,7 +127,6 @@ public class PlayerMovement : MonoBehaviour
     public void spawn()
     {
         GetComponent<Transform>().position = spawnPosition;
-
     }
 
     public UnityEngine.Vector3 getPosition()
@@ -210,6 +210,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+
         //makes player not able to walk out of camera
         Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
@@ -382,63 +383,66 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && placeTiles == true && item != null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
 
-                bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
-                 
-                if (checker == true)
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
                 {
-                    equipment.RemoveItem(item, index);
+                    bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
+                    if (checker == true)
+                    {
+                        equipment.RemoveItem(item, index);
+                    }
+
+                    if (item.amount == 0)
+                    {
+                        customCursor.gameObject.SetActive(false);
+                        Cursor.visible = true;
+                        background[index].color = backgroundColor;
+                        item = null;
+                        othersActive = false;
+
+                    }
                 }
 
-                if (item.amount == 0)
+                else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
                 {
-                    customCursor.gameObject.SetActive(false);
-                    Cursor.visible = true;
-                    background[index].color = backgroundColor;
-                    item = null;
-                    othersActive = false;
+                    bool checker = bossMapGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
+                    if (checker == true)
+                    {
+                        equipment.RemoveItem(item, index);
+                    }
+
+                    if (item.amount == 0)
+                    {
+                        customCursor.gameObject.SetActive(false);
+                        Cursor.visible = true;
+                        background[index].color = backgroundColor;
+                        item = null;
+                        othersActive = false;
+
+                    }
 
                 }
+
+
             }
             if (Input.GetMouseButton(0) && mine == true)
             {
-                ani.SetBool("isMining", true);
+
                 // placeTiles = true;
                 //The tile's health
-                int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
 
-
-                //mining code
-                // add equipment's mining power to this to mine faster.
-                // miningPower = ??; <<< add equipment value to current mining power
-                if (tileHealth > 0)
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
                 {
+                    ani.SetBool("isMining", true);
+                    int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                    MineBlock(tileHealth, position);
+                }
 
-                    miningCounter = true;
 
-
-                    if (miningCounter == true)
-                    {
-                        timeRemaining += Time.deltaTime;
-                        //Debug.Log("tilehealth..." + tileHealth);
-                        //Debug.Log("timeRemaining..." + timeRemaining);
-                        //Debug.Log("mining..." + Time.deltaTime);
-
-                        if (timeRemaining >= tileHealth - miningPower)
-                        {
-                            terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                            miningCounter = false;
-                            tileHealth = 0;
-                            timeRemaining = 0;
-
-                        }
-
-                    }
-                    if (Input.GetMouseButtonUp(0))
-                    {
-                        miningCounter = false;
-                        timeRemaining = 0;
-                    }
-
+                else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+                {
+                    ani.SetBool("isMining", true);
+                    int tileHealth = bossMapGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                    MineBlock(tileHealth, position);
                 }
 
 
@@ -487,6 +491,62 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             wallJumpCoolDown += Time.deltaTime;
+    }
+
+    public void MineBlock(int tileHealth, Vector3 position)
+    {
+        ani.SetBool("isMining", true);
+        //int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+
+        //mining code
+        // add equipment's mining power to this to mine faster.
+        // miningPower = ??; <<< add equipment value to current mining power
+        if (tileHealth > 0)
+        {
+
+            miningCounter = true;
+
+
+            if (miningCounter == true)
+            {
+                timeRemaining += Time.deltaTime;
+                //Debug.Log("tilehealth..." + tileHealth);
+                //Debug.Log("timeRemaining..." + timeRemaining);
+                //Debug.Log("mining..." + Time.deltaTime);
+
+                if (timeRemaining >= tileHealth - miningPower)
+                {
+
+                    if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
+                    {
+                        terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                        miningCounter = false;
+                        tileHealth = 0;
+                        timeRemaining = 0;
+                    }
+
+
+                    else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+                    {
+                        bossMapGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                        miningCounter = false;
+                        tileHealth = 0;
+                        timeRemaining = 0;
+                    }
+
+
+                }
+
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                miningCounter = false;
+                timeRemaining = 0;
+                ani.SetBool("isMining", false);
+            }
+
+        }
+
     }
 
     public void craftOpen()
@@ -612,7 +672,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         selectedTile = tile[i];
                         customCursor.gameObject.SetActive(true);
-                        if(tile[i].name == "treeLogs")
+                        if (tile[i].name == "treeLogs")
                         {
 
                             selectedTile = tileWood;
@@ -620,7 +680,7 @@ public class PlayerMovement : MonoBehaviour
 
                         customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
 
-                        
+
 
                         Cursor.visible = false;
                         placeTiles = true;

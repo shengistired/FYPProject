@@ -8,18 +8,18 @@ MonoImporter:
   - dirt: {fileID: 11400000, guid: 4693f2b2ebf39274f83ca6fbfe183e2c, type: 2}
   - stone: {fileID: 11400000, guid: 84e4e0e8b77a8644183fe188c15ce70a, type: 2}
   - treeLog: {fileID: 11400000, guid: 9cb471cafa95bec45b401f0a201e75cb, type: 2}
+  - treeWood: {fileID: 11400000, guid: e896ddc329a1eef4694de83c36519f36, type: 2}
   - leaf: {fileID: 11400000, guid: a96584c932602f24cafb83049bc951a0, type: 2}
   - sand: {fileID: 11400000, guid: 662fd8cc7abdd104a9c095587c892550, type: 2}
   - catcus: {fileID: 11400000, guid: bb460df73c3af0d47994856a80dbe556, type: 2}
   - snow: {fileID: 11400000, guid: 76ac677e270e9584e98dc683d79a5cf2, type: 2}
   - snowLeaf: {fileID: 11400000, guid: 66768db72ff3ff644a14d56c3e2aa75c, type: 2}
-  - stone_wall: {fileID: 11400000, guid: ac0d80e397d032445bd9e647c293edb2, type: 2}
-  - dirt_wall: {fileID: 11400000, guid: 180c9dc8bf52b1843af9e37d836e34bd, type: 2}
   - coal: {fileID: 11400000, guid: a99311f5043e7bc44b1d57399ab01421, type: 2}
   - iron: {fileID: 11400000, guid: f6ae118266a41594ba32d0e77368bc1b, type: 2}
   - gold: {fileID: 11400000, guid: 76b86552156542f4bbf0a888c25ce4f5, type: 2}
   - diamond: {fileID: 11400000, guid: d3ae8bc7d8df5724693ccab6fc9656fa, type: 2}
   - portal: {fileID: 11400000, guid: f4a25e33b8d20164a9d99b463ae5726b, type: 2}
+  - unbreakableStone: {fileID: 11400000, guid: 5f2b9fa06503d1f4585a680a4260b4eb, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

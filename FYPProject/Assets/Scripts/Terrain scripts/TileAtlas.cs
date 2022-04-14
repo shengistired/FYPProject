@@ -29,5 +29,8 @@ public class TileAtlas : ScriptableObject
     [Header("Important objects")]
     public TileClass portal;
 
+    [Header("Unbreakable")]
+    public TileClass unbreakableStone;
+
 
 }
