@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public float hitPts;
-    public float maxHitPts = 5;
+    public float maxHitPts = 3;
     public EnemyHB healthBar;
 
     private void Start()

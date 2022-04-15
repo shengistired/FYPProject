@@ -31,7 +31,7 @@ public class Spawn_Shoot : MonoBehaviour
         //SpawnEnemies();
 
         player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 7f);
+        InvokeRepeating("SpawnEnemies", 0f, 8f);
     }
 
     /* // Update is called once per frame

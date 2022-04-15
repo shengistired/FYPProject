@@ -21,7 +21,7 @@ public class EnemyHB : MonoBehaviour
 
     void Update()
     {
-        Vector3 offset = new Vector3(0f, 0.7f, 0f);
+        Vector3 offset = new Vector3(0f, 0.8f, 0f);
         slider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
     }
 }
