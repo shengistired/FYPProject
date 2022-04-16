@@ -12,6 +12,7 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
     private CanvasGroup canvasGroup;
     [SerializeField] private Transform equipTemplate;
     [SerializeField] private PlayerMovement player;
+    private bool isMining = false;
 
     public static bool move;
     private Transform itemSlot;
@@ -33,6 +34,12 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (PlayerMovement.mine == true)
+        {
+            isMining = true;
+            PlayerMovement.mine = false;
+
+        }
 
         try
         {
@@ -86,7 +93,14 @@ public class ReturnDragDrop : MonoBehaviour, IInitializePotentialDragHandler, IB
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(item!= null)
+        if (isMining == true)
+        {
+            PlayerMovement.mine = true;
+            isMining = false;
+        }
+
+
+        if (item!= null)
         {
             Destroy(go);
 

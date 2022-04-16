@@ -13,6 +13,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     private CanvasGroup canvasGroup;
     [SerializeField] private UI_Inventory uiInventory;
     [SerializeField] private PlayerMovement player;
+    private bool isMining = false;
     public Item item;
     public bool FollowCursor { get; set; } = true;
     public Vector3 StartPosition;
@@ -30,6 +31,12 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (PlayerMovement.mine == true)
+        {
+            isMining = true;
+            PlayerMovement.mine = false;
+
+        }
         item = uiInventory.item();
         if (!CanDrag)
         {
@@ -63,6 +70,12 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(isMining == true)
+        {
+            PlayerMovement.mine = true;
+            isMining = false;
+        }
+
 
         if (!CanDrag)
         {

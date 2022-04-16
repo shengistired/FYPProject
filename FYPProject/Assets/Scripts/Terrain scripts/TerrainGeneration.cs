@@ -680,16 +680,41 @@ public class TerrainGeneration : MonoBehaviour
                     {
                         amount = 1;
                         Item item = new Item();
-                        if(itemtype.ToString().ToUpper() == "TREELOGS"){
-                            item.itemType = Item.ItemType.treeWood;
+                        if (itemtype.ToString().ToUpper() == "LEAF" || itemtype.ToString().ToUpper() == "SNOWLEAF")
+                        {
+                            float randomNumber = Random.Range(0, 4);
+                            Debug.Log(randomNumber);
+                            if (randomNumber == 0)
+                            {
+                                item.itemType = Item.ItemType.Food;
+
+                            }
+                            else
+                            {
+                                amount = 0;
+                            }
                         }
                         else
                         {
-                            item.itemType = itemtype;
+
+                            if (itemtype.ToString().ToUpper() == "TREELOGS")
+                            {
+                                item.itemType = Item.ItemType.treeWood;
+                            }
+                            else
+                            {
+                                item.itemType = itemtype;
+
+                            }
+                        }
+
+                        item.amount = amount;
+                        if ((itemtype.ToString().ToUpper() != "LEAF" || itemtype.ToString().ToUpper() != "SNOWLEAF") && amount != 0)
+                        {
+                            Debug.Log(itemtype);
+                            ItemWorld.SpawnItemWorld(new Vector2(x, y + 0.5f), item);
 
                         }
-                        item.amount = amount;
-                        ItemWorld.SpawnItemWorld(new Vector2(x, y + 0.5f), item);
 
                     }
 

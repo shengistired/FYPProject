@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     public UnityEngine.Vector2 spawnPosition;
 
     public bool placeTiles;
-    private bool mine = false;
+    public static bool mine = false;
     private bool staffActive = false;
     private bool axeActive = false;
     private bool othersActive = false;
@@ -369,9 +369,13 @@ public class PlayerMovement : MonoBehaviour
 
 
         }
-        if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
+        if(Input.GetMouseButtonDown(0) && staffActive == true)
         {
             ani.SetTrigger("Attack");
+
+        }
+        if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
+        {
             attack.attack();
             cooldownTimer = 0;
             animationTime = 0;
