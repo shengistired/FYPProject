@@ -121,7 +121,6 @@ public class PlayerMovement : MonoBehaviour
         uiEquipmentSlot.SetEquipment(equipment);
         craftManager.SetCraftItem(craftItem);
 
-
     }
 
     public void spawn()
@@ -153,15 +152,37 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
+
         if (itemWorld != null)
         {
-            inventory.AddItem(itemWorld.GetItem());
+
+            if (equipment.filledList().Count > 0)
+            {
+                if(!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
+                {
+                    equipment.AddItem(itemWorld.GetItem(), equipment.filledList()[0]);
+                }
+            }
+            else if(!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
+            {
+                inventory.AddItem(itemWorld.GetItem());
+            }
+            else
+            {
+
+                equipment.AddItemCollide(itemWorld.GetItem(), 0);
+
+            }
             itemWorld.DestroySelf();
         }
     }
     public Item getEquipment(int index)
     {
         return equipment.GetEquipment(index);
+    }
+    public Item getInventoryItem(int index)
+    {
+        return inventory.GetItem(index);
     }
     public void AddEquipment(Item item, int index)
     {

@@ -6,6 +6,7 @@ public class Inventory
 {
     public event EventHandler OnItemListChanged;
     private List<Item> itemList;
+    private Item[] itemArray;
     private Action<Item> useItemAction;
 
 
@@ -84,5 +85,14 @@ public class Inventory
     {
         return itemList;
     }
+
+    public Item GetItem(int index)
+    {
+
+
+        return itemList[index];
+    }
+
+
 }
 

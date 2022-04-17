@@ -12,7 +12,6 @@ public class UI_EquipmentSlot : MonoBehaviour
     [SerializeField] private Transform[] equipSlotTemplate;
     //  [SerializeField] private Transform itemTemplate;
     public Item itemDrag;
-    int i = 0;
 
     public void SetEquipment(Equipment equipment)
     {
@@ -29,49 +28,7 @@ public class UI_EquipmentSlot : MonoBehaviour
 
     private void RefreshEquipmentItem()
     {
-        /*
-        if (name == "equipSlotTemplate1")
-        {
-            index = 0;
-        }
-        else if (name == "equipSlotTemplate2")
-        {
-            index = 1;
-        }
-        else if (name == "equipSlotTemplate3")
-        {
-            index = 2;
-        }
-        else if (name == "equipSlotTemplate4")
-        {
-            index = 3;
-        }
-        else if (name == "equipSlotTemplate5")
-        {
-            index = 4;
-        }
-        else if (name == "equipSlotTemplate6")
-        {
-            index = 5;
-        }
-        else if (name == "equipSlotTemplate7")
-        {
-            index = 6;
-        }
-        else if (name == "equipSlotTemplate8")
-        {
-            index = 7;
-        }
-        else if (name == "equipSlotTemplate9")
-        {
-            index = 8;
-        }
-        else if (name == "equipSlotTemplate10")
-        {
-            index = 9;
-        }
-        Debug.Log(index);
-        */
+
         Item item;
         foreach (Transform slot in equipSlotTemplate)
         {
@@ -210,7 +167,6 @@ public class UI_EquipmentSlot : MonoBehaviour
                 }
                 ItemWorld.DropItem(direction, player.getPosition(), duplicateItem);
         */
-        i++;
     }
 
 

@@ -13,8 +13,14 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     private CanvasGroup canvasGroup;
     [SerializeField] private UI_Inventory uiInventory;
     [SerializeField] private PlayerMovement player;
+    [SerializeField] private Transform slotTemplate;
+
     private bool isMining = false;
+    private int indexInventory;
     public Item item;
+    private Transform itemSlot;
+
+    private GameObject go;
     public bool FollowCursor { get; set; } = true;
     public Vector3 StartPosition;
     public static int index = -1;
@@ -22,7 +28,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     private void Awake()
     {
         
-        rectTransform = GetComponent<RectTransform>();
+        itemSlot = slotTemplate.Find("Item").GetComponent<Transform>();
         canvasGroup = GetComponent<CanvasGroup>();
 
 
@@ -37,17 +43,47 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
             PlayerMovement.mine = false;
 
         }
-        item = uiInventory.item();
-        if (!CanDrag)
+        try
         {
-            return;
+            int stringLength = slotTemplate.name.Length;
+            Debug.Log("Legnth" + stringLength);
+            if (stringLength == 17)
+            {
+                indexInventory = int.Parse(slotTemplate.name.Substring(stringLength - 1));
 
-        
+            }
+            else if (stringLength == 18)
+            {
+                indexInventory = int.Parse(slotTemplate.name.Substring(stringLength - 2));
+
+            }
+            item = player.getInventoryItem(indexInventory);
+
+            Debug.Log("Item " + item.itemType);
+            if (item != null)
+            {
+                go = Instantiate(itemSlot.gameObject);
+                go.transform.SetParent(slotTemplate);
+
+                // go.transform.position
+                if (!CanDrag)
+                {
+                    return;
+
+
+                }
+
+                OnBeginDragHandler?.Invoke(eventData);
+                canvasGroup.alpha = .6f;
+                canvasGroup.blocksRaycasts = false;
+            }
+
         }
-        
-        OnBeginDragHandler?.Invoke(eventData);
-        canvasGroup.alpha = .6f;
-        canvasGroup.blocksRaycasts = false;
+        catch
+        {
+
+        }
+
 
     }
 
@@ -59,11 +95,12 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
         }
         OnDragHandler?.Invoke(eventData);
-        if (FollowCursor)
+        if (FollowCursor && item != null)
         {
-            rectTransform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
+            go.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
 
         }
+
 
 
     }
@@ -76,136 +113,143 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
             isMining = false;
         }
 
-
-        if (!CanDrag)
+        if (item != null)
         {
-            return;
-        }
+            Destroy(go);
 
-        var results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
+            if (!CanDrag)
+            {
+                return;
+            }
 
-        DropArea dropArea = null;
+            var results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
 
-        foreach (var result in results)
-        {
+            DropArea dropArea = null;
 
-            dropArea = result.gameObject.GetComponentInParent<DropArea>();
+            foreach (var result in results)
+            {
+
+                dropArea = result.gameObject.GetComponentInParent<DropArea>();
+
+                if (dropArea != null)
+                {
+                    break;
+                }
+            }
 
             if (dropArea != null)
             {
-                break;
-            }
-        }
 
-        if (dropArea != null)
-        {
-            if (dropArea.Accepts(this))
-            {
-                try
-                {
-                    string name = dropArea.GetComponentInParent<EquipmentSlot>().name;
-
-                    dropArea.Drop(this);
-                    OnEndDragHandler?.Invoke(eventData, true);
-                    canvasGroup.alpha = 1f;
-                    canvasGroup.blocksRaycasts = true;
-
-                    uiInventory.Move(item);
-                    if (name == "equipSlotTemplate1")
-                    {
-
-                        index = 0;
-
-                    }
-                    else if (name == "equipSlotTemplate2")
-                    {
-
-                        index = 1;
-
-                    }
-                    else if (name == "equipSlotTemplate3")
-                    {
-
-                        index = 2;
-
-                    }
-                    else if (name == "equipSlotTemplate4")
-                    {
-                        index = 3;
-
-                    }
-                    else if (name == "equipSlotTemplate5")
-                    {
-                        index = 4;
-
-                    }
-                    else if (name == "equipSlotTemplate6")
-                    {
-                        index = 5;
-
-                    }
-                    else if (name == "equipSlotTemplate7")
-                    {
-                        index = 6;
-
-                    }
-                    else if (name == "equipSlotTemplate8")
-                    {
-                        index = 7;
-
-                    }
-                    else if (name == "equipSlotTemplate9")
-                    {
-                        index = 8;
-
-                    }
-                    else if (name == "equipSlotTemplate10")
-                    {
-                        index = 9;
-                    }
-
-                    player.AddEquipment(item, index);
-                    return;
-                }
-                catch
-                {
                     try
                     {
-                        string name = dropArea.GetComponent<Craft_Slots>().name;
+                        string name = dropArea.GetComponentInParent<EquipmentSlot>().name;
+
+                    if (dropArea.Accepts(this))
+                    {
                         dropArea.Drop(this);
                         OnEndDragHandler?.Invoke(eventData, true);
                         canvasGroup.alpha = 1f;
                         canvasGroup.blocksRaycasts = true;
 
-                        if (name == "CraftSlotTemplate")
+                        uiInventory.Move(item);
+                        if (name == "equipSlotTemplate1")
                         {
-                            uiInventory.Move(item);
-                            player.AddCraftItem(item, 0);
-                            return;
-                        }
-                        else if (name == "CraftSlotTemplate1")
-                        {
-                            uiInventory.Move(item);
-                            player.AddCraftItem(item, 1);
-                            return;
 
+                            index = 0;
 
                         }
+                        else if (name == "equipSlotTemplate2")
+                        {
+
+                            index = 1;
+
+                        }
+                        else if (name == "equipSlotTemplate3")
+                        {
+
+                            index = 2;
+
+                        }
+                        else if (name == "equipSlotTemplate4")
+                        {
+                            index = 3;
+
+                        }
+                        else if (name == "equipSlotTemplate5")
+                        {
+                            index = 4;
+
+                        }
+                        else if (name == "equipSlotTemplate6")
+                        {
+                            index = 5;
+
+                        }
+                        else if (name == "equipSlotTemplate7")
+                        {
+                            index = 6;
+
+                        }
+                        else if (name == "equipSlotTemplate8")
+                        {
+                            index = 7;
+
+                        }
+                        else if (name == "equipSlotTemplate9")
+                        {
+                            index = 8;
+
+                        }
+                        else if (name == "equipSlotTemplate10")
+                        {
+                            index = 9;
+                        }
+
+                        player.AddEquipment(item, index);
+                        return;
+                    }
                     }
                     catch
                     {
+                        try
+                        {
+                            string name = dropArea.GetComponent<Craft_Slots>().name;
+                            dropArea.Drop(this);
+                            OnEndDragHandler?.Invoke(eventData, true);
+                            canvasGroup.alpha = 1f;
+                            canvasGroup.blocksRaycasts = true;
 
-                    }
+                            if (name == "CraftSlotTemplate")
+                            {
+                                uiInventory.Move(item);
+                                player.AddCraftItem(item, 0);
+                                return;
+                            }
+                            else if (name == "CraftSlotTemplate1")
+                            {
+                                uiInventory.Move(item);
+                                player.AddCraftItem(item, 1);
+                                return;
+
+
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+
+
+                    
 
                 }
-               
             }
+            uiInventory.Refresh();
+            OnEndDragHandler?.Invoke(eventData, false);
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
         }
-        uiInventory.Refresh();
-        OnEndDragHandler?.Invoke(eventData, false);
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
 
     }
 

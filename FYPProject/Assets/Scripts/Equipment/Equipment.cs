@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 
 public class Equipment
 {
@@ -8,6 +10,7 @@ public class Equipment
     private Inventory inventory;
     public static bool addInventory;
     private Item previousEquipment;
+    
 
     public Equipment(Action<Item> useItemAction)
     {
@@ -18,7 +21,28 @@ public class Equipment
         AddItem(new Item { itemType = Item.ItemType.Axe, amount = 1 }, 1);
     }
 
+    public bool AddItemCollide(Item item, int index)
+    {
+        bool added = false;
+        for(int i = 0; i < equipment.Length; i++)
+        {
+            try
+            {
+                if (item.itemType == equipment[i].itemType)
+                {
+                    AddItem(item, i);
+                    added = true;
 
+                }
+            }
+            catch{
+
+            }
+
+
+        }
+        return added;
+    }
     public void AddItem(Item item, int index)
     {
         addInventory = false;
@@ -163,5 +187,22 @@ public class Equipment
     public Item previousItem()
     {
         return previousEquipment;
+    }
+
+
+
+    public List<int> filledList()
+    {
+        
+        List<int> list = new List<int>();
+        for (int i = 0; i < equipment.Length; i++)
+        {
+            if (equipment[i] == null)
+            {
+                list.Add(i);
+            }
+
+        }
+        return list;
     }
 }
