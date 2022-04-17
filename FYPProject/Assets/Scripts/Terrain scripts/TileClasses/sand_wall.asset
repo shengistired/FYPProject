@@ -15,7 +15,8 @@ MonoBehaviour:
   tileName: sand wall
   backgroundVersion: {fileID: 0}
   tileSprites:
-  - {fileID: 21300000, guid: 033664ec394e8f049baae3a38df9fccd, type: 3}
+  - {fileID: 21300000, guid: 824a24850546d5f4b9335153371210c8, type: 3}
+  generatedNaturally: 1
   isSolidTile: 0
   tileDrop: 1
   tileHealth: 2

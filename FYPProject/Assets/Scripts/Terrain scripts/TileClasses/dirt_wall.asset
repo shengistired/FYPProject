@@ -15,7 +15,8 @@ MonoBehaviour:
   tileName: dirt wall
   backgroundVersion: {fileID: 0}
   tileSprites:
-  - {fileID: 21300000, guid: c14c741974a553e43b03bacd84877b5e, type: 3}
+  - {fileID: 21300000, guid: 2166a247c65065d4593ce2b7e7774bbc, type: 3}
+  generatedNaturally: 1
   isSolidTile: 0
   tileDrop: 1
   tileHealth: 2

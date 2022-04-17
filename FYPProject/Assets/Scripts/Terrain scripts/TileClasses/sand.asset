@@ -16,6 +16,7 @@ MonoBehaviour:
   backgroundVersion: {fileID: 11400000, guid: 4db5818d9e18d854591ccaac094b73c9, type: 2}
   tileSprites:
   - {fileID: 21300000, guid: 033664ec394e8f049baae3a38df9fccd, type: 3}
+  generatedNaturally: 1
   isSolidTile: 1
   tileDrop: 1
   tileHealth: 2

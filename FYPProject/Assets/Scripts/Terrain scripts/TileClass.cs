@@ -13,6 +13,18 @@ public class TileClass : ScriptableObject
     public bool tileDrop = true;
     public int tileHealth;
 
+    //each tile will have their own tileclass 
+    public TileClass (TileClass tile , bool isGeneratedNaturally)
+    {
+        tileName= tile.tileName;
+        backgroundVersion = tile.backgroundVersion;
+        tileSprites = tile.tileSprites;
+        isSolidTile = tile.isSolidTile;
+        tileDrop = tile.tileDrop;
+        generatedNaturally = isGeneratedNaturally;
+        tileHealth = tile.tileHealth;
+    }
+
     public static implicit operator TileClass(string v)
     {
         throw new NotImplementedException();

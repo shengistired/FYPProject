@@ -158,12 +158,12 @@ public class PlayerMovement : MonoBehaviour
 
             if (equipment.filledList().Count > 0)
             {
-                if(!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
+                if (!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
                 {
                     equipment.AddItem(itemWorld.GetItem(), equipment.filledList()[0]);
                 }
             }
-            else if(!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
+            else if (!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
             {
                 inventory.AddItem(itemWorld.GetItem());
             }
@@ -390,7 +390,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         }
-        if(Input.GetMouseButtonDown(0) && staffActive == true)
+        if (Input.GetMouseButtonDown(0) && staffActive == true)
         {
             ani.SetTrigger("Attack");
 
@@ -410,7 +410,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
                 {
-                    bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
+                    bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, false);
                     if (checker == true)
                     {
                         equipment.RemoveItem(item, index);
@@ -699,7 +699,6 @@ public class PlayerMovement : MonoBehaviour
                         customCursor.gameObject.SetActive(true);
                         if (tile[i].name == "treeLogs")
                         {
-
                             selectedTile = tileWood;
                         }
 

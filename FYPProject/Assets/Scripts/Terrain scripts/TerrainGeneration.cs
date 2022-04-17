@@ -361,7 +361,7 @@ public class TerrainGeneration : MonoBehaviour
                 //make cave spawn when below 5 height
                 //if (generateCave && y < height - 5)
                 //if (generateCave && y < height)
-                if (generateCave)
+                if (generateCave && y < height - 5)
                 {
                     if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
                     {
@@ -391,10 +391,7 @@ public class TerrainGeneration : MonoBehaviour
                         }
 
                     }
-
-
-
-
+ 
                 }
 
 
@@ -464,7 +461,7 @@ public class TerrainGeneration : MonoBehaviour
         noiseTexture.Apply();
     }
 
-    public bool TileCheck(TileClass tile, int x, int y)
+    public bool TileCheck(TileClass tile, int x, int y , bool generatedNaturally)
     {
         if (x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
@@ -482,7 +479,7 @@ public class TerrainGeneration : MonoBehaviour
                 {
                     //remove and replace current tile       
                     BreakTile(x, y);
-                    PlaceTiles(tile, x, y, false);
+                    PlaceTiles(tile, x, y, generatedNaturally);
                     return true;
                 }
 
@@ -547,16 +544,20 @@ public class TerrainGeneration : MonoBehaviour
 
             }
 
-            if (tile.name.ToUpper().Contains("WALL"))
-            {
-                newTile.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 0.6f);
-            }
+            // if (tile.name.ToUpper().Contains("WALL"))
+            // {
+            //     newTile.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 0.6f);
+            // }
             newTile.name = tile.tileSprites[0].name;
             newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
-            tile.generatedNaturally = isGenerated;
+            
+            //tile.generatedNaturally = isGenerated;
+
+
+            TileClass newTileClass = new TileClass (tile, isGenerated);
             worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
             worldTileObjects.Add(newTile);
-            worldTileClasses.Add(tile);
+            worldTileClasses.Add(newTileClass);
 
         }
     }
@@ -605,14 +606,14 @@ public class TerrainGeneration : MonoBehaviour
 
         }
 
-        // if (biome == "desert")
-        // {
-        //     for (int i = 0; i <= treeHeight; i++)
-        //     {
-        //         PlaceTiles(tileAtlas.treeLog.tileSprites, x, y + i);
-        //     }
+        if (biome == "desert")
+        {
+            for (int i = 0; i <= 4; i++)
+            {
+                PlaceTiles(tileAtlas.cactus, x, y + i, true);
+            }
 
-        // }
+        }
 
 
 

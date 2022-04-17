@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: stone_wall
   m_EditorClassIdentifier: 
   tileName: stone wall
+  backgroundVersion: {fileID: 0}
   tileSprites:
-  - {fileID: 21300000, guid: 1e42b8d1d6bc4274da725215367db179, type: 3}
+  - {fileID: 21300000, guid: b1748746e804b70449dde0847638e08e, type: 3}
+  generatedNaturally: 1
   isSolidTile: 0
   tileDrop: 1
   tileHealth: 2

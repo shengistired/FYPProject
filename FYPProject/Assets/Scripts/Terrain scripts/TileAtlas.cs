@@ -13,7 +13,7 @@ public class TileAtlas : ScriptableObject
     public TileClass treeWood;
     public TileClass leaf;
     public TileClass sand;
-    public TileClass catcus;
+    public TileClass cactus;
     public TileClass snow;
     public TileClass snowLeaf;
     //background tiles

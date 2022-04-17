@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: 
   tileName: grass
-  backgroundVersion: {fileID: 0}
+  backgroundVersion: {fileID: 11400000, guid: 180c9dc8bf52b1843af9e37d836e34bd, type: 2}
   tileSprites:
   - {fileID: 21300000, guid: 64308edb47a46d549b6e28ac1ca428fd, type: 3}
-  generatedNaturally: 1
+  generatedNaturally: 0
   isSolidTile: 1
   tileDrop: 1
   tileHealth: 2

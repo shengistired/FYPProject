@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: snow
   m_EditorClassIdentifier: 
   tileName: snow
+  backgroundVersion: {fileID: 11400000, guid: 180c9dc8bf52b1843af9e37d836e34bd, type: 2}
   tileSprites:
-  - {fileID: 21300000, guid: 75ab306d18e3ac048b0d7e65204d7330, type: 3}
+  - {fileID: 21300000, guid: 172cae7f325770d439c22fbdae5c5ff4, type: 3}
+  generatedNaturally: 1
   isSolidTile: 1
   tileDrop: 1
   tileHealth: 2

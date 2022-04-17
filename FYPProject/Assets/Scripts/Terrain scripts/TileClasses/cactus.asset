@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: cactus
   m_EditorClassIdentifier: 
   tileName: cactus
+  backgroundVersion: {fileID: 0}
   tileSprites:
-  - {fileID: 0}
-  isSolidTile: 1
+  - {fileID: 21300000, guid: cf0b5125a242caf4c974dc1afee21434, type: 3}
+  generatedNaturally: 1
+  isSolidTile: 0
   tileDrop: 1
   tileHealth: 5
