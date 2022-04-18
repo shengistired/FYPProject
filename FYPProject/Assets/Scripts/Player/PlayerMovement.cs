@@ -392,9 +392,10 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0) && staffActive == true)
         {
-            ani.SetTrigger("Attack");
+            ani.SetTrigger("isAttack");
 
         }
+
         if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
         {
             attack.attack();
@@ -697,11 +698,6 @@ public class PlayerMovement : MonoBehaviour
                     {
                         selectedTile = tile[i];
                         customCursor.gameObject.SetActive(true);
-                        if (tile[i].name == "treeLogs")
-                        {
-                            selectedTile = tileWood;
-                        }
-
                         customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
 
 

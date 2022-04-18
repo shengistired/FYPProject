@@ -712,7 +712,6 @@ public class TerrainGeneration : MonoBehaviour
                         item.amount = amount;
                         if ((itemtype.ToString().ToUpper() != "LEAF" || itemtype.ToString().ToUpper() != "SNOWLEAF") && amount != 0)
                         {
-                            Debug.Log(itemtype);
                             ItemWorld.SpawnItemWorld(new Vector2(x, y + 0.5f), item);
 
                         }
