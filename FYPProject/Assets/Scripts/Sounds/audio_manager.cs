@@ -7,10 +7,12 @@ public class audio_manager : MonoBehaviour
     public AudioSource forest_music;
     public AudioSource desert_music;
     public AudioSource snow_music;
+    public AudioSource miniBoss_music;
 
     public AudioClip forest_BGM_clip;
     public AudioClip desert_BGM_clip;
     public AudioClip snow_BGM_clip;
+    public AudioClip miniBoss_BGM_clip;
 
 
     //public string biome;
@@ -22,10 +24,12 @@ public class audio_manager : MonoBehaviour
         forest_music = gameObject.AddComponent<AudioSource>();
         desert_music = gameObject.AddComponent<AudioSource>();
         snow_music = gameObject.AddComponent<AudioSource>();
+        miniBoss_music = gameObject.AddComponent<AudioSource>();
 
         forest_music.playOnAwake = false;
         desert_music.playOnAwake = false;
         snow_music.playOnAwake = false;
+        miniBoss_music.playOnAwake = false;
 
     }
 
@@ -70,6 +74,18 @@ public class audio_manager : MonoBehaviour
         snow_music.clip = snow_BGM_clip;
         snow_music.Play();
         snow_music.loop = true;
+
+    }
+
+    public void miniBoss_music_play()
+    {
+        forest_music.Stop();
+        desert_music.Stop();
+        snow_music.Stop();
+
+        miniBoss_music.clip = miniBoss_BGM_clip;
+        miniBoss_music.Play();
+        miniBoss_music.loop = true;
 
     }
 }

@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
     private Item item;
     private Item original;
     public TerrainGeneration terrainGenerator;
-    public BossMapGenerator bossMapGenerator;
+    //public BossMapGenerator bossMapGenerator;
     private int newItemIndex;
     Vector3 difference;
     Vector3 equipmentPosition;
@@ -409,44 +409,62 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && placeTiles == true && item != null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
 
-                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
+                bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, false);
+                if (checker == true)
                 {
-                    bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, false);
-                    if (checker == true)
-                    {
-                        equipment.RemoveItem(item, index);
-                    }
-
-                    if (item.amount == 0)
-                    {
-                        customCursor.gameObject.SetActive(false);
-                        Cursor.visible = true;
-                        background[index].color = backgroundColor;
-                        item = null;
-                        othersActive = false;
-
-                    }
+                    equipment.RemoveItem(item, index);
                 }
 
-                else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+                if (item.amount == 0)
                 {
-                    bool checker = bossMapGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
-                    if (checker == true)
-                    {
-                        equipment.RemoveItem(item, index);
-                    }
-
-                    if (item.amount == 0)
-                    {
-                        customCursor.gameObject.SetActive(false);
-                        Cursor.visible = true;
-                        background[index].color = backgroundColor;
-                        item = null;
-                        othersActive = false;
-
-                    }
+                    customCursor.gameObject.SetActive(false);
+                    Cursor.visible = true;
+                    background[index].color = backgroundColor;
+                    item = null;
+                    othersActive = false;
 
                 }
+
+
+
+                // if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
+                // {
+                //     bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, false);
+                //     if (checker == true)
+                //     {
+                //         equipment.RemoveItem(item, index);
+                //     }
+
+                //     if (item.amount == 0)
+                //     {
+                //         customCursor.gameObject.SetActive(false);
+                //         Cursor.visible = true;
+                //         background[index].color = backgroundColor;
+                //         item = null;
+                //         othersActive = false;
+
+                //     }
+                // }
+
+                // else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+                // {
+                //     bool checker = bossMapGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y);
+                //     if (checker == true)
+                //     {
+                //         equipment.RemoveItem(item, index);
+                //     }
+
+                //     if (item.amount == 0)
+                //     {
+                //         customCursor.gameObject.SetActive(false);
+                //         Cursor.visible = true;
+                //         background[index].color = backgroundColor;
+                //         item = null;
+                //         othersActive = false;
+
+                //     }
+
+                // }
 
 
             }
@@ -456,20 +474,58 @@ public class PlayerMovement : MonoBehaviour
                 // placeTiles = true;
                 //The tile's health
 
-                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
+                ani.SetBool("isMining", true);
+                int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                if (tileHealth > 0)
                 {
-                    ani.SetBool("isMining", true);
-                    int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                    MineBlock(tileHealth, position);
-                }
+
+                    miningCounter = true;
 
 
-                else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
-                {
-                    ani.SetBool("isMining", true);
-                    int tileHealth = bossMapGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                    MineBlock(tileHealth, position);
+                    if (miningCounter == true)
+                    {
+                        timeRemaining += Time.deltaTime;
+                        //Debug.Log("tilehealth..." + tileHealth);
+                        //Debug.Log("timeRemaining..." + timeRemaining);
+                        //Debug.Log("mining..." + Time.deltaTime);
+
+                        if (timeRemaining >= tileHealth - miningPower)
+                        {
+
+
+
+                            terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                            miningCounter = false;
+                            tileHealth = 0;
+                            timeRemaining = 0;
+                        }
+
+                    }
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        miningCounter = false;
+                        timeRemaining = 0;
+                        ani.SetBool("isMining", false);
+                    }
+
                 }
+
+                //MineBlock(tileHealth, position);
+
+                // if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
+                // {
+                //     ani.SetBool("isMining", true);
+                //     int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                //     MineBlock(tileHealth, position);
+                // }
+
+
+                // else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+                // {
+                //     ani.SetBool("isMining", true);
+                //     int tileHealth = bossMapGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                //     MineBlock(tileHealth, position);
+                // }
 
 
             }
@@ -519,61 +575,62 @@ public class PlayerMovement : MonoBehaviour
             wallJumpCoolDown += Time.deltaTime;
     }
 
-    public void MineBlock(int tileHealth, Vector3 position)
-    {
-        ani.SetBool("isMining", true);
-        //int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+    // public void MineBlock(int tileHealth, Vector3 position)
+    // {
+    //     ani.SetBool("isMining", true);
+    //     //int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
 
-        //mining code
-        // add equipment's mining power to this to mine faster.
-        // miningPower = ??; <<< add equipment value to current mining power
-        if (tileHealth > 0)
-        {
+    //     //mining code
+    //     // add equipment's mining power to this to mine faster.
+    //     // miningPower = ??; <<< add equipment value to current mining power
+    //     if (tileHealth > 0)
+    //     {
 
-            miningCounter = true;
-
-
-            if (miningCounter == true)
-            {
-                timeRemaining += Time.deltaTime;
-                //Debug.Log("tilehealth..." + tileHealth);
-                //Debug.Log("timeRemaining..." + timeRemaining);
-                //Debug.Log("mining..." + Time.deltaTime);
-
-                if (timeRemaining >= tileHealth - miningPower)
-                {
-
-                    if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
-                    {
-                        terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                        miningCounter = false;
-                        tileHealth = 0;
-                        timeRemaining = 0;
-                    }
+    //         miningCounter = true;
 
 
-                    else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
-                    {
-                        bossMapGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                        miningCounter = false;
-                        tileHealth = 0;
-                        timeRemaining = 0;
-                    }
+    //         if (miningCounter == true)
+    //         {
+    //             timeRemaining += Time.deltaTime;
+    //             //Debug.Log("tilehealth..." + tileHealth);
+    //             //Debug.Log("timeRemaining..." + timeRemaining);
+    //             //Debug.Log("mining..." + Time.deltaTime);
+
+    //             if (timeRemaining >= tileHealth - miningPower)
+    //             {
 
 
-                }
+    //                 if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Map"))
+    //                 {
+    //                     terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+    //                     miningCounter = false;
+    //                     tileHealth = 0;
+    //                     timeRemaining = 0;
+    //                 }
 
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                miningCounter = false;
-                timeRemaining = 0;
-                ani.SetBool("isMining", false);
-            }
 
-        }
+    //                 else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+    //                 {
+    //                     bossMapGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+    //                     miningCounter = false;
+    //                     tileHealth = 0;
+    //                     timeRemaining = 0;
+    //                 }
 
-    }
+
+    //             }
+
+    //         }
+    //         if (Input.GetMouseButtonUp(0))
+    //         {
+    //             miningCounter = false;
+    //             timeRemaining = 0;
+    //             ani.SetBool("isMining", false);
+    //         }
+
+    //     }
+
+    // }
 
     public void craftOpen()
     {

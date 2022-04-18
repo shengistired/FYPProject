@@ -19,4 +19,4 @@ MonoBehaviour:
   generatedNaturally: 0
   isSolidTile: 1
   tileDrop: 1
-  tileHealth: 0
+  tileHealth: 2
