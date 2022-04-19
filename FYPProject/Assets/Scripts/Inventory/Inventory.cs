@@ -67,10 +67,10 @@ public class Inventory
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
-    public void MoveItem(Item item)
+    public void MoveItem(int index)
     {
 
-        itemList.Remove(item);
+        itemList.RemoveAt(index);
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
 

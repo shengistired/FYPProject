@@ -17,6 +17,6 @@ public class EquipmentSlot : MonoBehaviour
 
     private void OnItemDropped(DragAndDrop draggable)
     {
-        draggable.transform.position = transform.position;
+        //draggable.transform.position = transform.position;
     }
 }

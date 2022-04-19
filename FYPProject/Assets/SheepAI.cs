@@ -48,6 +48,11 @@ public class SheepAI : MonoBehaviour
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
                 //gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+                Item item = new Item();
+                item.itemType = Item.ItemType.Meat;
+                item.amount = 1;
+                ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
+
                 Destroy(gameObject);
                 Debug.Log("Killed sheep");
                 break;

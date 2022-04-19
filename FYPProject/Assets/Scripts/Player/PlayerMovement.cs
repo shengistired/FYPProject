@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         craftItem = new CraftItem();
         direct = 1;
         uiEquipmentSlot.SetEquipment(equipment);
-        craftManager.SetCraftItem(craftItem);
+       // craftManager.SetCraftItem(craftItem);
 
     }
 
@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
-
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -309,6 +309,10 @@ public class PlayerMovement : MonoBehaviour
         {
             others.SetActive(false);
         }
+        if(placeTiles == true)
+        {
+            mine = false;
+        }
         for (int i = 0; i < background.Length; i++)
         {
             if (equipment.GetEquipment(i) == null)
@@ -377,7 +381,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && item != null)
         {
 
-            if (itemType == Item.ItemType.Food && item.amount > 0 && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
+            if ((itemType == Item.ItemType.Food || itemType == Item.ItemType.Meat) && item.amount > 0 && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
                 equipment.RemoveItem(item, index);
                 if (item.amount == 0)
@@ -402,6 +406,8 @@ public class PlayerMovement : MonoBehaviour
             cooldownTimer = 0;
             animationTime = 0;
             ManaBar.instance.UseMana(10);
+            ani.SetTrigger("isAttack");
+
             // Reduce mana each usage of staff
         }
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
@@ -745,7 +751,7 @@ public class PlayerMovement : MonoBehaviour
                 others.GetComponent<Image>().sprite = item.GetSprite();
                 othersActive = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Coin && itemType != Item.ItemType.Axe && itemType != Item.ItemType.Potion)
+            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food  && itemType != Item.ItemType.Meat && itemType != Item.ItemType.Coin && itemType != Item.ItemType.Axe && itemType != Item.ItemType.Potion)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {

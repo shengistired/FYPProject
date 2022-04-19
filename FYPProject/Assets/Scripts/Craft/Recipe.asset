@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Recipe
   m_EditorClassIdentifier: 
   Materials:
-  - itemType: 0
-    amount: 0
-  - itemType: 0
-    amount: 0
-  Results: []
+  - itemType: 1
+    amount: 1
+  - itemType: 9
+    amount: 100
+  Results:
+  - itemType: 2
+    amount: 1

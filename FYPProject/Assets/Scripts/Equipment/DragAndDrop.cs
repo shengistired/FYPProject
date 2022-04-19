@@ -31,6 +31,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         itemSlot = slotTemplate.Find("Item").GetComponent<Transform>();
         canvasGroup = GetComponent<CanvasGroup>();
 
+        item = null;
 
     }
 
@@ -95,9 +96,16 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
         }
         OnDragHandler?.Invoke(eventData);
-        if (FollowCursor && item != null)
+        try
         {
-            go.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
+            if (FollowCursor && item != null)
+            {
+                go.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
+
+            }
+        }
+        catch
+        {
 
         }
 
@@ -152,7 +160,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
                         canvasGroup.alpha = 1f;
                         canvasGroup.blocksRaycasts = true;
 
-                        uiInventory.Move(item);
+                        uiInventory.Move(indexInventory);
                         if (name == "equipSlotTemplate1")
                         {
 
@@ -222,13 +230,13 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
                             if (name == "CraftSlotTemplate")
                             {
-                                uiInventory.Move(item);
+                                uiInventory.Move(indexInventory);
                                 player.AddCraftItem(item, 0);
                                 return;
                             }
                             else if (name == "CraftSlotTemplate1")
                             {
-                                uiInventory.Move(item);
+                                uiInventory.Move(indexInventory);
                                 player.AddCraftItem(item, 1);
                                 return;
 

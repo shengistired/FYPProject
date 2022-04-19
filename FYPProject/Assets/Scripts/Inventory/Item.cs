@@ -8,8 +8,13 @@ public class Item
     {
         Weapon,
         Axe,
+        Axe1,
+        Axe2,
+        Axe3,
+        Axe4,
         Potion,
         Food,
+        Meat,
         Coin,
         Dirt,
         coal,
@@ -39,10 +44,20 @@ public class Item
                 return ItemAssets.Instance.weaponSprite;
             case ItemType.Axe:
                 return ItemAssets.Instance.axeSprite;
+            case ItemType.Axe1:
+                return ItemAssets.Instance.axe1Sprite;
+            case ItemType.Axe2:
+                return ItemAssets.Instance.axe2Sprite;
+            case ItemType.Axe3:
+                return ItemAssets.Instance.axe3Sprite;
+            case ItemType.Axe4:
+                return ItemAssets.Instance.axe4Sprite;
             case ItemType.Potion:
                 return ItemAssets.Instance.potionSprite;
             case ItemType.Food:
                 return ItemAssets.Instance.foodSprite;
+            case ItemType.Meat:
+                return ItemAssets.Instance.meatSprite;
             case ItemType.Coin:
                 return ItemAssets.Instance.coinSprite;
             case ItemType.Dirt:
@@ -84,6 +99,7 @@ public class Item
             default:
             case ItemType.Coin:
             case ItemType.Food:
+            case ItemType.Meat:
             case ItemType.Potion:
             case ItemType.Dirt:
             case ItemType.coal:
