@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CraftingManager craftManager;
     [SerializeField] private TileAtlas tileAtlas;
 
+    public audio_manager music;
 
     private KeyCode[] keys =
 {
@@ -397,7 +398,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && staffActive == true)
         {
             ani.SetTrigger("isAttack");
-
+            
         }
 
         if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
@@ -407,7 +408,8 @@ public class PlayerMovement : MonoBehaviour
             animationTime = 0;
             ManaBar.instance.UseMana(10);
             ani.SetTrigger("isAttack");
-
+            //play fireball sound effect
+            music.fireBall_play();
             // Reduce mana each usage of staff
         }
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
