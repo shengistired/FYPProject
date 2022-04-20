@@ -784,6 +784,22 @@ MonoBehaviour:
   desert_BGM_clip: {fileID: 8300000, guid: 1e1cfb560bf3f3f4bbacb8be0d1a8e95, type: 3}
   snow_BGM_clip: {fileID: 8300000, guid: 2cb99de53dc9698479bb7a33233d4b75, type: 3}
   miniBoss_BGM_clip: {fileID: 8300000, guid: 4aa466f4fcb874d40bed57925241ea13, type: 3}
+  walk: {fileID: 0}
+  hit: {fileID: 0}
+  chop: {fileID: 0}
+  mining: {fileID: 0}
+  swordHit: {fileID: 0}
+  fireBall: {fileID: 0}
+  hurt: {fileID: 0}
+  portal: {fileID: 0}
+  walk_effect_clip: {fileID: 0}
+  hit_effect_clip: {fileID: 0}
+  chop_effect_clip: {fileID: 0}
+  mining_effect_clip: {fileID: 0}
+  swordHit_effect_clip: {fileID: 0}
+  fireBall_effect_clip: {fileID: 0}
+  hurt_effect_clip: {fileID: 0}
+  portal_effect_clip: {fileID: 0}
 --- !u!4 &43373120
 Transform:
   m_ObjectHideFlags: 0
@@ -2680,6 +2696,9 @@ MonoBehaviour:
   craftButton: {fileID: 1603777812}
   craftManager: {fileID: 2141773319}
   tileAtlas: {fileID: 11400000, guid: fb018973344500e4fb1aadcbabf2794f, type: 2}
+  craftRecipeUI: {fileID: 0}
+  settings: {fileID: 1835152699}
+  music: {fileID: 0}
   mousePosition: {x: 0, y: 0}
   spawnPosition: {x: 0, y: 0}
   placeTiles: 0
@@ -3929,9 +3948,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aef4ac133c41904ea55efdb852e2605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
+  image: {fileID: 0}
+  amountText: {fileID: 381207221}
 --- !u!225 &354020297
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -6886,8 +6904,13 @@ MonoBehaviour:
   pitemWorld: {fileID: 1067014898336951449, guid: 760ee29f985923c44afd955e8bfd7610, type: 3}
   weaponSprite: {fileID: 21300000, guid: 3aa1cb26afcdc244bb3a95c193575ecb, type: 3}
   axeSprite: {fileID: 21300000, guid: 8708d80070522a043a1ab6a2b2775382, type: 3}
+  axe1Sprite: {fileID: 0}
+  axe2Sprite: {fileID: 0}
+  axe3Sprite: {fileID: 0}
+  axe4Sprite: {fileID: 0}
   potionSprite: {fileID: 21300000, guid: 50e0347d981414d189ff77217bc6e69c, type: 3}
   foodSprite: {fileID: 21300000, guid: 26b4d8692c5e74d17bd9dc28bcbe961b, type: 3}
+  meatSprite: {fileID: 0}
   coinSprite: {fileID: 21300000, guid: 99af61578a2317c449e29344b2b17479, type: 3}
   dirtSprite: {fileID: 21300000, guid: c14c741974a553e43b03bacd84877b5e, type: 3}
   coalSprite: {fileID: 21300000, guid: 89495738101f9be42959813a9df50036, type: 3}
@@ -15762,9 +15785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aef4ac133c41904ea55efdb852e2605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
+  image: {fileID: 0}
+  amountText: {fileID: 718957789}
 --- !u!225 &1628614786
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -16680,9 +16702,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aef4ac133c41904ea55efdb852e2605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 0
-    amount: 0
+  image: {fileID: 0}
+  amountText: {fileID: 812378119}
 --- !u!225 &1817082855
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class Settings : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("musicVolume"))
         {
-            PlayerPrefs.SetFloat("musicVolume", 1);
+            PlayerPrefs.SetFloat("musicVolume", 1/4);
             Load();
         }
         else
@@ -22,7 +22,6 @@ public class Settings : MonoBehaviour
         if (!PlayerPrefs.HasKey("QualityLevel"))
         {
             graphic.value = 4;
-            Debug.Log(PlayerPrefs.GetInt("QualityLevel"));
         }
         else
         {
@@ -32,17 +31,20 @@ public class Settings : MonoBehaviour
 
     public void changeVolume()
     {
-        AudioListener.volume = volumeSlider.value;
+        AudioListener.volume = volumeSlider.value/4;
         Save();
     }
 
     private void Load()
     {
-        volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        
+        volumeSlider.value = PlayerPrefs.GetFloat("musicVolume") * 4;
+        AudioListener.volume = volumeSlider.value/4;
+
     }
     private void Save()
     {
-        PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
+        PlayerPrefs.SetFloat("musicVolume", volumeSlider.value/4);
     }
 
     public void SetQuality(int i)

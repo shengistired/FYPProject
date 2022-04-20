@@ -77,6 +77,8 @@ public class BossMapGenerator : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(PlayerPrefs.GetFloat("musicVolume"));
+        AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
         worldSizeSet = "small";
         biome = "MiniBoss";
         if (biome == "MiniBoss")

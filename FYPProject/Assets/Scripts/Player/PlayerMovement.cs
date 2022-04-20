@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CraftingManager craftManager;
     [SerializeField] private TileAtlas tileAtlas;
     [SerializeField] private CraftingRecipeUI craftRecipeUI;
+    [SerializeField] private Settings settings;
     public audio_manager music;
 
     private KeyCode[] keys =
@@ -108,6 +109,8 @@ public class PlayerMovement : MonoBehaviour
     private TileClass tileWood;
     private void Awake()
     {
+        settings.changeVolume();
+        AudioListener.volume =  PlayerPrefs.GetFloat("musicVolume");
         //DontDestroyOnLoad(transform.gameObject);
         tileWood = tileAtlas.treeWood;
 

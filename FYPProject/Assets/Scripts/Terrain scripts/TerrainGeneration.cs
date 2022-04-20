@@ -52,7 +52,7 @@ public class TerrainGeneration : MonoBehaviour
     public float terrainFreq = 0.1f;
     public float seed;
     public Texture2D caveNoiseTexture;
-
+    public bool isPlayerPlace = false;
     [Header("Ore settings")]
     public OreClass[] ores;
 
@@ -511,6 +511,7 @@ public class TerrainGeneration : MonoBehaviour
 
     public bool TileCheck(TileClass tile, int x, int y, bool generatedNaturally)
     {
+        isPlayerPlace = true;
         if (x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
             //place blocks within world border
@@ -597,13 +598,25 @@ public class TerrainGeneration : MonoBehaviour
             //     newTile.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 0.6f);
             // }
             newTile.name = tile.tileSprites[0].name;
-            newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
+            if (isPlayerPlace)
+            {
+                newTile.transform.position = new Vector2(x, y);
+                worldTiles.Add(newTile.transform.position - (Vector3.one * 0f));
+
+
+            }
+            else
+            {
+                newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
+                worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
+
+
+            }
 
             //tile.generatedNaturally = isGenerated;
 
 
             TileClass newTileClass = new TileClass(tile, isGenerated);
-            worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
             worldTileObjects.Add(newTile);
             worldTileClasses.Add(newTileClass);
 
