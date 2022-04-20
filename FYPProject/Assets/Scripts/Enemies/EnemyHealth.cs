@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour
     public float hitPts;
     public float maxHitPts = 3;
     public EnemyHB healthBar;
+    //leveling
+    public float XP;
 
     private void Start()
     {

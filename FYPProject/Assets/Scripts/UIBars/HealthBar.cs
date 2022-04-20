@@ -7,7 +7,6 @@ using System.Collections;
 public class HealthBar : MonoBehaviour
 {
     public Slider healthBar;
-    public GameObject DeathScreen;
 
     private int maxHealth = 200;
     private int currentHealth;
@@ -28,7 +27,6 @@ public class HealthBar : MonoBehaviour
         currentHealth = maxHealth;
         healthBar.maxValue = maxHealth;
         healthBar.value = maxHealth;
-        DeathScreen.SetActive(false);
 
     }
 
@@ -44,15 +42,17 @@ public class HealthBar : MonoBehaviour
 
                 regen = StartCoroutine (RegenHealth());
             }
-            else 
+            else if (currentHealth <=0)
             {
-                Debug.Log("Not enough health!");
+                PlayerDied();
             }
-
-            if (currentHealth <=0)
-            {
-                DeathScreen.SetActive(true);
-            }
+    }
+    
+    private void PlayerDied (){
+        {
+            LevelManager.instance.GameOver();
+            gameObject.SetActive (false);
+        }
     }
     
     private IEnumerator RegenHealth()

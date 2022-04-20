@@ -101,6 +101,9 @@ public class PlayerMovement : MonoBehaviour
     Vector3 difference;
     Vector3 equipmentPosition;
 
+    //leveling
+    public Level level;
+
 
     private TileClass tileWood;
     private void Awake()
@@ -399,6 +402,7 @@ public class PlayerMovement : MonoBehaviour
                     background[index].color = backgroundColor;
                     item = null;
                     othersActive = false;
+                    FoodBar.food += 40f;
                 }
             }
 
@@ -415,11 +419,12 @@ public class PlayerMovement : MonoBehaviour
             attack.attack();
             cooldownTimer = 0;
             animationTime = 0;
+            // Reduce mana each usage of staff
             ManaBar.instance.UseMana(10);
             ani.SetTrigger("isAttack");
             //play fireball sound effect
             music.fireBall_play();
-            // Reduce mana each usage of staff
+    
         }
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
         {
@@ -800,6 +805,14 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
-
+    // leveling
+    public void OnLevelUp()
+    {
+        print("levelUp");
+        int oldEXP = level.experience;
+        int newexp = level.GetXPforLevel(level.currentLevel);
+        level.experience = 0;
+        level.experience = (oldEXP - newexp);
+    }
 
 }

@@ -11,15 +11,13 @@ public class PlayerBars : MonoBehaviour
     {  
         if (Input.GetKey(KeyCode.LeftShift) && PlayerMovement.running == true)
         {
-            
             StaminaBar.instance.UseStamina(1);
-
+            //Deplete stamina
         }
-        //Deplete stamina
+
     }
-
+    
        private void OnCollisionEnter2D (Collision2D collide)
-
     {
         if (collide.gameObject.tag.Equals ("Enemy")){
         HealthBar.instance.UseHealth(20); 

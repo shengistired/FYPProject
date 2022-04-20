@@ -16,6 +16,15 @@ public class FoodBar : MonoBehaviour
         food = maxFood;
     }
 
+      public void UseFood(float amount)
+    {
+            if(food - amount >= 0)
+            {
+                food += amount;
+                foodBar.value = food;
+            }
+    }
+
     void Update()
     {
         foodBar.value = food;
@@ -27,11 +36,6 @@ public class FoodBar : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftShift))
             {
             food -= 2f * Time.deltaTime;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-            food -= 4f;
             }
 
             // if (Input.GetKey(KeyCode.Mouse0)){
