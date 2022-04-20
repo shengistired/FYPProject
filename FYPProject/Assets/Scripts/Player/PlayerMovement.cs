@@ -433,7 +433,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && placeTiles == true && item != null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
-
+                Debug.Log(selectedTile.name);
                 bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, false);
                 if (checker == true)
                 {
@@ -775,7 +775,10 @@ public class PlayerMovement : MonoBehaviour
                 for (int i = 0; i < tile.Length; i++)
                 {
                     //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
-                    //Debug.Log(name);                   
+                    //Debug.Log(name);
+                     Debug.Log(itemType);
+                     Debug.Log(tile[i].name);
+
                     if (tile[i].name == itemType.ToString())
                     {
                         selectedTile = tile[i];

@@ -33,5 +33,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite treeLogsSprite;
     public Sprite treeWoodSprite;
     public Sprite stoneWallSprite;
+    public Sprite sandWallSprite;
+    public Sprite dirtWallSprite;
 
 }

@@ -29,7 +29,9 @@ public class Item
         Stone,
         treeLogs,
         treeWood,
-        stoneWall,
+        stone_wall,
+        sand_wall,
+        dirt_wall,
     }
 
     public ItemType itemType;
@@ -86,8 +88,12 @@ public class Item
                 return ItemAssets.Instance.treeLogsSprite;
             case ItemType.treeWood:
                 return ItemAssets.Instance.treeWoodSprite;
-            case ItemType.stoneWall:
+            case ItemType.stone_wall:
                 return ItemAssets.Instance.stoneWallSprite;
+            case ItemType.sand_wall:
+                return ItemAssets.Instance.sandWallSprite;
+            case ItemType.dirt_wall:
+                return ItemAssets.Instance.dirtWallSprite;
 
         }
     }
@@ -114,8 +120,10 @@ public class Item
             case ItemType.Stone:
             case ItemType.treeLogs:
             case ItemType.treeWood:
+            case ItemType.stone_wall:
+            case ItemType.sand_wall:
+            case ItemType.dirt_wall:
                 return true;
-            case ItemType.stoneWall:
             case ItemType.Weapon:
             case ItemType.Axe:
                 return false;
