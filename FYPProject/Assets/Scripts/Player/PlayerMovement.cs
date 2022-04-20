@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Image craftButton;
     [SerializeField] private CraftingManager craftManager;
     [SerializeField] private TileAtlas tileAtlas;
-
+    [SerializeField] private CraftingRecipeUI craftRecipeUI;
     public audio_manager music;
 
     private KeyCode[] keys =
@@ -120,7 +120,8 @@ public class PlayerMovement : MonoBehaviour
         craftItem = new CraftItem();
         direct = 1;
         uiEquipmentSlot.SetEquipment(equipment);
-       // craftManager.SetCraftItem(craftItem);
+        // craftManager.SetCraftItem(craftItem);
+        craftRecipeUI.setPlayer(this);
 
     }
 
@@ -185,6 +186,10 @@ public class PlayerMovement : MonoBehaviour
     {
         return inventory.GetItem(index);
     }
+    public Inventory getInventory()
+    {
+        return inventory;
+    }
     public void AddEquipment(Item item, int index)
     {
         equipment.AddItem(item, index);
@@ -220,6 +225,10 @@ public class PlayerMovement : MonoBehaviour
     public void AddItemInventory(Item item, int index)
     {
         equipment.DeleteEquipment(index);
+        inventory.AddItem(item);
+    }
+    public void AddInventory(Item item)
+    {
         inventory.AddItem(item);
     }
 

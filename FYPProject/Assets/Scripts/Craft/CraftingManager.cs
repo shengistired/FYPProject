@@ -21,7 +21,7 @@ public class CraftingManager : MonoBehaviour
     public string[] recipes;
     public Item[] recipeResults;
     
-
+    /*
     public void SetCraftItem(CraftItem craftItem)
     {
         this.craftItem = craftItem;
@@ -74,7 +74,7 @@ public class CraftingManager : MonoBehaviour
                     enter.eventID = EventTriggerType.PointerDown;
                     enter.callback.AddListener((e) => ItemDragged(item));
                     trigger.triggers.Add(enter);
-                    */
+                    
 
                     image.color = new Color32(255, 255, 255, 255);
                     image.sprite = item.GetSprite();
@@ -180,4 +180,5 @@ public class CraftingManager : MonoBehaviour
     {
         itemDrag = item;
     }
+*/
 }
