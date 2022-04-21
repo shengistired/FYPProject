@@ -28,7 +28,7 @@ public class Spawn_Sheep : MonoBehaviour
             while (!spawnAllowed)
             {
                 float height = GameObject.Find("Terrain").GetComponent<TerrainGeneration>().heightAddition;
-                float x = Random.Range(player.position.x - 15, player.position.x + 15);
+                float x = Random.Range(player.position.x - 12, player.position.x + 12);
                 Vector3 spawnPos = new Vector3(x, height + 10, 0.0f);
 
                 if ((spawnPos - player.position).magnitude < 10)

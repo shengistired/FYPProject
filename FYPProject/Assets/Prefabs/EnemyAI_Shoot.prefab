@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 481924475}
   m_Layer: 7
   m_Name: EnemyAI_Shoot
-  m_TagString: Enemy
+  m_TagString: EnemyShoot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -335,6 +335,7 @@ MonoBehaviour:
   hitPts: 0
   maxHitPts: 3
   healthBar: {fileID: 2507497166801611187}
+  XP: 0
 --- !u!1 &3805780533262324557
 GameObject:
   m_ObjectHideFlags: 0

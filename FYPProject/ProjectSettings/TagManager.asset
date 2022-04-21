@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Enemy
   - Item
+  - Bullet
+  - EnemyCollide
+  - EnemyShoot
   layers:
   - Default
   - TransparentFX

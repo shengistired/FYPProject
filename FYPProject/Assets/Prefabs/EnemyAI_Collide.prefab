@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 1521092611}
   m_Layer: 7
   m_Name: EnemyAI_Collide
-  m_TagString: Enemy
+  m_TagString: EnemyCollide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,6 +300,7 @@ MonoBehaviour:
   hitPts: 0
   maxHitPts: 3
   healthBar: {fileID: 4234082420472154629}
+  XP: 0
 --- !u!1 &2538854349598363034
 GameObject:
   m_ObjectHideFlags: 0

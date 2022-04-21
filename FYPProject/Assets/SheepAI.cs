@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SheepAI : MonoBehaviour
 {
-    public float walkSpeed;
+    public float walkSpeed, range;
+    private float disToPlayer;
 
     [HideInInspector]
     public bool mustPatrol;
@@ -12,6 +13,7 @@ public class SheepAI : MonoBehaviour
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
+    public Transform player;
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
     //public GameObject boom;
@@ -21,6 +23,7 @@ public class SheepAI : MonoBehaviour
     {
         mustPatrol = true;
         Physics2D.IgnoreLayerCollision(7, 7, true);
+        player = GameObject.Find("Mage").transform;
     }
 
     void Update()
@@ -28,6 +31,24 @@ public class SheepAI : MonoBehaviour
         if (mustPatrol)
         {
             Patrol();
+        }
+
+        disToPlayer = Vector2.Distance(transform.position, player.position);
+        if (disToPlayer <= range)
+        {
+            if (player.position.x > transform.position.x && transform.localScale.x < 0
+                || player.position.x < transform.position.x && transform.localScale.x > 0)
+            {
+                mustPatrol = true;
+            }
+            else
+            {
+                Flip();
+            }
+        }
+        else
+        {
+            mustPatrol = true;
         }
 
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
@@ -86,4 +107,14 @@ public class SheepAI : MonoBehaviour
         walkSpeed *= -1;
         mustTurn = false;
     }
+
+    /*void Avoid()
+    {
+        //Vector3 direction = transform.position - player.transform.position;
+        //direction.Normalize();
+        //transform.Translate(direction * walkSpeed * Time.deltaTime);
+
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position,
+                                                 -1 * walkSpeed * Time.deltaTime);
+    }*/
 }

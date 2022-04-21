@@ -205,9 +205,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 80
+  range: 6
   mustPatrol: 0
   rb: {fileID: 8123484212959321213}
   groundcheckPos: {fileID: 8123484214338349425}
+  player: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -17,10 +17,17 @@ public class PlayerBars : MonoBehaviour
     
        private void OnCollisionEnter2D (Collision2D collide)
     {
-        if (collide.gameObject.tag.Equals ("Enemy")){
+        if (collide.gameObject.tag.Equals ("EnemyCollide")){
         // insert enemy damage >>>>>>
         HealthBar.instance.takeDamage(20); 
         //Collide damage
-        }   
+        }
+
+        if (collide.gameObject.tag.Equals("Bullet"))
+        {
+            // insert enemy damage >>>>>>
+            HealthBar.instance.takeDamage(10);
+            //Collide damage
+        }
     }
 }
