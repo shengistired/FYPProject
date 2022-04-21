@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Collections; 
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.UI; 
 
 public class HealthBar : MonoBehaviour
 {
     public Slider healthBar;
     public PlayerStat playerStat;
 
-    private float totalHp;
-    private float currentHp;
+    private int totalHp;
+    private int currentHp;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
 
@@ -29,14 +27,14 @@ public class HealthBar : MonoBehaviour
     {
         currentHp = playerStat.MaxHpBar = 100 + (playerStat.str * 2);
         totalHp = playerStat.MaxHpBar = 100 + (playerStat.str * 2);
-        //currentHealth = maxHealth;
+
+
         //player's total health
-        healthBar.maxValue = playerStat.MaxHpBar = 100 + (playerStat.str * 2); ;
+        healthBar.maxValue = totalHp;
         //player's current health
         healthBar.value = currentHp;
 
-        //healthBar.maxValue = maxHealth;
-        //healthBar.value = maxHealth;
+
 
     }
 
@@ -53,19 +51,13 @@ public class HealthBar : MonoBehaviour
 
             // regen = StartCoroutine(RegenHealth());
         }
-        if (damage > currentHp)
+        if (damage > currentHp || currentHp == 0)
         {
             PlayerDied();
         }
     }
 
-    private void PlayerDied()
-    {
-        {
-            LevelManager.instance.GameOver();
-            gameObject.SetActive(false);
-        }
-    }
+
 
     //regen health as a skill maybe
     private IEnumerator RegenHealth()
@@ -79,5 +71,13 @@ public class HealthBar : MonoBehaviour
             yield return regenTick;
         }
         regen = null;
+    }
+
+    private void PlayerDied()
+    {
+        {
+            LevelManager.instance.GameOver();
+            gameObject.SetActive(false);
+        }
     }
 }
