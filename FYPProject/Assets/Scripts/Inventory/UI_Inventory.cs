@@ -17,10 +17,10 @@ public class UI_Inventory : MonoBehaviour
     int index;
     public Item itemDrag;
     public Vector3 position;
-    private PlayerMovement player;
+    private PlayerController player;
     private DragAndDrop dragdrop;
     public static bool open = false;
-    public void SetPlayer(PlayerMovement player)
+    public void SetPlayer(PlayerController player)
     {
 
         this.player = player;
@@ -74,7 +74,6 @@ public class UI_Inventory : MonoBehaviour
 
                 }
                 item = inventory.GetItem(index);
-                Debug.Log("Item " + item.itemType);
 
 
                 EventTrigger trigger = slot.GetComponent<EventTrigger>();
@@ -88,13 +87,13 @@ public class UI_Inventory : MonoBehaviour
                 enter.callback.AddListener((e) => ItemDragged(item));
                 if (stringLength == 17)
                 {
-                    enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 1))).itemType.ToString()));
+                    enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 1))).descriptionText()));
 
 
                 }
                 else if (stringLength == 18)
                 {
-                    enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 2))).itemType.ToString()));
+                    enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 2))).descriptionText()));
 
                 }
                 enter2.callback.AddListener((e) => ToolTip.HideToolTip_Static());
@@ -141,57 +140,7 @@ public class UI_Inventory : MonoBehaviour
                 image.sprite = null;
             }
 
-            /*
-            int x = 0;
-            int y = 0;
-            float itemSlotCellSize = 1.1f;
 
-            foreach (Item item in inventory.GetItemList())
-            {
-                RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
-                itemSlotRectTransform.gameObject.SetActive(true);
-
-                itemSlotRectTransform.GetComponent<Button>().onClick.AddListener(delegate { click(item); });
-
-                itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
-
-                Vector3 pos = itemSlotRectTransform.position - player.getPosition();
-                Image image = itemSlotRectTransform.Find("Image").GetComponent<Image>();
-
-                EventTrigger trigger = itemSlotRectTransform.GetComponent<EventTrigger>();
-                var enter = new EventTrigger.Entry();
-                var enter1 = new EventTrigger.Entry();
-                var enter2 = new EventTrigger.Entry();
-                enter.eventID = EventTriggerType.PointerDown;
-                enter1.eventID = EventTriggerType.PointerEnter;
-                enter2.eventID = EventTriggerType.PointerExit;
-                enter.callback.AddListener((e) => ItemDragged(item, pos));
-                enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(item.itemType.ToString()));
-                enter2.callback.AddListener((e) => ToolTip.HideToolTip_Static());
-                trigger.triggers.Add(enter);
-                trigger.triggers.Add(enter1);
-                trigger.triggers.Add(enter2);
-
-
-                image.sprite = item.GetSprite();
-                TextMeshProUGUI uiText = itemSlotRectTransform.Find("amountText").GetComponent<TextMeshProUGUI>();
-
-                if (item.amount > 1)
-                {
-                    uiText.text = item.amount.ToString();
-                }
-                else
-                {
-                    uiText.text = "";
-                }
-                x++;
-                if (x > 4)
-                {
-                    x = 0;
-                    y--;
-                }
-            }
-            */
 
 
         }
@@ -244,7 +193,7 @@ public class UI_Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && open == true)
         {
             gameObject.SetActive(false);
-            PlayerMovement.openCraft = true;
+            PlayerController.openCraft = true;
             player.craftOpen();
             open = false;
         }
@@ -260,7 +209,7 @@ public class UI_Inventory : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 open = false;
-                PlayerMovement.openCraft = true;
+                PlayerController.openCraft = true;
                 player.craftOpen();
 
             }

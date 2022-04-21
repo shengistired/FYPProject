@@ -10,7 +10,7 @@ public class Equipment
     private Inventory inventory;
     public static bool addInventory;
     private Item previousEquipment;
-    
+    public string description;
 
     public Equipment(Action<Item> useItemAction)
     {
@@ -204,5 +204,13 @@ public class Equipment
 
         }
         return list;
+    }
+
+    public string itemDescription(int index)
+    {
+
+            description = equipment[index].descriptionText();
+            return description;
+        
     }
 }

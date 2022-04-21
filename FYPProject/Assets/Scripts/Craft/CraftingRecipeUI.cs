@@ -8,7 +8,7 @@ public class CraftingRecipeUI : MonoBehaviour
 	[SerializeField] RectTransform arrowParent;
 	[SerializeField] Craft_Slots[] itemSlots;
 	public Inventory inventory;
-	public PlayerMovement player;
+	public PlayerController player;
 
 	private CraftingRecipe craftingRecipe;
     public CraftingRecipe CraftingRecipe
@@ -16,7 +16,7 @@ public class CraftingRecipeUI : MonoBehaviour
         get { return craftingRecipe; }
         set { SetCraftingRecipe(value); }
     }
-	public void setPlayer(PlayerMovement player)
+	public void setPlayer(PlayerController player)
     {
 		this.player = player;
     }
@@ -24,8 +24,6 @@ public class CraftingRecipeUI : MonoBehaviour
     public void OnCraftButtonClick()
 	{
 		inventory = player.getInventory();
-
-		Debug.Log(inventory);
 		if (craftingRecipe != null && inventory!= null)
 		{
 

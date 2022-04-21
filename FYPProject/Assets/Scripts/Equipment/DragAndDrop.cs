@@ -12,7 +12,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     public event Action<PointerEventData, bool> OnEndDragHandler;
     private CanvasGroup canvasGroup;
     [SerializeField] private UI_Inventory uiInventory;
-    [SerializeField] private PlayerMovement player;
+    [SerializeField] private PlayerController player;
     [SerializeField] private Transform slotTemplate;
 
     private bool isMining = false;
@@ -38,10 +38,10 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (PlayerMovement.mine == true)
+        if (PlayerController.mine == true)
         {
             isMining = true;
-            PlayerMovement.mine = false;
+            PlayerController.mine = false;
 
         }
         try
@@ -117,7 +117,7 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
     {
         if(isMining == true)
         {
-            PlayerMovement.mine = true;
+            PlayerController.mine = true;
             isMining = false;
         }
 

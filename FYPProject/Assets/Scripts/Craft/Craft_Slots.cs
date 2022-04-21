@@ -19,8 +19,6 @@ public class Craft_Slots : MonoBehaviour
 		set
 		{
 			_item = value;
-			if (_item == null && Amount != 0) Amount = 0;
-
 			if (_item == null)
 			{
 				image.sprite = null;
@@ -30,8 +28,12 @@ public class Craft_Slots : MonoBehaviour
 			{
                 try
                 {
+					//_item.amount = value.amount;
 					image.sprite = _item.GetSprite();
 					image.color = normalColor;
+					Debug.Log(_item.amount);
+					amountText.text = _item.amount.ToString();
+
 				}
                 catch
                 {
@@ -43,27 +45,6 @@ public class Craft_Slots : MonoBehaviour
 		}
 	}
 
-	private int _amount;
-	public int Amount
-	{
-		get { return _amount; }
-		set
-		{
-			_amount = value;
-			if (_amount < 0) _amount = 0;
-			if (_amount == 0 && Item != null) Item = null;
-
-			if (amountText != null)
-			{
-				amountText.enabled = _item != null && _amount > 1;
-				if (amountText.enabled)
-				{
-					Debug.Log(_amount);
-					amountText.text = _amount.ToString();
-				}
-			}
-		}
-	}
 
 	protected virtual void OnValidate()
 	{
@@ -74,7 +55,7 @@ public class Craft_Slots : MonoBehaviour
 			amountText = GetComponentInChildren<TextMeshProUGUI>();
 
 		Item = _item;
-		Amount = _amount;
+
 	}
 	protected virtual void Awake()
     {

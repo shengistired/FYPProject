@@ -126,9 +126,99 @@ public class Item
                 return true;
             case ItemType.Weapon:
             case ItemType.Axe:
+            case ItemType.Axe1:
+            case ItemType.Axe2:
+            case ItemType.Axe3:
+            case ItemType.Axe4:
                 return false;
 
 
         }
     }
+    public bool isAxe()
+    {
+        switch (itemType)
+        {
+            default:
+            case ItemType.Coin:
+            case ItemType.Food:
+            case ItemType.Meat:
+            case ItemType.Potion:
+            case ItemType.Dirt:
+            case ItemType.coal:
+            case ItemType.diamond:
+            case ItemType.gold:
+            case ItemType.Grass:
+            case ItemType.iron:
+            case ItemType.leaf:
+            case ItemType.sand:
+            case ItemType.snow:
+            case ItemType.snowLeaf:
+            case ItemType.Stone:
+            case ItemType.treeLogs:
+            case ItemType.treeWood:
+            case ItemType.stone_wall:
+            case ItemType.sand_wall:
+            case ItemType.dirt_wall:
+            case ItemType.Weapon:
+                return false;
+            case ItemType.Axe:
+            case ItemType.Axe1:
+            case ItemType.Axe2:
+            case ItemType.Axe3:
+            case ItemType.Axe4:
+                return true;
+
+
+        }
+    }
+
+    public string descriptionText()
+    {
+        switch (itemType)
+        {
+            default:
+            case ItemType.Food:
+            case ItemType.Meat:
+            case ItemType.Potion:
+                return  itemType.ToString() + " Consume to recover HP and Food Bar";
+            case ItemType.Coin:
+            case ItemType.Stone:
+            case ItemType.diamond:
+            case ItemType.Dirt:
+            case ItemType.gold:
+            case ItemType.treeWood:
+                return itemType.ToString() + " Used to build houses and to craft items";
+            case ItemType.coal:
+            case ItemType.Grass:
+            case ItemType.iron:
+            case ItemType.leaf:
+            case ItemType.sand:
+            case ItemType.snow:
+            case ItemType.snowLeaf:
+                return itemType.ToString() + " Used to build houses";
+            case ItemType.treeLogs:
+            case ItemType.stone_wall:
+            case ItemType.sand_wall:
+            case ItemType.dirt_wall:
+                return itemType.ToString() + " Used to build background";
+            case ItemType.Weapon:
+                return itemType.ToString() + " Damage: 1";
+            case ItemType.Axe:
+                return itemType.ToString() + " Mining Power: 1";
+            case ItemType.Axe1:
+                return itemType.ToString() + " Mining Power: 2";
+            case ItemType.Axe2:
+                return itemType.ToString() + " Mining Power: 3";
+            case ItemType.Axe3:
+                return itemType.ToString() + " Mining Power: 4";
+            case ItemType.Axe4:
+                return itemType.ToString() + " Mining Power: 5";
+
+
+        }
+    }
+
+
+
 }

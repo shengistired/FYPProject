@@ -8,7 +8,7 @@ public class TerrainGeneration : MonoBehaviour
     // public BiomeClass ForestBiome;
     // public BiomeClass DesertBiome;
     // public BiomeClass SnowBiome;
-    public PlayerMovement player;
+    public PlayerController player;
     public GameObject tileDrop;
     public CameraFollow camera;
     public audio_manager music;

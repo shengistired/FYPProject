@@ -52,7 +52,7 @@ public class UI_EquipmentSlot : MonoBehaviour
                 enter1.eventID = EventTriggerType.PointerEnter;
                 enter2.eventID = EventTriggerType.PointerExit;
                 enter.callback.AddListener((e) => ItemDragged(item));
-                enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(equipment.GetEquipment(int.Parse(slot.name.Substring(slot.name.Length - 1)) - 1).itemType.ToString()));
+                enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(equipment.GetEquipment(int.Parse(slot.name.Substring(slot.name.Length - 1)) - 1).descriptionText()));
                 enter2.callback.AddListener((e) => ToolTip.HideToolTip_Static());
                 trigger.triggers.Add(enter);
                 trigger.triggers.Add(enter1);

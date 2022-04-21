@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
         float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
         Quaternion quan = Quaternion.Euler(0f, 0f, 180);
 
-        if(PlayerMovement.directionNum == 1)
+        if(PlayerController.directionNum == 1)
         {
             Instantiate(fireball, transform.position, Quaternion.identity);
 

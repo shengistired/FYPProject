@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
@@ -22,9 +22,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject others;
     [SerializeField] private CustomCursor customCursor;
     [SerializeField] private Image craftButton;
-    [SerializeField] private CraftingManager craftManager;
     [SerializeField] private TileAtlas tileAtlas;
-    [SerializeField] private CraftingRecipeUI craftRecipeUI;
+    [SerializeField] private GameObject content;
     [SerializeField] private Settings settings;
     public audio_manager music;
 
@@ -126,8 +125,11 @@ public class PlayerMovement : MonoBehaviour
         craftItem = new CraftItem();
         direct = 1;
         uiEquipmentSlot.SetEquipment(equipment);
-        // craftManager.SetCraftItem(craftItem);
-        craftRecipeUI.setPlayer(this);
+
+        foreach(CraftingRecipeUI craftingRecipeUI in content.GetComponentsInChildren<CraftingRecipeUI>())
+        {
+            craftingRecipeUI.setPlayer(this);
+        }
 
     }
 
@@ -360,7 +362,7 @@ public class PlayerMovement : MonoBehaviour
                 staffActive = false;
 
             }
-            else if (original.itemType == Item.ItemType.Axe)
+            else if (original.isAxe())
             {
                 axeActive = false;
                 axeJump = false;
@@ -759,18 +761,19 @@ public class PlayerMovement : MonoBehaviour
                 staffActive = true;
 
             }
-            if (itemType == Item.ItemType.Axe)
+            if (item.isAxe())
             {
+                axe.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
                 mine = true;
                 axeActive = true;
                 axeJump = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Axe)
+            if (itemType != Item.ItemType.Weapon && !item.isAxe())
             {
                 others.GetComponent<Image>().sprite = item.GetSprite();
                 othersActive = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food  && itemType != Item.ItemType.Meat && itemType != Item.ItemType.Coin && itemType != Item.ItemType.Axe && itemType != Item.ItemType.Potion)
+            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food  && itemType != Item.ItemType.Meat && itemType != Item.ItemType.Coin && !item.isAxe() && itemType != Item.ItemType.Potion)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {

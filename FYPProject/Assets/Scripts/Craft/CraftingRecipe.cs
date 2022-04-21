@@ -17,19 +17,28 @@ public class CraftingRecipe : ScriptableObject
 
 	private bool HasMaterials(Inventory inventory)
 	{
+		bool hasMaterials = false;
 		foreach (Item item in Materials)
 		{
 			foreach(Item itemInInventory in inventory.GetItemList())
             {
-				Debug.Log(itemInInventory);
-				if(itemInInventory.amount < item.amount)
+				if(item.itemType == itemInInventory.itemType)
                 {
-					Debug.LogWarning("You don't have the required materials.");
-					return false;
+					if (itemInInventory.amount >= item.amount)
+					{
+						hasMaterials = true;
+					}
+                    else
+                    {
+						Debug.LogWarning("You don't have the required materials.");
+						hasMaterials = false;
+
+					}
 				}
+
             }
 		}
-		return true;
+		return hasMaterials;
 	}
 	private void RemoveMaterials(Inventory inventory)
 	{
@@ -55,8 +64,8 @@ public class CraftingRecipe : ScriptableObject
 	{
 		if (CanCraft(inventory))
 		{
-			AddResults(inventory);
 			RemoveMaterials(inventory);
+			AddResults(inventory);
 		}
 	}
 }
