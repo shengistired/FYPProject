@@ -3,10 +3,18 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-
+    [Header("Player Class and Level")]
     public string PlayerClass = "mage";
     public int Playerlevel = 1;
-    public int expNeededToNext;
+    // exp that player has
+    public int currentExp;
+    //exp that player needs  
+    public int expNeededToNextLevel;
+    public int statPoints = 0;
+    public int skillPoint = 0;
+
+
+    [Header("Player's Stat")]
     //warrior starts with str 15
     public int str = 10;
 
@@ -20,45 +28,50 @@ public class PlayerStat : MonoBehaviour
     public int luck = 10;
 
 
+    [Header("Player's HP bar and related stuff")]
     //increase str to increase HP
-    public int MaxHpBar = 100;
-
+    public int MaxHpBar;
     //increase int to increase mana
-    public int MaxManaBar = 100;
-
+    public int MaxManaBar;
     //increase dex to increase stamina
-    public int MaxStamina = 100;
-
-    //increase luck to increase crit chance calculated in damage dealt 
-    public float critChance;
-
-
-
-
-
-    public int healthRegen = 10;
-
+    public int MaxStamina;
     public int MaxHungerBar = 100;
+    public int healthRegen;
 
 
+    [Header("Player's misc stuff")]
     // Easy 5 death normal 3 death Hard 1 death
     public int DeathCount;
-
-    public float damage;
-    public int defence;
-
-
-    public int statPoints = 0;
-    public int skillPoint = 0;
     public int portalsEntered;
 
+    //increase luck to increase crit chance calculated in damage dealt 
+    private float critChance;
+    private float damage;
+    //each point of main stat of that class = 1 def (example: Mage(Intelligence) 10 int = to 10 defence)
+    private int defence;
 
-    public int levelUp()
+    public int checkForLevelUp()
     {
-        Playerlevel++;
-        statPoints++;
-        skillPoint++;
-        return Playerlevel;
+        if (currentExp > expNeededToNextLevel)
+        {
+            Playerlevel++;
+
+            //each level up gives 5 stat points
+            statPoints += 5;
+
+            //each level up gives 1 skill point
+            skillPoint++;
+
+            expNeededToNextLevel = Playerlevel * 100;
+            currentExp = 0;
+            return Playerlevel;
+
+        }
+        else
+        {
+            return Playerlevel;
+        }
+
     }
 
 
@@ -68,6 +81,7 @@ public class PlayerStat : MonoBehaviour
         if (statPoints != 0)
         {
             str++;
+            statPoints--;
             return str;
         }
         else
@@ -81,6 +95,7 @@ public class PlayerStat : MonoBehaviour
         if (statPoints != 0)
         {
             dex++;
+            statPoints--;
             return dex;
         }
         else
@@ -94,6 +109,7 @@ public class PlayerStat : MonoBehaviour
         if (statPoints != 0)
         {
             intelligence++;
+            statPoints--;
             return intelligence;
         }
         else
@@ -108,6 +124,7 @@ public class PlayerStat : MonoBehaviour
         if (statPoints != 0)
         {
             luck++;
+            statPoints--;
             return luck;
         }
         else
@@ -118,15 +135,82 @@ public class PlayerStat : MonoBehaviour
     }
 
 
-
+    //calculate damage dealt base on stats. not including skill stats
     public float damageDealt()
     {
+        float cirtHit;
+        critChance = luck + (1 / 10) * 100; //20% chance to crit if luck is 10
 
-        critChance = luck + 1 / 10; //0.2
         //for mage class
-        damage = intelligence + (intelligence * critChance);
+        if (PlayerClass == "mage")
+        {
+            cirtHit = Random.Range(0, critChance);
+            if (cirtHit == 0)
+            {
+                damage = intelligence * 2;
+            }
+            else
+            {
+                damage = intelligence;
+            }
+
+            return damage;
+
+        }
+
+        //for warrior 
+        if (PlayerClass == "warrior")
+        {
+            cirtHit = Random.Range(0, critChance);
+            if (cirtHit == 0)
+            {
+                damage = str * 2;
+            }
+            else
+            {
+                damage = str;
+            }
+
+            return damage;
+
+        }
+
+        //for archer
+        if (PlayerClass == "archer")
+        {
+            cirtHit = Random.Range(0, critChance);
+            if (cirtHit == 0)
+            {
+                damage = dex * 2;
+            }
+            else
+            {
+                damage = dex;
+            }
+
+            return damage;
+
+        }
+
+        //for thief
+        if (PlayerClass == "archer")
+        {
+            cirtHit = Random.Range(0, critChance);
+            if (cirtHit == 0)
+            {
+                damage = luck * 2;
+            }
+            else
+            {
+                damage = luck;
+            }
+
+            return damage;
+
+        }
 
         return damage;
+
 
     }
 

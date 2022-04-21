@@ -20,7 +20,7 @@ public class PlayerBars : MonoBehaviour
        private void OnCollisionEnter2D (Collision2D collide)
     {
         if (collide.gameObject.tag.Equals ("Enemy")){
-        HealthBar.instance.UseHealth(20); 
+        HealthBar.instance.takeDamage(20); 
         //Collide damage
         }   
     }
