@@ -39,6 +39,10 @@ public class UI_EquipmentSlot : MonoBehaviour
             try
             {
                 index = int.Parse(slot.name.Substring(slot.name.Length - 1));
+                if(index == 0)
+                {
+                    index = 10;
+                }
                 index -= 1;
                 item = equipment.GetEquipment(index);
 

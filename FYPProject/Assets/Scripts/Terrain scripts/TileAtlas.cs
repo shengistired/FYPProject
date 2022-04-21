@@ -16,6 +16,7 @@ public class TileAtlas : ScriptableObject
     public TileClass cactus;
     public TileClass snow;
     public TileClass snowLeaf;
+    public TileClass campfire;
     //background tiles
     // public TileClass stone_wall;
     // public TileClass dirt_wall;

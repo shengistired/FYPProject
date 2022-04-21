@@ -32,6 +32,7 @@ public class Item
         stone_wall,
         sand_wall,
         dirt_wall,
+        campFire,
     }
 
     public ItemType itemType;
@@ -93,7 +94,9 @@ public class Item
             case ItemType.sand_wall:
                 return ItemAssets.Instance.sandWallSprite;
             case ItemType.dirt_wall:
-                return ItemAssets.Instance.dirtWallSprite;
+                return ItemAssets.Instance.dirtWallSprite;         
+            case ItemType.campFire:
+                return ItemAssets.Instance.campfireSprite;
 
         }
     }
@@ -123,6 +126,7 @@ public class Item
             case ItemType.stone_wall:
             case ItemType.sand_wall:
             case ItemType.dirt_wall:
+            case ItemType.campFire:
                 return true;
             case ItemType.Weapon:
             case ItemType.Axe:
@@ -160,6 +164,7 @@ public class Item
             case ItemType.stone_wall:
             case ItemType.sand_wall:
             case ItemType.dirt_wall:
+            case ItemType.campFire:
             case ItemType.Weapon:
                 return false;
             case ItemType.Axe:
@@ -181,14 +186,12 @@ public class Item
             case ItemType.Food:
             case ItemType.Meat:
             case ItemType.Potion:
-                return  itemType.ToString() + " Consume to recover HP and Food Bar";
             case ItemType.Coin:
             case ItemType.Stone:
             case ItemType.diamond:
             case ItemType.Dirt:
             case ItemType.gold:
             case ItemType.treeWood:
-                return itemType.ToString() + " Used to build houses and to craft items";
             case ItemType.coal:
             case ItemType.Grass:
             case ItemType.iron:
@@ -196,24 +199,24 @@ public class Item
             case ItemType.sand:
             case ItemType.snow:
             case ItemType.snowLeaf:
-                return itemType.ToString() + " Used to build houses";
             case ItemType.treeLogs:
             case ItemType.stone_wall:
             case ItemType.sand_wall:
             case ItemType.dirt_wall:
-                return itemType.ToString() + " Used to build background";
+            case ItemType.campFire:
+                return itemType.ToString();
             case ItemType.Weapon:
                 return itemType.ToString() + " Damage: 1";
             case ItemType.Axe:
                 return itemType.ToString() + " Mining Power: 1";
             case ItemType.Axe1:
-                return itemType.ToString() + " Mining Power: 2";
+                return "Axe +1 Mining Power: 2";
             case ItemType.Axe2:
-                return itemType.ToString() + " Mining Power: 3";
+                return "Axe +2 Mining Power: 2";
             case ItemType.Axe3:
-                return itemType.ToString() + " Mining Power: 4";
+                return "Axe +3 Mining Power: 2";
             case ItemType.Axe4:
-                return itemType.ToString() + " Mining Power: 5";
+                return "Axe +4 Mining Power: 2";
 
 
         }

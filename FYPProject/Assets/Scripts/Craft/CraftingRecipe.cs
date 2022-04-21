@@ -9,7 +9,8 @@ public class CraftingRecipe : ScriptableObject
 {
     public List<Item> Materials;
     public List<Item> Results;
-
+	public bool failCraft = false;
+	
 	public bool CanCraft(Inventory inventory)
 	{
 		return HasMaterials(inventory);
@@ -17,37 +18,57 @@ public class CraftingRecipe : ScriptableObject
 
 	private bool HasMaterials(Inventory inventory)
 	{
-		bool hasMaterials = false;
+		List<bool> hasMaterials = new List<bool>();
 		foreach (Item item in Materials)
 		{
+			
 			foreach(Item itemInInventory in inventory.GetItemList())
             {
 				if(item.itemType == itemInInventory.itemType)
                 {
 					if (itemInInventory.amount >= item.amount)
 					{
-						hasMaterials = true;
+						hasMaterials.Add(true);
 					}
                     else
                     {
-						Debug.LogWarning("You don't have the required materials.");
-						hasMaterials = false;
+						hasMaterials.Add(false);
 
 					}
 				}
 
             }
 		}
-		return hasMaterials;
+        try {
+			if (hasMaterials.ToArray()[0] == true && hasMaterials.ToArray()[1] == true)
+			{
+				return true;
+			}
+			else
+			{
+				failCraft = true;
+				return false;
+			}
+		}
+        catch
+        {
+			failCraft = true;
+			return false;
+        }
+
 	}
+
+	public bool failed()
+    {
+		return failCraft;
+    }
 	private void RemoveMaterials(Inventory inventory)
 	{
 		foreach (Item item in Materials)
 		{
-			for (int i = 0; i < item.amount; i++)
-			{
-				inventory.RemoveItem(item);
-			}
+			Debug.Log(item.itemType);
+			inventory.RemoveItem(item);
+			
 		}
 	}
 	private void AddResults(Inventory inventory)
@@ -68,4 +89,9 @@ public class CraftingRecipe : ScriptableObject
 			AddResults(inventory);
 		}
 	}
+
+	public bool isCrafted()
+    {
+		return true;
+    }
 }

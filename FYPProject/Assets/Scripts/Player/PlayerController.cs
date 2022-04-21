@@ -166,14 +166,15 @@ public class PlayerController : MonoBehaviour
         if (itemWorld != null)
         {
 
-            if (equipment.filledList().Count > 0)
+            if (!equipment.isFilled())
             {
-                if (!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
+                if (!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledArray()))
                 {
-                    equipment.AddItem(itemWorld.GetItem(), equipment.filledList()[0]);
+                    Debug.Log(itemWorld.GetItem().itemType);
+                    equipment.AddItem(itemWorld.GetItem(), equipment.filledArray());
                 }
             }
-            else if (!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledList()[0]))
+            else if (!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledArray()))
             {
                 inventory.AddItem(itemWorld.GetItem());
             }
@@ -777,10 +778,6 @@ public class PlayerController : MonoBehaviour
             {
                 for (int i = 0; i < tile.Length; i++)
                 {
-                    //string name  = tile[i].name.Substring(0, tile[i].name.Length - 12);
-                    //Debug.Log(name);
-                     Debug.Log(itemType);
-                     Debug.Log(tile[i].name);
 
                     if (tile[i].name == itemType.ToString())
                     {

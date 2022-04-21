@@ -191,19 +191,30 @@ public class Equipment
 
 
 
-    public List<int> filledList()
+    public int filledArray()
     {
+        int indexArray = -1;
         
-        List<int> list = new List<int>();
         for (int i = 0; i < equipment.Length; i++)
         {
             if (equipment[i] == null)
             {
-                list.Add(i);
+                
+                return i;
             }
 
         }
-        return list;
+        return indexArray;
+    }
+
+    public bool isFilled()
+    {
+        bool isFilled = false;
+        if(filledArray() == -1)
+        {
+            isFilled = true;
+        }
+        return isFilled;
     }
 
     public string itemDescription(int index)

@@ -38,14 +38,14 @@ public class Inventory
         }
         else
         {
+            Debug.Log(item.amount);
             itemList.Add(item);
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
     public void RemoveItem(Item item)
     {
-        if (item.isStackable())
-        {
+
             Item itemInInventory = null;
             foreach (Item inventoryItem in itemList)
             {
@@ -60,11 +60,8 @@ public class Inventory
                 itemList.Remove(itemInInventory);
             }
 
-        }
-        else
-        {
-            itemList.Remove(item);
-        }
+        
+
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
     public void MoveItem(int index)

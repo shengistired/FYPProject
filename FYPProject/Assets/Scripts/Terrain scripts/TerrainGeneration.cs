@@ -745,7 +745,6 @@ public class TerrainGeneration : MonoBehaviour
                         if (itemtype.ToString().ToUpper() == "LEAF" || itemtype.ToString().ToUpper() == "SNOWLEAF")
                         {
                             float randomNumber = Random.Range(0, 4);
-                            Debug.Log(randomNumber);
                             if (randomNumber == 0)
                             {
                                 item.itemType = Item.ItemType.Food;
