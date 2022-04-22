@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class TerrainGeneration : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class TerrainGeneration : MonoBehaviour
     public OreClass[] ores;
 
 
-
+    public TextMeshProUGUI numberPortal;
 
     private GameObject[] worldChunks;
 
@@ -572,6 +573,8 @@ public class TerrainGeneration : MonoBehaviour
                 portal.isTrigger = true;
                 portal.size = new Vector2(2f, 2f);
                 newTile.AddComponent<EnterPortal>();
+                numberPortal.text = SaveData.current.portalEntered.ToString();
+                
             }
 
             newTile.tag = "Ground";

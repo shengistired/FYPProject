@@ -188,7 +188,7 @@ public class UI_Inventory : MonoBehaviour
 
     public void inventory_Position()
     {
-        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.4f, 0.6f, 10f));
+        Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.42f, 0.6f, 10f));
         transform.position = centerPos;
         if (Input.GetKeyDown(KeyCode.Escape) && open == true)
         {

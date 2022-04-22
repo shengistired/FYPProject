@@ -66,7 +66,6 @@ public class CraftingRecipe : ScriptableObject
 	{
 		foreach (Item item in Materials)
 		{
-			Debug.Log(item.itemType);
 			inventory.RemoveItem(item);
 			
 		}

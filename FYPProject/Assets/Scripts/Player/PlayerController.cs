@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     public bool moved;
     public static bool openCraft = false;
     public static bool running;
+    public static bool normalAttack = false;
 
 
     public TileClass[] tile;
@@ -75,7 +76,7 @@ public class PlayerController : MonoBehaviour
     public int rotationOffset = 0;
     public int direct;
     private int index;
-
+    
 
     private Item.ItemType itemType;
     private float timeRemaining;
@@ -86,6 +87,7 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     public float runSpeed;
     private float horizontalMove = 0f;
+    private float normalAttackCooldown = 0f;
 
     private Rigidbody2D body;
     private Animator ani;
@@ -108,6 +110,7 @@ public class PlayerController : MonoBehaviour
     private TileClass tileWood;
     private void Awake()
     {
+        SaveData.current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/Save.save");
         settings.changeVolume();
         AudioListener.volume =  PlayerPrefs.GetFloat("musicVolume");
         //DontDestroyOnLoad(transform.gameObject);
@@ -170,7 +173,6 @@ public class PlayerController : MonoBehaviour
             {
                 if (!equipment.AddItemCollide(itemWorld.GetItem(), equipment.filledArray()))
                 {
-                    Debug.Log(itemWorld.GetItem().itemType);
                     equipment.AddItem(itemWorld.GetItem(), equipment.filledArray());
                 }
             }
@@ -416,10 +418,19 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0) && staffActive == true)
         {
+            normalAttack = true;
             ani.SetTrigger("isAttack");
             
         }
-
+        if (normalAttack)
+        {
+            normalAttackCooldown += Time.deltaTime;
+        }
+        if(normalAttackCooldown >= 0.1f)
+        {
+            normalAttack = false;
+            normalAttackCooldown = 0f;
+        }
         if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
         {
             attack.attack();
@@ -765,6 +776,7 @@ public class PlayerController : MonoBehaviour
             if (item.isAxe())
             {
                 axe.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
+                miningPower = item.miningPower();
                 mine = true;
                 axeActive = true;
                 axeJump = true;

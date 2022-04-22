@@ -47,7 +47,6 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
         try
         {
             int stringLength = slotTemplate.name.Length;
-            Debug.Log("Legnth" + stringLength);
             if (stringLength == 17)
             {
                 indexInventory = int.Parse(slotTemplate.name.Substring(stringLength - 1));
@@ -60,7 +59,6 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
             }
             item = player.getInventoryItem(indexInventory);
 
-            Debug.Log("Item " + item.itemType);
             if (item != null)
             {
                 go = Instantiate(itemSlot.gameObject);
@@ -220,34 +218,6 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
                     }
                     catch
                     {
-                        try
-                        {
-                            string name = dropArea.GetComponent<Craft_Slots>().name;
-                            dropArea.Drop(this);
-                            OnEndDragHandler?.Invoke(eventData, true);
-                            canvasGroup.alpha = 1f;
-                            canvasGroup.blocksRaycasts = true;
-
-                            if (name == "CraftSlotTemplate")
-                            {
-                                uiInventory.Move(indexInventory);
-                                player.AddCraftItem(item, 0);
-                                return;
-                            }
-                            else if (name == "CraftSlotTemplate1")
-                            {
-                                uiInventory.Move(indexInventory);
-                                player.AddCraftItem(item, 1);
-                                return;
-
-
-                            }
-                        }
-                        catch
-                        {
-
-                        }
-
 
                     
 

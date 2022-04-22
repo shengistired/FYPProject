@@ -38,11 +38,14 @@ public class Projectile : MonoBehaviour
         {
             collisionGameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
         }*/
+        if(collision.gameObject.name != "Staff")
+        {
+            hit = true;
+            Debug.Log("BOOM");
+            ani.SetTrigger("explode");
+            Destroy(gameObject);
+        }
 
-        hit = true;
-        Debug.Log("BOOM");
-        ani.SetTrigger("explode");
-        Destroy(gameObject);
     }
 
 

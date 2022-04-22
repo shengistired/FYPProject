@@ -8,10 +8,11 @@ public class Item
     {
         Weapon,
         Axe,
-        Axe1,
-        Axe2,
-        Axe3,
-        Axe4,
+        WoodAxe,
+        StoneAxe,
+        IronAxe,
+        GoldAxe,
+        DiamondAxe,
         Potion,
         Food,
         Meat,
@@ -47,14 +48,16 @@ public class Item
                 return ItemAssets.Instance.weaponSprite;
             case ItemType.Axe:
                 return ItemAssets.Instance.axeSprite;
-            case ItemType.Axe1:
-                return ItemAssets.Instance.axe1Sprite;
-            case ItemType.Axe2:
-                return ItemAssets.Instance.axe2Sprite;
-            case ItemType.Axe3:
-                return ItemAssets.Instance.axe3Sprite;
-            case ItemType.Axe4:
-                return ItemAssets.Instance.axe4Sprite;
+            case ItemType.WoodAxe:
+                return ItemAssets.Instance.woodAxeSprite;
+            case ItemType.StoneAxe:
+                return ItemAssets.Instance.stoneAxeSprite;
+            case ItemType.IronAxe:
+                return ItemAssets.Instance.ironAxeSprite;
+            case ItemType.GoldAxe:
+                return ItemAssets.Instance.goldAxeSprite;
+            case ItemType.DiamondAxe:
+                return ItemAssets.Instance.diamondAxeSprite;
             case ItemType.Potion:
                 return ItemAssets.Instance.potionSprite;
             case ItemType.Food:
@@ -94,7 +97,7 @@ public class Item
             case ItemType.sand_wall:
                 return ItemAssets.Instance.sandWallSprite;
             case ItemType.dirt_wall:
-                return ItemAssets.Instance.dirtWallSprite;         
+                return ItemAssets.Instance.dirtWallSprite;
             case ItemType.campFire:
                 return ItemAssets.Instance.campfireSprite;
 
@@ -130,10 +133,11 @@ public class Item
                 return true;
             case ItemType.Weapon:
             case ItemType.Axe:
-            case ItemType.Axe1:
-            case ItemType.Axe2:
-            case ItemType.Axe3:
-            case ItemType.Axe4:
+            case ItemType.WoodAxe:
+            case ItemType.StoneAxe:
+            case ItemType.IronAxe:
+            case ItemType.GoldAxe:
+            case ItemType.DiamondAxe:
                 return false;
 
 
@@ -168,10 +172,11 @@ public class Item
             case ItemType.Weapon:
                 return false;
             case ItemType.Axe:
-            case ItemType.Axe1:
-            case ItemType.Axe2:
-            case ItemType.Axe3:
-            case ItemType.Axe4:
+            case ItemType.WoodAxe:
+            case ItemType.StoneAxe:
+            case ItemType.IronAxe:
+            case ItemType.GoldAxe:
+            case ItemType.DiamondAxe:
                 return true;
 
 
@@ -209,19 +214,41 @@ public class Item
                 return itemType.ToString() + " Damage: 1";
             case ItemType.Axe:
                 return itemType.ToString() + " Mining Power: 1";
-            case ItemType.Axe1:
-                return "Axe +1 Mining Power: 2";
-            case ItemType.Axe2:
-                return "Axe +2 Mining Power: 2";
-            case ItemType.Axe3:
-                return "Axe +3 Mining Power: 2";
-            case ItemType.Axe4:
-                return "Axe +4 Mining Power: 2";
+            case ItemType.WoodAxe:
+                return itemType.ToString() + " Mining Power: 2";
+            case ItemType.StoneAxe:
+                return itemType.ToString() + " Mining Power: 3";
+            case ItemType.IronAxe:
+                return itemType.ToString() + " Mining Power: 4";
+            case ItemType.GoldAxe:
+                return itemType.ToString() + " Mining Power: 5";
+            case ItemType.DiamondAxe:
+                return itemType.ToString() + " Mining Power: 6";
 
 
         }
     }
 
+    public int miningPower()
+    {
+        switch (itemType)
+        {
+            default:
+            case ItemType.Axe:
+                return 1;
+            case ItemType.WoodAxe:
+                return 2;
+            case ItemType.StoneAxe:
+                return 3;
+            case ItemType.IronAxe:
+                return 4;
+            case ItemType.GoldAxe:
+                return 5;
+            case ItemType.DiamondAxe:
+                return 6;
+        }
 
 
+
+    }
 }

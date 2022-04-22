@@ -15,8 +15,7 @@ MonoBehaviour:
   Materials:
   - itemType: 22
     amount: 5
-  - itemType: 14
-    amount: 5
   Results:
-  - itemType: 26
+  - itemType: 27
     amount: 1
+  failCraft: 0

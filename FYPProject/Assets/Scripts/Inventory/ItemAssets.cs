@@ -11,10 +11,11 @@ public class ItemAssets : MonoBehaviour
     public Transform pitemWorld;
     public Sprite weaponSprite;
     public Sprite axeSprite;
-    public Sprite axe1Sprite;
-    public Sprite axe2Sprite;
-    public Sprite axe3Sprite;
-    public Sprite axe4Sprite;
+    public Sprite woodAxeSprite;
+    public Sprite stoneAxeSprite;
+    public Sprite ironAxeSprite;
+    public Sprite goldAxeSprite;
+    public Sprite diamondAxeSprite;
     public Sprite potionSprite;
     public Sprite foodSprite;
     public Sprite meatSprite;
