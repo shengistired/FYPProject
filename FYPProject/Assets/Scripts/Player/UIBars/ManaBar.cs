@@ -7,8 +7,9 @@ using System.Collections;
 public class ManaBar : MonoBehaviour
 {
     public Slider manaBar;
-    
-    private int maxMana = 200;
+    public PlayerStat playerStat;
+
+    private int totalMana;
     private int currentMana;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
@@ -24,36 +25,46 @@ public class ManaBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentMana = maxMana;
-        manaBar.maxValue = maxMana;
-        manaBar.value = maxMana;
+        currentMana = playerStat.calculateTotalMana();
+        totalMana = playerStat.calculateTotalMana();
+        //Debug.Log("currentMana"+currentMana);
+        //Debug.Log("totalMana"+totalMana);
+
+        manaBar.maxValue = totalMana;
+        manaBar.value = currentMana;
+
     }
 
-    public void UseMana(int amount)
+    public bool useMana(int mana)
     {
-            if(currentMana - amount >= 0)
-            {
-                currentMana -= amount;
-                manaBar.value = currentMana;
+        if (currentMana > mana)
+        {
+            currentMana -= mana;
+            manaBar.value = currentMana;
 
-                if (regen != null)
-                    StopCoroutine(regen);
+            //mana regen
+            if (regen != null)
+                StopCoroutine(regen);
 
-                regen = StartCoroutine (RegenMana());
-            }
-            else 
-            {
-                Debug.Log("Not enough mana!");
-            }
+            regen = StartCoroutine(manaRegen());
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not enough mana!");
+            return false;
+        }
     }
-    
-    private IEnumerator RegenMana()
+
+    //manaRegen
+    private IEnumerator manaRegen()
     {
         yield return new WaitForSeconds(2);
 
-        while(currentMana < maxMana)
+        while (currentMana < totalMana)
         {
-            currentMana += maxMana / 100;
+            // replace bottom with this for the mana regen you set in playerstat.cs >>> currentMana += playerStat.manaRegen;
+            currentMana += totalMana / 100;
             manaBar.value = currentMana;
             yield return regenTick;
         }

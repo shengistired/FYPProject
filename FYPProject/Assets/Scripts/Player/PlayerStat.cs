@@ -29,14 +29,18 @@ public class PlayerStat : MonoBehaviour
 
 
     [Header("Player's HP bar and related stuff")]
-    //increase str to increase HP
+    //increase str to increase HP (each stat increase HP by 2 )
     public int MaxHpBar;
-    //increase int to increase mana
+    //increase int to increase mana  (each stat increase Mana by 2 )
     public int MaxManaBar;
-    //increase dex to increase stamina
+    //increase dex to increase stamina  (each stat increase Stamina by 2 )
     public int MaxStamina;
+
     public int MaxHungerBar = 100;
-    public int healthRegen;
+
+    public int healthRegen = 10;
+    public int manaRegen = 10;
+    public int staminaRegen = 10;
 
 
     [Header("Player's misc stuff")]
@@ -49,6 +53,30 @@ public class PlayerStat : MonoBehaviour
     private float damage;
     //each point of main stat of that class = 1 def (example: Mage(Intelligence) 10 int = to 10 defence)
     private int defence;
+
+    public int calculateTotalHP()
+    {
+        MaxHpBar = 100;
+        //each stat of strength gives 2 hp
+        MaxHpBar += (str * 2);
+        return MaxHpBar;
+    }
+
+    public int calculatetotalStamina()
+    {
+        MaxStamina = 100;
+        //each stat of dex gives 2 stamina
+        MaxStamina += (dex * 2);
+        return MaxStamina;
+    }
+
+    public int calculateTotalMana()
+    {
+        MaxManaBar = 100;
+        //each stat of intelligence gives 2 mana
+        MaxManaBar += (intelligence * 2);
+        return MaxManaBar;
+    }
 
     public int checkForLevelUp()
     {
@@ -82,6 +110,7 @@ public class PlayerStat : MonoBehaviour
         {
             str++;
             statPoints--;
+            calculateTotalHP();
             return str;
         }
         else
@@ -96,6 +125,7 @@ public class PlayerStat : MonoBehaviour
         {
             dex++;
             statPoints--;
+            calculatetotalStamina();
             return dex;
         }
         else
@@ -110,6 +140,7 @@ public class PlayerStat : MonoBehaviour
         {
             intelligence++;
             statPoints--;
+            calculateTotalMana();
             return intelligence;
         }
         else

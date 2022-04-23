@@ -7,10 +7,11 @@ using System.Collections;
 public class StaminaBar : MonoBehaviour
 {
     public Slider staminaBar;
-    
-    private int maxStamina = 1000;
+    public PlayerStat playerStat;
+
+    private int totalStamina;
     public int currentStamina;
-    
+
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     private Coroutine regen;
@@ -25,43 +26,48 @@ public class StaminaBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentStamina = maxStamina;
-        staminaBar.maxValue = maxStamina;
-        staminaBar.value = maxStamina;
+        //currentStamina = maxStamina;
+        currentStamina = playerStat.calculatetotalStamina();
+        totalStamina = playerStat.calculatetotalStamina();
+
+        staminaBar.maxValue = totalStamina;
+        staminaBar.value = totalStamina;
     }
 
-    public void UseStamina (int amount)
+    public bool UseStamina(int stamina)
     {
-            if(currentStamina - amount >= 0)
-            {
-                currentStamina -= amount;
-                staminaBar.value = currentStamina;
+        if (currentStamina >= stamina)
+        {
+            currentStamina -= stamina;
+            staminaBar.value = currentStamina;
 
-                if (regen != null)
-                    StopCoroutine(regen);
+            if (regen != null)
+                StopCoroutine(regen);
 
-                regen = StartCoroutine (RegenStamina());
-            }
-            else 
-            {
-                
-                Debug.Log("Not enough stamina!");
-            }
+            regen = StartCoroutine(RegenStamina());
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not enough stamina!");
+            PlayerController.running = false;
+            return false;
+        }
     }
 
     private IEnumerator RegenStamina()
     {
         yield return new WaitForSeconds(2);
 
-        while(currentStamina < maxStamina)
+        while (currentStamina < totalStamina)
         {
-            currentStamina += maxStamina / 100;
+            currentStamina += totalStamina / 100;
             staminaBar.value = currentStamina;
             yield return regenTick;
         }
         regen = null;
     }
 
-    
+
 
 }

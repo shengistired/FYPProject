@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     public int rotationOffset = 0;
     public int direct;
     private int index;
-    
+
 
     private Item.ItemType itemType;
     private float timeRemaining;
@@ -110,10 +110,10 @@ public class PlayerController : MonoBehaviour
     private TileClass tileWood;
     private void Awake()
     {
-        
+
         //SaveData.current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/Save.save");
         settings.changeVolume();
-        AudioListener.volume =  PlayerPrefs.GetFloat("musicVolume");
+        AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
         //DontDestroyOnLoad(transform.gameObject);
         tileWood = tileAtlas.treeWood;
 
@@ -129,12 +129,12 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if(SaveData.current.equipment == null)
+        if (SaveData.current.equipment == null)
         {
             SaveData.current.equipment = new Equipment(UseItem);
 
         }
-        if(SaveData.current.craftItem== null)
+        if (SaveData.current.craftItem == null)
         {
             SaveData.current.craftItem = new CraftItem();
 
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
         uiInventory.SetInventory(inventory);
         uiEquipmentSlot.SetEquipment(equipment);
 
-        foreach(CraftingRecipeUI craftingRecipeUI in content.GetComponentsInChildren<CraftingRecipeUI>())
+        foreach (CraftingRecipeUI craftingRecipeUI in content.GetComponentsInChildren<CraftingRecipeUI>())
         {
             craftingRecipeUI.setPlayer(this);
         }
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-    
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -348,7 +348,7 @@ public class PlayerController : MonoBehaviour
         {
             others.SetActive(false);
         }
-        if(placeTiles == true)
+        if (placeTiles == true)
         {
             mine = false;
         }
@@ -438,28 +438,35 @@ public class PlayerController : MonoBehaviour
         {
             normalAttack = true;
             ani.SetTrigger("isAttack");
-            
+
         }
         if (normalAttack)
         {
             normalAttackCooldown += Time.deltaTime;
         }
-        if(normalAttackCooldown >= 0.1f)
+        if (normalAttackCooldown >= 0.1f)
         {
             normalAttack = false;
             normalAttackCooldown = 0f;
         }
+
+        //shoot fireball
         if (Input.GetMouseButtonDown(1) && cooldownTimer > attackCoolDown && staffActive == true)
         {
-            attack.attack();
-            cooldownTimer = 0;
-            animationTime = 0;
             // Reduce mana each usage of staff
-            ManaBar.instance.UseMana(10);
-            ani.SetTrigger("isAttack");
-            //play fireball sound effect
-            music.fireBall_play();
-    
+            if (ManaBar.instance.useMana(10) == true)
+            {
+                attack.attack();
+                cooldownTimer = 0;
+                animationTime = 0;
+
+                ani.SetTrigger("isAttack");
+                //play fireball sound effect
+                music.fireBall_play();
+
+            }
+
+
         }
         if (Vector2.Distance(transform.position, mousePosition) <= playerPlaceRange && Vector2.Distance(transform.position, mousePosition) > 0.5f)
         {
@@ -803,7 +810,7 @@ public class PlayerController : MonoBehaviour
                 others.GetComponent<Image>().sprite = item.GetSprite();
                 othersActive = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food  && itemType != Item.ItemType.Meat && itemType != Item.ItemType.Coin && !item.isAxe() && itemType != Item.ItemType.Potion)
+            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.Coin && !item.isAxe() && itemType != Item.ItemType.Potion)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {

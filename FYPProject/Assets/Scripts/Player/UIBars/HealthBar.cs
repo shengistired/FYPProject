@@ -1,6 +1,6 @@
-using System.Collections; 
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
@@ -25,9 +25,8 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHp = playerStat.MaxHpBar = 100 + (playerStat.str * 2);
-        totalHp = playerStat.MaxHpBar = 100 + (playerStat.str * 2);
-
+        currentHp = playerStat.calculateTotalHP();
+        totalHp = playerStat.calculateTotalHP();
 
         //player's total health
         healthBar.maxValue = totalHp;
@@ -40,19 +39,24 @@ public class HealthBar : MonoBehaviour
 
     public void takeDamage(int damage)
     {
-        if (currentHp - damage >= 0)
+        if (currentHp - damage > 0)
         {
             currentHp -= damage;
             healthBar.value = currentHp;
+            Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
 
             //uncomment for hp regen
             // if (regen != null)
             //     StopCoroutine(regen);
 
             // regen = StartCoroutine(RegenHealth());
+
         }
-        if (damage > currentHp || currentHp == 0)
+        else if (damage >= currentHp || damage > currentHp || currentHp == 0)
         {
+            currentHp -= damage;
+            healthBar.value = currentHp;
+            Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
             PlayerDied();
         }
     }
@@ -66,6 +70,7 @@ public class HealthBar : MonoBehaviour
         while (currentHp < totalHp)
         {
             //currentHealth += numberiwant
+            // add for hp regen set>>>> playerStat.healthRegen;
             currentHp += 20;
             healthBar.value = currentHp;
             yield return regenTick;

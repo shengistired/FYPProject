@@ -14,9 +14,16 @@ public class TileClass : ScriptableObject
     public int tileHealth;
 
     //each tile will have their own tileclass 
-    public TileClass (TileClass tile , bool isGeneratedNaturally)
+    public static TileClass CreateInstance(TileClass tile, bool isGeneratedNaturally)
     {
-        tileName= tile.tileName;
+        var thisTile = ScriptableObject.CreateInstance<TileClass>();
+        thisTile.initializeTile(tile, isGeneratedNaturally);
+        return thisTile;
+    }
+
+    public void initializeTile(TileClass tile, bool isGeneratedNaturally)
+    {
+        tileName = tile.tileName;
         backgroundVersion = tile.backgroundVersion;
         tileSprites = tile.tileSprites;
         isSolidTile = tile.isSolidTile;

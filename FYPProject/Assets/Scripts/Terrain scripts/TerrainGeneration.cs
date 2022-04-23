@@ -618,8 +618,9 @@ public class TerrainGeneration : MonoBehaviour
 
             //tile.generatedNaturally = isGenerated;
 
+            TileClass newTileClass = TileClass.CreateInstance(tile, isGenerated);
+            //TileClass newTileClass = new TileClass(tile, isGenerated);
 
-            TileClass newTileClass = new TileClass(tile, isGenerated);
             worldTileObjects.Add(newTile);
             worldTileClasses.Add(newTileClass);
 
