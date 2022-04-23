@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 using System;
 
 public class SerializationManager
@@ -51,6 +52,14 @@ public class SerializationManager
     private static BinaryFormatter GetBinaryFormatter()
     {
         BinaryFormatter formatter = new BinaryFormatter();
+
+        SurrogateSelector selector = new SurrogateSelector();
+
+        SurrogateToSave transformSuggogate = new SurrogateToSave();
+
+        selector.AddSurrogate(typeof(Transform[]), new StreamingContext(StreamingContextStates.All), transformSuggogate);
+
+        formatter.SurrogateSelector = selector;
 
         return formatter;
     }

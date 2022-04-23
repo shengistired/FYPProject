@@ -30,7 +30,6 @@ public class EnterPortal : MonoBehaviour
             SceneManager.LoadScene(nextLevel);
             portalsEntered++;
             SaveData.current.portalEntered = portalsEntered;
-            Debug.Log(portalsEntered);
         }
 
     }

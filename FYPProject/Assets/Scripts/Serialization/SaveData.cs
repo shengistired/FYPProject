@@ -29,5 +29,10 @@ public class SaveData
 
     public PlayerProfile profile;
     public int portalEntered;
-    
+    public Equipment equipment;
+    public Inventory inventory;
+    public CraftItem craftItem;
+    public Transform[] transform;
+    public PlayerController controller;
+
 }

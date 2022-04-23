@@ -110,7 +110,8 @@ public class PlayerController : MonoBehaviour
     private TileClass tileWood;
     private void Awake()
     {
-        SaveData.current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/Save.save");
+        
+        //SaveData.current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/Save.save");
         settings.changeVolume();
         AudioListener.volume =  PlayerPrefs.GetFloat("musicVolume");
         //DontDestroyOnLoad(transform.gameObject);
@@ -121,12 +122,29 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         edgeCollider = GetComponent<EdgeCollider2D>();
-        inventory = new Inventory(UseItem);
+        if (SaveData.current.inventory == null)
+        {
+            SaveData.current.inventory = new Inventory(UseItem);
+
+        }
+
+
+        if(SaveData.current.equipment == null)
+        {
+            SaveData.current.equipment = new Equipment(UseItem);
+
+        }
+        if(SaveData.current.craftItem== null)
+        {
+            SaveData.current.craftItem = new CraftItem();
+
+        }
+        inventory = SaveData.current.inventory;
+        equipment = SaveData.current.equipment;
+        craftItem = SaveData.current.craftItem;
+        direct = 1;
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
-        equipment = new Equipment(UseItem);
-        craftItem = new CraftItem();
-        direct = 1;
         uiEquipmentSlot.SetEquipment(equipment);
 
         foreach(CraftingRecipeUI craftingRecipeUI in content.GetComponentsInChildren<CraftingRecipeUI>())
@@ -447,7 +465,6 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && placeTiles == true && item != null && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
-                Debug.Log(selectedTile.name);
                 bool checker = terrainGenerator.TileCheck(selectedTile, mousePosition.x, mousePosition.y, false);
                 if (checker == true)
                 {
