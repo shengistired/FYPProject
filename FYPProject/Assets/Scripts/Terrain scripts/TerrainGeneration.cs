@@ -601,20 +601,20 @@ public class TerrainGeneration : MonoBehaviour
             //     newTile.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 0.6f);
             // }
             newTile.name = tile.tileSprites[0].name;
-            if (isPlayerPlace)
-            {
-                newTile.transform.position = new Vector2(x, y);
-                worldTiles.Add(newTile.transform.position - (Vector3.one * 0f));
+            // if (isPlayerPlace)
+            // {
+            //     newTile.transform.position = new Vector2(x, y);
+            //     worldTiles.Add(newTile.transform.position - (Vector3.one * 0f));
 
 
-            }
-            else
-            {
+            // }
+            // else
+            //{
                 newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
                 worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
 
 
-            }
+            //}
 
             //tile.generatedNaturally = isGenerated;
 
