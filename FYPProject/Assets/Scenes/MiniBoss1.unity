@@ -576,6 +576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   staminaBar: {fileID: 39182410}
+  playerStat: {fileID: 0}
   currentStamina: 0
 --- !u!114 &39182410
 MonoBehaviour:
@@ -2694,9 +2695,8 @@ MonoBehaviour:
   others: {fileID: 234030135}
   customCursor: {fileID: 1532162546}
   craftButton: {fileID: 1603777812}
-  craftManager: {fileID: 2141773319}
   tileAtlas: {fileID: 11400000, guid: fb018973344500e4fb1aadcbabf2794f, type: 2}
-  craftRecipeUI: {fileID: 0}
+  content: {fileID: 0}
   settings: {fileID: 1835152699}
   music: {fileID: 0}
   mousePosition: {x: 0, y: 0}
@@ -2724,6 +2724,11 @@ MonoBehaviour:
   direct: 0
   runSpeed: 0
   terrainGenerator: {fileID: 1528266731}
+  level:
+    experience: 0
+    currentLevel: 0
+    MAX_EXP: 0
+    MAX_LEVEL: 0
 --- !u!95 &262252997
 Animator:
   serializedVersion: 3
@@ -3612,7 +3617,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181bd7a093f9ed64ca8ca1a29c210125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodBar: {fileID: 1443893409}
 --- !u!210 &336730632
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -6904,10 +6908,11 @@ MonoBehaviour:
   pitemWorld: {fileID: 1067014898336951449, guid: 760ee29f985923c44afd955e8bfd7610, type: 3}
   weaponSprite: {fileID: 21300000, guid: 3aa1cb26afcdc244bb3a95c193575ecb, type: 3}
   axeSprite: {fileID: 21300000, guid: 8708d80070522a043a1ab6a2b2775382, type: 3}
-  axe1Sprite: {fileID: 0}
-  axe2Sprite: {fileID: 0}
-  axe3Sprite: {fileID: 0}
-  axe4Sprite: {fileID: 0}
+  woodAxeSprite: {fileID: 0}
+  stoneAxeSprite: {fileID: 0}
+  ironAxeSprite: {fileID: 0}
+  goldAxeSprite: {fileID: 0}
+  diamondAxeSprite: {fileID: 0}
   potionSprite: {fileID: 21300000, guid: 50e0347d981414d189ff77217bc6e69c, type: 3}
   foodSprite: {fileID: 21300000, guid: 26b4d8692c5e74d17bd9dc28bcbe961b, type: 3}
   meatSprite: {fileID: 0}
@@ -6926,6 +6931,9 @@ MonoBehaviour:
   treeLogsSprite: {fileID: 21300000, guid: f7eb80f03116ca344bb79a3e820b7c24, type: 3}
   treeWoodSprite: {fileID: 21300000, guid: f7eb80f03116ca344bb79a3e820b7c24, type: 3}
   stoneWallSprite: {fileID: 21300000, guid: b1748746e804b70449dde0847638e08e, type: 3}
+  sandWallSprite: {fileID: 0}
+  dirtWallSprite: {fileID: 0}
+  campfireSprite: {fileID: 0}
 --- !u!4 &679678665
 Transform:
   m_ObjectHideFlags: 0
@@ -8138,7 +8146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 841010816}
-  DeathScreen: {fileID: 1733945283}
+  playerStat: {fileID: 0}
 --- !u!114 &841010816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14186,6 +14194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manaBar: {fileID: 1439943521}
+  playerStat: {fileID: 0}
 --- !u!114 &1439943521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14289,7 +14298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181bd7a093f9ed64ca8ca1a29c210125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodBar: {fileID: 1443893409}
 --- !u!114 &1443893409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14890,6 +14898,7 @@ MonoBehaviour:
   terrainFreq: 0.5
   seed: 1006
   caveNoiseTexture: {fileID: 0}
+  isPlayerPlace: 0
   ores:
   - name: coal
     rarity: 0.147
@@ -14915,6 +14924,7 @@ MonoBehaviour:
     minSpawnHeight: 0
     maxSpawnHeight: 0
     spreadTexture: {fileID: 0}
+  numberPortal: {fileID: 0}
 --- !u!4 &1528266732
 Transform:
   m_ObjectHideFlags: 0
@@ -19416,34 +19426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f654baf54f604af41a425806fed1f169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftSlot:
-  - {fileID: 1817082852}
-  - {fileID: 1628614783}
-  craftSlotItems:
-  - {fileID: 1817082854}
-  - {fileID: 1628614785}
-  resultSlot: {fileID: 354020295}
-  resultImage: {fileID: 0}
-  cross: {fileID: 21300000, guid: b2b7a8ce362775c43826ef846ae95f60, type: 3}
-  player: {fileID: 262252996}
-  craftButton: {fileID: 348581836}
-  recipes:
-  - treeWoodtreeWood
-  - GrassGrass
-  - DirtDirt
-  - DirtGrass
-  - GrassDirt
-  recipeResults:
-  - itemType: 7
-    amount: 1
-  - itemType: 6
-    amount: 1
-  - itemType: 15
-    amount: 1
-  - itemType: 8
-    amount: 1
-  - itemType: 8
-    amount: 1
 --- !u!114 &2141773320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19542,3 +19524,125 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142690481}
   m_CullTransparentMesh: 1
+--- !u!1001 &4785798887484544111
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4785798887036575514, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 68.248
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 77.286
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -26.042706
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099493, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4785798887063099501, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+      propertyPath: m_Name
+      value: MiniBoss
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c9cb53cd27879044e85bb1d59943d562, type: 3}
+--- !u!1001 &6612407636219888850
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_RootOrder
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 70.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 77.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -26.317183
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646368, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646397, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_Name
+      value: Blade
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612407637391646397, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6ddf61546a1be9c4ba90ea95c9f63baf, type: 3}

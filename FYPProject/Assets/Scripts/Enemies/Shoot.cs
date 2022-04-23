@@ -6,6 +6,8 @@ public class Shoot : MonoBehaviour
 {
     public float walkSpeed, range, timeBTWshots, shootSpeed, stop, damage;
     private float disToPlayer;
+    public int lvl;
+    //public EnterPortal EnterPortal;
 
     [HideInInspector]
     public bool mustPatrol;
@@ -19,7 +21,7 @@ public class Shoot : MonoBehaviour
     public Collider2D bodyCollider;
     public GameObject bullet;
     //public GameObject boom;
-
+    
 
     void Start()
     {
@@ -30,10 +32,14 @@ public class Shoot : MonoBehaviour
 
         player = GameObject.Find("Mage").transform;
         enemyMin = GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin;
+        lvl = 1;
     }
 
     void Update()
     {
+        //lvl += EnterPortal.portalsEntered;
+        //Debug.Log(EnterPortal.portalsEntered);
+
         if (mustPatrol)
         {
             Patrol();

@@ -6,6 +6,7 @@ public class Collide : MonoBehaviour
 {
     public float walkSpeed, range, damage;
     private float disToPlayer;
+    public int lvl;
 
     [HideInInspector]
     public bool mustPatrol;
@@ -26,6 +27,8 @@ public class Collide : MonoBehaviour
 
         player = GameObject.Find("Mage").transform;
         enemyMin = GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin;
+
+        lvl = 1;
     }
 
     void Update()

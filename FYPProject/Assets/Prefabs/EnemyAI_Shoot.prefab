@@ -309,6 +309,7 @@ MonoBehaviour:
   shootSpeed: 2.5
   stop: 3
   damage: 1
+  lvl: 1
   mustPatrol: 0
   enemyMin: 0
   rb: {fileID: 2283995077245746062}

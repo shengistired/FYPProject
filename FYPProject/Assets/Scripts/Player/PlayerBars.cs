@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerBars : MonoBehaviour
 {
-
+    public Shoot shootEnemy;
+    public Collide colEnemy;
 
     // Update is called once per frame
     void Update()
@@ -25,14 +26,14 @@ public class PlayerBars : MonoBehaviour
         if (collide.gameObject.tag.Equals("EnemyCollide"))
         {
             // insert enemy damage >>>>>>
-            HealthBar.instance.takeDamage(20);
+            HealthBar.instance.takeDamage(colEnemy.lvl * 20);
             //Collide damage
         }
 
         if (collide.gameObject.tag.Equals("Bullet"))
         {
             // insert enemy damage >>>>>>
-            HealthBar.instance.takeDamage(10);
+            HealthBar.instance.takeDamage(shootEnemy.lvl * 10);
             //Collide damage
         }
     }
