@@ -7,8 +7,8 @@ public class HealthBar : MonoBehaviour
     public Slider healthBar;
     public PlayerStat playerStat;
 
-    private int totalHp;
-    private int currentHp;
+    private float totalHp;
+    private float currentHp;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
 

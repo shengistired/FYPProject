@@ -30,17 +30,17 @@ public class PlayerStat : MonoBehaviour
 
     [Header("Player's HP bar and related stuff")]
     //increase str to increase HP (each stat increase HP by 2 )
-    public int MaxHpBar;
+    public float MaxHpBar;
     //increase int to increase mana  (each stat increase Mana by 2 )
-    public int MaxManaBar;
+    public float MaxManaBar;
     //increase dex to increase stamina  (each stat increase Stamina by 2 )
-    public int MaxStamina;
+    public float MaxStamina;
 
     public int MaxHungerBar = 100;
 
-    public int healthRegen = 10;
-    public int manaRegen = 10;
-    public int staminaRegen = 10;
+    public float healthRegen = 10;
+    public float manaRegen = 10;
+    public float staminaRegen = 10;
 
 
     [Header("Player's misc stuff")]
@@ -54,7 +54,7 @@ public class PlayerStat : MonoBehaviour
     //each point of main stat of that class = 1 def (example: Mage(Intelligence) 10 int = to 10 defence)
     private int defence;
 
-    public int calculateTotalHP()
+    public float calculateTotalHP()
     {
         MaxHpBar = 100;
         //each stat of strength gives 2 hp
@@ -62,7 +62,7 @@ public class PlayerStat : MonoBehaviour
         return MaxHpBar;
     }
 
-    public int calculatetotalStamina()
+    public float calculatetotalStamina()
     {
         MaxStamina = 100;
         //each stat of dex gives 2 stamina
@@ -70,7 +70,7 @@ public class PlayerStat : MonoBehaviour
         return MaxStamina;
     }
 
-    public int calculateTotalMana()
+    public float calculateTotalMana()
     {
         MaxManaBar = 100;
         //each stat of intelligence gives 2 mana

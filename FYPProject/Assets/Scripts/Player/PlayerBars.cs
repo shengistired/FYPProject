@@ -10,7 +10,7 @@ public class PlayerBars : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift) && PlayerController.running == true)
         {
-            StaminaBar.instance.UseStamina(1);
+            StaminaBar.instance.UseStamina(0.5f);
             //Deplete stamina
         }
 
@@ -26,14 +26,14 @@ public class PlayerBars : MonoBehaviour
         if (collide.gameObject.tag.Equals("EnemyCollide"))
         {
             // insert enemy damage >>>>>>
-            HealthBar.instance.takeDamage(colEnemy.lvl * 20);
+            HealthBar.instance.takeDamage(colEnemy.lvl * 10);
             //Collide damage
         }
 
         if (collide.gameObject.tag.Equals("Bullet"))
         {
             // insert enemy damage >>>>>>
-            HealthBar.instance.takeDamage(shootEnemy.lvl * 10);
+            HealthBar.instance.takeDamage(shootEnemy.lvl * 5);
             //Collide damage
         }
     }

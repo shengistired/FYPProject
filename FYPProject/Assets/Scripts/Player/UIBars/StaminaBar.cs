@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Collections; 
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.UI; 
 
 public class StaminaBar : MonoBehaviour
 {
     public Slider staminaBar;
     public PlayerStat playerStat;
 
-    private int totalStamina;
-    public int currentStamina;
+    private float totalStamina;
+    public float currentStamina;
 
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
@@ -34,7 +32,7 @@ public class StaminaBar : MonoBehaviour
         staminaBar.value = totalStamina;
     }
 
-    public bool UseStamina(int stamina)
+    public bool UseStamina(float stamina)
     {
         if (currentStamina >= stamina)
         {
@@ -61,7 +59,7 @@ public class StaminaBar : MonoBehaviour
 
         while (currentStamina < totalStamina)
         {
-            currentStamina += totalStamina / 100;
+            currentStamina += totalStamina/50;
             staminaBar.value = currentStamina;
             yield return regenTick;
         }

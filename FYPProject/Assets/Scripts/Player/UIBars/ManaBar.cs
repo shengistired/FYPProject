@@ -9,8 +9,8 @@ public class ManaBar : MonoBehaviour
     public Slider manaBar;
     public PlayerStat playerStat;
 
-    private int totalMana;
-    private int currentMana;
+    private float totalMana;
+    private float currentMana;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     private Coroutine regen;
