@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
     public static bool openCraft = false;
     public static bool running;
     public static bool normalAttack = false;
-
+    
 
     public TileClass[] tile;
     public TileClass selectedTile;
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
     private int newItemIndex;
     Vector3 difference;
     Vector3 equipmentPosition;
-
+    private Rigidbody2D rigid;
     //leveling
     public Level level;
 
@@ -110,7 +111,7 @@ public class PlayerController : MonoBehaviour
     private TileClass tileWood;
     private void Awake()
     {
-
+        rigid = GetComponent<Rigidbody2D>();
         //SaveData.current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/Save.save");
         settings.changeVolume();
         AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
@@ -153,6 +154,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
 
     public void spawn()
     {
@@ -313,7 +315,7 @@ public class PlayerController : MonoBehaviour
                 runSpeed = 75f;
 
             }
-            if (Input.GetKeyUp(KeyCode.LeftShift) || horizontalMove == 0)
+            if (Input.GetKeyUp(KeyCode.LeftShift) || horizontalMove == 0 || running == false)
             {
                 running = false;
                 runSpeed = 40f;
@@ -352,6 +354,7 @@ public class PlayerController : MonoBehaviour
         {
             mine = false;
         }
+
         for (int i = 0; i < background.Length; i++)
         {
             if (equipment.GetEquipment(i) == null)
@@ -615,27 +618,20 @@ public class PlayerController : MonoBehaviour
 
         animationTime += Time.deltaTime;
 
-        if (wallJumpCoolDown > 0.2f)
-        {
+
 
             body.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed / 10, body.velocity.y);
 
-            if (onWall() && isGrounded())
-            {
-                body.gravityScale = 0;
-                body.velocity = Vector2.zero;
-            }
-            else
-            {
+//                body.velocity = Vector2.zero;
+            
+
                 body.gravityScale = 1;
-            }
-            if (Input.GetKey(KeyCode.Space))
+            
+            if (Input.GetKey(KeyCode.Space) && isGrounded())
             {
                 Jump();
             }
-        }
-        else
-            wallJumpCoolDown += Time.deltaTime;
+
     }
 
     // public void MineBlock(int tileHealth, Vector3 position)
