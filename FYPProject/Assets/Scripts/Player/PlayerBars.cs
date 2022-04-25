@@ -1,24 +1,34 @@
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
 public class PlayerBars : MonoBehaviour
 {
     public Shoot shootEnemy;
     public Collide colEnemy;
+    public float runningStamina = 0.5f;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift) && PlayerController.running == true)
         {
-            StaminaBar.instance.UseStamina(0.5f);
-            //Deplete stamina
+            staminaUse(runningStamina);
         }
+
 
     }
 
-    private void staminaUse()
+    private bool staminaUse(float stamina)
     {
-        
+        if (StaminaBar.instance.UseStamina(stamina) == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collide)

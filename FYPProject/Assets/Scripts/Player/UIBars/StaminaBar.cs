@@ -45,12 +45,13 @@ public class StaminaBar : MonoBehaviour
             regen = StartCoroutine(RegenStamina());
             return true;
         }
-        else
+        else if (stamina >= currentStamina)
         {
             Debug.Log("Not enough stamina!");
             PlayerController.running = false;
             return false;
         }
+        return false;
     }
 
     private IEnumerator RegenStamina()

@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UI_Equipment uiEquip;
     [SerializeField] private PlayerAttack attack;
     [SerializeField] private StaminaBar stamina;
+    [SerializeField] private PlayerBars playerBars;
     [SerializeField] private GameObject axe;
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject others;
@@ -305,7 +306,7 @@ public class PlayerController : MonoBehaviour
             direct = -1;
             directionNum = -1;
         }
-        if (stamina.currentStamina != 0)
+        if (stamina.currentStamina > playerBars.runningStamina)
         {
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && horizontalMove != 0)
