@@ -16,10 +16,23 @@ public class PlayerController : MonoBehaviour
     //  [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
     [SerializeField] private UI_EquipmentSlot uiEquipmentSlot;
     [SerializeField] private UI_Equipment uiEquip;
+    //player stat info
+
+
     [SerializeField] private PlayerAttack attack;
     [SerializeField] private StaminaBar stamina;
+
+    [Header("Player stats and HP")]
+    [SerializeField] private PlayerStat playerStat;
     [SerializeField] private PlayerBars playerBars;
+    [SerializeField] private Stats_UI stats_UI;
+
+
+
+    [Header("set your own title")]
     [SerializeField] private GameObject axe;
+
+    [Header("settings")]
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject others;
     [SerializeField] private CustomCursor customCursor;
@@ -65,7 +78,7 @@ public class PlayerController : MonoBehaviour
     public static bool openCraft = false;
     public static bool running;
     public static bool normalAttack = false;
-    
+
 
     public TileClass[] tile;
     public TileClass selectedTile;
@@ -289,6 +302,10 @@ public class PlayerController : MonoBehaviour
         uiInventory.inventory_Position();
         uiEquip.equipment_Position();
         uiCraft.craft_Position();
+
+        //press F to open stat screen
+        playerStat.openStatScreen();
+
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;
@@ -621,17 +638,17 @@ public class PlayerController : MonoBehaviour
 
 
 
-            body.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed / 10, body.velocity.y);
+        body.velocity = new Vector2(Input.GetAxis("Horizontal") * runSpeed / 10, body.velocity.y);
 
-//                body.velocity = Vector2.zero;
-            
+        //                body.velocity = Vector2.zero;
 
-                body.gravityScale = 1;
-            
-            if (Input.GetKey(KeyCode.Space) && isGrounded())
-            {
-                Jump();
-            }
+
+        body.gravityScale = 1;
+
+        if (Input.GetKey(KeyCode.Space) && isGrounded())
+        {
+            Jump();
+        }
 
     }
 

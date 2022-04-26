@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
 
     //HP regen amount
-    private Coroutine regen;
+    //private Coroutine regen;
 
     public static HealthBar instance;
 
@@ -75,7 +75,7 @@ public class HealthBar : MonoBehaviour
             healthBar.value = currentHp;
             yield return regenTick;
         }
-        regen = null;
+        //regen = null;
     }
 
     private void PlayerDied()

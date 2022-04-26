@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
@@ -10,7 +9,7 @@ public class PlayerStat : MonoBehaviour
     public int currentExp;
     //exp that player needs  
     public int expNeededToNextLevel;
-    public int statPoints = 0;
+    public int statPoints = 5;
     public int skillPoint = 0;
 
 
@@ -54,6 +53,50 @@ public class PlayerStat : MonoBehaviour
     //each point of main stat of that class = 1 def (example: Mage(Intelligence) 10 int = to 10 defence)
     private int defence;
 
+    [SerializeField] private Stats_UI stats_UI;
+    private bool statScreen = false;
+
+
+
+    public void openStatScreen()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Escape) && statScreen == true)
+        {
+            stats_UI.gameObject.SetActive(false);
+            statScreen = false;
+        }
+        if (Input.GetKeyDown("f"))
+        {
+
+            if (statScreen == false)
+            {
+
+                updateStats();
+                stats_UI.gameObject.SetActive(true);
+                statScreen = true;
+            }
+            else
+            {
+                stats_UI.gameObject.SetActive(false);
+                statScreen = false;
+
+            }
+        }
+    }
+
+    private void updateStats()
+    {
+        string level = Playerlevel.ToString();
+        string stats = statPoints.ToString();
+        string strength = str.ToString();
+        string dexString = dex.ToString();
+        string intString = intelligence.ToString();
+        string luckString = luck.ToString();
+        stats_UI.getStats(level, stats, strength, dexString, intString, luckString);
+
+    }
+
     public float calculateTotalHP()
     {
         MaxHpBar = 100;
@@ -89,7 +132,6 @@ public class PlayerStat : MonoBehaviour
 
             //each level up gives 1 skill point
             skillPoint++;
-
             expNeededToNextLevel = Playerlevel * 100;
             currentExp = 0;
             return Playerlevel;
@@ -103,7 +145,7 @@ public class PlayerStat : MonoBehaviour
     }
 
 
-    public int addStrength()
+    public void addStrength()
     {
 
         if (statPoints != 0)
@@ -111,56 +153,56 @@ public class PlayerStat : MonoBehaviour
             str++;
             statPoints--;
             calculateTotalHP();
-            return str;
+            updateStats();
         }
         else
         {
-            return -1;
+            Debug.Log("No stats point");
         }
     }
 
-    public int addDex()
+    public void addDex()
     {
         if (statPoints != 0)
         {
             dex++;
             statPoints--;
             calculatetotalStamina();
-            return dex;
+            updateStats();
         }
         else
         {
-            return -1;
+            Debug.Log("No stats point");
         }
     }
 
-    public int addIntelligence()
+    public void addIntelligence()
     {
         if (statPoints != 0)
         {
             intelligence++;
             statPoints--;
             calculateTotalMana();
-            return intelligence;
+            updateStats();
         }
         else
         {
-            return -1;
+            Debug.Log("No stats point");
         }
 
     }
 
-    public int addLuck()
+    public void addLuck()
     {
         if (statPoints != 0)
         {
             luck++;
             statPoints--;
-            return luck;
+            updateStats();
         }
         else
         {
-            return -1;
+            Debug.Log("No stats point");
         }
 
     }
