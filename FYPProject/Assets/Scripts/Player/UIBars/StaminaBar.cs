@@ -26,6 +26,7 @@ public class StaminaBar : MonoBehaviour
     {
         //currentStamina = maxStamina;
         currentStamina = playerStat.calculatetotalStamina();
+        
         totalStamina = playerStat.calculatetotalStamina();
 
         staminaBar.maxValue = totalStamina;
@@ -36,6 +37,7 @@ public class StaminaBar : MonoBehaviour
     {
         if (currentStamina >= stamina)
         {
+
             currentStamina -= stamina;
             staminaBar.value = currentStamina;
 

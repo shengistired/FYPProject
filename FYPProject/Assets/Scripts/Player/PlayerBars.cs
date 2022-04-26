@@ -8,7 +8,7 @@ public class PlayerBars : MonoBehaviour
     public float runningStamina = 0.5f;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.LeftShift) && PlayerController.running == true)
         {
