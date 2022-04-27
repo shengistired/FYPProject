@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    public float walkSpeed, range, timeBTWshots, shootSpeed, stop, damage;
+    public float walkSpeed, range, timeBTWshots, shootSpeed, damage;
     private float disToPlayer;
-    public int lvl;
+    
     //public EnterPortal EnterPortal;
 
     [HideInInspector]
-    public bool mustPatrol;
+    public bool mustPatrol, haveToFlip;
     private bool mustTurn, canShoot;
     public int enemyMin;
+    //public int lvl;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
@@ -27,12 +28,12 @@ public class Shoot : MonoBehaviour
     {
         mustPatrol = true;
         canShoot = true;
+        haveToFlip = false;
         Physics2D.IgnoreLayerCollision(7, 7, true);
         //EnemyHealthBar.SetActive(false);
 
         player = GameObject.Find("Mage").transform;
         enemyMin = GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin;
-        lvl = 1;
     }
 
     void Update()
@@ -46,7 +47,7 @@ public class Shoot : MonoBehaviour
         }
 
         disToPlayer = Vector2.Distance(transform.position, player.position);
-        if (disToPlayer <= range)
+        if (disToPlayer <= range && haveToFlip == false)
         {
             if (player.position.x > transform.position.x && transform.localScale.x < 0
                || player.position.x < transform.position.x && transform.localScale.x > 0)
@@ -54,13 +55,10 @@ public class Shoot : MonoBehaviour
                 Flip();
             }
 
-            if(disToPlayer <= stop)
-            {
-                mustPatrol = false;
-                rb.velocity = Vector2.zero;
-            }
+            mustPatrol = false;
+            rb.velocity = Vector2.zero;
 
-            if(canShoot)
+            if (canShoot)
             {
                 StartCoroutine(Shot());
             }
@@ -68,6 +66,7 @@ public class Shoot : MonoBehaviour
         else
         {
             mustPatrol = true;
+            haveToFlip = true;
         }
 
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
@@ -97,7 +96,8 @@ public class Shoot : MonoBehaviour
         if (mustPatrol == true)
         {
             mustTurn = !Physics2D.OverlapCircle(groundcheckPos.position, 0.1f, groundLayer);
-            // Patrol();
+            //Patrol();
+            haveToFlip = false;
         }
     }
     
@@ -108,6 +108,7 @@ public class Shoot : MonoBehaviour
         if (mustTurn == true || bodyCollider.IsTouchingLayers(groundLayer))
         {
             Flip();
+            haveToFlip = true;
         }
     }
 

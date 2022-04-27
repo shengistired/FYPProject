@@ -10,7 +10,7 @@ public class EnterPortal : MonoBehaviour
     public int portalsEntered;
 
     [HideInInspector]
-    public int lvl;
+    public static bool sceneLoaded;
 
     private void Start()
     {
@@ -24,13 +24,7 @@ public class EnterPortal : MonoBehaviour
             portalsEntered = 0;
         }
 
-        lvl = GameObject.Find("EnemyAI_Shoot").GetComponent<Shoot>().lvl;
-
-    }
-
-    void Update()
-    {
-        portalsEntered += lvl;
+        sceneLoaded = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -39,6 +33,7 @@ public class EnterPortal : MonoBehaviour
         {
             SceneManager.LoadScene(nextLevel);
             portalsEntered++;
+            sceneLoaded = true;
             SaveData.current.portalEntered = portalsEntered;
         }
 

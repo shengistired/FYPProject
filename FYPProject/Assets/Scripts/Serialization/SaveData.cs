@@ -34,5 +34,7 @@ public class SaveData
     public CraftItem craftItem;
     public Transform[] transform;
     public PlayerController controller;
+    public int lvlS;
+    public int lvlC;
 
 }

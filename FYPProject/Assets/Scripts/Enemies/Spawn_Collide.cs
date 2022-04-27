@@ -21,16 +21,25 @@ public class Spawn_Collide : MonoBehaviour
     public LayerMask groundLayer;
     public Transform player;
 
-    
+    public int lvl;
 
     // Start is called before the first frame update
     private void Start()
     {
-        //timeBtweenSpawn = startTimeBtweenSpawn;
-        //SpawnEnemies();
-        
+        try
+        {
+            lvl = SaveData.current.lvlC;
+
+        }
+        catch
+        {
+            lvl = 1;
+        }
+
         player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 9f); 
+        InvokeRepeating("SpawnEnemies", 0f, 10f);
+
+        
     }
 
     /* // Update is called once per frame
@@ -52,6 +61,16 @@ public class Spawn_Collide : MonoBehaviour
         }
     } */
 
+    void Update()
+    {
+        if (EnterPortal.sceneLoaded == true)
+        {
+            lvl += 1;
+            SaveData.current.lvlC = lvl;
+            Debug.Log("lvl up enemy");
+        }
+    }
+
     private void SpawnEnemies()
     {
         /*if (spawnAllowed)
@@ -63,15 +82,6 @@ public class Spawn_Collide : MonoBehaviour
         
        if(enemyMin < enemyMax)
         {
-            /*//rand = Random.Range(0, enemies.Length);
-            //float x = Random.Range(0.05f, 0.95f);
-            //float y = Random.Range(0.05f, 0.95f);
-            //Vector3 pos = new Vector3(x, y, 10.0f);
-            //pos = Camera.main.ViewportToWorldPoint(pos);
-            Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), (Screen.height / 2), Camera.main.farClipPlane));
-            //var enemies = Instantiate(Resources.Load("EnemyAI_Collide") as GameObject, pos, Quaternion.identity);
-            GameObject col = Instantiate(enemies, pos, Quaternion.identity) as GameObject;
-            ++enemyMin;*/
 
             bool spawnAllowed = false;
             while (!spawnAllowed)

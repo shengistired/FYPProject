@@ -6,12 +6,13 @@ public class Collide : MonoBehaviour
 {
     public float walkSpeed, range, damage;
     private float disToPlayer;
-    public int lvl;
+    
 
     [HideInInspector]
-    public bool mustPatrol;
+    public bool mustPatrol, haveToFlip;
     private bool mustTurn;
     public int enemyMin;
+    //public int lvl;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
@@ -27,8 +28,6 @@ public class Collide : MonoBehaviour
 
         player = GameObject.Find("Mage").transform;
         enemyMin = GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin;
-
-        lvl = 1;
     }
 
     void Update()
@@ -39,7 +38,7 @@ public class Collide : MonoBehaviour
         }
 
         disToPlayer = Vector2.Distance(transform.position, player.position);
-        if (disToPlayer <= range)
+        if (disToPlayer <= range && haveToFlip == false)
         {
             if (player.position.x > transform.position.x && transform.localScale.x < 0
                || player.position.x < transform.position.x && transform.localScale.x > 0)
@@ -52,6 +51,7 @@ public class Collide : MonoBehaviour
         else
         {
             mustPatrol = true;
+            haveToFlip = true;
         }
 
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
@@ -61,7 +61,6 @@ public class Collide : MonoBehaviour
             GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
             Debug.Log("Invisible");
         }
-       
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -83,6 +82,7 @@ public class Collide : MonoBehaviour
         {
             mustTurn = !Physics2D.OverlapCircle(groundcheckPos.position, 0.1f, groundLayer);
             // Patrol();
+            haveToFlip = false;
         }
     }
 
@@ -93,6 +93,7 @@ public class Collide : MonoBehaviour
         if (mustTurn == true || bodyCollider.IsTouchingLayers(groundLayer))
         {
             Flip();
+            haveToFlip = true;
         }
     }
 

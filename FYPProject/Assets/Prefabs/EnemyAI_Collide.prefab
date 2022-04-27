@@ -278,6 +278,7 @@ MonoBehaviour:
   damage: 1
   mustPatrol: 0
   enemyMin: 0
+  lvl: 1
   rb: {fileID: 2538854348550153346}
   groundcheckPos: {fileID: 2538854348355322826}
   player: {fileID: 0}
