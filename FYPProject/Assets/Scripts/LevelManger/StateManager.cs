@@ -9,6 +9,11 @@ public class StateManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void loadMap()
+    {   
+        
+    }
+
     public void ChangeSceneByName (string name){
         if (name !=null ){
             SceneManager.LoadScene(name);

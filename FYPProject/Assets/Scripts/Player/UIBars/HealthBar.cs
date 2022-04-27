@@ -6,14 +6,15 @@ public class HealthBar : MonoBehaviour
 {
     public Slider healthBar;
     public PlayerStat playerStat;
+    public FoodBar foodBar;
 
-    private float totalHp;
+    public float totalHp;
     private float currentHp;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
 
     //HP regen amount
-    //private Coroutine regen;
+    private Coroutine regen;
 
     public static HealthBar instance;
 
@@ -25,8 +26,10 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHp = playerStat.calculateTotalHP();
-        totalHp = playerStat.calculateTotalHP();
+        currentHp = playerStat.MaxHpBar;
+        totalHp = playerStat.MaxHpBar;
+
+
 
         //player's total health
         healthBar.maxValue = totalHp;
@@ -37,6 +40,8 @@ public class HealthBar : MonoBehaviour
 
     }
 
+
+
     public void takeDamage(int damage)
     {
         if (currentHp - damage > 0)
@@ -44,13 +49,7 @@ public class HealthBar : MonoBehaviour
             currentHp -= damage;
             healthBar.value = currentHp;
             Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
-
-            //uncomment for hp regen
-            // if (regen != null)
-            //     StopCoroutine(regen);
-
-            // regen = StartCoroutine(RegenHealth());
-
+            checkFoodBarRegen();
         }
         else if (damage >= currentHp || damage > currentHp || currentHp == 0)
         {
@@ -61,17 +60,40 @@ public class HealthBar : MonoBehaviour
         }
     }
 
+    public void onStrengthUp(float maxHp)
+    {
+        totalHp = maxHp;
+        //player's total health on slider
+        healthBar.maxValue = totalHp;
+    }
+
+    public void checkFoodBarRegen()
+    {
+        //if foodbar above 70% then regen
+        if (FoodBar.food >= 140f && currentHp < totalHp)
+        {
+            regen = StartCoroutine(RegenHealth());
+        }
+        //regen stops when below 70% hunger
+        else if (FoodBar.food < 140f)
+        {
+            StopCoroutine(regen);
+            regen = null;
+        }
+
+    }
 
 
-    //regen health as a skill maybe
-    private IEnumerator RegenHealth()
+
+    //increase regen rate as skill
+    public IEnumerator RegenHealth()
     {
         yield return new WaitForSeconds(2);
         while (currentHp < totalHp)
         {
             //currentHealth += numberiwant
             // add for hp regen set>>>> playerStat.healthRegen;
-            currentHp += 20;
+            currentHp += 1;
             healthBar.value = currentHp;
             yield return regenTick;
         }

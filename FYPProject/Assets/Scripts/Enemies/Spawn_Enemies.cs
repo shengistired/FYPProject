@@ -20,6 +20,7 @@ public class Spawn_Enemies : MonoBehaviour
     public Transform player;
 
     public static int lvl;
+    
 
     // Start is called before the first frame update
     private void Start()
@@ -52,7 +53,7 @@ public class Spawn_Enemies : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Enemy Level: " + lvl);
+        //Debug.Log("Enemy Level: " + lvl);
     }
 
     private void SpawnEnemies()

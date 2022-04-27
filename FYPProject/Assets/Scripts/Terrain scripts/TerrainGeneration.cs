@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
@@ -82,18 +83,29 @@ public class TerrainGeneration : MonoBehaviour
 
     private void Start()
     {
-
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {
-            biome = "MiniBoss";
-            if (biome == "MiniBoss")
-            {
-                music.miniBoss_music_play();
-            }
-            worldSize = 200;
-            chunkSize = 200;
+
+            //worldSizeSet = NewGame.worldsizeSelection;
+            //biome = NewGame.biomeSelection;             
+
+            music.miniBoss_music_play();
+
+            // worldSize = 200;
+            // chunkSize = 200;
+            // caveFreq = 0.01f;
+            // surfaceValue = 0.4f;
+
+            //for boss arena 
+            seed = 1006;
             caveFreq = 0.01f;
             surfaceValue = 0.4f;
+            worldSize = 200;
+            terrainFreq = 0.5f;
+            heightMultiplier = 4f;
+            heightAddition = 75;
+            dirtLayerHeight = 5;
+            worldSizeSet = "small";
 
             DrawTextures();
             CreateChunks();
@@ -102,7 +114,31 @@ public class TerrainGeneration : MonoBehaviour
             camera.worldSize = worldSize;
             player.spawn();
 
+
+
         }
+
+
+        // if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+        // {
+        //     biome = "MiniBoss";
+        //     if (biome == "MiniBoss")
+        //     {
+        //         music.miniBoss_music_play();
+        //     }
+        //     worldSize = 200;
+        //     chunkSize = 200;
+        //     caveFreq = 0.01f;
+        //     surfaceValue = 0.4f;
+
+        //     DrawTextures();
+        //     CreateChunks();
+        //     generateBossMap();
+        //     camera.Spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, camera.transform.position.z));
+        //     camera.worldSize = worldSize;
+        //     player.spawn();
+
+        // }
 
 
         else
@@ -209,7 +245,7 @@ public class TerrainGeneration : MonoBehaviour
     void RefreshChunks()
     {
 
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {
             worldChunks[0].SetActive(true);
         }
@@ -236,19 +272,35 @@ public class TerrainGeneration : MonoBehaviour
 
     public void DrawTextures()
     {
-        // biomeMap = new Texture2D(worldSize, worldSize);
-        // biomeMap = DrawBiomeTexture(grassland, seed);
-        // biomeMap = DrawBiomeTexture(desert, seed * 2);
 
         //only for boss map
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+        // if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+        // {
+        //     caveNoiseTexture = new Texture2D(worldSize, worldSize);
+        // }
+
+        //only for boss map
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {
-            caveNoiseTexture = new Texture2D(worldSize, worldSize);
+            caveNoiseTexture = new Texture2D(200, 200);
         }
 
         GenerateNoiseTexture(caveFreq, surfaceValue, caveNoiseTexture);
         //generate ores
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("MiniBoss1"))
+        // if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("MiniBoss1"))
+        // {
+        //     GenerateNoiseTexture(ores[0].rarity, ores[0].size, ores[0].spreadTexture);
+        //     GenerateNoiseTexture(ores[1].rarity, ores[1].size, ores[1].spreadTexture);
+        //     GenerateNoiseTexture(ores[2].rarity, ores[2].size, ores[2].spreadTexture);
+        //     GenerateNoiseTexture(ores[3].rarity, ores[3].size, ores[3].spreadTexture);
+
+        // }
+
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
+        {
+
+        }
+        else
         {
             GenerateNoiseTexture(ores[0].rarity, ores[0].size, ores[0].spreadTexture);
             GenerateNoiseTexture(ores[1].rarity, ores[1].size, ores[1].spreadTexture);
@@ -258,12 +310,17 @@ public class TerrainGeneration : MonoBehaviour
         }
 
 
+
+
+
+
+
     }
 
     public void CreateChunks()
-    {   
+    {
         //only for boss map
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MiniBoss1"))
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {
             int numChunks = worldSize / chunkSize;
             worldChunks = new GameObject[numChunks];
@@ -609,8 +666,8 @@ public class TerrainGeneration : MonoBehaviour
             // }
             // else
             //{
-                newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
-                worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
+            newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
+            worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
 
 
             //}
@@ -797,7 +854,7 @@ public class TerrainGeneration : MonoBehaviour
     public async void generateBossMap()
     {
         seed = 1006;
-        caveFreq = 0.01f;
+        caveFreq = 0.02f;
         surfaceValue = 0.4f;
         worldSize = 200;
         terrainFreq = 0.5f;
@@ -831,14 +888,9 @@ public class TerrainGeneration : MonoBehaviour
                 //top layer of map
                 else if (y < height - 1)
                 {
-                    if (biome == "desert")
-                    {
-                        tileClass = tileAtlas.sand;
-                    }
-                    else
-                    {
-                        tileClass = tileAtlas.dirt;
-                    }
+
+                    tileClass = tileAtlas.dirt;
+
                 }
                 else
                 {
@@ -856,29 +908,21 @@ public class TerrainGeneration : MonoBehaviour
                     {
                         tileClass = tileAtlas.grass;
                     }
+
+
                     else
                     {
-                        if (biome == "snow")
-                        {
-                            tileClass = tileAtlas.snow;
-                        }
-                        else if (biome == "desert")
-                        {
-                            tileClass = tileAtlas.sand;
-                        }
-                        else
-                        {
 
-                            tileClass = tileAtlas.grass;
-
-                        }
-
+                        tileClass = tileAtlas.grass;
 
                     }
 
 
+
+
+
                 }
-                 
+
                 if (generateCave)
                 {
                     if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
@@ -894,26 +938,6 @@ public class TerrainGeneration : MonoBehaviour
                 {
                     PlaceTiles(tileClass, x, y, true);
                 }
-
-                if (y >= height - 1 && x >= 5 && x <= worldSize - 20)
-                {
-                    //the more treespawnrate the lesser trees will spawn
-                    int tree = UnityEngine.Random.Range(0, treeSpawnRate);
-
-                    if (tree == 1)
-                    {
-                        //spawn tree on top of grass
-                        if (worldTiles.Contains(new Vector2(x, y)))
-                        {
-                            GenerateTree(x, y + 1);
-                        }
-
-                    }
-
-                }
-
-
-
 
             }
 

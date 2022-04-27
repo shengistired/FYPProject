@@ -56,6 +56,9 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     private int defence;
 
     [SerializeField] private Stats_UI stats_UI;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private ManaBar manaBar;
+    [SerializeField] private StaminaBar staminaBar;
     private bool statScreen = false;
 
 
@@ -103,7 +106,9 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     {
         //MaxHpBar = 100;
         //each stat of strength gives 2 hp
-        MaxHpBar += (str * 2);
+        MaxHpBar = 100 + (str * 2);
+        healthBar.onStrengthUp(MaxHpBar);
+        healthBar.checkFoodBarRegen();
         return MaxHpBar;
     }
 
@@ -111,7 +116,8 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     {
         //MaxStamina = 100;
         //each stat of dex gives 2 stamina
-        MaxStamina += (dex * 2);
+        MaxStamina = 100 + (dex * 2);
+        staminaBar.onDexUp(MaxStamina);
         return MaxStamina;
     }
 
@@ -119,7 +125,9 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     {
         //MaxManaBar = 100;
         //each stat of intelligence gives 2 mana
-        MaxManaBar += (intelligence * 2);
+        MaxManaBar = 100 + (intelligence * 2);
+        manaBar.onIntUp(MaxManaBar);
+
         return MaxManaBar;
     }
 
@@ -268,7 +276,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         }
 
         //for thief
-        if (PlayerClass == "archer")
+        if (PlayerClass == "thief")
         {
             cirtHit = Random.Range(0, critChance);
             if (cirtHit == 0)

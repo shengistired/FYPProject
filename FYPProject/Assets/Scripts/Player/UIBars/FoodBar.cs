@@ -9,7 +9,7 @@ public class FoodBar : MonoBehaviour
     public Slider foodBar;
     
     public static float food = 200f;
-    float maxFood;
+    public float maxFood;
 
     void start()
     {

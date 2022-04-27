@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PortalEnteredText : MonoBehaviour, IDataPersistence
 {
-    private int portalCount = 0;
+    public int portalCount = 0;
     private TextMeshProUGUI portalEnterText;
 
     public void OnPortalEnter()

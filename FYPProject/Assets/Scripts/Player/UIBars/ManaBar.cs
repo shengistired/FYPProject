@@ -25,8 +25,10 @@ public class ManaBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentMana = playerStat.calculateTotalMana();
-        totalMana = playerStat.calculateTotalMana();
+        // currentMana = playerStat.calculateTotalMana();
+        // totalMana = playerStat.calculateTotalMana();
+        currentMana = playerStat.MaxManaBar;
+        totalMana = playerStat.MaxManaBar;
         //Debug.Log("currentMana"+currentMana);
         //Debug.Log("totalMana"+totalMana);
 
@@ -35,18 +37,25 @@ public class ManaBar : MonoBehaviour
 
     }
 
+
+
+
+
+    public void onIntUp(float maxMana)
+    {
+        totalMana = maxMana;
+        //player's total mana on slider
+        manaBar.maxValue = totalMana;
+        regenMana();
+    }
+
     public bool useMana(int mana)
     {
         if (currentMana > mana)
         {
             currentMana -= mana;
             manaBar.value = currentMana;
-
-            //mana regen
-            if (regen != null)
-                StopCoroutine(regen);
-
-            regen = StartCoroutine(manaRegen());
+            regenMana();
             return true;
         }
         else
@@ -54,6 +63,21 @@ public class ManaBar : MonoBehaviour
             Debug.Log("Not enough mana!");
             return false;
         }
+    }
+
+    private void regenMana()
+    {
+        //mana regen
+        if (currentMana == totalMana)
+        {
+            StopCoroutine(regen);
+        }
+
+        else
+        {
+            regen = StartCoroutine(manaRegen());
+        }
+
     }
 
     //manaRegen

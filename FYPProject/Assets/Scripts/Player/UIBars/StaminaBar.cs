@@ -1,6 +1,6 @@
-using System.Collections; 
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class StaminaBar : MonoBehaviour
 {
@@ -25,12 +25,21 @@ public class StaminaBar : MonoBehaviour
     void Start()
     {
         //currentStamina = maxStamina;
-        currentStamina = playerStat.calculatetotalStamina();
-        
-        totalStamina = playerStat.calculatetotalStamina();
+        // currentStamina = playerStat.calculatetotalStamina();
+        // totalStamina = playerStat.calculatetotalStamina();
+
+        currentStamina = playerStat.MaxStamina;
+        totalStamina = playerStat.MaxStamina;
 
         staminaBar.maxValue = totalStamina;
         staminaBar.value = totalStamina;
+    }
+
+    public void onDexUp(float maxStamina)
+    {
+        totalStamina = maxStamina;
+        //player's total stamina on slider
+        staminaBar.maxValue = totalStamina;
     }
 
     public bool UseStamina(float stamina)
@@ -62,7 +71,7 @@ public class StaminaBar : MonoBehaviour
 
         while (currentStamina < totalStamina)
         {
-            currentStamina += totalStamina/50;
+            currentStamina += totalStamina / 50;
             staminaBar.value = currentStamina;
             yield return regenTick;
         }
