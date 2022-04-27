@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class PlayerBars : MonoBehaviour
 {
-    public Spawn_Shoot shootEnemy;
-    public Spawn_Collide colEnemy;
+    public Spawn_Enemies enemy;
     public float runningStamina = 0.5f;
 
     // Update is called once per frame
@@ -33,7 +32,7 @@ public class PlayerBars : MonoBehaviour
         if (collide.gameObject.tag.Equals("EnemyCollide"))
         {
             // insert enemy damage >>>>>>
-            int damageC = colEnemy.lvl + 1;
+            int damageC = Spawn_Enemies.lvl + 1;
             HealthBar.instance.takeDamage(damageC * 10);
             //Collide damage
         }
@@ -41,7 +40,7 @@ public class PlayerBars : MonoBehaviour
         if (collide.gameObject.tag.Equals("Bullet"))
         {
             // insert enemy damage >>>>>>
-            int damageS = Spawn_Shoot.lvl + 1;
+            int damageS = Spawn_Enemies.lvl + 1;
             Debug.Log("Damage " + damageS);
             HealthBar.instance.takeDamage(damageS * 5);
             //Collide damage

@@ -11,16 +11,12 @@ public class Spawn_Shoot : MonoBehaviour, IDataPersistence
     private int rand;
     private int randPosition;
 
-    //[HideInInspector]
-    //public bool spawnAllowed;
-
     //public float startTimeBtweenSpawn;
     //private float timeBtweenSpawn;
 
     public int enemyMin, enemyMax;
     public LayerMask groundLayer;
     public Transform player;
-    //private bool spawnAllowed = false;
 
     public static int lvl;
 
@@ -79,13 +75,6 @@ public class Spawn_Shoot : MonoBehaviour, IDataPersistence
     }
     private void SpawnEnemies()
     {
-        /*if (spawnAllowed)
-         {
-             randPosition = Random.Range(0, spawnPoint.Length);
-             rand = Random.Range(0, enemies.Length);
-             Instantiate(enemies[rand], spawnPoint[randPosition].position, Quaternion.identity);
-         }*/
-
         if (enemyMin < enemyMax)
         {
 

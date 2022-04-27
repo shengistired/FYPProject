@@ -27,7 +27,7 @@ public class Collide : MonoBehaviour
         Physics2D.IgnoreLayerCollision(7, 7, true);
 
         player = GameObject.Find("Mage").transform;
-        enemyMin = GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin;
+        enemyMin = GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin;
     }
 
     void Update()
@@ -58,7 +58,7 @@ public class Collide : MonoBehaviour
         if (screenPosition.y > Screen.height || screenPosition.y < 0)
         {
             Destroy(gameObject);
-            GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
             Debug.Log("Invisible");
         }
     }
@@ -70,7 +70,7 @@ public class Collide : MonoBehaviour
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
                 gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
-                GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+                GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
                 Debug.Log("Killed collide");
             break;
         }
@@ -110,7 +110,7 @@ public class Collide : MonoBehaviour
     void Die()
     {
         Destroy(gameObject);
-        GameObject.Find("Spawn_Collide").GetComponent<Spawn_Collide>().enemyMin -= 1;
+        GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
         Debug.Log("Die");
     }
 }

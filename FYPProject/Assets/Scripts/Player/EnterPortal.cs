@@ -18,7 +18,7 @@ public class EnterPortal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             sceneLoaded = true;
-            Spawn_Shoot.lvl += 1;
+            Spawn_Enemies.lvl += 1;
             SceneManager.LoadScene(nextLevel);
             portalEnteredText.OnPortalEnter();
 

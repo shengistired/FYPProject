@@ -23,6 +23,7 @@ public class EnemyHealth : MonoBehaviour
         if (hitPts <= 0)
         {
             Destroy(gameObject);
+            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += 1; //???
         }
     }
     /*void Die()

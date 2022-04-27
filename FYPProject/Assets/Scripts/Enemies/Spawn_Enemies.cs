@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawn_Collide : MonoBehaviour
+public class Spawn_Enemies : MonoBehaviour
 {
-    public GameObject enemies;
+    public GameObject collide;
+    public GameObject shoot;
     //GameObject collide;
     //public Transform[] spawnPoint;
 
     private int rand;
     private int randPosition;
-
-    //[HideInInspector]
-    //public bool spawnAllowed;
 
     //public float startTimeBtweenSpawn;
     //private float timeBtweenSpawn;
@@ -21,17 +19,16 @@ public class Spawn_Collide : MonoBehaviour
     public LayerMask groundLayer;
     public Transform player;
 
-    public int lvl;
+    public static int lvl;
 
     // Start is called before the first frame update
     private void Start()
     {
-        lvl = Spawn_Shoot.lvl;
+        //lvl = Spawn_Shoot.lvl;
 
+        Debug.Log("Enemy Level " + lvl);
         player = GameObject.Find("Mage").transform;
         InvokeRepeating("SpawnEnemies", 0f, 10f);
-
-        
     }
 
     /* // Update is called once per frame
@@ -53,17 +50,13 @@ public class Spawn_Collide : MonoBehaviour
         }
     } */
 
-
+    void Update()
+    {
+        Debug.Log("Enemy Level: " + lvl);
+    }
 
     private void SpawnEnemies()
-    {
-        /*if (spawnAllowed)
-         {
-             randPosition = Random.Range(0, spawnPoint.Length);
-             rand = Random.Range(0, enemies.Length);
-             Instantiate(enemies[rand], spawnPoint[randPosition].position, Quaternion.identity);
-         }*/
-        
+    {   
        if(enemyMin < enemyMax)
         {
 
@@ -72,11 +65,12 @@ public class Spawn_Collide : MonoBehaviour
             {
                 //Vector3 playerPos = player.transform.position;
                 float height = GameObject.Find("Terrain").GetComponent<TerrainGeneration>().heightAddition;
-                float x = Random.Range(player.position.x - 15, player.position.x + 15);
-                Vector3 spawnPos = new Vector3(x, height + 10, 0.0f);
+                float xs = Random.Range(player.position.x - 15, player.position.x + 15);
+                float xc = Random.Range(player.position.x - 14, player.position.x + 14);
+                Vector3 spawnPosS = new Vector3(xs, height + 10, 0.0f);
+                Vector3 spawnPosC = new Vector3(xc, height + 10, 0.0f);
 
-                if ((spawnPos - player.position).magnitude < 10)
-                //if (Vector3.Distance(spawnPos, player.position) < 15)
+                if ((spawnPosC - player.position).magnitude < 10)
                 {
                     continue;
                 }
@@ -84,7 +78,8 @@ public class Spawn_Collide : MonoBehaviour
                 {
                     for (int i = 0; i < 1; i++)
                     {
-                        GameObject col = Instantiate(enemies, spawnPos, Quaternion.identity) as GameObject;
+                        GameObject golem = Instantiate(collide, spawnPosC, Quaternion.identity) as GameObject;
+                        GameObject goblin = Instantiate(shoot, spawnPosS, Quaternion.identity) as GameObject;
                         ++enemyMin;
                         spawnAllowed = true;
                     }
@@ -92,5 +87,15 @@ public class Spawn_Collide : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        lvl = data.enemyLvl;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.enemyLvl = lvl;
     }
 }
