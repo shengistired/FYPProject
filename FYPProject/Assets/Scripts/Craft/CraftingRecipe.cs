@@ -9,7 +9,7 @@ public class CraftingRecipe : ScriptableObject
 {
     public List<Item> Materials;
     public List<Item> Results;
-	public bool failCraft = false;
+	public bool crafted = false;
 	
 	public bool CanCraft(Inventory inventory)
 	{
@@ -40,28 +40,38 @@ public class CraftingRecipe : ScriptableObject
             }
 		}
         try {
-			if (hasMaterials.ToArray()[0] == true && hasMaterials.ToArray()[1] == true)
-			{
-				return true;
+			if(hasMaterials.Count == 1)
+            {
+				if (hasMaterials.ToArray()[0] == true)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
-			else
-			{
-				failCraft = true;
-				return false;
-			}
+            else
+            {
+				if (hasMaterials.ToArray()[0] == true && hasMaterials.ToArray()[1] == true)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			} 
+
+
 		}
         catch
         {
-			failCraft = true;
 			return false;
         }
 
 	}
 
-	public bool failed()
-    {
-		return failCraft;
-    }
 	private void RemoveMaterials(Inventory inventory)
 	{
 		foreach (Item item in Materials)
@@ -82,11 +92,14 @@ public class CraftingRecipe : ScriptableObject
 	}
 	public void Craft(Inventory inventory)
 	{
+		crafted = false;
 		if (CanCraft(inventory))
 		{
 			RemoveMaterials(inventory);
 			AddResults(inventory);
+			crafted = true;
 		}
+
 	}
 
 	public bool isCrafted()

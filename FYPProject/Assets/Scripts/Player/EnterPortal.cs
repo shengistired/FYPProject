@@ -7,36 +7,24 @@ public class EnterPortal : MonoBehaviour
 {
     [SerializeField]
     private string nextLevel ="Map";
-    public int portalsEntered;
+    public PortalEnteredText portalEnteredText;
 
     [HideInInspector]
-    public static bool sceneLoaded;
+    public static bool sceneLoaded = false;
 
-    private void Start()
-    {
-        try
-        {
-            portalsEntered = SaveData.current.portalEntered;
-
-        }
-        catch
-        {
-            portalsEntered = 0;
-        }
-
-        sceneLoaded = false;
-    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(nextLevel);
-            portalsEntered++;
             sceneLoaded = true;
-            SaveData.current.portalEntered = portalsEntered;
+            Spawn_Shoot.lvl += 1;
+            SceneManager.LoadScene(nextLevel);
+            portalEnteredText.OnPortalEnter();
+
         }
 
     }
+
 
 }

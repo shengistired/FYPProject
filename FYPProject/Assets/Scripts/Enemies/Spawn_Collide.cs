@@ -26,15 +26,7 @@ public class Spawn_Collide : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        try
-        {
-            lvl = SaveData.current.lvlC;
-
-        }
-        catch
-        {
-            lvl = 1;
-        }
+        lvl = Spawn_Shoot.lvl;
 
         player = GameObject.Find("Mage").transform;
         InvokeRepeating("SpawnEnemies", 0f, 10f);
@@ -61,15 +53,7 @@ public class Spawn_Collide : MonoBehaviour
         }
     } */
 
-    void Update()
-    {
-        if (EnterPortal.sceneLoaded == true)
-        {
-            lvl += 1;
-            SaveData.current.lvlC = lvl;
-            Debug.Log("lvl up enemy");
-        }
-    }
+
 
     private void SpawnEnemies()
     {

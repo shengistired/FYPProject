@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawn_Shoot : MonoBehaviour
+public class Spawn_Shoot : MonoBehaviour, IDataPersistence
 {
     public GameObject enemies;
     //public Transform[] spawnPoint;
@@ -22,11 +22,12 @@ public class Spawn_Shoot : MonoBehaviour
     public Transform player;
     //private bool spawnAllowed = false;
 
-    public int lvl;
+    public static int lvl;
 
     // Start is called before the first frame update
     private void Start()
     {
+        /*
         try
         {
             lvl = SaveData.current.lvlS;
@@ -36,7 +37,9 @@ public class Spawn_Shoot : MonoBehaviour
         {
             lvl = 1;
         }
-
+        */
+        
+        Debug.Log("Enemy Level " + lvl);
         player = GameObject.Find("Mage").transform;
         InvokeRepeating("SpawnEnemies", 0f, 12f);
 
@@ -64,12 +67,15 @@ public class Spawn_Shoot : MonoBehaviour
 
     void Update()
     {
+        /*
         if (EnterPortal.sceneLoaded == true)
         {
             lvl += 1;
-            SaveData.current.lvlS = lvl;
+           
             Debug.Log("lvl up enemy");
         }
+        */
+        Debug.Log("Enemy Level: " + lvl);
     }
     private void SpawnEnemies()
     {
@@ -108,5 +114,15 @@ public class Spawn_Shoot : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        lvl = data.enemyLvl;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+       data.enemyLvl = lvl;
     }
 }

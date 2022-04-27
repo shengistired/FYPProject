@@ -20,4 +20,4 @@ MonoBehaviour:
   Results:
   - itemType: 2
     amount: 1
-  failCraft: 0
+  crafted: 0

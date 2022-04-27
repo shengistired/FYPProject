@@ -224,4 +224,17 @@ public class Equipment
             return description;
         
     }
+    public List<Item> arrayToList()
+    {
+        List<Item> list = new List<Item>();
+        foreach(Item item in equipment)
+        {
+            if(item != null)
+            {
+                list.Add(item);
+
+            }
+        }
+        return list;
+    }
 }

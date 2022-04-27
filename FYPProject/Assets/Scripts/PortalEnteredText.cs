@@ -14,7 +14,7 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
     {
         portalCount ++;
         Debug.Log(portalCount);
-        //DataPersistenceManager.instance.SaveGame();
+        DataPersistenceManager.instance.SaveGame();
         //SceneManager.LoadScene("Map");
 
     }

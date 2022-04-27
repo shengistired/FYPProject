@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
@@ -123,6 +123,8 @@ public class PlayerController : MonoBehaviour
 
 
     private TileClass tileWood;
+
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -137,6 +139,8 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         edgeCollider = GetComponent<EdgeCollider2D>();
+
+        /*
         if (SaveData.current.inventory == null)
         {
             SaveData.current.inventory = new Inventory(UseItem);
@@ -157,6 +161,10 @@ public class PlayerController : MonoBehaviour
         inventory = SaveData.current.inventory;
         equipment = SaveData.current.equipment;
         craftItem = SaveData.current.craftItem;
+        */
+        inventory = new Inventory(UseItem);
+        equipment = new Equipment(UseItem);
+        craftItem = new CraftItem();
         direct = 1;
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
@@ -871,4 +879,36 @@ public class PlayerController : MonoBehaviour
         level.experience = (oldEXP - newexp);
     }
 
+    public void LoadData(GameData data)
+    {
+        foreach(Item item in data.inventoryItems)
+        {
+            if(item != null)
+            {
+                inventory.AddItem(item);
+
+            }
+        }
+        Item[] equipmentLoaded = data.equipmentItems.ToArray();
+        for (int i = 0; i< equipmentLoaded.Length; i++)
+        {
+            if(equipmentLoaded[i] != null)
+            {
+                equipment.AddItem(equipmentLoaded[i], i);
+            }
+        }
+        //transform.position = data.playerPosition;
+
+        if (!EnterPortal.sceneLoaded)
+        {
+
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.inventoryItems = inventory.GetItemList();
+        data.equipmentItems = equipment.arrayToList();
+        data.playerPosition = transform.position;
+    }
 }

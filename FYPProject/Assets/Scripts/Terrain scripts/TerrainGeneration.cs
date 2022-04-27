@@ -13,6 +13,7 @@ public class TerrainGeneration : MonoBehaviour
     public GameObject tileDrop;
     public CameraFollow camera;
     public audio_manager music;
+    public PortalEnteredText portalEnteredText;
 
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
@@ -57,8 +58,6 @@ public class TerrainGeneration : MonoBehaviour
     [Header("Ore settings")]
     public OreClass[] ores;
 
-
-    public TextMeshProUGUI numberPortal;
 
     private GameObject[] worldChunks;
 
@@ -470,7 +469,7 @@ public class TerrainGeneration : MonoBehaviour
         {
             PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1, true);
         }
-
+        /*
         if (portalSpawnLeftRight >= 50)
         {
 
@@ -481,6 +480,7 @@ public class TerrainGeneration : MonoBehaviour
         {
             PlaceTiles(tileAtlas.portal, 1, height + 1, true);
         }
+        */
 
         //}
 
@@ -573,8 +573,7 @@ public class TerrainGeneration : MonoBehaviour
                 portal.isTrigger = true;
                 portal.size = new Vector2(2f, 2f);
                 newTile.AddComponent<EnterPortal>();
-                numberPortal.text = SaveData.current.portalEntered.ToString();
-                
+                newTile.GetComponent<EnterPortal>().portalEnteredText = portalEnteredText;
             }
 
             newTile.tag = "Ground";

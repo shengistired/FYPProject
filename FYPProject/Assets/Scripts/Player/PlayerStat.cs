@@ -1,6 +1,7 @@
 using UnityEngine;
+using TMPro;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerStat : MonoBehaviour, IDataPersistence
 {
     [Header("Player Class and Level")]
     public string PlayerClass = "mage";
@@ -8,6 +9,7 @@ public class PlayerStat : MonoBehaviour
     // exp that player has
     public int currentExp;
     //exp that player needs  
+
     public int expNeededToNextLevel;
     public int statPoints = 5;
     public int skillPoint = 0;
@@ -99,7 +101,7 @@ public class PlayerStat : MonoBehaviour
 
     public float calculateTotalHP()
     {
-        MaxHpBar = 100;
+        //MaxHpBar = 100;
         //each stat of strength gives 2 hp
         MaxHpBar += (str * 2);
         return MaxHpBar;
@@ -107,7 +109,7 @@ public class PlayerStat : MonoBehaviour
 
     public float calculatetotalStamina()
     {
-        MaxStamina = 100;
+        //MaxStamina = 100;
         //each stat of dex gives 2 stamina
         MaxStamina += (dex * 2);
         return MaxStamina;
@@ -115,7 +117,7 @@ public class PlayerStat : MonoBehaviour
 
     public float calculateTotalMana()
     {
-        MaxManaBar = 100;
+        //MaxManaBar = 100;
         //each stat of intelligence gives 2 mana
         MaxManaBar += (intelligence * 2);
         return MaxManaBar;
@@ -287,6 +289,37 @@ public class PlayerStat : MonoBehaviour
 
     }
 
+    public void LoadData(GameData data)
+    {
+        Playerlevel = data.playerlevel;
+        currentExp = data.currentExp;
+        expNeededToNextLevel = data.expNeededToNextLevel;
+        statPoints = data.statPoints;
+        skillPoint = data.skillPoint;
+        str = data.str;
+        dex = data.dex;
+        intelligence = data.intelligence;
+        luck = data.luck;
+        MaxHpBar = data.maxHpBar;
+        MaxManaBar = data.maxManaBar;
+        MaxStamina = data.maxStamina;
 
 
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.playerlevel = Playerlevel;
+        data.currentExp = currentExp;
+        data.expNeededToNextLevel = expNeededToNextLevel;
+        data.statPoints = statPoints;
+        data.skillPoint = skillPoint;
+        data.str = str;
+        data.dex = dex;
+        data.intelligence = intelligence;
+        data.luck = luck;
+        data.maxHpBar = MaxHpBar;
+        data.maxManaBar = MaxManaBar;
+        data.maxStamina = MaxStamina;
+    }
 }

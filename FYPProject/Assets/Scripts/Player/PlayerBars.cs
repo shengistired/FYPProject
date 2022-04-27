@@ -41,7 +41,8 @@ public class PlayerBars : MonoBehaviour
         if (collide.gameObject.tag.Equals("Bullet"))
         {
             // insert enemy damage >>>>>>
-            int damageS = shootEnemy.lvl + 1;
+            int damageS = Spawn_Shoot.lvl + 1;
+            Debug.Log("Damage " + damageS);
             HealthBar.instance.takeDamage(damageS * 5);
             //Collide damage
         }

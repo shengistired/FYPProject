@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: CampFire
   m_EditorClassIdentifier: 
   Materials:
-  - itemType: 22
+  - itemType: 23
     amount: 5
   Results:
   - itemType: 27
     amount: 1
-  failCraft: 0
+  crafted: 0
