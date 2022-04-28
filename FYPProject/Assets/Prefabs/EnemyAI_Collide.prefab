@@ -273,9 +273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d18b9ae541bc05e4c88796a798ebda37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 80
+  walkSpeed: 70
   range: 4
-  damage: 1
+  damage: 0.5
   mustPatrol: 0
   haveToFlip: 0
   enemyMin: 0
@@ -299,10 +299,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPts: 0
-  maxHitPts: 3
+  maxHitPts: 0
   healthBar: {fileID: 4234082420472154629}
   XP: 0
-  portalEnteredText: {fileID: 0}
+  portalEnteredText: 0
 --- !u!1 &2538854349598363034
 GameObject:
   m_ObjectHideFlags: 0

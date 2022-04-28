@@ -21,7 +21,7 @@ public class Spawn_Enemies : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnEnemies", 0f, 10f);
+        InvokeRepeating("SpawnEnemies", 0f, 15f);
     }
 
     private void SpawnEnemies()

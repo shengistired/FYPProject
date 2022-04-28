@@ -5,7 +5,8 @@ using UnityEngine;
 public class EnemyStat : MonoBehaviour
 {
     public float hitPts;
-    public float maxHitPts = 3;
+    //public float maxHitPts = 4;
+    public float maxHitPts;
     public EnemyHB healthBar;
     //leveling
     public float XP;
@@ -16,16 +17,23 @@ public class EnemyStat : MonoBehaviour
     private void Start()
     {
         Debug.Log("Enemy Level " + lvl);
+        int damageLvl = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount + 1;
+        maxHitPts = damageLvl * 2;
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 
         portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
-        
-        lvl = portalEnteredText + 1;
+        lvl = portalEnteredText;
     }
+
+    /*void FixedUpdate()
+    {
+        healthBar.setHealth(hitPts, maxHitPts);
+    }*/
 
     public void TakeDamage(float damage)
     {
+       
         hitPts -= damage;
         healthBar.setHealth(hitPts, maxHitPts);
         if (hitPts <= 0)

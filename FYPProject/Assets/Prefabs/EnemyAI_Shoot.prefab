@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234d32fcdc0f52e4e922735b39785e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 80
+  walkSpeed: 70
   range: 6
   timeBTWshots: 1
   shootSpeed: 2.5
@@ -333,10 +333,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPts: 0
-  maxHitPts: 3
+  maxHitPts: 0
   healthBar: {fileID: 2507497166801611187}
   XP: 0
-  portalEnteredText: {fileID: 0}
+  portalEnteredText: 0
 --- !u!1 &3805780533262324557
 GameObject:
   m_ObjectHideFlags: 0
