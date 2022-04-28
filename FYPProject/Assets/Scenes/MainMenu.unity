@@ -487,7 +487,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 452015696}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -2069,7 +2069,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 563146635}
-  - component: {fileID: 563146636}
   - component: {fileID: 563146637}
   m_Layer: 0
   m_Name: NewGameMenu
@@ -2106,20 +2105,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &563146636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 563146634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c106f5d38fd2d5143a5790e91041d450, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  continueButton: {fileID: 0}
-  continueText: {fileID: 0}
 --- !u!114 &563146637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10544,3 +10529,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 95e6f6ea258857d47a3b24b7faf48733, type: 3}
   - {fileID: 21300000, guid: 9cd06420e6397e341b118cc884d36430, type: 3}
   classText: {fileID: 1001085714}
+  classTitle: []

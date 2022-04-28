@@ -29,6 +29,8 @@ public class OutfitChanger : MonoBehaviour
         classTitle.Add("warrior");
         classTitle.Add("thief");
         classTitle.Add("archer");
+        NewGame.playerClass = classTitle[0];
+
     }
     public void nextOption()
     {
