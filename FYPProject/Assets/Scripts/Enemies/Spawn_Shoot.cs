@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawn_Shoot : MonoBehaviour, IDataPersistence
+public class Spawn_Shoot : MonoBehaviour
 {
     public GameObject enemies;
     //public Transform[] spawnPoint;
@@ -103,15 +103,5 @@ public class Spawn_Shoot : MonoBehaviour, IDataPersistence
                 }
             }
         }
-    }
-
-    public void LoadData(GameData data)
-    {
-        lvl = data.enemyLvl;
-    }
-
-    public void SaveData(ref GameData data)
-    {
-       data.enemyLvl = lvl;
     }
 }

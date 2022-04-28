@@ -307,11 +307,10 @@ MonoBehaviour:
   range: 6
   timeBTWshots: 1
   shootSpeed: 2.5
-  stop: 3
   damage: 1
   mustPatrol: 0
+  haveToFlip: 0
   enemyMin: 0
-  lvl: 1
   rb: {fileID: 2283995077245746062}
   groundcheckPos: {fileID: 2283995076705884099}
   player: {fileID: 0}
@@ -337,6 +336,7 @@ MonoBehaviour:
   maxHitPts: 3
   healthBar: {fileID: 2507497166801611187}
   XP: 0
+  portalEnteredText: {fileID: 0}
 --- !u!1 &3805780533262324557
 GameObject:
   m_ObjectHideFlags: 0

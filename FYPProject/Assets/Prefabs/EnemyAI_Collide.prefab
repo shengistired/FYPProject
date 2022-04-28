@@ -277,8 +277,8 @@ MonoBehaviour:
   range: 4
   damage: 1
   mustPatrol: 0
+  haveToFlip: 0
   enemyMin: 0
-  lvl: 1
   rb: {fileID: 2538854348550153346}
   groundcheckPos: {fileID: 2538854348355322826}
   player: {fileID: 0}
@@ -302,6 +302,7 @@ MonoBehaviour:
   maxHitPts: 3
   healthBar: {fileID: 4234082420472154629}
   XP: 0
+  portalEnteredText: {fileID: 0}
 --- !u!1 &2538854349598363034
 GameObject:
   m_ObjectHideFlags: 0

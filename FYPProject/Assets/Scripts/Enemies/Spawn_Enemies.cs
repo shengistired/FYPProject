@@ -6,7 +6,6 @@ public class Spawn_Enemies : MonoBehaviour
 {
     public GameObject collide;
     public GameObject shoot;
-    //GameObject collide;
     //public Transform[] spawnPoint;
 
     private int rand;
@@ -19,48 +18,16 @@ public class Spawn_Enemies : MonoBehaviour
     public LayerMask groundLayer;
     public Transform player;
 
-    public static int lvl;
-    
-
-    // Start is called before the first frame update
     private void Start()
     {
-        //lvl = Spawn_Shoot.lvl;
-
-        Debug.Log("Enemy Level " + lvl);
         player = GameObject.Find("Mage").transform;
         InvokeRepeating("SpawnEnemies", 0f, 10f);
-    }
-
-    /* // Update is called once per frame
-    private void Update()
-    {
-        if (timeBtweenSpawn <= 0)
-        {
-            rand = Random.Range(0, enemies.Length);
-            randPosition = Random.Range(0, spawnPoint.Length);
-            if (enemyMin < enemyMax)
-            {
-                Instantiate(enemies[rand], spawnPoint[rand].transform.position, Quaternion.identity);
-                ++enemyMin;
-            }
-        }
-        else
-        {
-            timeBtweenSpawn -= Time.deltaTime;
-        }
-    } */
-
-    void Update()
-    {
-        //Debug.Log("Enemy Level: " + lvl);
     }
 
     private void SpawnEnemies()
     {   
        if(enemyMin < enemyMax)
         {
-
             bool spawnAllowed = false;
             while (!spawnAllowed)
             {
@@ -90,13 +57,22 @@ public class Spawn_Enemies : MonoBehaviour
         }
     }
 
-    public void LoadData(GameData data)
-    {
-        lvl = data.enemyLvl;
-    }
-
-    public void SaveData(ref GameData data)
-    {
-        data.enemyLvl = lvl;
-    }
+    /* // Update is called once per frame
+   private void Update()
+   {
+       if (timeBtweenSpawn <= 0)
+       {
+           rand = Random.Range(0, enemies.Length);
+           randPosition = Random.Range(0, spawnPoint.Length);
+           if (enemyMin < enemyMax)
+           {
+               Instantiate(enemies[rand], spawnPoint[rand].transform.position, Quaternion.identity);
+               ++enemyMin;
+           }
+       }
+       else
+       {
+           timeBtweenSpawn -= Time.deltaTime;
+       }
+   } */
 }

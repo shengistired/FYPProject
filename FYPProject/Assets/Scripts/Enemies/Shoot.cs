@@ -84,7 +84,7 @@ public class Shoot : MonoBehaviour
         {
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-                gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+                gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
                 GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
                 Debug.Log("Killed shoot");
             break;

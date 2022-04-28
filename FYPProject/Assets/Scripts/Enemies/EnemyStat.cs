@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyStat : MonoBehaviour
 {
     public float hitPts;
     public float maxHitPts = 3;
@@ -10,10 +10,18 @@ public class EnemyHealth : MonoBehaviour
     //leveling
     public float XP;
 
+    public static int lvl;
+    public int portalEnteredText;
+
     private void Start()
     {
+        Debug.Log("Enemy Level " + lvl);
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
+
+        portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
+        
+        lvl = portalEnteredText;
     }
 
     public void TakeDamage(float damage)
@@ -23,9 +31,10 @@ public class EnemyHealth : MonoBehaviour
         if (hitPts <= 0)
         {
             Destroy(gameObject);
-            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += 1; //???
+            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += 10; //player exp
         }
     }
+
     /*void Die()
     {
         if(diePEffect != null)
@@ -35,5 +44,15 @@ public class EnemyHealth : MonoBehaviour
 
         Destroy(gameObject);
         GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
+    }*/
+
+    /*public void LoadData(GameData data)
+    {
+        lvl = data.enemyLvl;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.enemyLvl = lvl;
     }*/
 }

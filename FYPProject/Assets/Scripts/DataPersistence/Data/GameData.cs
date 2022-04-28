@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameData
 {
     public int portalEntered;
-    public int enemyLvl;
     public List<Item> equipmentItems;
     public List<Item> inventoryItems;
     public Vector3 tilesPosition;
@@ -27,7 +26,6 @@ public class GameData
     public GameData()
     {
         portalEntered = 0;
-        enemyLvl = 1;
         equipmentItems = new List<Item>();
         inventoryItems = new List<Item>();
         craftItem = new CraftItem();
