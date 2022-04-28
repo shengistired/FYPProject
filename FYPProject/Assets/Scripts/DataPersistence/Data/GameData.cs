@@ -6,6 +6,11 @@ using UnityEngine;
 public class GameData
 {
     public int portalEntered;
+    public string playerClass;
+    public string biome;
+    public int life;
+    public string difficulty;
+    public string worldSizeSet;
     public List<Item> equipmentItems;
     public List<Item> inventoryItems;
     public Vector3 tilesPosition;
@@ -20,12 +25,18 @@ public class GameData
     public int dex;
     public int intelligence;
     public int luck;
+    public float currentHP;
     public float maxHpBar;
     public float maxManaBar;
     public float maxStamina;
     public GameData()
     {
         portalEntered = 0;
+        playerClass = "";
+        biome = "";
+        life = 0;
+        difficulty = "";
+        worldSizeSet = "";
         equipmentItems = new List<Item>();
         inventoryItems = new List<Item>();
         craftItem = new CraftItem();
@@ -41,6 +52,7 @@ public class GameData
         maxHpBar = 100;
         maxStamina = 100;
         maxManaBar = 100;
+        currentHP = -1;
         //equipment = null;
         
     }

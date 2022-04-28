@@ -1,16 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-   public void PlayGame()
+    [SerializeField] private Button continueButton;
+    [SerializeField] private TextMeshProUGUI continueText;
+    private void Start()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Color originalColor = continueText.color;
+
+        if (!DataPersistenceManager.instance.hasGameData())
+        {
+            continueButton.interactable = false;
+            continueButton.GetComponent<EventTrigger>().enabled = false;
+            originalColor.a = .6f;
+            continueText.color = originalColor;
+            
+        }   
+        
+        
+    }
+    public void continueClick()
+    {
+        SceneManager.LoadSceneAsync("Map");
 
     }
-
     public void QuitGame()
     {
         Debug.Log("QUIT");

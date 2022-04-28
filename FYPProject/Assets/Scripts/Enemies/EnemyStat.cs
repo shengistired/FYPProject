@@ -21,7 +21,7 @@ public class EnemyStat : MonoBehaviour
 
         portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
         
-        lvl = portalEnteredText;
+        lvl = portalEnteredText + 1;
     }
 
     public void TakeDamage(float damage)
@@ -31,7 +31,7 @@ public class EnemyStat : MonoBehaviour
         if (hitPts <= 0)
         {
             Destroy(gameObject);
-            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += 10; //player exp
+            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += 100; //player exp
         }
     }
 

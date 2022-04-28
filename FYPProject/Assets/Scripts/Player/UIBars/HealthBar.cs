@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public class HealthBar : MonoBehaviour, IDataPersistence
 {
     public Slider healthBar;
     public PlayerStat playerStat;
@@ -26,7 +26,10 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHp = playerStat.MaxHpBar;
+        if(currentHp == -1)
+        {
+            currentHp = playerStat.MaxHpBar;
+        }
         totalHp = playerStat.MaxHpBar;
 
 
@@ -106,5 +109,15 @@ public class HealthBar : MonoBehaviour
             LevelManager.instance.GameOver();
             gameObject.SetActive(false);
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        currentHp = data.currentHP;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.currentHP = currentHp;
     }
 }

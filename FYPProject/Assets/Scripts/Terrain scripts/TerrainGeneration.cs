@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class TerrainGeneration : MonoBehaviour
+public class TerrainGeneration : MonoBehaviour,IDataPersistence
 {
     // public BiomeClass ForestBiome;
     // public BiomeClass DesertBiome;
@@ -45,6 +45,9 @@ public class TerrainGeneration : MonoBehaviour
     public string worldSizeSet;
     public string biome;
     public int worldSize;
+    public string difficulty;
+    public string playerClass;
+    public int life;
     public float heightMultiplier = 4f;
     public int heightAddition = 75;
 
@@ -83,6 +86,29 @@ public class TerrainGeneration : MonoBehaviour
 
     private void Start()
     {
+        if (difficulty == "")
+        {
+            life = NewGame.life;
+        }
+        if (worldSizeSet == "")
+        {
+            worldSizeSet = NewGame.worldsizeSelection;
+
+        }
+        if (biome == "")
+        {
+            biome = NewGame.biomeSelection;
+
+        }
+        if (difficulty == "")
+        {
+            difficulty = NewGame.difficultySelection;
+        }
+        if(playerClass == "")
+        {
+            playerClass = NewGame.playerClass;
+        }
+
         if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {
 
@@ -143,8 +169,7 @@ public class TerrainGeneration : MonoBehaviour
 
         else
         {
-            worldSizeSet = NewGame.worldsizeSelection;
-            biome = NewGame.biomeSelection;
+
             if (biome == "forest")
             {
                 music.forest_music_play();
@@ -945,6 +970,23 @@ public class TerrainGeneration : MonoBehaviour
 
 
 
+    }
+    public void LoadData(GameData data)
+    {
+        biome = data.biome;
+        difficulty = data.difficulty;
+        worldSizeSet = data.worldSizeSet;
+        life = data.life;
+        playerClass = data.playerClass;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.biome = biome;
+        data.difficulty = difficulty;
+        data.worldSizeSet = worldSizeSet;
+        data.life = life;
+        data.playerClass = playerClass;
     }
 
 

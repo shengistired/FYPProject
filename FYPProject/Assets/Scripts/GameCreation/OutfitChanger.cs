@@ -12,6 +12,8 @@ public class OutfitChanger : MonoBehaviour
     public List<Sprite> options = new List<Sprite>();
     private List<string> optionText = new List<string>();
     [SerializeField] private TMP_Text classText;
+    public List<string> classTitle;
+
 
     private int currentOption = 0;
     private void Start()
@@ -22,6 +24,11 @@ public class OutfitChanger : MonoBehaviour
         optionText.Add("Archer uses bow and arrow to shoot the enemy");
 
         classText.text = "Mage uses magic to shoot fireball at the enemy";
+
+        classTitle.Add("mage");
+        classTitle.Add("warrior");
+        classTitle.Add("thief");
+        classTitle.Add("archer");
     }
     public void nextOption()
     {
@@ -30,9 +37,11 @@ public class OutfitChanger : MonoBehaviour
         if (currentOption >= options.Count)
         {
             currentOption = 0;
+
         }
         image.sprite = options[currentOption];
         classText.text = optionText[currentOption];
+        NewGame.playerClass = classTitle[currentOption];
     }
 
     public void previousOption()
@@ -48,5 +57,7 @@ public class OutfitChanger : MonoBehaviour
 
         image.sprite = options[currentOption];
         classText.text = optionText[currentOption];
+        NewGame.playerClass = classTitle[currentOption];
+
     }
 }

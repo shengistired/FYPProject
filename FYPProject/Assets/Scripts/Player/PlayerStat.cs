@@ -60,7 +60,11 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     [SerializeField] private ManaBar manaBar;
     [SerializeField] private StaminaBar staminaBar;
     private bool statScreen = false;
-
+    void FixedUpdate()
+    {
+        //str_add.onClick.AddListener(playerStat.addStrength);
+        checkForLevelUp();
+    }
 
 
     public void openStatScreen()
@@ -133,7 +137,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
     public int checkForLevelUp()
     {
-        if (currentExp > expNeededToNextLevel)
+        if (currentExp >= expNeededToNextLevel)
         {
             Playerlevel++;
 
@@ -142,8 +146,8 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
             //each level up gives 1 skill point
             skillPoint++;
+            currentExp -= expNeededToNextLevel;
             expNeededToNextLevel = Playerlevel * 100;
-            currentExp = 0;
             return Playerlevel;
 
         }

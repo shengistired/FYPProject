@@ -12,7 +12,7 @@ public class EXPText : MonoBehaviour
     public TextMeshProUGUI currentEXPText;
     public TextMeshProUGUI neededEXPText;
 
-    void Update()
+    void FixedUpdate()
     {
         currentEXPText.text = stat.currentExp.ToString();
         neededEXPText.text = stat.expNeededToNextLevel.ToString();
@@ -20,4 +20,5 @@ public class EXPText : MonoBehaviour
         EXPBar.maxValue = stat.expNeededToNextLevel;
         EXPBar.value = stat.currentExp;
     }
+
 }

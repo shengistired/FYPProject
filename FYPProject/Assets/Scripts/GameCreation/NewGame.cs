@@ -29,9 +29,12 @@ public class NewGame : MonoBehaviour
     private bool[] notEmptyDifficulty = { false, false, false};
     private bool biome = false;
     private bool size = false;
+    private bool difficulty = false;
     public static string worldsizeSelection;
     public static string biomeSelection;
     public static string difficultySelection;
+    public static int life;
+    public static string playerClass;
 
     // Start is called before the first frame update
     void Awake()
@@ -189,7 +192,7 @@ public class NewGame : MonoBehaviour
         notEmptyDifficulty[0] = true;
         notEmptyDifficulty[1] = false;
         notEmptyDifficulty[2] = false;
-
+        life = 5;
         difficultySelection = "easy";
 
 
@@ -208,9 +211,9 @@ public class NewGame : MonoBehaviour
         notEmptyDifficulty[0] = false;
         notEmptyDifficulty[1] = true;
         notEmptyDifficulty[2] = false;
+        life = 3;
 
-
-        difficultySelection = "easy";
+        difficultySelection = "normal";
 
 
     }
@@ -228,18 +231,18 @@ public class NewGame : MonoBehaviour
         notEmptyDifficulty[1] = false;
         notEmptyDifficulty[2] = true;
 
+        life = 5;
         difficultySelection = "hard";
 
 
     }
-    public void Submit()
+    public void newGameClick()
     {
 
         foreach (bool check in notEmptySize)
         {
             if (check == true)
             {
-                Debug.Log(notEmptySize[0]);
                 size = true;
             }
 
@@ -248,18 +251,26 @@ public class NewGame : MonoBehaviour
         {
             if (check == true)
             {
-                Debug.Log(notEmptyBiome[1]);
 
                 biome = true;
             }
 
         }
+        foreach (bool check in notEmptyDifficulty)
+        {
+            if (check == true)
+            {
 
-        if (size == true && biome == true)
+                difficulty = true;
+            }
+
+        }
+
+        if (size == true && biome == true && difficulty == true)
         {
             errorMsg.gameObject.SetActive(false);
-            Debug.Log("Done");
-            SceneManager.LoadScene("Map");
+            DataPersistenceManager.instance.NewGame();
+            SceneManager.LoadSceneAsync("Map");
 
         }
         else
@@ -269,5 +280,6 @@ public class NewGame : MonoBehaviour
 
 
     }
+
 
 }
