@@ -12,7 +12,6 @@ public class Shoot : MonoBehaviour
     [HideInInspector]
     public bool mustPatrol, haveToFlip;
     private bool mustTurn, canShoot;
-    public int enemyMin;
     //public int lvl;
 
     public Rigidbody2D rb;
@@ -33,7 +32,6 @@ public class Shoot : MonoBehaviour
         //EnemyHealthBar.SetActive(false);
 
         player = GameObject.Find("Mage").transform;
-        enemyMin = GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin;
     }
 
     void Update()
@@ -84,7 +82,6 @@ public class Shoot : MonoBehaviour
         {
             //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
             gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
             Debug.Log("Killed collide");
         }
         switch (col.gameObject.name)
@@ -92,7 +89,6 @@ public class Shoot : MonoBehaviour
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
                 gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-                GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
                 Debug.Log("Killed shoot");
 
             break;

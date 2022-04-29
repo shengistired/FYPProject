@@ -10,6 +10,9 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
     public int portalCount = 0;
     private TextMeshProUGUI portalEnterText;
 
+    [HideInInspector]
+    public static bool newPortal;
+
     public void OnPortalEnter()
     {
         portalCount ++;
@@ -17,6 +20,7 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
         DataPersistenceManager.instance.SaveGame();
         //SceneManager.LoadScene("Map");
 
+        newPortal = true;
     }
     public void LoadData(GameData data)
     {

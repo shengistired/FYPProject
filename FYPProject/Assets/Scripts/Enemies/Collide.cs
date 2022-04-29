@@ -11,7 +11,6 @@ public class Collide : MonoBehaviour
     [HideInInspector]
     public bool mustPatrol, haveToFlip;
     private bool mustTurn;
-    public int enemyMin;
     //public int lvl;
 
     public Rigidbody2D rb;
@@ -27,7 +26,6 @@ public class Collide : MonoBehaviour
         Physics2D.IgnoreLayerCollision(7, 7, true);
 
         player = GameObject.Find("Mage").transform;
-        enemyMin = GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin;
     }
 
     void Update()
@@ -69,7 +67,6 @@ public class Collide : MonoBehaviour
         {
             //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
             gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
             Debug.Log("Killed collide");
         }
 
@@ -78,7 +75,6 @@ public class Collide : MonoBehaviour
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
                 gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-                GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
                 Debug.Log("Killed collide");
             break;
 

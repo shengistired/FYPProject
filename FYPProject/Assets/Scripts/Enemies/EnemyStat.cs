@@ -9,10 +9,12 @@ public class EnemyStat : MonoBehaviour
     public float maxHitPts;
     public EnemyHB healthBar;
     //leveling
-    public float XP;
+    public int XP;
 
     public static int lvl;
     public int portalEnteredText;
+
+    public int enemyMin;
 
     private void Start()
     {
@@ -24,22 +26,24 @@ public class EnemyStat : MonoBehaviour
 
         portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
         lvl = portalEnteredText;
-    }
 
-    /*void FixedUpdate()
-    {
-        healthBar.setHealth(hitPts, maxHitPts);
-    }*/
+        XP = 10;
+        if (PortalEnteredText.newPortal == true)
+        {
+            XP += 5;
+        }
+    }
 
     public void TakeDamage(float damage)
     {
-       
         hitPts -= damage;
         healthBar.setHealth(hitPts, maxHitPts);
         if (hitPts <= 0)
         {
             Destroy(gameObject);
-            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += 100; //player exp
+            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
+            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
+            
         }
     }
 
