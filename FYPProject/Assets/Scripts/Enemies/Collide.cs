@@ -65,6 +65,14 @@ public class Collide : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        if (col.gameObject.name == "Staff" && PlayerController.normalAttack)
+        {
+            //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+            gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
+            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
+            Debug.Log("Killed collide");
+        }
+
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
@@ -73,7 +81,10 @@ public class Collide : MonoBehaviour
                 GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
                 Debug.Log("Killed collide");
             break;
+
         }
+    
+
     }
 
     private void FixedUpdate()
