@@ -26,6 +26,8 @@ public class GameData
     public int intelligence;
     public int luck;
     public float currentHP;
+    public float currentMana;
+    public float currentStamina;
     public float maxHpBar;
     public float maxManaBar;
     public float maxStamina;
@@ -52,7 +54,9 @@ public class GameData
         maxHpBar = 100;
         maxStamina = 100;
         maxManaBar = 100;
-        currentHP = -1;
+        currentHP = maxHpBar;
+        currentMana = maxManaBar;
+        currentStamina = maxStamina;
         //equipment = null;
         
     }

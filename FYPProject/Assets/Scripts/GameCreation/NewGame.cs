@@ -270,7 +270,9 @@ public class NewGame : MonoBehaviour
         {
             errorMsg.gameObject.SetActive(false);
             DataPersistenceManager.instance.NewGame();
-            SceneManager.LoadSceneAsync("Map");
+            LevelLoader.Instance.LoadLevel("Map");
+
+            //SceneManager.LoadSceneAsync("Map");
 
         }
         else

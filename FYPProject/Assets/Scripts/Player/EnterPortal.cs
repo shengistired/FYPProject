@@ -19,7 +19,8 @@ public class EnterPortal : MonoBehaviour
         {
             sceneLoaded = true;
             //EnemyStat.lvl += 1;
-            SceneManager.LoadSceneAsync(nextLevel);
+            LevelLoader.Instance.LoadLevel(nextLevel);
+
             portalEnteredText.OnPortalEnter();
 
         }

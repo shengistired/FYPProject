@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ManaBar : MonoBehaviour
+public class ManaBar : MonoBehaviour, IDataPersistence
 {
     public Slider manaBar;
     public PlayerStat playerStat;
@@ -27,6 +27,7 @@ public class ManaBar : MonoBehaviour
     {
 
         currentMana = playerStat.MaxManaBar;
+
         totalMana = playerStat.MaxManaBar;
         //Debug.Log("currentMana"+currentMana);
         //Debug.Log("totalMana"+totalMana);
@@ -99,5 +100,15 @@ public class ManaBar : MonoBehaviour
             yield return regenTick;
         }
         regen = null;
+    }
+
+    public void LoadData(GameData data)
+    {
+        currentMana = data.currentMana;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.currentMana = currentMana;
     }
 }

@@ -28,6 +28,7 @@ public class StaminaBar : MonoBehaviour
         // currentStamina = playerStat.calculatetotalStamina();
         // totalStamina = playerStat.calculatetotalStamina();
 
+
         currentStamina = playerStat.MaxStamina;
         totalStamina = playerStat.MaxStamina;
 

@@ -30,10 +30,8 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-        if (currentHp == -1)
-        {
-            currentHp = playerStat.MaxHpBar;
-        }
+
+        currentHp = playerStat.MaxHpBar;
         totalHp = playerStat.MaxHpBar;
 
 

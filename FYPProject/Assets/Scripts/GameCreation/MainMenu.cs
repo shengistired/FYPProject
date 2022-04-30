@@ -27,7 +27,9 @@ public class MainMenu : MonoBehaviour
     }
     public void continueClick()
     {
-        SceneManager.LoadSceneAsync("Map");
+        LevelLoader.Instance.LoadLevel("Map");
+        //LevelLoader.Instance.LoadScene("Map");
+        //SceneManager.LoadSceneAsync("Map");
 
     }
     public void QuitGame()
