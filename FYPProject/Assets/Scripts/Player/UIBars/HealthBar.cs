@@ -13,6 +13,10 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
 
+    //only take damage once every second
+    private float damageTakenTime = 0f;
+    private float damageTakenCoolDown = 1f;
+
     //HP regen amount
     private Coroutine regen;
 
@@ -26,7 +30,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-        if(currentHp == -1)
+        if (currentHp == -1)
         {
             currentHp = playerStat.MaxHpBar;
         }
@@ -39,6 +43,8 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         //player's current health
         healthBar.value = currentHp;
 
+        checkFoodBarRegen();
+
 
 
     }
@@ -47,20 +53,30 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     public void takeDamage(int damage)
     {
-        if (currentHp - damage > 0)
+        //only take damage once every second
+        if (Time.time > damageTakenTime + damageTakenCoolDown)
         {
-            currentHp -= damage;
-            healthBar.value = currentHp;
-            Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
-            checkFoodBarRegen();
+            damageTakenTime = Time.time;
+            if (currentHp - damage > 0)
+            {
+                currentHp -= damage;
+                healthBar.value = currentHp;
+                Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
+                //stop regen when taking damage
+                StopCoroutine(regen);
+                //run function to check if player can regen after
+                checkFoodBarRegen();
+            }
+            else if (damage >= currentHp || damage > currentHp || currentHp == 0)
+            {
+                currentHp -= damage;
+                healthBar.value = currentHp;
+                Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
+                PlayerDied();
+            }
+
         }
-        else if (damage >= currentHp || damage > currentHp || currentHp == 0)
-        {
-            currentHp -= damage;
-            healthBar.value = currentHp;
-            Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
-            PlayerDied();
-        }
+
     }
 
     public void onStrengthUp(float maxHp)

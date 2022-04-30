@@ -33,6 +33,7 @@ public class StaminaBar : MonoBehaviour
 
         staminaBar.maxValue = totalStamina;
         staminaBar.value = totalStamina;
+        RegenStamina();
     }
 
     public void onDexUp(float maxStamina)
@@ -51,7 +52,10 @@ public class StaminaBar : MonoBehaviour
             staminaBar.value = currentStamina;
 
             if (regen != null)
+            {
                 StopCoroutine(regen);
+            }
+
 
             regen = StartCoroutine(RegenStamina());
             return true;
