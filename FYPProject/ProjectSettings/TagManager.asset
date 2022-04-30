@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - EnemyCollide
   - EnemyShoot
+  - MiniBoss
   layers:
   - Default
   - TransparentFX

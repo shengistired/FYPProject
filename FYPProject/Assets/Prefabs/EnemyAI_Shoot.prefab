@@ -310,7 +310,6 @@ MonoBehaviour:
   damage: 1
   mustPatrol: 0
   haveToFlip: 0
-  enemyMin: 0
   rb: {fileID: 2283995077245746062}
   groundcheckPos: {fileID: 2283995076705884099}
   player: {fileID: 0}
@@ -320,6 +319,7 @@ MonoBehaviour:
     m_Bits: 64
   bodyCollider: {fileID: 2283995077245746049}
   bullet: {fileID: 326611048074426205, guid: e433964e0e522394cb1757002c7e8a52, type: 3}
+  portalEnteredText: {fileID: 0}
 --- !u!114 &481924475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +337,7 @@ MonoBehaviour:
   healthBar: {fileID: 2507497166801611187}
   XP: 0
   portalEnteredText: 0
+  enemyMin: 0
 --- !u!1 &3805780533262324557
 GameObject:
   m_ObjectHideFlags: 0

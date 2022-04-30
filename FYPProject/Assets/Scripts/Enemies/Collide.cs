@@ -18,7 +18,8 @@ public class Collide : MonoBehaviour
     public Transform player;
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
- 
+
+    public PortalEnteredText portalEnteredText;
 
     void Start()
     {
@@ -26,6 +27,15 @@ public class Collide : MonoBehaviour
         Physics2D.IgnoreLayerCollision(7, 7, true);
 
         player = GameObject.Find("Mage").transform;
+
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     void Update()

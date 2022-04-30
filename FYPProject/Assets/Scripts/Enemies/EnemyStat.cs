@@ -19,7 +19,7 @@ public class EnemyStat : MonoBehaviour
     private void Start()
     {
         Debug.Log("Enemy Level " + lvl);
-        int damageLvl = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount + 1;
+        int damageLvl = lvl + 1;
         maxHitPts = damageLvl * 2;
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);

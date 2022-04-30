@@ -18,10 +18,21 @@ public class Spawn_Enemies : MonoBehaviour
     public LayerMask groundLayer;
     public Transform player;
 
+    public PortalEnteredText portalEnteredText;
+
     private void Start()
     {
         player = GameObject.Find("Mage").transform;
         InvokeRepeating("SpawnEnemies", 0f, 15f);
+
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     private void SpawnEnemies()

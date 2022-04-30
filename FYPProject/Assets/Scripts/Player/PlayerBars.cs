@@ -45,5 +45,14 @@ public class PlayerBars : MonoBehaviour
             HealthBar.instance.takeDamage(damageS * 5);
             //Collide damage
         }
+
+        if (collide.gameObject.tag.Equals("BossBullet"))
+        {
+            // insert enemy damage >>>>>>
+            int damageB = 60;
+            Debug.Log("Damage " + damageB);
+            HealthBar.instance.takeDamage(damageB);
+            //Collide damage
+        }
     }
 }

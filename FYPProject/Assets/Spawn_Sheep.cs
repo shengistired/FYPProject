@@ -13,11 +13,22 @@ public class Spawn_Sheep : MonoBehaviour
     public LayerMask groundLayer;
     public Transform player;
 
+    public PortalEnteredText portalEnteredText;
+
     // Start is called before the first frame update
     private void Start()
     {
         player = GameObject.Find("Mage").transform;
         InvokeRepeating("SpawnAnimals", 0f, 8f);
+
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     private void SpawnAnimals()

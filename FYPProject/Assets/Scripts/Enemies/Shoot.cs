@@ -21,7 +21,9 @@ public class Shoot : MonoBehaviour
     public Collider2D bodyCollider;
     public GameObject bullet;
     //public GameObject boom;
-    
+
+    public PortalEnteredText portalEnteredText;
+
 
     void Start()
     {
@@ -32,6 +34,15 @@ public class Shoot : MonoBehaviour
         //EnemyHealthBar.SetActive(false);
 
         player = GameObject.Find("Mage").transform;
+
+        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     void Update()
