@@ -82,14 +82,14 @@ public class MiniBoss : MonoBehaviour
     {
         if (col.gameObject.name == "Staff" && PlayerController.normalAttack)
         {
-            gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
+            gameObject.GetComponent<MiniBossStats>().TakeDamage(damage);
             Debug.Log("Killed collide");
         }
 
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
-                gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
+                gameObject.GetComponent<MiniBossStats>().TakeDamage(damage);
                 Debug.Log("Killed shoot");
                 break;
         }
@@ -99,7 +99,7 @@ public class MiniBoss : MonoBehaviour
     {
         if (mustPatrol == true)
         {
-            mustTurn = !Physics2D.OverlapCircle(groundcheckPos.position, 0.1f, groundLayer);
+            //mustTurn = !Physics2D.OverlapCircle(groundcheckPos.position, 0.1f, groundLayer);
             haveToFlip = false;
         }
     }
@@ -133,7 +133,7 @@ public class MiniBoss : MonoBehaviour
 
         if (gameObject.transform.localScale.x < 0)
         {
-            newBullet.transform.localScale = new Vector2(newBullet.transform.localScale.x * -1, newBullet.transform.localScale.y);
+            newBullet.transform.localScale = new Vector2(newBullet.transform.localScale.x * 1, newBullet.transform.localScale.y);
         }
 
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
