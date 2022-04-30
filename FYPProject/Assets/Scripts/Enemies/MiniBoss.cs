@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MiniBoss : MonoBehaviour
 {
-    public float walkSpeed, range, timeBTWshots, shootSpeed, damage;
+    public float walkSpeed, range, timeBTWshots, shootSpeed, damage, distance;
     private float disToPlayer;
 
     [HideInInspector]
@@ -19,6 +19,8 @@ public class MiniBoss : MonoBehaviour
     public GameObject bullet;
 
     public PortalEnteredText portalEnteredText;
+
+    private Vector2 target;
 
     void Start()
     {
@@ -37,6 +39,8 @@ public class MiniBoss : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        target = new Vector2(0.0f, 0.0f);
     }
 
     void Update()
@@ -47,35 +51,31 @@ public class MiniBoss : MonoBehaviour
         }
 
         disToPlayer = Vector2.Distance(transform.position, player.position);
-        if (disToPlayer <= range && haveToFlip == false)
+        if (disToPlayer >= distance)
         {
             if (player.position.x > transform.position.x && transform.localScale.x < 0
-               || player.position.x < transform.position.x && transform.localScale.x > 0)
+                   || player.position.x < transform.position.x && transform.localScale.x > 0)
             {
                 Flip();
             }
 
-            mustPatrol = false;
-            rb.velocity = Vector2.zero;
-
-            if (canShoot)
+            if (disToPlayer <= range && haveToFlip == false)
             {
-                StartCoroutine(Shot());
+                mustPatrol = false;
+                rb.velocity = Vector2.zero;
+
+                if (canShoot)
+                {
+                    StartCoroutine(Shot());
+                }
+            }
+
+            else
+            {
+                mustPatrol = true;
+                haveToFlip = true;
             }
         }
-        else
-        {
-            mustPatrol = true;
-            haveToFlip = true;
-        }
-
-        /*Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        if (screenPosition.y > Screen.height || screenPosition.y < 0)
-        {
-            Destroy(gameObject);
-            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-            Debug.Log("Invisible");
-        }*/
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -110,8 +110,9 @@ public class MiniBoss : MonoBehaviour
         rb.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb.velocity.y);
         if (mustTurn == true || bodyCollider.IsTouchingLayers(groundLayer))
         {
-            Flip();
+            //Flip();
             haveToFlip = true;
+            rb.AddForce(Vector2.up * 30f);
         }
     }
 
