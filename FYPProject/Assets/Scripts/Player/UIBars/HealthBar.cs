@@ -7,6 +7,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     public Slider healthBar;
     public PlayerStat playerStat;
     public FoodBar foodBar;
+    public Text hpText;
 
     public float totalHp;
     private float currentHp;
@@ -19,6 +20,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     //HP regen amount
     private Coroutine regen;
+    private string biome;
 
     public static HealthBar instance;
 
@@ -30,11 +32,10 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-
-        currentHp = playerStat.MaxHpBar;
         totalHp = playerStat.MaxHpBar;
+        // hpText.text = currentHp + " / " + totalHp;
 
-
+        hpText.text = (int)currentHp + " / " + totalHp;
 
         //player's total health
         healthBar.maxValue = totalHp;
@@ -43,13 +44,54 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
         checkFoodBarRegen();
 
+        if (FoodBar.food >= 140f && currentHp < totalHp)
+        {
+            regen = StartCoroutine(RegenHealth());
+        }
+        if (biome == "")
+        {
+            biome = NewGame.biomeSelection;
 
+        }
 
     }
 
 
+    private void FixedUpdate()
+    {
+        if (biome == "desert")
+        {
+            desertBurn(0.05f);
+        }
+    }
 
-    public void takeDamage(int damage)
+    public void desertBurn(float damage)
+    {
+        if (currentHp - damage > 0)
+        {
+            currentHp -= damage;
+            
+            healthBar.value = currentHp;
+            hpText.text = (int)currentHp + " / " + totalHp;
+
+            //Debug.Log("Desert burn damage " + damage + " HP left is " + healthBar.value);
+
+        }
+        else if (damage >= currentHp || damage > currentHp || currentHp == 0)
+        {
+            currentHp -= damage;
+
+
+            healthBar.value = currentHp;
+            hpText.text = (int)currentHp + " / " + totalHp;
+
+            //Debug.Log("Desert burn damage " + damage + " HP left is " + healthBar.value);
+            PlayerDied();
+        }
+
+    }
+
+    public void takeDamage(float damage)
     {
         //only take damage once every second
         if (Time.time > damageTakenTime + damageTakenCoolDown)
@@ -59,6 +101,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
             {
                 currentHp -= damage;
                 healthBar.value = currentHp;
+                hpText.text = currentHp + " / " + totalHp;
                 Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
                 //stop regen when taking damage
                 StopCoroutine(regen);
@@ -69,6 +112,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
             {
                 currentHp -= damage;
                 healthBar.value = currentHp;
+                hpText.text = (int)currentHp + " / " + totalHp;
                 Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
                 PlayerDied();
             }
@@ -82,6 +126,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         totalHp = maxHp;
         //player's total health on slider
         healthBar.maxValue = totalHp;
+        hpText.text = (int)currentHp + " / " + totalHp;
     }
 
     public void checkFoodBarRegen()
@@ -112,6 +157,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
             // add for hp regen set>>>> playerStat.healthRegen;
             currentHp += 1;
             healthBar.value = currentHp;
+            hpText.text = (int)currentHp + " / " + totalHp;
             yield return regenTick;
         }
         //regen = null;
@@ -128,6 +174,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         currentHp = data.currentHP;
+        biome = data.biome;
     }
 
     public void SaveData(ref GameData data)

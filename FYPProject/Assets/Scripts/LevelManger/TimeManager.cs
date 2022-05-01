@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviour, IDataPersistence
 {
     public static Action OnMinuteChanged;
     public static Action OnHourChanged;
@@ -14,14 +14,14 @@ public class TimeManager : MonoBehaviour
     public float minuteToRealTime = 0.5f;
     private float timer;
 
-
-    void start ()
+    /*
+    void Start ()
     {
         Minute = 0;
         Hour = 0;
         timer = minuteToRealTime;
     }
-
+    */
     void Update ()
     {
         timer -= Time.deltaTime * 5;
@@ -40,5 +40,19 @@ public class TimeManager : MonoBehaviour
 
             timer = minuteToRealTime;
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        Hour = data.hour;
+        Minute = data.min;
+        timer = data.timer;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.hour = Hour;
+        data.min = Minute;
+        data.timer = timer;
     }
 }                                                      

@@ -35,14 +35,24 @@ public class DataPersistenceManager : MonoBehaviour
         var file = info.GetFiles();
         foreach(FileInfo f in file)
         {
-            if (f.Name == "data.game")
+            if (f.Name == "0data.game")
             {
                 fileName = "1data.game";
 
             }
-            else if(f.Name == "1data.game")
+            if(f.Name == "1data.game")
             {
                 fileName = "2data.game";
+
+            }
+            if (f.Name == "2data.game")
+            {
+                fileName = "3data.game";
+
+            }
+            if (f.Name == "3data.game")
+            {
+                fileName = "0data.game";
 
             }
         }
@@ -122,18 +132,23 @@ public class DataPersistenceManager : MonoBehaviour
         bool hasData = false;
         foreach (FileInfo f in file)
         {
-            if (f.Name == "data.game")
+            if (f.Name == "0data.game")
             {
                 hasData = true;
 
 
             }
-            else if (f.Name == "1data.game")
+            if (f.Name == "1data.game")
             {
                 hasData=true;
 
             }
-            else if (f.Name == "2data.game")
+            if (f.Name == "2data.game")
+            {
+                hasData = true;
+
+            }
+            if (f.Name == "3data.game")
             {
                 hasData = true;
 

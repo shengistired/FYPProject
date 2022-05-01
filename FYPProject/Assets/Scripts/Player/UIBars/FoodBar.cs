@@ -4,18 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class FoodBar : MonoBehaviour
+public class FoodBar : MonoBehaviour, IDataPersistence
 {
     public Slider foodBar;
     
     public static float food = 200f;
     public float maxFood;
 
+    /*
     void start()
     {
         food = maxFood;
     }
-
+    */
       public void UseFood(float amount)
     {
             if(food - amount >= 0)
@@ -42,5 +43,15 @@ public class FoodBar : MonoBehaviour
             //     food +=10f;
             // }
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        food = data.currentFood;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.currentFood = food;
     }
 }

@@ -3,20 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.IO;
-
-public class DataToLoad : MonoBehaviour, IDataPersistence
+using UnityEngine.UI;
+public class DataToLoad : MonoBehaviour
 {
     [SerializeField] private GameObject[] dataObject;
     private string lvlstring;
-    public void LoadData(GameData data)
-    {
-        
-    }
 
-    public void SaveData(ref GameData data)
-    {
-        throw new System.NotImplementedException();
-    }
 
     private void Start()
     {
@@ -48,7 +40,11 @@ public class DataToLoad : MonoBehaviour, IDataPersistence
             }
         }
     }
-
+    public void loadData(string datafileName)
+    {
+       // DataPersistenceManager.fileName = datafileName;
+        LevelLoader.Instance.LoadLevel("Map");
+    }
 
 
 

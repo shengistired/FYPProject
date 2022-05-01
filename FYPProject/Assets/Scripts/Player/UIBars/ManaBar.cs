@@ -8,7 +8,7 @@ public class ManaBar : MonoBehaviour, IDataPersistence
 {
     public Slider manaBar;
     public PlayerStat playerStat;
-
+    public Text manaText;
     private float totalMana;
     private float currentMana;
 
@@ -26,9 +26,11 @@ public class ManaBar : MonoBehaviour, IDataPersistence
     void Start()
     {
 
-        currentMana = playerStat.MaxManaBar;
+        
 
         totalMana = playerStat.MaxManaBar;
+        manaText.text = currentMana + " / " + totalMana;
+
         //Debug.Log("currentMana"+currentMana);
         //Debug.Log("totalMana"+totalMana);
 
@@ -47,6 +49,8 @@ public class ManaBar : MonoBehaviour, IDataPersistence
         totalMana = maxMana;
         //player's total mana on slider
         manaBar.maxValue = totalMana;
+        manaText.text = currentMana + " / " + totalMana;
+
         regenMana();
     }
 
@@ -56,6 +60,8 @@ public class ManaBar : MonoBehaviour, IDataPersistence
         {
             currentMana -= mana;
             manaBar.value = currentMana;
+            manaText.text = currentMana + " / " + totalMana;
+
             if (regen != null)
             {
                 StopCoroutine(regen);
@@ -97,6 +103,7 @@ public class ManaBar : MonoBehaviour, IDataPersistence
             // replace bottom with this for the mana regen you set in playerstat.cs >>> currentMana += playerStat.manaRegen;
             currentMana += totalMana / 100;
             manaBar.value = currentMana;
+            manaText.text = currentMana + " / " + totalMana;
             yield return regenTick;
         }
         regen = null;

@@ -6,6 +6,9 @@ using UnityEngine;
 public class GameData
 {
     public int portalEntered;
+    public int hour;
+    public int min;
+    public float timer;
     public string playerClass;
     public string biome;
     public int life;
@@ -27,13 +30,18 @@ public class GameData
     public int luck;
     public float currentHP;
     public float currentMana;
+    public float currentFood;
     public float currentStamina;
     public float maxHpBar;
     public float maxManaBar;
     public float maxStamina;
+
     public GameData()
     {
         portalEntered = 0;
+        hour = 0;
+        min = 0;
+        timer = 0.5f;
         playerClass = "";
         biome = "";
         life = 0;
@@ -55,6 +63,7 @@ public class GameData
         maxStamina = 100;
         maxManaBar = 100;
         currentHP = maxHpBar;
+        currentFood = 200f;
         currentMana = maxManaBar;
         currentStamina = maxStamina;
         //equipment = null;

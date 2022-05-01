@@ -452,12 +452,13 @@ public class PlayerController : MonoBehaviour, IDataPersistence
             if ((itemType == Item.ItemType.Food || itemType == Item.ItemType.Meat) && item.amount > 0 && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
                 equipment.RemoveItem(item, index);
+                FoodBar.food += 10f;
+
                 if (item.amount == 0)
                 {
                     background[index].color = backgroundColor;
                     item = null;
                     othersActive = false;
-                    FoodBar.food += 40f;
                 }
             }
 
