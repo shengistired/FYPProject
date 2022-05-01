@@ -49,7 +49,7 @@ public class FileDataHandler
     public void Save(GameData data)
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
-
+        
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));

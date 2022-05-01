@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.IO;
 using UnityEngine.SceneManagement;
 
 public class DataPersistenceManager : MonoBehaviour
@@ -30,17 +31,34 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void NewGame()
     {
+        var info = new DirectoryInfo(Application.persistentDataPath);
+        var file = info.GetFiles();
+        foreach(FileInfo f in file)
+        {
+            if (f.Name == "data.game")
+            {
+                fileName = "1data.game";
+
+            }
+            else if(f.Name == "1data.game")
+            {
+                fileName = "2data.game";
+
+            }
+        }
+        this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.gameData = new GameData(); 
     }
     public void LoadGame()
     {
         this.gameData = fileDataHandler.Load();
+        /*
         if(this.gameData == null)
         {
             Debug.Log("No data found");
             return;
         }
-
+        */
         foreach(IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.LoadData(gameData);
@@ -52,9 +70,10 @@ public class DataPersistenceManager : MonoBehaviour
     {
         if(this.gameData == null)
         {
-            Debug.Log("No Data was found, a new game needs to be started befre data");
+            Debug.Log("No Data was found, a new game needs to be started before data");
             return;
         }
+
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(ref gameData);
@@ -76,13 +95,13 @@ public class DataPersistenceManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("OnSceneLoaded Called");
+       // Debug.Log("OnSceneLoaded Called");
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
     }
     private void OnSceneUnloaded(Scene scene)
     {
-        Debug.Log("OnSceneLoaded Called");
+       // Debug.Log("OnSceneLoaded Called");
 
         SaveGame();
     }
@@ -98,6 +117,29 @@ public class DataPersistenceManager : MonoBehaviour
     }
     public bool hasGameData()
     {
-        return gameData != null;
+        var info = new DirectoryInfo(Application.persistentDataPath);
+        var file = info.GetFiles();
+        bool hasData = false;
+        foreach (FileInfo f in file)
+        {
+            if (f.Name == "data.game")
+            {
+                hasData = true;
+
+
+            }
+            else if (f.Name == "1data.game")
+            {
+                hasData=true;
+
+            }
+            else if (f.Name == "2data.game")
+            {
+                hasData = true;
+
+            }
+        }
+        //return gameData != null;
+        return hasData;
     }
 }
