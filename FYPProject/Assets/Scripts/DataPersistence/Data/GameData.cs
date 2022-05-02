@@ -57,11 +57,11 @@ public class GameData
         skillPoint = 0;
         str = 10;
         dex = 10;
-        intelligence = 15;
+        intelligence = 10;
         luck = 10;
-        maxHpBar = 100;
-        maxStamina = 100;
-        maxManaBar = 100;
+        maxHpBar = 120;
+        maxStamina = 120;
+        maxManaBar = 120;
         currentHP = maxHpBar;
         currentFood = 200f;
         currentMana = maxManaBar;

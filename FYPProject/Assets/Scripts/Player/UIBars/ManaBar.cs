@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Collections; 
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.UI; 
 
 public class ManaBar : MonoBehaviour, IDataPersistence
 {
@@ -26,10 +24,10 @@ public class ManaBar : MonoBehaviour, IDataPersistence
     void Start()
     {
 
-        
+
 
         totalMana = playerStat.MaxManaBar;
-        manaText.text = currentMana + " / " + totalMana;
+        manaText.text = (int)currentMana + " / " + totalMana;
 
         //Debug.Log("currentMana"+currentMana);
         //Debug.Log("totalMana"+totalMana);
@@ -49,7 +47,7 @@ public class ManaBar : MonoBehaviour, IDataPersistence
         totalMana = maxMana;
         //player's total mana on slider
         manaBar.maxValue = totalMana;
-        manaText.text = currentMana + " / " + totalMana;
+        manaText.text = (int)currentMana + " / " + totalMana;
 
         regenMana();
     }
@@ -60,7 +58,7 @@ public class ManaBar : MonoBehaviour, IDataPersistence
         {
             currentMana -= mana;
             manaBar.value = currentMana;
-            manaText.text = currentMana + " / " + totalMana;
+            manaText.text = (int)currentMana + " / " + totalMana;
 
             if (regen != null)
             {
@@ -103,7 +101,7 @@ public class ManaBar : MonoBehaviour, IDataPersistence
             // replace bottom with this for the mana regen you set in playerstat.cs >>> currentMana += playerStat.manaRegen;
             currentMana += totalMana / 100;
             manaBar.value = currentMana;
-            manaText.text = currentMana + " / " + totalMana;
+            manaText.text = (int)currentMana + " / " + totalMana;
             yield return regenTick;
         }
         regen = null;

@@ -6,7 +6,7 @@ public class Collide : MonoBehaviour
 {
     public float walkSpeed, range, damage;
     private float disToPlayer;
-    
+
 
     [HideInInspector]
     public bool mustPatrol, haveToFlip;
@@ -20,6 +20,7 @@ public class Collide : MonoBehaviour
     public Collider2D bodyCollider;
 
     public PortalEnteredText portalEnteredText;
+    public PlayerStat playerStat;
 
     void Start()
     {
@@ -76,20 +77,22 @@ public class Collide : MonoBehaviour
         if (col.gameObject.name == "Staff" && PlayerController.normalAttack)
         {
             //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+            damage = playerStat.damageDealt(1);
             gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-            Debug.Log("Killed collide");
+            //Debug.Log("Killed collide");
         }
 
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+                damage = playerStat.damageDealt(1);
                 gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-                Debug.Log("Killed collide");
-            break;
+                //Debug.Log("Killed collide");
+                break;
 
         }
-    
+
 
     }
 

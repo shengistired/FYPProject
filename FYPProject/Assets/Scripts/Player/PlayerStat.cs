@@ -17,16 +17,16 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
     [Header("Player's Stat")]
     //warrior starts with str 15
-    public int str = 10;
+    public int str;
 
     //archer starts with dex 15
-    public int dex = 10;
+    public int dex;
 
     //mage starts with 15 int
-    public int intelligence = 15;
+    public int intelligence;
 
     //thief starts with 15 
-    public int luck = 10;
+    public int luck;
 
 
     [Header("Player's HP bar and related stuff")]
@@ -37,7 +37,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     //increase dex to increase stamina  (each stat increase Stamina by 2 )
     public float MaxStamina;
 
-    public int MaxHungerBar = 100;
+    public int MaxHungerBar;
 
     public float healthRegen = 10;
     public float manaRegen = 10;
@@ -52,8 +52,8 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     //increase luck to increase crit chance calculated in damage dealt 
     private float critChance;
     private float damage;
-    //each point of main stat of that class = 1 def (example: Mage(Intelligence) 10 int = to 10 defence)
-    private int defence;
+
+
 
     [SerializeField] private Stats_UI stats_UI;
     [SerializeField] private HealthBar healthBar;
@@ -65,7 +65,6 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         //str_add.onClick.AddListener(playerStat.addStrength);
         checkForLevelUp();
     }
-
 
     public void openStatScreen()
     {
@@ -121,6 +120,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         //MaxStamina = 100;
         //each stat of dex gives 2 stamina
         MaxStamina = 100 + (dex * 2);
+
         staminaBar.onDexUp(MaxStamina);
         return MaxStamina;
     }
@@ -223,7 +223,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
 
     //calculate damage dealt base on stats. not including skill stats
-    public float damageDealt()
+    public float damageDealt(float extraDmg)
     {
         float cirtHit;
         critChance = luck + (1 / 10) * 100; //20% chance to crit if luck is 10
@@ -234,13 +234,13 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             cirtHit = Random.Range(0, critChance);
             if (cirtHit == 0)
             {
-                damage = intelligence * 2;
+                damage = (intelligence + extraDmg) * 1.5f;
             }
             else
             {
-                damage = intelligence;
+                damage = intelligence + extraDmg;
             }
-
+            Debug.Log("i am dealing " + damage + " damage");
             return damage;
 
         }
@@ -251,11 +251,11 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             cirtHit = Random.Range(0, critChance);
             if (cirtHit == 0)
             {
-                damage = str * 2;
+                damage = (str + extraDmg) * 1.5f;
             }
             else
             {
-                damage = str;
+                damage = str + extraDmg;
             }
 
             return damage;
@@ -268,11 +268,11 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             cirtHit = Random.Range(0, critChance);
             if (cirtHit == 0)
             {
-                damage = dex * 2;
+                damage = (dex + extraDmg) * 1.5f;
             }
             else
             {
-                damage = dex;
+                damage = dex + extraDmg;
             }
 
             return damage;
@@ -285,11 +285,11 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             cirtHit = Random.Range(0, critChance);
             if (cirtHit == 0)
             {
-                damage = luck * 2;
+                damage = (luck + extraDmg) * 1.5f;
             }
             else
             {
-                damage = luck;
+                damage = luck + extraDmg;
             }
 
             return damage;

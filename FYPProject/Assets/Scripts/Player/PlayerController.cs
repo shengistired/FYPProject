@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject content;
     [SerializeField] private Settings settings;
     public audio_manager music;
+    public HungerBar hungerBar;
 
     private KeyCode[] keys =
 {
@@ -320,13 +321,31 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         float distanceY = position.y - transform.position.y;
         if (horizontalInput > 0)
         {
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                music.walk_Play();
+            }
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                music.walk_stop();
+            }
             //transform.localScale = Vector3.one;
             transform.localScale = new Vector3(1, 1, 1);
             direct = 1;
             directionNum = 1;
+
+
         }
         else if (horizontalInput < 0)
         {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                music.walk_Play();
+            }
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                music.walk_stop();
+            }
             transform.localScale = new Vector3(-1, 1, 1);
             direct = -1;
             directionNum = -1;
@@ -451,8 +470,10 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
             if ((itemType == Item.ItemType.Food || itemType == Item.ItemType.Meat) && item.amount > 0 && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
-                equipment.RemoveItem(item, index);
-                FoodBar.food += 10f;
+                if (hungerBar.UseFood(10f) == true)
+                {
+                    equipment.RemoveItem(item, index);
+                }
 
                 if (item.amount == 0)
                 {
@@ -584,8 +605,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
                         if (timeRemaining >= tileHealth - miningPower)
                         {
-
-
 
                             terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
                             miningCounter = false;
@@ -882,18 +901,18 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        foreach(Item item in data.inventoryItems)
+        foreach (Item item in data.inventoryItems)
         {
-            if(item != null)
+            if (item != null)
             {
                 inventory.AddItem(item);
 
             }
         }
         Item[] equipmentLoaded = data.equipmentItems.ToArray();
-        for (int i = 0; i< equipmentLoaded.Length; i++)
+        for (int i = 0; i < equipmentLoaded.Length; i++)
         {
-            if(equipmentLoaded[i] != null)
+            if (equipmentLoaded[i] != null)
             {
                 equipment.AddItem(equipmentLoaded[i], i);
             }

@@ -6,11 +6,12 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 {
     public Slider healthBar;
     public PlayerStat playerStat;
-    public FoodBar foodBar;
+    public HungerBar hungerBar;
     public Text hpText;
 
     public float totalHp;
     private float currentHp;
+    private float defence;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
 
@@ -44,10 +45,6 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
         checkFoodBarRegen();
 
-        if (FoodBar.food >= 140f && currentHp < totalHp)
-        {
-            regen = StartCoroutine(RegenHealth());
-        }
         if (biome == "")
         {
             biome = NewGame.biomeSelection;
@@ -70,7 +67,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         if (currentHp - damage > 0)
         {
             currentHp -= damage;
-            
+
             healthBar.value = currentHp;
             hpText.text = (int)currentHp + " / " + totalHp;
 
@@ -93,15 +90,29 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     public void takeDamage(float damage)
     {
+
         //only take damage once every second
         if (Time.time > damageTakenTime + damageTakenCoolDown)
         {
+            //defence = playerStat.getDefence();
+            defence = getDefence();
             damageTakenTime = Time.time;
+
+            //Debug.Log("Defence is " + defence);
+            Debug.Log("Damage before defence is " + damage);
+            damage -= defence;
+            Debug.Log("Damage after defence is " + damage);
+
+            //if enemy dealing less than 1 damage set damage to 1.
+            if (damage <= 0)
+            {
+                damage = 1;
+            }
             if (currentHp - damage > 0)
             {
                 currentHp -= damage;
                 healthBar.value = currentHp;
-                hpText.text = currentHp + " / " + totalHp;
+                hpText.text = (int)currentHp + " / " + totalHp;
                 Debug.Log("Taken " + damage + " HP left is " + healthBar.value);
                 //stop regen when taking damage
                 StopCoroutine(regen);
@@ -121,6 +132,41 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     }
 
+    //defence is player's class main stat divided by 2.
+    public float getDefence()
+    {
+        Debug.Log(playerStat.PlayerClass);
+        if (playerStat.PlayerClass == "warrior")
+        {
+            defence = playerStat.str / 2f;
+            return defence;
+        }
+        if (playerStat.PlayerClass == "mage")
+        {
+            Debug.Log("Player int is " + playerStat.intelligence);
+            defence = playerStat.intelligence / 2f;
+            return defence;
+        }
+        if (playerStat.PlayerClass == "archer")
+        {
+            defence = playerStat.dex / 2f;
+            return defence;
+        }
+        if (playerStat.PlayerClass == "thief")
+        {
+            defence = playerStat.luck / 2f;
+            return defence;
+        }
+
+        else
+        {
+            defence = playerStat.str / 2f;
+
+        }
+
+        return defence;
+    }
+
     public void onStrengthUp(float maxHp)
     {
         totalHp = maxHp;
@@ -132,15 +178,17 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     public void checkFoodBarRegen()
     {
         //if foodbar above 70% then regen
-        if (FoodBar.food >= 140f && currentHp < totalHp)
+        if (HungerBar.currentHunger >= 140f && currentHp < totalHp)
         {
             regen = StartCoroutine(RegenHealth());
         }
         //regen stops when below 70% hunger
-        else if (FoodBar.food < 140f)
+        else if (HungerBar.currentHunger < 140f)
         {
+
             StopCoroutine(regen);
             regen = null;
+
         }
 
     }

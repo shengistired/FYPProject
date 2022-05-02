@@ -24,6 +24,7 @@ public class audio_manager : MonoBehaviour
     public AudioSource fireBall;
     public AudioSource hurt;
     public AudioSource portal;
+    public AudioSource eat;
     public AudioClip walk_effect_clip;
     public AudioClip hit_effect_clip;
     public AudioClip chop_effect_clip;
@@ -32,6 +33,7 @@ public class audio_manager : MonoBehaviour
     public AudioClip fireBall_effect_clip;
     public AudioClip hurt_effect_clip;
     public AudioClip portal_effect_clip;
+    public AudioClip eat_effect_clip;
 
 
     //public string biome;
@@ -60,6 +62,7 @@ public class audio_manager : MonoBehaviour
         fireBall = gameObject.AddComponent<AudioSource>(); ;
         hurt = gameObject.AddComponent<AudioSource>(); ;
         portal = gameObject.AddComponent<AudioSource>(); ;
+        eat = gameObject.AddComponent<AudioSource>(); ;
 
         walk.playOnAwake = false;
         hit.playOnAwake = false;
@@ -69,6 +72,7 @@ public class audio_manager : MonoBehaviour
         fireBall.playOnAwake = false;
         hurt.playOnAwake = false;
         portal.playOnAwake = false;
+        eat.playOnAwake = false;
 
 
 
@@ -80,6 +84,32 @@ public class audio_manager : MonoBehaviour
 
 
     }
+
+    public void walk_Play()
+    {
+        walk.clip = walk_effect_clip;
+        walk.loop = true;
+        walk.Play();
+    }
+    public void walk_stop()
+    {
+        walk.loop = false;
+        walk.Stop();
+    }
+
+
+    public void eat_Play()
+    {
+        // if (eat_effect_clip.length == 0)
+        // {
+        //     print("no clip found."); return;
+        // }
+
+        eat.clip = eat_effect_clip;
+        eat.Play();
+    }
+
+
     //sound effects
     public void hitTag()
     {
@@ -102,7 +132,7 @@ public class audio_manager : MonoBehaviour
 
         fireBall.clip = fireBall_effect_clip;
         fireBall.Play();
-        
+
 
     }
 

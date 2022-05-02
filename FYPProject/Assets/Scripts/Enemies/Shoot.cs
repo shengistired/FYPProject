@@ -6,7 +6,7 @@ public class Shoot : MonoBehaviour
 {
     public float walkSpeed, range, timeBTWshots, shootSpeed, damage;
     private float disToPlayer;
-    
+
     //public EnterPortal EnterPortal;
 
     [HideInInspector]
@@ -23,6 +23,7 @@ public class Shoot : MonoBehaviour
     //public GameObject boom;
 
     public PortalEnteredText portalEnteredText;
+    public PlayerStat playerStat;
 
 
     void Start()
@@ -92,20 +93,22 @@ public class Shoot : MonoBehaviour
         if (col.gameObject.name == "Staff" && PlayerController.normalAttack)
         {
             //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+            damage = playerStat.damageDealt(1);
             gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-            Debug.Log("Killed collide");
+            //Debug.Log("Killed collide");
         }
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
+                damage = playerStat.damageDealt(2);
                 gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
-                Debug.Log("Killed shoot");
+                //Debug.Log("Killed shoot");
 
-            break;
+                break;
 
-        
-    }
+
+        }
     }
 
     private void FixedUpdate()
@@ -117,7 +120,7 @@ public class Shoot : MonoBehaviour
             haveToFlip = false;
         }
     }
-    
+
     //enemy move
     void Patrol()
     {
@@ -140,7 +143,7 @@ public class Shoot : MonoBehaviour
 
     //shooting
     IEnumerator Shot()
-     {
+    {
         canShoot = false;
 
         yield return new WaitForSeconds(timeBTWshots);
@@ -151,7 +154,7 @@ public class Shoot : MonoBehaviour
         {
             newBullet.transform.localScale = new Vector2(newBullet.transform.localScale.x * -1, newBullet.transform.localScale.y);
         }
-        
+
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
 
         canShoot = true;

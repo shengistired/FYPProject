@@ -2,13 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StaminaBar : MonoBehaviour
+public class StaminaBar : MonoBehaviour, IDataPersistence
 {
     public Slider staminaBar;
     public PlayerStat playerStat;
 
     private float totalStamina;
     public float currentStamina;
+    private string biome;
 
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
@@ -29,12 +30,19 @@ public class StaminaBar : MonoBehaviour
         // totalStamina = playerStat.calculatetotalStamina();
 
 
-        currentStamina = playerStat.MaxStamina;
+        //currentStamina = playerStat.MaxStamina;
+
         totalStamina = playerStat.MaxStamina;
 
         staminaBar.maxValue = totalStamina;
         staminaBar.value = totalStamina;
         RegenStamina();
+
+        if (biome == "")
+        {
+            biome = NewGame.biomeSelection;
+
+        }
     }
 
     public void onDexUp(float maxStamina)
@@ -72,17 +80,46 @@ public class StaminaBar : MonoBehaviour
 
     private IEnumerator RegenStamina()
     {
-        yield return new WaitForSeconds(2);
-
-        while (currentStamina < totalStamina)
+        if (biome == "snow")
         {
-            currentStamina += totalStamina / 50;
-            staminaBar.value = currentStamina;
-            yield return regenTick;
+            yield return new WaitForSeconds(2);
+            while (currentStamina < totalStamina)
+            {
+                //regen slower in snow region
+                currentStamina += totalStamina / 150;
+                staminaBar.value = currentStamina;
+                yield return regenTick;
+            }
+            regen = null;
+
+
         }
-        regen = null;
+        else
+        {
+            yield return new WaitForSeconds(2);
+            while (currentStamina < totalStamina)
+            {
+                currentStamina += totalStamina / 70;
+                staminaBar.value = currentStamina;
+                yield return regenTick;
+            }
+            regen = null;
+
+        }
+
     }
 
+    public void LoadData(GameData data)
+    {
+        biome = data.biome;
+        currentStamina = data.currentStamina;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.currentStamina = currentStamina;
+
+    }
 
 
 }
