@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.IO;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class DataToLoad : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class DataToLoad : MonoBehaviour
     }
     public void loadData(string datafileName)
     {
-       // DataPersistenceManager.fileName = datafileName;
+        DataPersistenceManager.fileName = datafileName;
         LevelLoader.Instance.LoadLevel("Map");
     }
 

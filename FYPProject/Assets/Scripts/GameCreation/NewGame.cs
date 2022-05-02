@@ -23,6 +23,8 @@ public class NewGame : MonoBehaviour
     [SerializeField] Color colorOriginal;
     [SerializeField] TMP_Text errorMsg;
 
+    [SerializeField] GameObject newGameData;
+
     private ColorBlock origin;
     private bool[] notEmptySize = { false, false, false };
     private bool[] notEmptyBiome = { false, false, false, false };
@@ -238,7 +240,7 @@ public class NewGame : MonoBehaviour
     }
     public void newGameClick()
     {
-
+        
         foreach (bool check in notEmptySize)
         {
             if (check == true)
@@ -269,8 +271,20 @@ public class NewGame : MonoBehaviour
         if (size == true && biome == true && difficulty == true)
         {
             errorMsg.gameObject.SetActive(false);
-            DataPersistenceManager.instance.NewGame();
-            LevelLoader.Instance.LoadLevel("Map");
+            if (DataPersistenceManager.instance.fullSaveData())
+            {
+                gameObject.SetActive(false);
+                newGameData.SetActive(true);
+                return;
+            }
+            else
+            {
+                newGameCreation();
+            }
+
+
+
+            //LevelLoader.Instance.LoadLevel("Map");
 
             //SceneManager.LoadSceneAsync("Map");
 
@@ -281,6 +295,11 @@ public class NewGame : MonoBehaviour
         }
 
 
+    }
+    public void newGameCreation()
+    {
+        DataPersistenceManager.instance.NewGame();
+        LevelLoader.Instance.LoadLevel("Map");
     }
 
 

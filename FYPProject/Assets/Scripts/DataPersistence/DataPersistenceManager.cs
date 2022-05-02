@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class DataPersistenceManager : MonoBehaviour
 {
     [Header("File Storage Config")]
-    [SerializeField] private string fileName;
+    public static string fileName;
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler fileDataHandler;
@@ -22,9 +22,14 @@ public class DataPersistenceManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         DontDestroyOnLoad(gameObject);
         instance = this;
-        this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        if(fileName == null)
+        {
+            fileName = "0data.game";
+        }
+        //this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
 
     }
 
@@ -61,6 +66,7 @@ public class DataPersistenceManager : MonoBehaviour
     }
     public void LoadGame()
     {
+        this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.gameData = fileDataHandler.Load();
         /*
         if(this.gameData == null)
@@ -156,5 +162,42 @@ public class DataPersistenceManager : MonoBehaviour
         }
         //return gameData != null;
         return hasData;
+    }
+
+    public bool fullSaveData()
+    {
+        var info = new DirectoryInfo(Application.persistentDataPath);
+        var file = info.GetFiles();
+        List<bool> hasData = new List<bool>();
+        bool fullSaveData = false;
+        foreach (FileInfo f in file)
+        {
+            if (f.Name == "0data.game")
+            {
+                hasData.Add(true);
+
+            }
+            if (f.Name == "1data.game")
+            {
+                hasData.Add(true);
+
+            }
+            if (f.Name == "2data.game")
+            {
+                hasData.Add(true);
+
+            }
+            if (f.Name == "3data.game")
+            {
+                hasData.Add(true);
+
+            }
+        }
+        if(hasData.Count == 4)
+        {
+            fullSaveData = true;
+        }
+        //return gameData != null;
+        return fullSaveData;
     }
 }

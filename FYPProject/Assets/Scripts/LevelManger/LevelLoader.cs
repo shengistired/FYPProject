@@ -9,6 +9,7 @@ using System;
 
 public class LevelLoader : MonoBehaviour
 {
+    
     public static LevelLoader Instance { get; private set; }
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private Slider loadingBar;
