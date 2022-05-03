@@ -35,10 +35,16 @@ public class LevelLoader : MonoBehaviour
         } 
     }
 
-   
+    private void Update()
+    {
+        AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
+        QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("QualityLevel"));
+    }
     private void Awake()
     {
-        if(Instance == null)
+
+
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);

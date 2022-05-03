@@ -1,35 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.IO;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class DataToLoad : MonoBehaviour
 {
     [SerializeField] private GameObject[] dataObject;
-    private string lvlstring;
 
+    private string lvlstring;
 
     private void Start()
     {
-        
         var info = new DirectoryInfo(Application.persistentDataPath);
         var file = info.GetFiles();
         foreach (FileInfo fileInfo in file)
         {
             string name = fileInfo.Name.Substring(1);
-            
+
             if (name == "data.game")
             {
                 try
                 {
 
                     int index = int.Parse(fileInfo.Name.Substring(0, 1));
-                    dataObject[index].SetActive(true);
+                    dataObject[index].GetComponent<Button>().interactable = true;
                     RectTransform hasData = dataObject[index].GetComponent<RectTransform>().Find("HasData").GetComponent<RectTransform>();
-                    RectTransform others = hasData.Find("Others").GetComponent<RectTransform>();
-                    others.Find("SaveTime").GetComponent<TextMeshProUGUI>().text = "Save Time: " +  fileInfo.LastWriteTime.ToString();
+                    hasData.gameObject.SetActive(true);
+                    Transform nodata = dataObject[index].GetComponent<RectTransform>().Find("NoData");
+                    nodata.gameObject.SetActive(false);
+                    hasData.Find("SaveTime").GetComponent<TextMeshProUGUI>().text = "Save Time: " + fileInfo.LastWriteTime.ToString();
+                    hasData.Find("PortalEntered").GetComponent<TextMeshProUGUI>().text = "Portal Entered: " + DataPersistenceManager.instance.AllData(dataObject[index].name).portalEntered;
+                    hasData.Find("Biome").GetComponent<TextMeshProUGUI>().text = "Biome: " + DataPersistenceManager.instance.AllData(dataObject[index].name).biome;
+                    hasData.Find("Difficulty").GetComponent<TextMeshProUGUI>().text = "Difficulty: " + DataPersistenceManager.instance.AllData(dataObject[index].name).difficulty;
+                    hasData.Find("Image").GetComponent<RectTransform>().Find("Lv").GetComponent<TextMeshProUGUI>().text = "Lv. " + DataPersistenceManager.instance.AllData(dataObject[index].name).playerlevel;
+                    //hasData.Find("Level").GetComponent<TextMeshProUGUI>().text = "Portal Entered: " + DataPersistenceManager.instance.AllData(dataObject[index].name).portalEntered;
                     
 
                 }
@@ -45,6 +48,15 @@ public class DataToLoad : MonoBehaviour
     {
         DataPersistenceManager.fileName = datafileName;
         LevelLoader.Instance.LoadLevel("Map");
+    }
+
+    public void deleteData(string name)
+    {
+        string filename = "/" + name;
+
+        File.Delete(Application.persistentDataPath + filename);
+
+
     }
 
 

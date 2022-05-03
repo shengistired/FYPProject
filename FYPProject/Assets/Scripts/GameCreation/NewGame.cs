@@ -23,7 +23,7 @@ public class NewGame : MonoBehaviour
     [SerializeField] Color colorOriginal;
     [SerializeField] TMP_Text errorMsg;
 
-    [SerializeField] GameObject newGameData;
+    [SerializeField] GameObject overWriteGameData;
 
     private ColorBlock origin;
     private bool[] notEmptySize = { false, false, false };
@@ -274,7 +274,7 @@ public class NewGame : MonoBehaviour
             if (DataPersistenceManager.instance.fullSaveData())
             {
                 gameObject.SetActive(false);
-                newGameData.SetActive(true);
+                overWriteGameData.SetActive(true);
                 return;
             }
             else
@@ -299,6 +299,11 @@ public class NewGame : MonoBehaviour
     public void newGameCreation()
     {
         DataPersistenceManager.instance.NewGame();
+        LevelLoader.Instance.LoadLevel("Map");
+    }
+    public void overWriteData(string name)
+    {
+        DataPersistenceManager.instance.OverWriteData(name);
         LevelLoader.Instance.LoadLevel("Map");
     }
 

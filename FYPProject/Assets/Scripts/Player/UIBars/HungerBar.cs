@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HungerBar : MonoBehaviour, IDataPersistence
 {
     public Slider hungerBar;
-
+    public Text hungerText;
     public static float currentHunger;
     private float maxFood = 200f;
     public HealthBar healthBar;
@@ -30,6 +30,8 @@ public class HungerBar : MonoBehaviour, IDataPersistence
             }
             Debug.Log("yummy");
             hungerBar.value = currentHunger;
+            hungerText.text = (int)currentHunger + " / " + maxFood;
+
             healthBar.checkFoodBarRegen();
             music.eat_Play();
             return true;
@@ -46,6 +48,8 @@ public class HungerBar : MonoBehaviour, IDataPersistence
     void Update()
     {
         hungerBar.value = currentHunger;
+        hungerText.text = (int)currentHunger + " / " + maxFood;
+
 
         if (currentHunger >= 0)
         {
@@ -54,6 +58,7 @@ public class HungerBar : MonoBehaviour, IDataPersistence
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 currentHunger -= 2f * Time.deltaTime;
+
             }
 
             // if (Input.GetKey(KeyCode.Mouse0)){

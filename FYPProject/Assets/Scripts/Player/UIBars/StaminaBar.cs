@@ -6,6 +6,8 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
 {
     public Slider staminaBar;
     public PlayerStat playerStat;
+    public Text staminaText;
+
 
     private float totalStamina;
     public float currentStamina;
@@ -33,9 +35,11 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
         //currentStamina = playerStat.MaxStamina;
 
         totalStamina = playerStat.MaxStamina;
+        staminaText.text = (int)currentStamina + " / " + totalStamina;
+
 
         staminaBar.maxValue = totalStamina;
-        staminaBar.value = totalStamina;
+        staminaBar.value = currentStamina;
         RegenStamina();
 
         if (biome == "")
@@ -50,6 +54,8 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
         totalStamina = maxStamina;
         //player's total stamina on slider
         staminaBar.maxValue = totalStamina;
+        staminaText.text = (int)currentStamina + " / " + totalStamina;
+
     }
 
     public bool UseStamina(float stamina)
@@ -59,6 +65,9 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
 
             currentStamina -= stamina;
             staminaBar.value = currentStamina;
+
+            staminaText.text = (int)currentStamina + " / " + totalStamina;
+
 
             if (regen != null)
             {
@@ -88,6 +97,8 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
                 //regen slower in snow region
                 currentStamina += totalStamina / 150;
                 staminaBar.value = currentStamina;
+                staminaText.text = (int)currentStamina + " / " + totalStamina;
+
                 yield return regenTick;
             }
             regen = null;
@@ -101,6 +112,8 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
             {
                 currentStamina += totalStamina / 70;
                 staminaBar.value = currentStamina;
+                staminaText.text = (int)currentStamina + " / " + totalStamina;
+
                 yield return regenTick;
             }
             regen = null;

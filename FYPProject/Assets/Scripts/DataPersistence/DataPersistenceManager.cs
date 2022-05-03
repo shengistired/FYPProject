@@ -36,52 +36,87 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void NewGame()
     {
-        var info = new DirectoryInfo(Application.persistentDataPath);
-        var file = info.GetFiles();
-        foreach(FileInfo f in file)
-        {
-            if (f.Name == "0data.game")
+        try {
+            var info = new DirectoryInfo(Application.persistentDataPath);
+            var file = info.GetFiles();
+            foreach (FileInfo f in file)
             {
-                fileName = "1data.game";
+                if (f.Name == "0data.game")
+                {
+                    fileName = "1data.game";
 
-            }
-            if(f.Name == "1data.game")
-            {
-                fileName = "2data.game";
+                }
+                if (f.Name == "1data.game")
+                {
+                    fileName = "2data.game";
 
-            }
-            if (f.Name == "2data.game")
-            {
-                fileName = "3data.game";
+                }
+                if (f.Name == "2data.game")
+                {
+                    fileName = "3data.game";
 
-            }
-            if (f.Name == "3data.game")
-            {
-                fileName = "0data.game";
+                }
+                if (f.Name == "3data.game")
+                {
+                    fileName = "0data.game";
 
+                }
             }
+            this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            this.gameData = new GameData();
         }
+        catch
+        {
+
+        }
+
+    }
+
+    public void OverWriteData(string name)
+    {
+        fileName = name;
         this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-        this.gameData = new GameData(); 
+        this.gameData = new GameData();
     }
     public void LoadGame()
     {
-        this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-        this.gameData = fileDataHandler.Load();
-        /*
-        if(this.gameData == null)
-        {
-            Debug.Log("No data found");
-            return;
+        try{
+            this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            this.gameData = fileDataHandler.Load();
+            /*
+            if(this.gameData == null)
+            {
+                Debug.Log("No data found");
+                return;
+            }
+            */
+            foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+            {
+                dataPersistenceObj.LoadData(gameData);
+            }
         }
-        */
-        foreach(IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        catch
         {
-            dataPersistenceObj.LoadData(gameData);
+
         }
+
 
 
     }
+
+    public GameData AllData(string name)
+    {
+        var info = new DirectoryInfo(Application.persistentDataPath);
+        var file = info.GetFiles();
+        GameData data = new GameData();
+
+        FileDataHandler fileDataHandlerLoad = new FileDataHandler(Application.persistentDataPath, name);
+        data = fileDataHandlerLoad.Load();
+
+
+        return data;
+
+            }
     public void SaveGame()
     {
         if(this.gameData == null)
@@ -146,7 +181,7 @@ public class DataPersistenceManager : MonoBehaviour
             }
             if (f.Name == "1data.game")
             {
-                hasData=true;
+                hasData = true;
 
             }
             if (f.Name == "2data.game")

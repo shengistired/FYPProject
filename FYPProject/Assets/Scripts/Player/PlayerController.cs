@@ -130,8 +130,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     {
         rigid = GetComponent<Rigidbody2D>();
         //SaveData.current = (SaveData)SerializationManager.Load(Application.persistentDataPath + "/saves/Save.save");
-        settings.changeVolume();
-        AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
         //DontDestroyOnLoad(transform.gameObject);
         tileWood = tileAtlas.treeWood;
 

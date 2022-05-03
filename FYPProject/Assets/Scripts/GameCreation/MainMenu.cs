@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button continueButton;
     [SerializeField] private TextMeshProUGUI continueText;
-    private void Start()
+    private void Update()
     {
         Color originalColor = continueText.color;
 
