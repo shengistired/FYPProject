@@ -312,6 +312,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         //press F to open stat screen
         playerStat.openStatScreen();
+        playerStat.openSkillScreen();
 
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));

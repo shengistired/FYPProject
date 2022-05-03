@@ -21,10 +21,11 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     //HP regen amount
     private Coroutine regen;
-    private string biome;
+    private float regenSpeed;
     private bool regening = false;
 
     public static HealthBar instance;
+    private string biome;
 
     private void Awake()
     {
@@ -34,6 +35,8 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
+
+
         totalHp = playerStat.MaxHpBar;
         // hpText.text = currentHp + " / " + totalHp;
 
@@ -209,10 +212,15 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     }
 
 
-
+    public void onHpRegenSkillUp(float healthRegen)
+    {
+        regenSpeed = healthRegen;
+    }
     //increase regen rate as skill
     public IEnumerator RegenHealth()
     {
+        regenSpeed = playerStat.healthRegen;
+        Debug.Log("regnespeed " + regenSpeed);
 
         if (regening == false)
         {
@@ -222,7 +230,14 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
                 //currentHealth += numberiwant
                 // add for hp regen set>>>> playerStat.healthRegen;
-                currentHp += 0.5f;
+
+                //default healing with no skill 0.2f
+                Debug.Log("regening >>> " + regenSpeed);
+                currentHp += regenSpeed;
+                if (currentHp > totalHp)
+                {
+                    currentHp = totalHp;
+                }
                 healthBar.value = currentHp;
                 hpText.text = (int)currentHp + " / " + totalHp;
                 // regening = true;

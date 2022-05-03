@@ -39,9 +39,9 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
     public int MaxHungerBar;
 
-    public float healthRegen = 10;
-    public float manaRegen = 10;
-    public float staminaRegen = 10;
+    public float healthRegen = 0.2f;
+    public float manaRegen = 0.2f;
+    public float staminaRegen = 0.2f;
 
 
     [Header("Player's misc stuff")]
@@ -53,13 +53,21 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     private float critChance;
     private float damage;
 
-
+    [Header("Survival skills")]
+    private int healthRegenSkillValue;
+    private int staminaRegenSkillValue;
+    private int manaRegenSkillValue;
+    private int hungerResistSkillValue;
+    private int biomeResistSkillValue;
 
     [SerializeField] private Stats_UI stats_UI;
+    [SerializeField] private Skills_UI skills_UI;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private ManaBar manaBar;
     [SerializeField] private StaminaBar staminaBar;
     private bool statScreen = false;
+    private bool skillScreen = false;
+
     void FixedUpdate()
     {
         //str_add.onClick.AddListener(playerStat.addStrength);
@@ -93,8 +101,37 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         }
     }
 
+    public void openSkillScreen()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Escape) && skillScreen == true)
+        {
+            skills_UI.gameObject.SetActive(false);
+            skillScreen = false;
+        }
+        if (Input.GetKeyDown("g"))
+        {
+
+            if (skillScreen == false)
+            {
+
+                updateStats();
+                skills_UI.gameObject.SetActive(true);
+                skillScreen = true;
+            }
+            else
+            {
+                skills_UI.gameObject.SetActive(false);
+                skillScreen = false;
+
+            }
+        }
+    }
+
+
     private void updateStats()
     {
+        //player stats
         string level = Playerlevel.ToString();
         string stats = statPoints.ToString();
         string strength = str.ToString();
@@ -102,6 +139,17 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         string intString = intelligence.ToString();
         string luckString = luck.ToString();
         stats_UI.getStats(level, stats, strength, dexString, intString, luckString);
+
+
+        //player survival skills
+        string skillPoingString = skillPoint.ToString();
+        string healthRegenString = healthRegenSkillValue.ToString();
+        string staminaRegenString = staminaRegenSkillValue.ToString();
+        string manaRegenString = manaRegenSkillValue.ToString();
+        string hungerResistString = hungerResistSkillValue.ToString();
+        string biomeResistString = biomeResistSkillValue.ToString();
+
+        skills_UI.getSkillPoint(skillPoingString, healthRegenString, staminaRegenString, manaRegenString, hungerResistString, biomeResistString);
 
     }
 
@@ -221,6 +269,82 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
     }
 
+    //survival skills for all classes
+    public void addHealthRegenSkill()
+    {
+
+        if (skillPoint != 0 && healthRegenSkillValue <= 3)
+        {
+            //level 1 skill
+            if (healthRegenSkillValue == 0)
+            {
+                skillPoint--;
+                healthRegen = 0.5f;
+                healthRegenSkillValue = 1;
+                healthBar.onHpRegenSkillUp(healthRegen);
+                updateStats();
+
+
+            }
+
+            //level 2 skill
+            else if (healthRegenSkillValue == 1)
+            {
+                skillPoint--;
+                healthRegen = 1f;
+                healthRegenSkillValue = 2;
+                healthBar.onHpRegenSkillUp(healthRegen);
+                updateStats();
+
+            }
+
+            //level 3 skill
+            else if (healthRegenSkillValue == 2)
+            {
+                skillPoint--;
+                healthRegen = 2f;
+                healthRegenSkillValue = 3;
+                healthBar.onHpRegenSkillUp(healthRegen);
+                updateStats();
+
+            }
+        }
+        else
+        {
+            Debug.Log("No stats point or max skill level reached");
+        }
+
+    }
+
+    public void addStaminaRegenSkill()
+    {
+
+    }
+
+    public void addManaRegenSkill()
+    {
+
+    }
+
+    public void addHungerResistSkill()
+    {
+
+    }
+
+    public void addBiomeResistSkill()
+    {
+
+    }
+    //End of survival skills//
+
+
+
+    //Combat skills//
+
+
+
+
+    //End of combat Skills//
 
     //calculate damage dealt base on stats. not including skill stats
     public float damageDealt(float extraDmg)
@@ -325,6 +449,8 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         MaxHpBar = data.maxHpBar;
         MaxManaBar = data.maxManaBar;
         MaxStamina = data.maxStamina;
+        //save healthRegen staminaRegen manaRegen
+        //save healthRegenSkillValue staminaRegenSkillValue manaRegenSkillValue hungerResistSkillValue biomeResistSkillValue
 
 
     }
@@ -343,5 +469,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         data.maxHpBar = MaxHpBar;
         data.maxManaBar = MaxManaBar;
         data.maxStamina = MaxStamina;
+        //save healthRegen staminaRegen manaRegen
+        //save healthRegenSkillValue staminaRegenSkillValue manaRegenSkillValue hungerResistSkillValue biomeResistSkillValue
     }
 }
