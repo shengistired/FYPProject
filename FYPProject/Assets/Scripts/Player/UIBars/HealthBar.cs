@@ -22,6 +22,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     //HP regen amount
     private Coroutine regen;
     private string biome;
+    private bool regening = false;
 
     public static HealthBar instance;
 
@@ -90,13 +91,14 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     public void takeDamage(float damage)
     {
-        //stop regen when taking damage
         if (regen != null)
         {
             StopCoroutine(regen);
             regen = null;
-        }
+            regening = false;
 
+        }
+        regening = false;
 
         //only take damage once every second
         if (Time.time > damageTakenTime + damageTakenCoolDown)
@@ -123,6 +125,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
                 Debug.Log("Taken " + damage + "damage, HP left is " + healthBar.value);
 
                 //run function to check if player can regen after
+
                 checkFoodBarRegen();
             }
             else if (damage >= currentHp || damage > currentHp || currentHp == 0)
@@ -185,17 +188,22 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     {
         // Debug.Log("my hunger is " + HungerBar.currentHunger);
         //if foodbar above 70% then regen
-        if (HungerBar.currentHunger >= 140f && (currentHp < totalHp))
+        // if (HungerBar.currentHunger >= 140f && (currentHp < totalHp))
+        // {
+        //     regen = StartCoroutine(RegenHealth());
+        // }
+        // //regen stops when below 70% hunger
+        // if (HungerBar.currentHunger < 140f)
+        // {
+
+        //     StopCoroutine(regen);
+        //     regen = null;
+
+        // }
+        if (regening == false)
         {
             regen = StartCoroutine(RegenHealth());
-        }
-        //regen stops when below 70% hunger
-        if (HungerBar.currentHunger < 140f)
-        {
-
-            StopCoroutine(regen);
-            regen = null;
-
+            regening = true;
         }
 
     }
@@ -205,17 +213,43 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     //increase regen rate as skill
     public IEnumerator RegenHealth()
     {
-        yield return new WaitForSeconds(2);
-        while (currentHp < totalHp)
+
+        if (regening == false)
         {
-            //currentHealth += numberiwant
-            // add for hp regen set>>>> playerStat.healthRegen;
-            currentHp += 0.5f;
-            healthBar.value = currentHp;
-            hpText.text = (int)currentHp + " / " + totalHp;
-            yield return regenTick;
+            yield return new WaitForSeconds(2);
+            while (currentHp < totalHp && HungerBar.currentHunger > 140f)
+            {
+
+                //currentHealth += numberiwant
+                // add for hp regen set>>>> playerStat.healthRegen;
+                currentHp += 0.5f;
+                healthBar.value = currentHp;
+                hpText.text = (int)currentHp + " / " + totalHp;
+                // regening = true;
+                yield return regenTick;
+
+
+
+            }
+            if (HungerBar.currentHunger <= 140f)
+            {
+                StopCoroutine(regen);
+                regening = false;
+                regen = null;
+            }
+
         }
-        //regen = null;
+        if (regening == true)
+        {
+            if (HungerBar.currentHunger <= 140f)
+            {
+                StopCoroutine(regen);
+                regening = false;
+                regen = null;
+            }
+        }
+
+
     }
 
     private void PlayerDied()
