@@ -320,6 +320,7 @@ MonoBehaviour:
   bodyCollider: {fileID: 2283995077245746049}
   bullet: {fileID: 326611048074426205, guid: e433964e0e522394cb1757002c7e8a52, type: 3}
   portalEnteredText: {fileID: 0}
+  playerStat: {fileID: 0}
 --- !u!114 &481924475
 MonoBehaviour:
   m_ObjectHideFlags: 0

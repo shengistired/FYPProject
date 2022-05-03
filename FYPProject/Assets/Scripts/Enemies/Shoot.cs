@@ -35,8 +35,9 @@ public class Shoot : MonoBehaviour
         //EnemyHealthBar.SetActive(false);
 
         player = GameObject.Find("Mage").transform;
+        int portal = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
 
-        if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
+        if (portal == 5 || portal== 10)
         {
             gameObject.SetActive(false);
         }
@@ -93,18 +94,19 @@ public class Shoot : MonoBehaviour
         if (col.gameObject.name == "Staff" && PlayerController.normalAttack)
         {
             //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-            damage = playerStat.damageDealt(1);
+            damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(1);
             gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
+            Debug.Log("SHOOT " + damage);
             //Debug.Log("Killed collide");
         }
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-                damage = playerStat.damageDealt(2);
+                damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(2);
                 gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
                 //Debug.Log("Killed shoot");
-
+                Debug.Log("SHOOT " + damage);
                 break;
 
 

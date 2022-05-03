@@ -18,14 +18,14 @@ public class EnemyStat : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Enemy Level " + lvl);
-        int damageLvl = lvl + 1;
-        maxHitPts = damageLvl * 2;
-        hitPts = maxHitPts;
-        healthBar.setHealth(hitPts, maxHitPts);
-
         portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
         lvl = portalEnteredText;
+
+        Debug.Log("Enemy Level " + lvl);
+        int damageLvl = lvl + 1;
+        maxHitPts = damageLvl * 50;
+        hitPts = maxHitPts;
+        healthBar.setHealth(hitPts, maxHitPts);
 
         XP = 10;
         if (PortalEnteredText.newPortal == true)

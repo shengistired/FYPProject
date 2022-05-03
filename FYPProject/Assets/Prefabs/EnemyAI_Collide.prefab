@@ -286,6 +286,7 @@ MonoBehaviour:
     m_Bits: 64
   bodyCollider: {fileID: 2538854348550153374}
   portalEnteredText: {fileID: 0}
+  playerStat: {fileID: 0}
 --- !u!114 &1521092611
 MonoBehaviour:
   m_ObjectHideFlags: 0
