@@ -225,74 +225,84 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     //calculate damage dealt base on stats. not including skill stats
     public float damageDealt(float extraDmg)
     {
-        float cirtHit;
-        critChance = luck + (1 / 10) * 100; //20% chance to crit if luck is 10
-
+        int cirtHit;
+        Debug.Log("my luck is " + luck);
+        critChance = (luck * 2) / 10; //20% chance to crit if luck is 10
+        Debug.Log("crit CHANCE is " + critChance);
         //for mage class
         if (PlayerClass == "mage")
         {
-            cirtHit = Random.Range(0, critChance);
-            if (cirtHit == 0)
+            cirtHit = Random.Range((int)critChance, 10);
+            Debug.Log("crithit is " + cirtHit);
+            if (cirtHit == (int)critChance)
             {
-                damage = (intelligence + extraDmg) * 1.5f;
+                damage = (intelligence * extraDmg) * 2;
+                Debug.Log("crit damage is " + damage);
+                return damage;
             }
             else
             {
-                damage = intelligence + extraDmg;
+                damage = intelligence * extraDmg;
+                Debug.Log("Non crit damage is " + damage);
+                return damage;
             }
-            Debug.Log("i am dealing " + damage + " damage");
-            return damage;
+            //Debug.Log("i am dealing " + damage + " damage");
+            //return damage;
 
         }
 
         //for warrior 
         if (PlayerClass == "warrior")
         {
-            cirtHit = Random.Range(0, critChance);
-            if (cirtHit == 0)
+            cirtHit = Random.Range((int)critChance, 10);
+            if (cirtHit == (int)critChance)
             {
-                damage = (str + extraDmg) * 1.5f;
+                damage = (str * extraDmg) * 2;
+                return damage;
             }
             else
             {
-                damage = str + extraDmg;
+                damage = str * extraDmg;
+                return damage;
             }
 
-            return damage;
 
         }
 
         //for archer
         if (PlayerClass == "archer")
         {
-            cirtHit = Random.Range(0, critChance);
-            if (cirtHit == 0)
+            cirtHit = Random.Range((int)critChance, 10);
+            if (cirtHit == (int)critChance)
             {
-                damage = (dex + extraDmg) * 1.5f;
+                damage = (dex * extraDmg) * 2;
+                return damage;
             }
             else
             {
-                damage = dex + extraDmg;
+                damage = dex * extraDmg;
+                return damage;
             }
 
-            return damage;
 
         }
 
         //for thief
         if (PlayerClass == "thief")
         {
-            cirtHit = Random.Range(0, critChance);
-            if (cirtHit == 0)
+            cirtHit = Random.Range((int)critChance, 10);
+            if (cirtHit == (int)critChance)
             {
-                damage = (luck + extraDmg) * 1.5f;
+                damage = (luck * extraDmg) * 2;
+                return damage;
             }
             else
             {
-                damage = luck + extraDmg;
+                damage = luck * extraDmg;
+                return damage;
             }
 
-            return damage;
+
 
         }
 

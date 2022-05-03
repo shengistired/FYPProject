@@ -88,7 +88,7 @@ public class Collide : MonoBehaviour
         {
             case "Fireball(Clone)":
                 //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
-                damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(1);
+                damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(2);
                 gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
                 //Debug.Log("Killed collide");
                 Debug.Log("COLLIDE " + damage);
