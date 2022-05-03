@@ -36,11 +36,22 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void NewGame()
     {
+        List<string> listFiles = new List<string>();
+        listFiles.Add("0data.game");
+        listFiles.Add("1data.game");
+        listFiles.Add("2data.game");
+        listFiles.Add("3data.game");
+       // List<string> emptyFiles = new List<string>();
         try {
             var info = new DirectoryInfo(Application.persistentDataPath);
             var file = info.GetFiles();
             foreach (FileInfo f in file)
             {
+                if (listFiles.Contains(f.Name))
+                {
+                    listFiles.Remove(f.Name);
+                }
+                /*
                 if (f.Name == "0data.game")
                 {
                     fileName = "1data.game";
@@ -61,7 +72,9 @@ public class DataPersistenceManager : MonoBehaviour
                     fileName = "0data.game";
 
                 }
+                */
             }
+            fileName = listFiles[0];
             this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             this.gameData = new GameData();
         }
