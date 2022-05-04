@@ -82,6 +82,24 @@ public class audio_manager : MonoBehaviour
     void Update()
     {
 
+        forest_music.volume = PlayerPrefs.GetFloat("musicVolume");
+        desert_music.volume = PlayerPrefs.GetFloat("musicVolume");
+        snow_music.volume = PlayerPrefs.GetFloat("musicVolume");
+        miniBoss_music.volume = PlayerPrefs.GetFloat("musicVolume");
+
+        Debug.Log("Music " + miniBoss_music.volume);
+
+
+        walk.volume = PlayerPrefs.GetFloat("soundEffect");
+        hit.volume = PlayerPrefs.GetFloat("soundEffect");
+        chop.volume = PlayerPrefs.GetFloat("soundEffect");
+        swordHit.volume = PlayerPrefs.GetFloat("soundEffect");
+        fireBall.volume = PlayerPrefs.GetFloat("soundEffect");
+        hurt.volume = PlayerPrefs.GetFloat("soundEffect");
+        portal.volume = PlayerPrefs.GetFloat("soundEffect");
+        eat.volume = PlayerPrefs.GetFloat("soundEffect");
+
+        Debug.Log("Sound Effect " + eat.volume);
 
     }
 

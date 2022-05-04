@@ -850,6 +850,19 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                             else
                             {
                                 item.itemType = itemtype;
+                                if(itemtype.ToString().ToUpper() == "CACTUS")
+                                {
+                                    float randomNumber = Random.Range(0, 3);
+                                    if(randomNumber == 0)
+                                    {
+                                        Item cactusFruit = new Item();
+                                        cactusFruit.itemType = Item.ItemType.cactusFruit;
+                                        cactusFruit.amount = amount;
+                                        ItemWorld.SpawnItemWorld(new Vector2(x, y + 0.5f), cactusFruit);
+
+                                    }
+
+                                }
 
                             }
                         }

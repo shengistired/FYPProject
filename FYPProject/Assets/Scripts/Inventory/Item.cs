@@ -28,6 +28,7 @@ public class Item
         snow,
         snowLeaf,
         cactus,
+        cactusFruit,
         Stone,
         treeLogs,
         treeWood,
@@ -88,7 +89,9 @@ public class Item
             case ItemType.snowLeaf:
                 return ItemAssets.Instance.snowLeafSprite;            
             case ItemType.cactus:
-                return ItemAssets.Instance.cactusSprite;
+                return ItemAssets.Instance.cactusSprite;         
+            case ItemType.cactusFruit:
+                return ItemAssets.Instance.cactusFruitSprite;
             case ItemType.Stone:
                 return ItemAssets.Instance.stoneSprite;
             case ItemType.treeLogs:

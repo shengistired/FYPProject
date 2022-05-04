@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: CampFire
   m_EditorClassIdentifier: 
   Materials:
-  - itemType: 21
+  - itemType: 20
+    amount: 5
+  - itemType: 12
     amount: 5
   Results:
-  - itemType: 28
+  - itemType: 29
     amount: 1
   crafted: 0
+  isRecraftable: 1

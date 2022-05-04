@@ -19,6 +19,9 @@ public class NewGame : MonoBehaviour
     [SerializeField] Button normal;
     [SerializeField] Button hard;
 
+    [SerializeField] Button casual;
+    [SerializeField] Button timer;
+
     [SerializeField] Color color;
     [SerializeField] Color colorOriginal;
     [SerializeField] TMP_Text errorMsg;
@@ -29,12 +32,15 @@ public class NewGame : MonoBehaviour
     private bool[] notEmptySize = { false, false, false };
     private bool[] notEmptyBiome = { false, false, false, false };
     private bool[] notEmptyDifficulty = { false, false, false};
+    private bool[] notEmptyMode = { false, false};
     private bool biome = false;
     private bool size = false;
     private bool difficulty = false;
+    private bool mode = false;
     public static string worldsizeSelection;
     public static string biomeSelection;
     public static string difficultySelection;
+    public static string modeSelection;
     public static int life;
     public static string playerClass;
 
@@ -238,6 +244,38 @@ public class NewGame : MonoBehaviour
 
 
     }
+    public void casualClick()
+    {
+        var colorNew = origin;
+
+        colorNew.normalColor = color;
+
+        casual.GetComponent<Button>().colors = colorNew;
+        timer.GetComponent<Button>().colors = origin;
+
+        notEmptyMode[0] = true;
+        notEmptyMode[1] = false;
+
+        modeSelection = "casual";
+
+
+    }
+    public void timerClick()
+    {
+        var colorNew = origin;
+
+        colorNew.normalColor = color;
+
+        casual.GetComponent<Button>().colors = origin;
+        timer.GetComponent<Button>().colors = colorNew;
+
+        notEmptyMode[0] = false;
+        notEmptyMode[1] = true;
+
+        modeSelection = "timer";
+
+
+    }
     public void newGameClick()
     {
         
@@ -267,8 +305,17 @@ public class NewGame : MonoBehaviour
             }
 
         }
+        foreach (bool check in notEmptyMode)
+        {
+            if (check == true)
+            {
 
-        if (size == true && biome == true && difficulty == true)
+                mode = true;
+            }
+
+        }
+
+        if (size == true && biome == true && difficulty == true && mode == true)
         {
             errorMsg.gameObject.SetActive(false);
             if (DataPersistenceManager.instance.fullSaveData())

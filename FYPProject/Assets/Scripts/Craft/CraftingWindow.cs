@@ -33,8 +33,6 @@ public class CraftingWindow : MonoBehaviour
 
 	public void UpdateCraftingRecipes()
 	{
-
-        
 			for (int i = 0; i < 6; i++)
 			{
 				if (craftingRecipeUIs.Count == i)
@@ -59,7 +57,7 @@ public class CraftingWindow : MonoBehaviour
 			}
 			else if (TerrainGeneration.biome == "snow")
 			{
-				Debug.Log("Hi");
+				
 				craftingRecipeUIs[i].CraftingRecipe = CraftingRecipesSnow[i];
 
 			}

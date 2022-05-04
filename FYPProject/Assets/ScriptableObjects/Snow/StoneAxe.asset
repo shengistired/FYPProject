@@ -15,7 +15,7 @@ MonoBehaviour:
   Materials:
   - itemType: 2
     amount: 1
-  - itemType: 22
+  - itemType: 23
     amount: 100
   Results:
   - itemType: 3

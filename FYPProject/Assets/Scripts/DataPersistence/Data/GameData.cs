@@ -8,6 +8,8 @@ public class GameData
     public int portalEntered;
     public int hour;
     public int min;
+    public int second;
+    public int allSecond;
     public float timer;
     public string playerClass;
     public string biome;
@@ -35,12 +37,22 @@ public class GameData
     public float maxHpBar;
     public float maxManaBar;
     public float maxStamina;
+    public float healthRegen;
+    public float manaRegen;
+    public float staminaRegen;
+    public int healthRegenSkillValue;
+    public int staminaRegenSkillValue;
+    public int manaRegenSkillValue;
+    public int hungerResistSkillValue;
+    public int biomeResistSkillValue;
 
     public GameData()
     {
         portalEntered = 0;
         hour = 0;
         min = 0;
+        second = 0;
+        allSecond = 0;
         timer = 0.5f;
         playerClass = "";
         biome = "";
@@ -66,7 +78,14 @@ public class GameData
         currentFood = 200f;
         currentMana = maxManaBar;
         currentStamina = maxStamina;
+        healthRegen = 0.2f;
+        manaRegen = 0.2f;
+        staminaRegen = 0.2f;
+        healthRegenSkillValue = 0;
+        staminaRegenSkillValue = 0;
+        hungerResistSkillValue = 0;
+        biomeResistSkillValue = 0;
         //equipment = null;
-        
+
     }
 }

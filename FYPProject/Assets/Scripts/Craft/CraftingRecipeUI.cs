@@ -7,6 +7,7 @@ public class CraftingRecipeUI : MonoBehaviour
 	[Header("References")]
 	[SerializeField] RectTransform arrowParent;
 	[SerializeField] GameObject craftedActive;
+	[SerializeField] GameObject crafted;
 	[SerializeField] Craft_Slots[] itemSlots;
 	public Inventory inventory;
 	public PlayerController player;
@@ -17,7 +18,8 @@ public class CraftingRecipeUI : MonoBehaviour
         get { return craftingRecipe; }
         set { SetCraftingRecipe(value); }
     }
-	public void setPlayer(PlayerController player)
+
+    public void setPlayer(PlayerController player)
     {
 		this.player = player;
     }
@@ -29,6 +31,7 @@ public class CraftingRecipeUI : MonoBehaviour
 		{
 
 			craftingRecipe.Craft(inventory);
+
 		}
 	}
 
@@ -40,9 +43,20 @@ public class CraftingRecipeUI : MonoBehaviour
     {
         try
         {
+
+            if (craftingRecipe.CanCraft(player.getInventory())){
+				craftedActive.SetActive(false);
+
+			}
+            else
+            {
+				craftedActive.SetActive(true);
+
+			}
+
 			if (craftingRecipe.crafted == true)
 			{
-				craftedActive.SetActive(true);
+				crafted.SetActive(true);
 			}
 		}
         catch { 

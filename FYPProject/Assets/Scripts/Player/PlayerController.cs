@@ -467,7 +467,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         if (Input.GetMouseButtonDown(0) && item != null)
         {
 
-            if ((itemType == Item.ItemType.Food || itemType == Item.ItemType.Meat) && item.amount > 0 && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
+            if ((itemType == Item.ItemType.Food || itemType == Item.ItemType.Meat || itemType == Item.ItemType.cactusFruit) && item.amount > 0 && (difference.y > 1.5 || difference.x < 0 || difference.x > 15))
             {
                 if (hungerBar.UseFood(20f) == true)
                 {
@@ -851,7 +851,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 others.GetComponent<Image>().sprite = item.GetSprite();
                 othersActive = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.Coin && !item.isAxe() && itemType != Item.ItemType.Potion)
+            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.cactusFruit  && itemType != Item.ItemType.Coin && !item.isAxe() && itemType != Item.ItemType.Potion)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {

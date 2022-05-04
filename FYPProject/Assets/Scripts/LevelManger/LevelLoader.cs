@@ -14,6 +14,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private Slider loadingBar;
     [SerializeField] private TextMeshProUGUI loadingPercent;
+    [SerializeField] private MapSettings mapsettings;
     public void LoadLevel(string sceneName)
     {
         StartCoroutine(LoadAsynchronously(sceneName));
@@ -37,11 +38,19 @@ public class LevelLoader : MonoBehaviour
 
     private void Update()
     {
-        AudioListener.volume = PlayerPrefs.GetFloat("musicVolume");
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("QualityLevel"));
     }
     private void Awake()
     {
+        try
+        {
+            mapsettings.Load();
+
+        }
+        catch
+        {
+
+        }
 
 
         if (Instance == null)

@@ -14,6 +14,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     public int statPoints = 5;
     public int skillPoint = 0;
 
+    public int life;
 
     [Header("Player's Stat")]
     //warrior starts with str 15
@@ -142,14 +143,14 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
 
         //player survival skills
-        string skillPoingString = skillPoint.ToString();
+        string skillPointString = skillPoint.ToString();
         string healthRegenString = healthRegenSkillValue.ToString();
         string staminaRegenString = staminaRegenSkillValue.ToString();
         string manaRegenString = manaRegenSkillValue.ToString();
         string hungerResistString = hungerResistSkillValue.ToString();
         string biomeResistString = biomeResistSkillValue.ToString();
 
-        skills_UI.getSkillPoint(skillPoingString, healthRegenString, staminaRegenString, manaRegenString, hungerResistString, biomeResistString);
+        skills_UI.getSkillPoint(skillPointString, healthRegenString, staminaRegenString, manaRegenString, hungerResistString, biomeResistString);
 
     }
 
@@ -279,7 +280,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             if (healthRegenSkillValue == 0)
             {
                 skillPoint--;
-                healthRegen = 0.5f;
+                healthRegen = 0.4f;
                 healthRegenSkillValue = 1;
                 healthBar.onHpRegenSkillUp(healthRegen);
                 updateStats();
@@ -291,7 +292,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (healthRegenSkillValue == 1)
             {
                 skillPoint--;
-                healthRegen = 1f;
+                healthRegen = 0.6f;
                 healthRegenSkillValue = 2;
                 healthBar.onHpRegenSkillUp(healthRegen);
                 updateStats();
@@ -302,7 +303,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (healthRegenSkillValue == 2)
             {
                 skillPoint--;
-                healthRegen = 2f;
+                healthRegen = 1f;
                 healthRegenSkillValue = 3;
                 healthBar.onHpRegenSkillUp(healthRegen);
                 updateStats();
@@ -449,8 +450,15 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         MaxHpBar = data.maxHpBar;
         MaxManaBar = data.maxManaBar;
         MaxStamina = data.maxStamina;
-        //save healthRegen staminaRegen manaRegen
-        //save healthRegenSkillValue staminaRegenSkillValue manaRegenSkillValue hungerResistSkillValue biomeResistSkillValue
+        healthRegen = data.healthRegen;
+        staminaRegen = data.staminaRegen;
+        manaRegen = data.manaRegen;
+        healthRegenSkillValue = data.healthRegenSkillValue;
+        staminaRegenSkillValue = data.staminaRegenSkillValue;
+        manaRegenSkillValue = data.manaRegenSkillValue;
+        hungerResistSkillValue = data.hungerResistSkillValue;
+        biomeResistSkillValue = data.biomeResistSkillValue;
+        life = data.life;
 
 
     }
@@ -469,7 +477,15 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         data.maxHpBar = MaxHpBar;
         data.maxManaBar = MaxManaBar;
         data.maxStamina = MaxStamina;
-        //save healthRegen staminaRegen manaRegen
+        data.healthRegen = healthRegen;
+        data.manaRegen = manaRegen;
+        data.staminaRegen= staminaRegen;
+        data.healthRegenSkillValue = healthRegenSkillValue;
+        data.staminaRegenSkillValue = staminaRegenSkillValue;
+        data.manaRegenSkillValue = manaRegenSkillValue;
+        data.hungerResistSkillValue = hungerResistSkillValue;
+        data.biomeResistSkillValue = biomeResistSkillValue;
+        data.life = life;
         //save healthRegenSkillValue staminaRegenSkillValue manaRegenSkillValue hungerResistSkillValue biomeResistSkillValue
     }
 }

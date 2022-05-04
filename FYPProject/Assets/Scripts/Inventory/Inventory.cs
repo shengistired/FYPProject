@@ -38,7 +38,6 @@ public class Inventory
         }
         else
         {
-            Debug.Log(item.amount);
             itemList.Add(item);
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);

@@ -7,31 +7,34 @@ public class TimeManager : MonoBehaviour, IDataPersistence
 {
     public static Action OnMinuteChanged;
     public static Action OnHourChanged;
+    public static Action OnSecondChanged;
 
     public static int Minute {get; private set; }
     public static int Hour {get; private set; }
+    public static int Second {get; private set; }
+    public static int AllSecond {get; private set; }
 
     public float minuteToRealTime = 0.5f;
     private float timer;
 
-    /*
-    void Start ()
-    {
-        Minute = 0;
-        Hour = 0;
-        timer = minuteToRealTime;
-    }
-    */
+
     void Update ()
     {
         timer -= Time.deltaTime * 5;
 
         if (timer <=0)
         {
-            Minute++;
-            OnMinuteChanged?.Invoke();
+            Second++;
+            AllSecond++;
+            OnSecondChanged?.Invoke();
 
-            if (Minute >= 60)
+            if (Second >= 60)
+            {
+                Minute++;
+                Second = 0;
+                OnMinuteChanged?.Invoke();
+            }
+            if(Minute >= 60)
             {
                 Hour++;
                 Minute = 0;
@@ -46,13 +49,17 @@ public class TimeManager : MonoBehaviour, IDataPersistence
     {
         Hour = data.hour;
         Minute = data.min;
+        Second = data.second;
         timer = data.timer;
+        AllSecond = data.allSecond;
     }
 
     public void SaveData(ref GameData data)
     {
         data.hour = Hour;
         data.min = Minute;
+        data.allSecond = AllSecond;
+        data.second = Second;
         data.timer = timer;
     }
 }                                                      

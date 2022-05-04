@@ -10,18 +10,19 @@ public class CraftingRecipe : ScriptableObject
     public List<Item> Materials;
     public List<Item> Results;
 	public bool crafted = false;
+	public bool isRecraftable;
 	
 	public bool CanCraft(Inventory inventory)
 	{
 		return HasMaterials(inventory);
 	}
 
+
 	private bool HasMaterials(Inventory inventory)
 	{
 		List<bool> hasMaterials = new List<bool>();
 		foreach (Item item in Materials)
 		{
-			
 			foreach(Item itemInInventory in inventory.GetItemList())
             {
 				if(item.itemType == itemInInventory.itemType)
@@ -40,7 +41,7 @@ public class CraftingRecipe : ScriptableObject
             }
 		}
         try {
-			if(hasMaterials.Count == 1)
+			if(Materials.Count == 1)
             {
 				if (hasMaterials.ToArray()[0] == true)
 				{
@@ -92,12 +93,16 @@ public class CraftingRecipe : ScriptableObject
 	}
 	public void Craft(Inventory inventory)
 	{
-		crafted = false;
 		if (CanCraft(inventory))
 		{
 			RemoveMaterials(inventory);
 			AddResults(inventory);
-			crafted = true;
+
+            if (!isRecraftable)
+            {
+				crafted = true;
+
+			}
 		}
 
 	}

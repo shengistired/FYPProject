@@ -15,9 +15,9 @@ MonoBehaviour:
   Materials:
   - itemType: 1
     amount: 1
-  - itemType: 24
+  - itemType: 25
     amount: 20
   Results:
   - itemType: 2
     amount: 1
-  crafted: 0
+  crafted: 1

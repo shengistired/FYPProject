@@ -31,6 +31,9 @@ public class DataToLoad : MonoBehaviour
                     hasData.Find("PortalEntered").GetComponent<TextMeshProUGUI>().text = "Portal Entered: " + DataPersistenceManager.instance.AllData(dataObject[index].name).portalEntered;
                     hasData.Find("Biome").GetComponent<TextMeshProUGUI>().text = "Biome: " + DataPersistenceManager.instance.AllData(dataObject[index].name).biome;
                     hasData.Find("Difficulty").GetComponent<TextMeshProUGUI>().text = "Difficulty: " + DataPersistenceManager.instance.AllData(dataObject[index].name).difficulty;
+                    hasData.Find("Timer").GetComponent<TextMeshProUGUI>().text = "Timer: " + DataPersistenceManager.instance.AllData(dataObject[index].name).hour + " : " + DataPersistenceManager.instance.AllData(dataObject[index].name).min + " : " + DataPersistenceManager.instance.AllData(dataObject[index].name).second;
+
+
                     hasData.Find("Image").GetComponent<RectTransform>().Find("Lv").GetComponent<TextMeshProUGUI>().text = "Lv. " + DataPersistenceManager.instance.AllData(dataObject[index].name).playerlevel;
                     //hasData.Find("Level").GetComponent<TextMeshProUGUI>().text = "Portal Entered: " + DataPersistenceManager.instance.AllData(dataObject[index].name).portalEntered;
                     
