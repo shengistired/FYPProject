@@ -43,7 +43,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
     public float surfaceValue = 0.25f;
     public int dirtLayerHeight = 5;
     public string worldSizeSet;
-    public string biome;
+    public static string biome;
     public int worldSize;
     public string difficulty;
     public string playerClass;

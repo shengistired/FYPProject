@@ -27,6 +27,7 @@ public class Item
         sand,
         snow,
         snowLeaf,
+        cactus,
         Stone,
         treeLogs,
         treeWood,
@@ -85,7 +86,9 @@ public class Item
             case ItemType.snow:
                 return ItemAssets.Instance.snowSprite;
             case ItemType.snowLeaf:
-                return ItemAssets.Instance.snowLeafSprite;
+                return ItemAssets.Instance.snowLeafSprite;            
+            case ItemType.cactus:
+                return ItemAssets.Instance.cactusSprite;
             case ItemType.Stone:
                 return ItemAssets.Instance.stoneSprite;
             case ItemType.treeLogs:
@@ -123,6 +126,7 @@ public class Item
             case ItemType.sand:
             case ItemType.snow:
             case ItemType.snowLeaf:
+            case ItemType.cactus:
             case ItemType.Stone:
             case ItemType.treeLogs:
             case ItemType.treeWood:
@@ -162,6 +166,7 @@ public class Item
             case ItemType.sand:
             case ItemType.snow:
             case ItemType.snowLeaf:
+            case ItemType.cactus:
             case ItemType.Stone:
             case ItemType.treeLogs:
             case ItemType.treeWood:
@@ -204,6 +209,7 @@ public class Item
             case ItemType.sand:
             case ItemType.snow:
             case ItemType.snowLeaf:
+            case ItemType.cactus:
             case ItemType.treeLogs:
             case ItemType.stone_wall:
             case ItemType.sand_wall:

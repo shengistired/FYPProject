@@ -38,10 +38,16 @@ public class CraftingRecipeUI : MonoBehaviour
 	}
     private void Update()
     {
-		if (craftingRecipe.crafted == true)
-		{
-			craftedActive.SetActive(true);
+        try
+        {
+			if (craftingRecipe.crafted == true)
+			{
+				craftedActive.SetActive(true);
+			}
 		}
+        catch { 
+		}
+
 	}
     private void SetCraftingRecipe(CraftingRecipe newCraftingRecipe)
 	{

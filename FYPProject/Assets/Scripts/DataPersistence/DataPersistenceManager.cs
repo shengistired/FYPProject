@@ -93,6 +93,7 @@ public class DataPersistenceManager : MonoBehaviour
     }
     public void LoadGame()
     {
+        
         try{
             this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             this.gameData = fileDataHandler.Load();

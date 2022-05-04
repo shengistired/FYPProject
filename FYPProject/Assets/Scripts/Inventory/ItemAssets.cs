@@ -30,6 +30,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite sandSprite;
     public Sprite snowSprite;
     public Sprite snowLeafSprite;
+    public Sprite cactusSprite;
     public Sprite stoneSprite;
     public Sprite treeLogsSprite;
     public Sprite treeWoodSprite;
