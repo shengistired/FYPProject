@@ -9,7 +9,7 @@ public class HungerBar : MonoBehaviour, IDataPersistence
     public Slider hungerBar;
     public Text hungerText;
     public static float currentHunger;
-    private float maxFood = 200f;
+    public float maxFood = 200f;
     public HealthBar healthBar;
     public audio_manager music;
 

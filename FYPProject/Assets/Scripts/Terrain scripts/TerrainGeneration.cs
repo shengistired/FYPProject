@@ -15,7 +15,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
     public CameraFollow camera;
     public audio_manager music;
     public PortalEnteredText portalEnteredText;
-
+    
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
 
@@ -656,6 +656,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                 portal.size = new Vector2(2f, 2f);
                 newTile.AddComponent<EnterPortal>();
                 newTile.GetComponent<EnterPortal>().portalEnteredText = portalEnteredText;
+                newTile.GetComponent<EnterPortal>().music = music;
             }
 
             newTile.tag = "Ground";

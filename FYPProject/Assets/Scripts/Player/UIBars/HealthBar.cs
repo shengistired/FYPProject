@@ -1,3 +1,4 @@
+using System.Xml.Schema;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,10 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 {
     public Slider healthBar;
     public PlayerStat playerStat;
+    public StaminaBar staminaBar;
+    public ManaBar manaBar;
     public HungerBar hungerBar;
+    public Death_UI death_UI;
     public Text hpText;
 
     public float totalHp;
@@ -26,6 +30,13 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     public static HealthBar instance;
     private string biome;
+    private int playerLife;
+
+    private float maxMana;
+    private float maxStamina;
+    private float MaxHungerBar;
+
+    private bool playerDead = false;
 
     private void Awake()
     {
@@ -220,7 +231,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     public IEnumerator RegenHealth()
     {
         regenSpeed = playerStat.healthRegen;
-        Debug.Log("regnespeed " + regenSpeed);
+        //Debug.Log("regnespeed " + regenSpeed);
 
         if (regening == false)
         {
@@ -232,7 +243,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
                 // add for hp regen set>>>> playerStat.healthRegen;
 
                 //default healing with no skill 0.2f
-                Debug.Log("regening >>> " + regenSpeed);
+                //Debug.Log("regening >>> " + regenSpeed);
                 currentHp += regenSpeed;
                 if (currentHp > totalHp)
                 {
@@ -269,20 +280,49 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     private void PlayerDied()
     {
+        playerDead = true;
+
+        if (playerStat.life > 0)
         {
-            LevelManager.instance.GameOver();
-            gameObject.SetActive(false);
+            playerLife--;
+            death_UI.getPlayerLife(playerLife);
+            Debug.Log("life left is " + playerLife);
         }
+
+        if (playerStat.life == 0)
+        {
+
+            death_UI.getPlayerLife(playerLife);
+            Debug.Log("life left is " + playerLife);
+        }
+        //set hp mana stamina hunger to full
+        currentHp = totalHp;
+        manaBar.recoverManaFull();
+        staminaBar.recoverStaminaFull();
+        MaxHungerBar = hungerBar.maxFood;
+
+        Debug.Log("mana " + maxMana + " stamina " + maxStamina + " hunger " + MaxHungerBar);
+        death_UI.ToggleDeathPanel();
+        //LevelManager.instance.GameOver();
+        gameObject.SetActive(false);
+        DataPersistenceManager.instance.SaveGame();
+
     }
 
     public void LoadData(GameData data)
     {
         currentHp = data.currentHP;
         biome = data.biome;
+        playerLife = data.life;
     }
 
     public void SaveData(ref GameData data)
     {
+
+        data.life = playerLife;
         data.currentHP = currentHp;
+
+
+
     }
 }

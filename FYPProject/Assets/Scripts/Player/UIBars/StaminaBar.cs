@@ -9,7 +9,7 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
     public Text staminaText;
 
 
-    private float totalStamina;
+    public float totalStamina;
     public float currentStamina;
     private string biome;
 
@@ -40,13 +40,21 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
 
         staminaBar.maxValue = totalStamina;
         staminaBar.value = currentStamina;
-        RegenStamina();
+        startRegen();
 
         if (biome == "")
         {
             biome = NewGame.biomeSelection;
 
         }
+    }
+    public void startRegen()
+    {
+
+        regen = StartCoroutine(RegenStamina());
+
+
+
     }
 
     public void onDexUp(float maxStamina)
@@ -73,7 +81,6 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
             {
                 StopCoroutine(regen);
             }
-
 
             regen = StartCoroutine(RegenStamina());
             return true;
@@ -120,6 +127,11 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
 
         }
 
+    }
+
+    public void recoverStaminaFull()
+    {
+        currentStamina = totalStamina;
     }
 
     public void LoadData(GameData data)

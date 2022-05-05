@@ -15,12 +15,17 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
 
     public void OnPortalEnter()
     {
-        portalCount ++;
+        portalCount++;
         Debug.Log(portalCount);
         DataPersistenceManager.instance.SaveGame();
         //SceneManager.LoadScene("Map");
 
         newPortal = true;
+    }
+    public void diedOnBoss()
+    {
+        portalCount--;
+        DataPersistenceManager.instance.SaveGame();
     }
     public void LoadData(GameData data)
     {

@@ -1,13 +1,13 @@
-using System.Collections; 
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class ManaBar : MonoBehaviour, IDataPersistence
 {
     public Slider manaBar;
     public PlayerStat playerStat;
     public Text manaText;
-    private float totalMana;
+    public float totalMana;
     private float currentMana;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
@@ -80,8 +80,12 @@ public class ManaBar : MonoBehaviour, IDataPersistence
         //mana regen
         if (currentMana == totalMana)
         {
-            StopCoroutine(regen);
-            regen = null;
+            if (regen != null)
+            {
+                StopCoroutine(regen);
+                regen = null;
+            }
+
         }
 
         else
@@ -105,6 +109,11 @@ public class ManaBar : MonoBehaviour, IDataPersistence
             yield return regenTick;
         }
         regen = null;
+    }
+
+     public void recoverManaFull()
+    {
+        currentMana = totalMana;
     }
 
     public void LoadData(GameData data)

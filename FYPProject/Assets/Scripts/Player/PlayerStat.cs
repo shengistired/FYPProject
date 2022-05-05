@@ -37,9 +37,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     public float MaxManaBar;
     //increase dex to increase stamina  (each stat increase Stamina by 2 )
     public float MaxStamina;
-
-    public int MaxHungerBar;
-
+ 
     public float healthRegen = 0.2f;
     public float manaRegen = 0.2f;
     public float staminaRegen = 0.2f;
@@ -180,7 +178,6 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         //each stat of intelligence gives 2 mana
         MaxManaBar = 100 + (intelligence * 2);
         manaBar.onIntUp(MaxManaBar);
-
         return MaxManaBar;
     }
 
@@ -197,6 +194,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             skillPoint++;
             currentExp -= expNeededToNextLevel;
             expNeededToNextLevel = Playerlevel * 100;
+            DataPersistenceManager.instance.SaveGame();
             return Playerlevel;
 
         }
@@ -204,6 +202,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             return Playerlevel;
         }
+
 
     }
 
@@ -217,6 +216,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             statPoints--;
             calculateTotalHP();
             updateStats();
+            DataPersistenceManager.instance.SaveGame();
         }
         else
         {
@@ -232,6 +232,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             statPoints--;
             calculatetotalStamina();
             updateStats();
+            DataPersistenceManager.instance.SaveGame();
         }
         else
         {
@@ -247,6 +248,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             statPoints--;
             calculateTotalMana();
             updateStats();
+            DataPersistenceManager.instance.SaveGame();
         }
         else
         {
@@ -262,11 +264,13 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             luck++;
             statPoints--;
             updateStats();
+            DataPersistenceManager.instance.SaveGame();
         }
         else
         {
             Debug.Log("No stats point");
         }
+
 
     }
 
@@ -314,11 +318,13 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
+        DataPersistenceManager.instance.SaveGame();
 
     }
 
     public void addStaminaRegenSkill()
     {
+        
 
     }
 
@@ -479,7 +485,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         data.maxStamina = MaxStamina;
         data.healthRegen = healthRegen;
         data.manaRegen = manaRegen;
-        data.staminaRegen= staminaRegen;
+        data.staminaRegen = staminaRegen;
         data.healthRegenSkillValue = healthRegenSkillValue;
         data.staminaRegenSkillValue = staminaRegenSkillValue;
         data.manaRegenSkillValue = manaRegenSkillValue;

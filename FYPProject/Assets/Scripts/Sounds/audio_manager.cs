@@ -87,7 +87,7 @@ public class audio_manager : MonoBehaviour
         snow_music.volume = PlayerPrefs.GetFloat("musicVolume");
         miniBoss_music.volume = PlayerPrefs.GetFloat("musicVolume");
 
-        Debug.Log("Music " + miniBoss_music.volume);
+        //Debug.Log("Music " + miniBoss_music.volume);
 
 
         walk.volume = PlayerPrefs.GetFloat("soundEffect");
@@ -99,7 +99,7 @@ public class audio_manager : MonoBehaviour
         portal.volume = PlayerPrefs.GetFloat("soundEffect");
         eat.volume = PlayerPrefs.GetFloat("soundEffect");
 
-        Debug.Log("Sound Effect " + eat.volume);
+        //Debug.Log("Sound Effect " + eat.volume);
 
     }
 
@@ -115,6 +115,13 @@ public class audio_manager : MonoBehaviour
         walk.Stop();
     }
 
+
+    public void portal_Play()
+    {
+
+        portal.clip = portal_effect_clip;
+        portal.Play();
+    }
 
     public void eat_Play()
     {
