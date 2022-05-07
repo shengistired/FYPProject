@@ -5,11 +5,12 @@ using System;
 
 [Serializable]
 [CreateAssetMenu]
-public class CraftingRecipe : ScriptableObject
+public class CraftingRecipe : ScriptableObject, IDataPersistence
 {
     public List<Item> Materials;
     public List<Item> Results;
 	public bool crafted = false;
+	public int num;
 	public bool isRecraftable;
 	
 	public bool CanCraft(Inventory inventory)
@@ -110,5 +111,15 @@ public class CraftingRecipe : ScriptableObject
 	public bool isCrafted()
     {
 		return true;
+    }
+
+    public void LoadData(GameData data)
+    {
+		crafted = data.crafted[num];
+    }
+
+    public void SaveData(ref GameData data)
+    {
+		data.crafted[num] = crafted;
     }
 }

@@ -13,14 +13,13 @@ public class Craft_Slots : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	protected Color normalColor = Color.white;
 	protected Color disabledColor = new Color(1, 1, 1, 0);
 
-	
-	protected DropArea dropArea;
 	protected Item _item;
 	public Item Item
 	{
 		get { return _item; }
 		set
 		{
+
 			_item = value;
 			if (_item == null)
 			{
@@ -59,18 +58,8 @@ public class Craft_Slots : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 		Item = _item;
 
 	}
-	protected virtual void Awake()
-    {
-        dropArea = GetComponent<DropArea>() ?? gameObject.AddComponent<DropArea>();
-        dropArea.OnDropHandler += OnItemDropped;
-		itemSlot = gameObject.GetComponentInParent<RectTransform>();
 
-    }
 
-    private void OnItemDropped(DragAndDrop draggable)
-    {
-        _item = draggable.item;
-    }
     private void OnMouseEnter()
     {
 		ToolTip.ShowToolTip_Static(_item.itemType.ToString());

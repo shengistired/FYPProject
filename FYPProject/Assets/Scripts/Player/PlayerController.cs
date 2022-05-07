@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     //  [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
     [SerializeField] private UI_EquipmentSlot uiEquipmentSlot;
     [SerializeField] private UI_Equipment uiEquip;
+    
     //player stat info
 
 
@@ -110,7 +111,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     private EdgeCollider2D edgeCollider;
     private Inventory inventory;
     public static Equipment equipment;
-    public static CraftItem craftItem;
     private Item item;
     private Item original;
     public TerrainGeneration terrainGenerator;
@@ -163,7 +163,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         */
         inventory = new Inventory(UseItem);
         equipment = new Equipment(UseItem);
-        craftItem = new CraftItem();
         direct = 1;
         uiInventory.SetPlayer(this);
         uiInventory.SetInventory(inventory);
@@ -252,27 +251,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         }
     }
 
-    public void AddCraftItem(Item item, int index)
-    {
-        craftItem.AddItem(item, index);
-
-        if (CraftItem.addInventory)
-        {
-            inventory.AddItem(equipment.previousItem());
-        }
-    }
-    public void CraftToInventory(int index, Item item)
-    {
-        craftItem.RemoveItem(index);
-        inventory.AddItem(item);
-    }
-    public void CraftSuccessful(Item item)
-    {
-        craftItem.RemoveItem(0);
-        craftItem.RemoveItem(1);
-        inventory.AddItem(item);
-
-    }
 
     public void AddItemInventory(Item item, int index)
     {
@@ -601,7 +579,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                         //Debug.Log("tilehealth..." + tileHealth);
                         //Debug.Log("timeRemaining..." + timeRemaining);
                         //Debug.Log("mining..." + Time.deltaTime);
-
+                        music.chopTag();
                         if (timeRemaining >= tileHealth - miningPower)
                         {
 

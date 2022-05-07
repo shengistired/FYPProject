@@ -10,11 +10,12 @@ public class audio_manager : MonoBehaviour
     public AudioSource desert_music;
     public AudioSource snow_music;
     public AudioSource miniBoss_music;
+    /*
     public AudioClip forest_BGM_clip;
     public AudioClip desert_BGM_clip;
     public AudioClip snow_BGM_clip;
     public AudioClip miniBoss_BGM_clip;
-
+    */
     [Header("Sound Effects")]
     public AudioSource walk;
     public AudioSource hit;
@@ -25,6 +26,7 @@ public class audio_manager : MonoBehaviour
     public AudioSource hurt;
     public AudioSource portal;
     public AudioSource eat;
+    /*
     public AudioClip walk_effect_clip;
     public AudioClip hit_effect_clip;
     public AudioClip chop_effect_clip;
@@ -34,7 +36,7 @@ public class audio_manager : MonoBehaviour
     public AudioClip hurt_effect_clip;
     public AudioClip portal_effect_clip;
     public AudioClip eat_effect_clip;
-
+    */
 
     //public string biome;
 
@@ -42,27 +44,12 @@ public class audio_manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //bgm
-        forest_music = gameObject.AddComponent<AudioSource>();
-        desert_music = gameObject.AddComponent<AudioSource>();
-        snow_music = gameObject.AddComponent<AudioSource>();
-        miniBoss_music = gameObject.AddComponent<AudioSource>();
+
 
         forest_music.playOnAwake = false;
         desert_music.playOnAwake = false;
         snow_music.playOnAwake = false;
         miniBoss_music.playOnAwake = false;
-
-        //sound effects
-        walk = gameObject.AddComponent<AudioSource>(); ;
-        hit = gameObject.AddComponent<AudioSource>(); ;
-        chop = gameObject.AddComponent<AudioSource>(); ;
-        mining = gameObject.AddComponent<AudioSource>(); ;
-        swordHit = gameObject.AddComponent<AudioSource>(); ;
-        fireBall = gameObject.AddComponent<AudioSource>(); ;
-        hurt = gameObject.AddComponent<AudioSource>(); ;
-        portal = gameObject.AddComponent<AudioSource>(); ;
-        eat = gameObject.AddComponent<AudioSource>(); ;
 
         walk.playOnAwake = false;
         hit.playOnAwake = false;
@@ -74,39 +61,15 @@ public class audio_manager : MonoBehaviour
         portal.playOnAwake = false;
         eat.playOnAwake = false;
 
-
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-        forest_music.volume = PlayerPrefs.GetFloat("musicVolume");
-        desert_music.volume = PlayerPrefs.GetFloat("musicVolume");
-        snow_music.volume = PlayerPrefs.GetFloat("musicVolume");
-        miniBoss_music.volume = PlayerPrefs.GetFloat("musicVolume");
-
-        //Debug.Log("Music " + miniBoss_music.volume);
-
-
-        walk.volume = PlayerPrefs.GetFloat("soundEffect");
-        hit.volume = PlayerPrefs.GetFloat("soundEffect");
-        chop.volume = PlayerPrefs.GetFloat("soundEffect");
-        swordHit.volume = PlayerPrefs.GetFloat("soundEffect");
-        fireBall.volume = PlayerPrefs.GetFloat("soundEffect");
-        hurt.volume = PlayerPrefs.GetFloat("soundEffect");
-        portal.volume = PlayerPrefs.GetFloat("soundEffect");
-        eat.volume = PlayerPrefs.GetFloat("soundEffect");
-
-        //Debug.Log("Sound Effect " + eat.volume);
-
-    }
 
     public void walk_Play()
     {
-        walk.clip = walk_effect_clip;
+       // walk.clip = walk_effect_clip;
         walk.loop = true;
+        walk.volume = PlayerPrefs.GetFloat("soundEffect");
+
         walk.Play();
     }
     public void walk_stop()
@@ -119,7 +82,8 @@ public class audio_manager : MonoBehaviour
     public void portal_Play()
     {
 
-        portal.clip = portal_effect_clip;
+       // portal.clip = portal_effect_clip;
+        portal.volume = PlayerPrefs.GetFloat("soundEffect");
         portal.Play();
     }
 
@@ -130,7 +94,8 @@ public class audio_manager : MonoBehaviour
         //     print("no clip found."); return;
         // }
 
-        eat.clip = eat_effect_clip;
+       // eat.clip = eat_effect_clip;
+        eat.volume = PlayerPrefs.GetFloat("soundEffect");
         eat.Play();
     }
 
@@ -138,16 +103,26 @@ public class audio_manager : MonoBehaviour
     //sound effects
     public void hitTag()
     {
+        /*
         if (hit_effect_clip.length == 0)
         {
             print("no clip found."); return;
         }
 
         hit.clip = hit_effect_clip;
+        */
+        hit.volume = PlayerPrefs.GetFloat("soundEffect");
         hit.Play();
 
     }
+    public void chopTag()
+    {
 
+        //chop.clip = chop_effect_clip;
+        chop.volume = PlayerPrefs.GetFloat("soundEffect");
+        chop.Play();
+
+    }
     public void fireBall_play()
     {
         // if (fireBall_effect_clip.length == 0)
@@ -155,25 +130,20 @@ public class audio_manager : MonoBehaviour
         //     print("no clip found."); return;
         // }
 
-        fireBall.clip = fireBall_effect_clip;
+        //fireBall.clip = fireBall_effect_clip;
+        fireBall.volume = PlayerPrefs.GetFloat("soundEffect");
         fireBall.Play();
 
 
     }
-
-
-
-
-
-
 
     //BGMs
     public void forest_music_play()
     {
         desert_music.Stop();
         snow_music.Stop();
-
-        forest_music.clip = forest_BGM_clip;
+        forest_music.volume = PlayerPrefs.GetFloat("musicVolume");
+        //forest_music.clip = forest_BGM_clip;
         forest_music.Play();
         forest_music.loop = true;
 
@@ -184,8 +154,9 @@ public class audio_manager : MonoBehaviour
 
         forest_music.Stop();
         snow_music.Stop();
+        desert_music.volume = PlayerPrefs.GetFloat("musicVolume");
 
-        desert_music.clip = desert_BGM_clip;
+        //desert_music.clip = desert_BGM_clip;
         desert_music.Play();
         desert_music.loop = true;
 
@@ -195,8 +166,9 @@ public class audio_manager : MonoBehaviour
     {
         forest_music.Stop();
         desert_music.Stop();
+        snow_music.volume = PlayerPrefs.GetFloat("musicVolume");
 
-        snow_music.clip = snow_BGM_clip;
+        //snow_music.clip = snow_BGM_clip;
         snow_music.Play();
         snow_music.loop = true;
 
@@ -207,8 +179,9 @@ public class audio_manager : MonoBehaviour
         forest_music.Stop();
         desert_music.Stop();
         snow_music.Stop();
+        miniBoss_music.volume = PlayerPrefs.GetFloat("musicVolume");
 
-        miniBoss_music.clip = miniBoss_BGM_clip;
+        //miniBoss_music.clip = miniBoss_BGM_clip;
         miniBoss_music.Play();
         miniBoss_music.loop = true;
 

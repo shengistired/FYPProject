@@ -20,4 +20,6 @@ MonoBehaviour:
   Results:
   - itemType: 2
     amount: 1
-  crafted: 1
+  crafted: 0
+  num: 0
+  isRecraftable: 0

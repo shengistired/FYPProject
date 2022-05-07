@@ -7,8 +7,8 @@ public class MapSettings : MonoBehaviour
     [SerializeField] Slider volumeSlider;
     [SerializeField] Slider soundSlider;
     [SerializeField] TMP_Dropdown graphic;
-    public AudioSource soundEffect;
-    public AudioSource clickEffect;
+    public AudioSource[] allBGM;
+    public AudioSource[] allsoundEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,15 +43,18 @@ public class MapSettings : MonoBehaviour
 
     public void changeVolume()
     {
-
+        for(int i = 0; i < allBGM.Length; i++)
+        {
+            allBGM[i].volume = volumeSlider.value / 3;
+        }
         PlayerPrefs.SetFloat("musicVolume", volumeSlider.value / 3);
     }
     public void changeSoundEffect()
     {
-
-        soundEffect.volume = soundSlider.value / 3;
-        clickEffect.volume = soundSlider.value / 4;
-
+        for(int i = 0; i < allsoundEffect.Length; i++)
+        {
+            allsoundEffect[i].volume = soundSlider.value/4;
+        }
         PlayerPrefs.SetFloat("soundEffect", soundSlider.value / 4);
     }
 
@@ -60,12 +63,15 @@ public class MapSettings : MonoBehaviour
         
         volumeSlider.value = PlayerPrefs.GetFloat("musicVolume") * 3;
         soundSlider.value = PlayerPrefs.GetFloat("soundEffect") * 4;
-        soundEffect.volume = soundSlider.value / 4;
-        clickEffect.volume = soundSlider.value / 4;
+        for (int i = 0; i < allBGM.Length; i++)
+        {
+            allBGM[i].volume = volumeSlider.value / 3;
+        }
+        for (int i = 0; i < allsoundEffect.Length; i++)
+        {
+            allsoundEffect[i].volume = soundSlider.value / 4;
+        }
 
-    }
-    private void Save()
-    {
     }
 
     public void SetQuality(int i)

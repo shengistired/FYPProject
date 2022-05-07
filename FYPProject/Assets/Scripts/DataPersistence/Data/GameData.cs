@@ -20,7 +20,6 @@ public class GameData
     public List<Item> inventoryItems;
     public Vector3 tilesPosition;
     public Vector3 playerPosition;
-    public CraftItem craftItem;
     public int playerlevel;
     public int currentExp;
     public int expNeededToNextLevel;
@@ -45,6 +44,7 @@ public class GameData
     public int manaRegenSkillValue;
     public int hungerResistSkillValue;
     public int biomeResistSkillValue;
+    public bool[] crafted;
 
     public GameData()
     {
@@ -61,7 +61,6 @@ public class GameData
         worldSizeSet = "";
         equipmentItems = new List<Item>();
         inventoryItems = new List<Item>();
-        craftItem = new CraftItem();
         playerlevel = 1;
         currentExp = 0;
         expNeededToNextLevel = playerlevel * 100;
@@ -85,6 +84,7 @@ public class GameData
         staminaRegenSkillValue = 0;
         hungerResistSkillValue = 0;
         biomeResistSkillValue = 0;
+        crafted = new bool[6] {false, false, false, false, false, false};
         //equipment = null;
 
     }

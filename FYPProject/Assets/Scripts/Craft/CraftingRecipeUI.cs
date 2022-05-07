@@ -29,9 +29,7 @@ public class CraftingRecipeUI : MonoBehaviour
 		inventory = player.getInventory();
 		if (craftingRecipe != null && inventory!= null)
 		{
-
 			craftingRecipe.Craft(inventory);
-
 		}
 	}
 
@@ -66,6 +64,7 @@ public class CraftingRecipeUI : MonoBehaviour
     private void SetCraftingRecipe(CraftingRecipe newCraftingRecipe)
 	{
 		craftingRecipe = newCraftingRecipe;
+
 
 		if (craftingRecipe != null)
 		{

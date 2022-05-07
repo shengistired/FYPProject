@@ -15,6 +15,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private Slider loadingBar;
     [SerializeField] private TextMeshProUGUI loadingPercent;
     [SerializeField] private MapSettings mapsettings;
+    [SerializeField] private Settings settings;
     public void LoadLevel(string sceneName)
     {
         StartCoroutine(LoadAsynchronously(sceneName));
@@ -49,7 +50,7 @@ public class LevelLoader : MonoBehaviour
         }
         catch
         {
-
+            settings.Load();
         }
 
 

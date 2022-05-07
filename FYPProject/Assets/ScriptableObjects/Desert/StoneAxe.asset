@@ -21,3 +21,5 @@ MonoBehaviour:
   - itemType: 3
     amount: 1
   crafted: 0
+  num: 1
+  isRecraftable: 0
