@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStat : MonoBehaviour
+public class EnemyStat : MonoBehaviour, IDataPersistence
 {
     public float hitPts;
     //public float maxHitPts = 4;
@@ -17,6 +17,16 @@ public class EnemyStat : MonoBehaviour
     public int enemyMin;
 
     public string difficulty;
+
+    public void LoadData(GameData data)
+    {
+        difficulty = data.difficulty;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.difficulty = difficulty;
+    }
 
     private void Start()
     {
@@ -57,8 +67,6 @@ public class EnemyStat : MonoBehaviour
         healthBar.setHealth(hitPts, maxHitPts);
 
         XP = 10;
-
-        
     }
 
     private void Update()
@@ -81,15 +89,7 @@ public class EnemyStat : MonoBehaviour
             
         }
     }
-    public void LoadData(GameData data)
-    {
-        difficulty = data.difficulty;
-    }
-
-    public void SaveData(ref GameData data)
-    {
-        data.difficulty = difficulty;
-    }
+    
 
     /*void Die()
     {
