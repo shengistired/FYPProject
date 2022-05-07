@@ -16,18 +16,53 @@ public class EnemyStat : MonoBehaviour
 
     public int enemyMin;
 
+    public string difficulty;
+
     private void Start()
     {
         portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
         lvl = portalEnteredText;
 
-        Debug.Log("Enemy Level " + lvl);
+        if (difficulty == "")
+        {
+            difficulty = NewGame.difficultySelection;
+        }
+
+        /*Debug.Log("Enemy Level " + lvl);
         int damageLvl = lvl + 1;
-        maxHitPts = damageLvl * 50;
+        maxHitPts = damageLvl * 50;*/
+
+        if (difficulty == "easy")
+        {
+            int damageLvl = lvl + 1;
+            maxHitPts = damageLvl * 60;
+            Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+        }
+
+        if (difficulty == "normal")
+        {
+            int damageLvl = lvl + 2;
+            maxHitPts = damageLvl * 60;
+            Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+        }
+
+        if (difficulty == "hard")
+        {
+            int damageLvl = lvl + 3;
+            maxHitPts = damageLvl * 60;
+            Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+        }
+
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 
         XP = 10;
+
+        
+    }
+
+    private void Update()
+    {
         if (PortalEnteredText.newPortal == true)
         {
             XP += 5;
@@ -45,6 +80,15 @@ public class EnemyStat : MonoBehaviour
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
             
         }
+    }
+    public void LoadData(GameData data)
+    {
+        difficulty = data.difficulty;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.difficulty = difficulty;
     }
 
     /*void Die()

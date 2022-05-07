@@ -19,6 +19,7 @@ public class MiniBoss : MonoBehaviour
     public GameObject bullet;
 
     public PortalEnteredText portalEnteredText;
+    public PlayerStat playerStat;
 
     private Vector2 target;
 
@@ -82,15 +83,17 @@ public class MiniBoss : MonoBehaviour
     {
         if (col.gameObject.name == "Staff" && PlayerController.normalAttack)
         {
+            damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(1);
             gameObject.GetComponent<MiniBossStats>().TakeDamage(damage);
-            Debug.Log("Killed collide");
+            Debug.Log("BOSS " + damage);
         }
 
         switch (col.gameObject.name)
         {
             case "Fireball(Clone)":
+                damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(2);
                 gameObject.GetComponent<MiniBossStats>().TakeDamage(damage);
-                Debug.Log("Killed shoot");
+                Debug.Log("BOSS " + damage);
                 break;
         }
     }
@@ -132,9 +135,9 @@ public class MiniBoss : MonoBehaviour
         yield return new WaitForSeconds(timeBTWshots);
         GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
 
-        if (gameObject.transform.localScale.x < 0)
+        if (gameObject.transform.localScale.x > 0)
         {
-            newBullet.transform.localScale = new Vector2(newBullet.transform.localScale.x * 1, newBullet.transform.localScale.y);
+            newBullet.transform.localScale = new Vector2(newBullet.transform.localScale.x * -1, newBullet.transform.localScale.y);
         }
 
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
@@ -147,6 +150,5 @@ public class MiniBoss : MonoBehaviour
     {
         Destroy(gameObject);
         GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-        Debug.Log("Die");
     }
 }

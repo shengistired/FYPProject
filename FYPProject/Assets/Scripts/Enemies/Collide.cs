@@ -69,7 +69,6 @@ public class Collide : MonoBehaviour
         {
             Destroy(gameObject);
             GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-            Debug.Log("Invisible");
         }
     }
 
@@ -134,6 +133,5 @@ public class Collide : MonoBehaviour
     {
         Destroy(gameObject);
         GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-        Debug.Log("Die");
     }
 }

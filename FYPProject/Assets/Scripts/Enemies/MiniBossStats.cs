@@ -5,7 +5,7 @@ using UnityEngine;
 public class MiniBossStats : MonoBehaviour
 {
     public float hitPts;
-    public float maxHitPts=20;
+    public float maxHitPts=200;
     public EnemyHB healthBar;
     //leveling
     public int XP;

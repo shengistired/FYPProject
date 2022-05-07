@@ -85,7 +85,6 @@ public class Shoot : MonoBehaviour
         {
             Destroy(gameObject);
             GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-            Debug.Log("Invisible");
         }
     }
 
@@ -97,7 +96,6 @@ public class Shoot : MonoBehaviour
             damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(1);
             gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
             Debug.Log("SHOOT " + damage);
-            //Debug.Log("Killed collide");
         }
         switch (col.gameObject.name)
         {
@@ -106,7 +104,6 @@ public class Shoot : MonoBehaviour
                 damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(2);
                 gameObject.GetComponent<EnemyStat>().TakeDamage(damage);
                 //Debug.Log("Killed shoot");
-                Debug.Log("SHOOT " + damage);
                 break;
 
 
@@ -167,6 +164,5 @@ public class Shoot : MonoBehaviour
     {
         Destroy(gameObject);
         GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-        Debug.Log("Die");
     }
 }
