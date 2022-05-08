@@ -68,7 +68,7 @@ public class Collide : MonoBehaviour
         if (screenPosition.y > Screen.height || screenPosition.y < 0)
         {
             Destroy(gameObject);
-            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
+            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin = 0;
         }
     }
 

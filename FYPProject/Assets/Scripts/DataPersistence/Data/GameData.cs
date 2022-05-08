@@ -13,6 +13,7 @@ public class GameData
     public float timer;
     public string playerClass;
     public string biome;
+    public string mode; //??
     public int life;
     public string difficulty;
     public string worldSizeSet;
@@ -56,6 +57,7 @@ public class GameData
         timer = 0.5f;
         playerClass = "";
         biome = "";
+        mode = ""; //??
         life = 0;
         difficulty = "";
         worldSizeSet = "";

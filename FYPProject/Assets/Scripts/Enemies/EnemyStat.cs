@@ -38,10 +38,6 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
             difficulty = NewGame.difficultySelection;
         }
 
-        /*Debug.Log("Enemy Level " + lvl);
-        int damageLvl = lvl + 1;
-        maxHitPts = damageLvl * 50;*/
-
         if (difficulty == "easy")
         {
             int damageLvl = lvl + 1;
