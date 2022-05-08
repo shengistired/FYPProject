@@ -51,28 +51,7 @@ public class DataPersistenceManager : MonoBehaviour
                 {
                     listFiles.Remove(f.Name);
                 }
-                /*
-                if (f.Name == "0data.game")
-                {
-                    fileName = "1data.game";
 
-                }
-                if (f.Name == "1data.game")
-                {
-                    fileName = "2data.game";
-
-                }
-                if (f.Name == "2data.game")
-                {
-                    fileName = "3data.game";
-
-                }
-                if (f.Name == "3data.game")
-                {
-                    fileName = "0data.game";
-
-                }
-                */
             }
             fileName = listFiles[0];
             this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
