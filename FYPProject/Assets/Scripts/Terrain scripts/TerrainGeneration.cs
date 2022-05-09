@@ -71,8 +71,18 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
     private List<GameObject> worldTileObjects = new List<GameObject>();
     //tile class list
     private List<TileClass> worldTileClasses = new List<TileClass>();
+    private SerializeDictionary<string, Vector3> tilePosition = new SerializeDictionary<string, Vector3>();
+    private SerializeDictionary<string, Vector3> treePosition = new SerializeDictionary<string, Vector3>();
+    private SerializeDictionary<string, Vector3> tilePositionDuplicate = new SerializeDictionary<string, Vector3>();
+    private SerializeDictionary<string, Vector3> treePositionDuplicate = new SerializeDictionary<string, Vector3>();
+    private SerializeDictionary<string, int> tileSprite = new SerializeDictionary<string, int>();
+    private SerializeDictionary<string, string> treeTypeDictionary = new SerializeDictionary<string, string>();
+    private SerializeDictionary<string, string> treeTypeDictionaryDuplicate = new SerializeDictionary<string, string>();
+    private SerializeDictionary<string, string> allTilesType = new SerializeDictionary<string, string>();
+    private SerializeDictionary<string, string> allTilesTypeDuplicate = new SerializeDictionary<string, string>();
 
-
+    private bool worldGenerated = false;
+    private int treeHeightIncrement = 0;
 
 
     private void OnValidate()
@@ -258,7 +268,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
         }
 
-
+        worldGenerated = true;
 
     }
 
@@ -396,78 +406,132 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
     public async void GenerateTerrain()
     {
-
-        for (int x = 0; x < worldSize; x++)
+        if (worldGenerated)
         {
-            float height = Mathf.PerlinNoise((x + seed) * terrainFreq, seed * terrainFreq) * heightMultiplier + heightAddition;
-
-            for (int y = 0; y < height; y++)
+            foreach (KeyValuePair<string, Vector3> pair in tilePosition.ToList())
             {
+                int x = (int)(pair.Value.x - 0.5f);
+                int y = (int)(pair.Value.y - 0.5f);
+                float height = Mathf.PerlinNoise((x + seed) * terrainFreq, seed * terrainFreq) * heightMultiplier + heightAddition;
+
                 TileClass tileClass;
-
-                if (y < height - dirtLayerHeight)
+                Vector3 value;
+                if (treePosition.TryGetValue(pair.Key, out value))
                 {
+                    int xTree = (int)(value.x - 0.5f);
+                    int yTree = (int)(value.y - 0.5f);
+                    GenerateTree(xTree, yTree, treeTypeDictionary[pair.Key]);
 
-                    if (x == worldSize / 2)
-                    {
-                        player.spawnPosition = new Vector2(x, height + 15);
-                    }
-
-
-                    //make stones first
-                    tileClass = tileAtlas.stone;
-
-                    //coal
-                    if (ores[0].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[0].minSpawnHeight && height - y <= ores[0].maxSpawnHeight)
-                    {
-                        tileClass = tileAtlas.coal;
-                    }
-                    if (ores[1].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[1].minSpawnHeight && height - y <= ores[1].maxSpawnHeight)
-                    {
-                        tileClass = tileAtlas.iron;
-                    }
-                    if (ores[2].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[2].minSpawnHeight && height - y <= ores[2].maxSpawnHeight)
-                    {
-                        tileClass = tileAtlas.gold;
-                    }
-                    if (ores[3].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[3].minSpawnHeight && height - y <= ores[3].maxSpawnHeight)
-                    {
-                        tileClass = tileAtlas.diamond;
-                    }
-
-
-
-                }
-                //top layer of map
-                else if (y < height - 1)
-                {
-                    if (biome == "desert")
-                    {
-                        tileClass = tileAtlas.sand;
-                    }
-                    else
-                    {
-                        tileClass = tileAtlas.dirt;
-                    }
                 }
                 else
                 {
-
-                    if (biome == "snow")
+                    if (allTilesType[pair.Key] == "Stone")
                     {
-                        tileClass = tileAtlas.snow;
+                        PlaceTiles(tileAtlas.stone, x, y, true, false, allTilesType[pair.Key]);
                     }
-                    else if (biome == "desert")
+                    if (allTilesType[pair.Key] == "stone_wall")
                     {
-                        tileClass = tileAtlas.sand;
+                        PlaceTiles(tileAtlas.stone.backgroundVersion, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "iron")
+                    {
+                        PlaceTiles(tileAtlas.iron, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "coal")
+                    {
+                        PlaceTiles(tileAtlas.coal, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "gold")
+                    {
+                        PlaceTiles(tileAtlas.gold, x, y, true, false, allTilesType[pair.Key]);
                     }
 
-                    if (biome != "desert" && biome != "snow")
+                    if (allTilesType[pair.Key] == "Grass")
                     {
-                        tileClass = tileAtlas.grass;
+                        PlaceTiles(tileAtlas.grass, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "Dirt")
+                    {
+                        PlaceTiles(tileAtlas.dirt, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "dirt_wall")
+                    {
+                        PlaceTiles(tileAtlas.dirt.backgroundVersion, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "diamond")
+                    {
+                        PlaceTiles(tileAtlas.diamond, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "sand")
+                    {
+                        PlaceTiles(tileAtlas.sand, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "sand_wall")
+                    {
+                        PlaceTiles(tileAtlas.sand.backgroundVersion, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "snow")
+                    {
+                        PlaceTiles(tileAtlas.snow, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "treeWood")
+                    {
+                        PlaceTiles(tileAtlas.treeWood, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    if (allTilesType[pair.Key] == "portal")
+                    {
+                        PlaceTiles(tileAtlas.portal, x, y, true, false, allTilesType[pair.Key]);
+                    }
+                    /*
+                    if (y < height - dirtLayerHeight)
+                    {
+                            if (x == worldSize / 2)
+                            {
+                                player.spawnPosition = new Vector2(x, height + 15);
+                            }
+                        
+
+
+
+                        //make stones first
+                        tileClass = tileAtlas.stone;
+
+                        //coal
+                        if (ores[0].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[0].minSpawnHeight && height - y <= ores[0].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.coal;
+                        }
+                        if (ores[1].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[1].minSpawnHeight && height - y <= ores[1].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.iron;
+                        }
+                        if (ores[2].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[2].minSpawnHeight && height - y <= ores[2].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.gold;
+                        }
+                        if (ores[3].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[3].minSpawnHeight && height - y <= ores[3].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.diamond;
+                        }
+
+
+
+                    }
+                    //top layer of map
+                    else if (y < height - 1)
+                    {
+                        if (biome == "desert")
+                        {
+                            tileClass = tileAtlas.sand;
+                        }
+                        else
+                        {
+                            tileClass = tileAtlas.dirt;
+                        }
                     }
                     else
                     {
+
                         if (biome == "snow")
                         {
                             tileClass = tileAtlas.snow;
@@ -476,60 +540,193 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                         {
                             tileClass = tileAtlas.sand;
                         }
+
+                        if (biome != "desert" && biome != "snow")
+                        {
+                            tileClass = tileAtlas.grass;
+                        }
                         else
                         {
+                            if (biome == "snow")
+                            {
+                                tileClass = tileAtlas.snow;
+                            }
+                            else if (biome == "desert")
+                            {
+                                tileClass = tileAtlas.sand;
+                            }
+                            else
+                            {
 
-                            tileClass = tileAtlas.grass;
+                                tileClass = tileAtlas.grass;
+
+                            }
+
 
                         }
 
 
                     }
 
-
-                }
-                //make cave spawn when below 5 height
-                //if (generateCave && y < height - 5)
-                //if (generateCave && y < height)
-                if (generateCave && y < height - 5)
-                {
-                    if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
+                    if (generateCave && y < height - 5)
                     {
-                        PlaceTiles(tileClass, x, y, true);
-                    }
-                    else if (tileClass.backgroundVersion != null)
-                    {
-                        PlaceTiles(tileClass.backgroundVersion, x, y, true);
-                    }
-                }
-                else
-                {
-                    PlaceTiles(tileClass, x, y, true);
-                }
-
-                if (y >= height - 1 && x >= 5 && x <= worldSize - 20)
-                {
-                    //the more treespawnrate the lesser trees will spawn
-                    int tree = UnityEngine.Random.Range(0, treeSpawnRate);
-
-                    if (tree == 1)
-                    {
-                        //spawn tree on top of grass
-                        if (worldTiles.Contains(new Vector2(x, y)))
+                        if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
                         {
-                            GenerateTree(x, y + 1);
+                            PlaceTiles(tileClass, x, y, true, false, "");
                         }
-
+                        else if (tileClass.backgroundVersion != null)
+                        {
+                            PlaceTiles(tileClass.backgroundVersion, x, y, true, false, "");
+                        }
                     }
+                    else
+                    {
+                        PlaceTiles(tileClass, x, y, true, false, "");
+                    }
+                    */
 
                 }
-
-
-
-
+               
             }
 
         }
+        else
+        {
+            for (int x = 0; x < worldSize; x++)
+            {
+                float height = Mathf.PerlinNoise((x + seed) * terrainFreq, seed * terrainFreq) * heightMultiplier + heightAddition;
+
+                for (int y = 0; y < height; y++)
+                {
+                    TileClass tileClass;
+
+                    if (y < height - dirtLayerHeight)
+                    {
+
+                        if (x == worldSize / 2)
+                        {
+                            player.spawnPosition = new Vector2(x, height + 15);
+                        }
+
+
+                        //make stones first
+                        tileClass = tileAtlas.stone;
+
+                        //coal
+                        if (ores[0].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[0].minSpawnHeight && height - y <= ores[0].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.coal;
+                        }
+                        if (ores[1].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[1].minSpawnHeight && height - y <= ores[1].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.iron;
+                        }
+                        if (ores[2].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[2].minSpawnHeight && height - y <= ores[2].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.gold;
+                        }
+                        if (ores[3].spreadTexture.GetPixel(x, y).r > 0.5f && height - y > ores[3].minSpawnHeight && height - y <= ores[3].maxSpawnHeight)
+                        {
+                            tileClass = tileAtlas.diamond;
+                        }
+
+
+
+                    }
+                    //top layer of map
+                    else if (y < height - 1)
+                    {
+                        if (biome == "desert")
+                        {
+                            tileClass = tileAtlas.sand;
+                        }
+                        else
+                        {
+                            tileClass = tileAtlas.dirt;
+                        }
+                    }
+                    else
+                    {
+
+                        if (biome == "snow")
+                        {
+                            tileClass = tileAtlas.snow;
+                        }
+                        else if (biome == "desert")
+                        {
+                            tileClass = tileAtlas.sand;
+                        }
+
+                        if (biome != "desert" && biome != "snow")
+                        {
+                            tileClass = tileAtlas.grass;
+                        }
+                        else
+                        {
+                            if (biome == "snow")
+                            {
+                                tileClass = tileAtlas.snow;
+                            }
+                            else if (biome == "desert")
+                            {
+                                tileClass = tileAtlas.sand;
+                            }
+                            else
+                            {
+
+                                tileClass = tileAtlas.grass;
+
+                            }
+
+
+                        }
+
+
+                    }
+                    //make cave spawn when below 5 height
+                    //if (generateCave && y < height - 5)
+                    //if (generateCave && y < height)
+                    if (generateCave && y < height - 5)
+                    {
+                        if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
+                        {
+                            PlaceTiles(tileClass, x, y, true, false, tileClass.name);
+                        }
+                        else if (tileClass.backgroundVersion != null)
+                        {
+                            PlaceTiles(tileClass.backgroundVersion, x, y, true, false, tileClass.backgroundVersion.name);
+                        }
+                    }
+                    else
+                    {
+                        PlaceTiles(tileClass, x, y, true, false, tileClass.name);
+                    }
+
+                    if (y >= height - 1 && x >= 5 && x <= worldSize - 20)
+                    {
+                        //the more treespawnrate the lesser trees will spawn
+                        int tree = UnityEngine.Random.Range(0, treeSpawnRate);
+
+                        if (tree == 1)
+                        {
+                            //spawn tree on top of grass
+                            if (worldTiles.Contains(new Vector2(x, y)))
+                            {
+                                GenerateTree(x, y + 1, "");
+                            }
+
+                        }
+
+                    }
+
+
+
+
+                }
+
+            }
+        }
+
 
     }
 
@@ -544,12 +741,12 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
         if (portalSpawnLeftRight <= 50)
         {
-            PlaceTiles(tileAtlas.portal, 1, height + 1, true);
+            PlaceTiles(tileAtlas.portal, 1, height + 1, true, false, tileAtlas.portal.name);
 
         }
         else
         {
-            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1, true);
+            PlaceTiles(tileAtlas.portal, worldSize - 15, height + 1, true, false, tileAtlas.portal.name);
         }
         /*
         if (portalSpawnLeftRight >= 50)
@@ -601,7 +798,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
             if (!worldTiles.Contains(new Vector2Int(x, y)))
             {
                 //place tile down
-                PlaceTiles(tile, x, y, false);
+                PlaceTiles(tile, x, y, false, false, tile.name);
                 return true;
             }
             else
@@ -611,7 +808,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                 {
                     //remove and replace current tile       
                     BreakTile(x, y);
-                    PlaceTiles(tile, x, y, generatedNaturally);
+                    PlaceTiles(tile, x, y, generatedNaturally, false, tile.name);
                     return true;
                 }
 
@@ -620,8 +817,12 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
         return false;
 
     }
+    private string GenerateGUID()
+    {
+        return System.Guid.NewGuid().ToString();
+    }
 
-    public void PlaceTiles(TileClass tile, int x, int y, bool isGenerated)
+    public void PlaceTiles(TileClass tile, int x, int y, bool isGenerated, bool isTree, string type)
     {
         //if (!worldTiles.Contains(new Vector2Int(x, y)))
 
@@ -661,7 +862,6 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
             newTile.tag = "Ground";
             newTile.layer = 6;
-
             int spriteIndex = UnityEngine.Random.Range(0, tile.tileSprites.Length);
             newTile.GetComponent<SpriteRenderer>().sprite = tile.tileSprites[spriteIndex];
             if (tile.isSolidTile)
@@ -682,7 +882,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
             // {
             //     newTile.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 0.6f);
             // }
-            newTile.name = tile.tileSprites[0].name;
+            newTile.name = GenerateGUID();
             // if (isPlayerPlace)
             // {
             //     newTile.transform.position = new Vector2(x, y);
@@ -694,8 +894,23 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
             //{
             newTile.transform.position = new Vector2(x + 0.5f, y + 0.5f);
             worldTiles.Add(newTile.transform.position - (Vector3.one * 0.5f));
+            tilePosition.Add(newTile.name, newTile.transform.position);
+            tilePositionDuplicate.Add(newTile.name, newTile.transform.position);
+            if (isTree)
+            {
+                Debug.Log("Tree");
+                treePosition.Add(newTile.name, newTile.transform.position);
+                treePositionDuplicate.Add(newTile.name, newTile.transform.position);
+                treeTypeDictionary.Add(newTile.name, type);
+                treeTypeDictionaryDuplicate.Add(newTile.name, type);
 
+            }
+            else
+            {
+                allTilesType.Add(newTile.name, type);
+                allTilesTypeDuplicate.Add(newTile.name, type);
 
+            }
             //}
 
             //tile.generatedNaturally = isGenerated;
@@ -711,56 +926,81 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
 
 
-    void GenerateTree(int x, int y)
+    void GenerateTree(int x, int y, string treeType)
     {
-
         //generate tree log
         int treeHeight = UnityEngine.Random.Range(minTreeHeight, maxTreeHeight);
-        if (biome != "desert")
+
+        if (worldGenerated)
         {
-
-            for (int i = 0; i <= treeHeight; i++)
+            Debug.Log(treeType);
+            if (treeType == "treeLogs")
             {
-                PlaceTiles(tileAtlas.treeLog, x, y + i, true);
+                PlaceTiles(tileAtlas.treeLog, x, y, true, true, treeType);
             }
-
-            if (biome == "snow")
+            if (treeType == "leaf")
             {
-                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight, true);
-                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 1, true);
-                PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 2, true);
-
-                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight, true);
-                PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight + 1, true);
-
-                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight, true);
-                PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight + 1, true);
-
+                PlaceTiles(tileAtlas.leaf, x, y, true, true, treeType);
             }
-            else
+            if (treeType == "cactus")
             {
-                //generate leaves
-                PlaceTiles(tileAtlas.leaf, x, y + treeHeight, true);
-                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 1, true);
-                PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 2, true);
-
-                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight, true);
-                PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight + 1, true);
-
-                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight, true);
-                PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight + 1, true);
+                PlaceTiles(tileAtlas.cactus, x, y, true, true, treeType);
+            }
+            if (treeType == "snowLeaf")
+            {
+                PlaceTiles(tileAtlas.snowLeaf, x, y, true, true, treeType);
             }
 
         }
-
-        if (biome == "desert")
+        else
         {
-            for (int i = 0; i <= 4; i++)
+            if (biome != "desert")
             {
-                PlaceTiles(tileAtlas.cactus, x, y + i, true);
+
+                for (int i = 0; i <= treeHeight; i++)
+                {
+                    PlaceTiles(tileAtlas.treeLog, x, y + i, true, true, tileAtlas.treeLog.name);
+                }
+
+                if (biome == "snow")
+                {
+                    PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight, true, true, tileAtlas.snowLeaf.name);
+                    PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 1, true, true, tileAtlas.snowLeaf.name);
+                    PlaceTiles(tileAtlas.snowLeaf, x, y + treeHeight + 2, true, true, tileAtlas.snowLeaf.name);
+
+                    PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight, true, true, tileAtlas.snowLeaf.name);
+                    PlaceTiles(tileAtlas.snowLeaf, x - 1, y + treeHeight + 1, true, true, tileAtlas.snowLeaf.name);
+
+                    PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight, true, true, tileAtlas.snowLeaf.name);
+                    PlaceTiles(tileAtlas.snowLeaf, x + 1, y + treeHeight + 1, true, true, tileAtlas.snowLeaf.name);
+
+                }
+                else
+                {
+                    //generate leaves
+                    PlaceTiles(tileAtlas.leaf, x, y + treeHeight, true, true, tileAtlas.leaf.name);
+                    PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 1, true, true, tileAtlas.leaf.name);
+                    PlaceTiles(tileAtlas.leaf, x, y + treeHeight + 2, true, true, tileAtlas.leaf.name);
+
+                    PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight, true, true, tileAtlas.leaf.name);
+                    PlaceTiles(tileAtlas.leaf, x - 1, y + treeHeight + 1, true, true, tileAtlas.leaf.name);
+
+                    PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight, true, true, tileAtlas.leaf.name);
+                    PlaceTiles(tileAtlas.leaf, x + 1, y + treeHeight + 1, true, true, tileAtlas.leaf.name);
+                }
+
             }
 
+            if (biome == "desert")
+            {
+                for (int i = 0; i <= 4; i++)
+                {
+                    PlaceTiles(tileAtlas.cactus, x, y + i, true, true, tileAtlas.cactus.name);
+                }
+
+            }
         }
+ 
 
 
 
@@ -805,12 +1045,16 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                 //replace broken tile with background version if tile is generated.
                 if (tile.generatedNaturally)
                 {
-                    PlaceTiles(tile.backgroundVersion, x, y, true);
+                    PlaceTiles(tile.backgroundVersion, x, y, true, false, tile.backgroundVersion.name);
                 }
 
             }
             //breaks the tile of pos x y which is player's mouse pos
+
+            tilePosition.Remove(worldTileObjects[worldTiles.IndexOf(new Vector2(x, y))].name);
+            tilePositionDuplicate.Remove(worldTileObjects[worldTiles.IndexOf(new Vector2(x, y))].name);
             Destroy(worldTileObjects[worldTiles.IndexOf(new Vector2(x, y))]);
+
 
             if (tile.tileDrop)
             {
@@ -966,16 +1210,16 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                 {
                     if (caveNoiseTexture.GetPixel(x, y).r > 0.5f)
                     {
-                        PlaceTiles(tileClass, x, y, true);
+                        PlaceTiles(tileClass, x, y, true, false, tileClass.name);
                     }
                     else if (tileClass.backgroundVersion != null)
                     {
-                        PlaceTiles(tileClass.backgroundVersion, x, y, true);
+                        PlaceTiles(tileClass.backgroundVersion, x, y, true, false, tileClass.backgroundVersion.name);
                     }
                 }
                 else
                 {
-                    PlaceTiles(tileClass, x, y, true);
+                    PlaceTiles(tileClass, x, y, true, false, tileClass.name);
                 }
 
             }
@@ -992,6 +1236,12 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
         worldSizeSet = data.worldSizeSet;
         life = data.life;
         playerClass = data.playerClass;
+        tilePosition = data.tilePosition;
+        worldGenerated = data.worldGenerated;
+        treePosition = data.treePosition;
+        treeTypeDictionary = data.treeTypeDictionary;
+        player.spawnPosition = data.playerPosition;
+        allTilesType = data.allTilesTypeDictionary;
     }
 
     public void SaveData(ref GameData data)
@@ -1001,6 +1251,24 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
         data.worldSizeSet = worldSizeSet;
         data.life = life;
         data.playerClass = playerClass;
+        data.tilePosition = tilePosition;
+        if (worldGenerated)
+        {
+            data.tilePosition = tilePositionDuplicate;
+            data.treePosition = treePositionDuplicate;
+            data.treeTypeDictionary = treeTypeDictionaryDuplicate;
+            data.allTilesTypeDictionary = allTilesTypeDuplicate;
+
+        }
+        else
+        {
+            data.tilePosition = tilePosition;
+            data.treePosition = treePosition;
+            data.treeTypeDictionary = treeTypeDictionary;
+            data.allTilesTypeDictionary= allTilesType;
+
+        }
+        data.worldGenerated = worldGenerated;
     }
 
 

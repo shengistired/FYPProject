@@ -46,7 +46,14 @@ public class GameData
     public int hungerResistSkillValue;
     public int biomeResistSkillValue;
     public bool[] crafted;
-
+    public SerializeDictionary<string, Vector3> tilePosition;
+    public SerializeDictionary<string, Vector3> treePosition;
+    public SerializeDictionary<string, string> treeTypeDictionary;
+    public SerializeDictionary<string, string> allTilesTypeDictionary;
+    public bool worldGenerated;
+    public bool worldRegenerated;
+    public int portalLeftRight;
+    public float hungerDegen;
     public GameData()
     {
         portalEntered = 0;
@@ -87,6 +94,14 @@ public class GameData
         hungerResistSkillValue = 0;
         biomeResistSkillValue = 0;
         crafted = new bool[6] {false, false, false, false, false, false};
+        tilePosition = new SerializeDictionary<string, Vector3>();
+        treePosition = new SerializeDictionary<string, Vector3>();
+        treeTypeDictionary = new SerializeDictionary<string, string>();
+        allTilesTypeDictionary = new SerializeDictionary<string, string>();
+        worldGenerated = false;
+        worldRegenerated = false;
+        portalLeftRight = 0;
+        hungerDegen = 0.5f;
         //equipment = null;
 
     }
