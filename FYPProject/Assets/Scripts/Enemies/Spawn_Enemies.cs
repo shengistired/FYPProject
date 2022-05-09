@@ -58,19 +58,19 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
         {
             if (difficulty == "easy")
             {
-                InvokeRepeating("SpawnEnemiesTimer", 0f, 7f);
+                InvokeRepeating("SpawnEnemiesTimer", 0f, 5f);
                 Debug.Log("Spawn timer easy");
             }
 
             if (difficulty == "normal")
             {
-                InvokeRepeating("SpawnEnemiesTimer", 0f, 5f);
+                InvokeRepeating("SpawnEnemiesTimer", 0f, 3f);
                 Debug.Log("Spawn timer normal");
             }
 
             if (difficulty == "hard")
             {
-                InvokeRepeating("SpawnEnemiesTimer", 0f, 3f);
+                InvokeRepeating("SpawnEnemiesTimer", 0f, 1f);
                 Debug.Log("Spawn timer hard");
             }
         }

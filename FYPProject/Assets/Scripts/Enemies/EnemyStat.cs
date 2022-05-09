@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyStat : MonoBehaviour, IDataPersistence
 {
     public float hitPts;
-    //public float maxHitPts = 4;
     public float maxHitPts;
     public EnemyHB healthBar;
     //leveling
@@ -15,18 +14,9 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
     public int portalEnteredText;
 
     public int enemyMin;
+    public static int damageLvl;
 
     public string difficulty;
-
-    public void LoadData(GameData data)
-    {
-        difficulty = data.difficulty;
-    }
-
-    public void SaveData(ref GameData data)
-    {
-        data.difficulty = difficulty;
-    }
 
     private void Start()
     {
@@ -40,37 +30,28 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
 
         if (difficulty == "easy")
         {
-            int damageLvl = lvl + 1;
-            maxHitPts = damageLvl * 60;
-            Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+            damageLvl = lvl + 1;
+            Debug.Log("damage easy");
         }
 
         if (difficulty == "normal")
         {
-            int damageLvl = lvl + 2;
-            maxHitPts = damageLvl * 60;
-            Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+            damageLvl = lvl + 2;
+            Debug.Log("damage normal");
         }
 
         if (difficulty == "hard")
         {
-            int damageLvl = lvl + 3;
-            maxHitPts = damageLvl * 60;
-            Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+            damageLvl = lvl + 3;
+            Debug.Log("damage hard");
         }
-
+ 
+        maxHitPts = damageLvl * 60;
+        Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 
-        XP = 10;
-    }
-
-    private void Update()
-    {
-        if (PortalEnteredText.newPortal == true)
-        {
-            XP += 5;
-        }
+        XP = (lvl + 1) * 10;
     }
 
     public void TakeDamage(float damage)
@@ -82,10 +63,20 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
             Destroy(gameObject);
             GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
-            
+
         }
     }
-    
+
+    public void LoadData(GameData data)
+    {
+        difficulty = data.difficulty;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.difficulty = difficulty;
+    }
+
 
     /*void Die()
     {
@@ -96,15 +87,5 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
 
         Destroy(gameObject);
         GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
-    }*/
-
-    /*public void LoadData(GameData data)
-    {
-        lvl = data.enemyLvl;
-    }
-
-    public void SaveData(ref GameData data)
-    {
-        data.enemyLvl = lvl;
     }*/
 }

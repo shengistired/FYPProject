@@ -305,6 +305,7 @@ MonoBehaviour:
   XP: 0
   portalEnteredText: 0
   enemyMin: 0
+  difficulty: 
 --- !u!1 &2538854349598363034
 GameObject:
   m_ObjectHideFlags: 0
