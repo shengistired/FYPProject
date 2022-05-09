@@ -39,7 +39,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     public float MaxStamina;
 
     public float healthRegen = 0.2f;
-    public float manaRegen = 0.2f;
+    public float manaRegen = 1f;
     public float staminaRegen = 0.2f;
     public float hungerDegen = 0.5f;
 
@@ -331,7 +331,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             if (staminaRegenSkillValue == 0)
             {
                 skillPoint--;
-                staminaRegen = 0.4f;
+                staminaRegen = 1.2f;
                 staminaRegenSkillValue = 1;
                 staminaBar.onStamRegenSkillUp(staminaRegen);
                 updateStats();
@@ -343,7 +343,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (staminaRegenSkillValue == 1)
             {
                 skillPoint--;
-                staminaRegen = 0.6f;
+                staminaRegen = 1.5f;
                 staminaRegenSkillValue = 2;
                 staminaBar.onStamRegenSkillUp(staminaRegen);
                 updateStats();
@@ -354,7 +354,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (staminaRegenSkillValue == 2)
             {
                 skillPoint--;
-                staminaRegen = 1f;
+                staminaRegen = 2f;
                 staminaRegenSkillValue = 3;
                 staminaBar.onStamRegenSkillUp(staminaRegen);
                 updateStats();
@@ -379,7 +379,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             if (manaRegenSkillValue == 0)
             {
                 skillPoint--;
-                manaRegen = 0.4f;
+                manaRegen = 1.2f;
                 manaRegenSkillValue = 1;
                 manaBar.onManaRegenSkillUp(manaRegen);
                 updateStats();
@@ -391,7 +391,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (manaRegenSkillValue == 1)
             {
                 skillPoint--;
-                manaRegen = 0.6f;
+                manaRegen = 1.6f;
                 manaRegenSkillValue = 2;
                 manaBar.onManaRegenSkillUp(manaRegen);
                 updateStats();
@@ -402,7 +402,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (manaRegenSkillValue == 2)
             {
                 skillPoint--;
-                manaRegen = 1f;
+                manaRegen = 2f;
                 manaRegenSkillValue = 3;
                 manaBar.onManaRegenSkillUp(manaRegen);
                 updateStats();
@@ -425,7 +425,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             if (hungerResistSkillValue == 0)
             {
                 skillPoint--;
-                hungerDegen = 0.4f;
+                hungerDegen = 0.8f;
                 hungerResistSkillValue = 1;
                 hungerBar.onHungerResistSkillUp(hungerDegen);
                 updateStats();
@@ -437,7 +437,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (hungerResistSkillValue == 1)
             {
                 skillPoint--;
-                hungerDegen = 0.3f;
+                hungerDegen = 0.5f;
                 hungerResistSkillValue = 2;
                 hungerBar.onHungerResistSkillUp(hungerDegen);
                 updateStats();
@@ -448,7 +448,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             else if (hungerResistSkillValue == 2)
             {
                 skillPoint--;
-                hungerDegen = 0.1f;
+                hungerDegen = 0.3f;
                 hungerResistSkillValue = 3;
                 hungerBar.onHungerResistSkillUp(hungerDegen);
                 updateStats();
@@ -485,7 +485,8 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             {
                 skillPoint--;
                 biomeResistSkillValue = 2;
-                hungerBar.onHungerResistSkillUp(hungerDegen);
+                healthBar.onBiomeResistSkillUp(biomeResistSkillValue);
+                staminaBar.onBiomeResistSkillUp(biomeResistSkillValue);
                 updateStats();
 
             }
@@ -495,7 +496,8 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             {
                 skillPoint--;
                 biomeResistSkillValue = 3;
-                hungerBar.onHungerResistSkillUp(hungerDegen);
+                healthBar.onBiomeResistSkillUp(biomeResistSkillValue);
+                staminaBar.onBiomeResistSkillUp(biomeResistSkillValue);
                 updateStats();
 
             }
@@ -511,12 +513,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
 
 
-    //Combat skills//
 
-
-
-
-    //End of combat Skills//
 
     //calculate damage dealt base on stats. not including skill stats
     public float damageDealt(float extraDmg)
@@ -624,7 +621,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         healthRegen = data.healthRegen;
         staminaRegen = data.staminaRegen;
         manaRegen = data.manaRegen;
-        //hungerDegen = data.hungerDegen;
+        hungerDegen = data.hungerDegen;
         healthRegenSkillValue = data.healthRegenSkillValue;
         staminaRegenSkillValue = data.staminaRegenSkillValue;
         manaRegenSkillValue = data.manaRegenSkillValue;
@@ -652,13 +649,12 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         data.healthRegen = healthRegen;
         data.manaRegen = manaRegen;
         data.staminaRegen = staminaRegen;
-        //data.hungerDegen = hungerDegen;
+        data.hungerDegen = hungerDegen;
         data.healthRegenSkillValue = healthRegenSkillValue;
         data.staminaRegenSkillValue = staminaRegenSkillValue;
         data.manaRegenSkillValue = manaRegenSkillValue;
         data.hungerResistSkillValue = hungerResistSkillValue;
         data.biomeResistSkillValue = biomeResistSkillValue;
-        data.life = life;
-        //save healthRegenSkillValue staminaRegenSkillValue manaRegenSkillValue hungerResistSkillValue biomeResistSkillValue
+
     }
 }

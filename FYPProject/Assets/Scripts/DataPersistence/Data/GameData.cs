@@ -40,6 +40,7 @@ public class GameData
     public float healthRegen;
     public float manaRegen;
     public float staminaRegen;
+    public float hungerDegen;
     public int healthRegenSkillValue;
     public int staminaRegenSkillValue;
     public int manaRegenSkillValue;
@@ -53,7 +54,6 @@ public class GameData
     public bool worldGenerated;
     public bool worldRegenerated;
     public int portalLeftRight;
-    public float hungerDegen;
     public GameData()
     {
         portalEntered = 0;
@@ -86,14 +86,15 @@ public class GameData
         currentFood = 200f;
         currentMana = maxManaBar;
         currentStamina = maxStamina;
-        healthRegen = 0.2f;
-        manaRegen = 0.2f;
-        staminaRegen = 0.2f;
+        healthRegen = 0.5f;
+        manaRegen = 1f;
+        staminaRegen = 1f;
+        hungerDegen = 1f;
         healthRegenSkillValue = 0;
         staminaRegenSkillValue = 0;
         hungerResistSkillValue = 0;
         biomeResistSkillValue = 0;
-        crafted = new bool[6] {false, false, false, false, false, false};
+        crafted = new bool[6] { false, false, false, false, false, false };
         tilePosition = new SerializeDictionary<string, Vector3>();
         treePosition = new SerializeDictionary<string, Vector3>();
         treeTypeDictionary = new SerializeDictionary<string, string>();
@@ -101,7 +102,7 @@ public class GameData
         worldGenerated = false;
         worldRegenerated = false;
         portalLeftRight = 0;
-        hungerDegen = 0.5f;
+
         //equipment = null;
 
     }

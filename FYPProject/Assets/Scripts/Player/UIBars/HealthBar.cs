@@ -74,7 +74,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     {
         if (biome == "desert")
         {
-            desertBurn(0.05f);
+            desertBurn(0.04f);
         }
     }
 
@@ -88,21 +88,22 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         biomeResistSkillValue = playerStat.biomeResistSkillValue;
         if (biomeResistSkillValue == 1)
         {
-            damage = 0.04f;
+            damage = 0.03f;
         }
 
         if (biomeResistSkillValue == 2)
         {
-            damage = 0.03f;
+            damage = 0.02f;
         }
 
         if (biomeResistSkillValue == 3)
         {
-            damage = 0.02f;
+            damage = 0.01f;
         }
 
         if (currentHp - damage > 0)
         {
+            //Debug.Log("Desert burning damage is " + damage);
             currentHp -= damage;
 
             healthBar.value = currentHp;
@@ -321,7 +322,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         currentHp = totalHp;
         manaBar.recoverManaFull();
         staminaBar.recoverStaminaFull();
-        MaxHungerBar = hungerBar.maxFood;
+        hungerBar.recoverHungerBar(); 
 
         Debug.Log("mana " + maxMana + " stamina " + maxStamina + " hunger " + MaxHungerBar);
         death_UI.ToggleDeathPanel();
@@ -341,7 +342,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-
+         
         data.life = playerLife;
         data.currentHP = currentHp;
 

@@ -110,6 +110,7 @@ public class ManaBar : MonoBehaviour, IDataPersistence
         {
             // replace bottom with this for the mana regen you set in playerstat.cs >>> currentMana += playerStat.manaRegen;
             //currentMana += totalMana / 100;
+            //Debug.Log("mana regening speed is " + regenSpeed);
             currentMana += regenSpeed;
             manaBar.value = currentMana;
             manaText.text = (int)currentMana + " / " + totalMana;

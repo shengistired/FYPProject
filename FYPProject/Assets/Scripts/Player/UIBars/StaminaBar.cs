@@ -108,18 +108,23 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
     private IEnumerator RegenStamina()
     {
         regenSpeed = playerStat.staminaRegen;
+
         float snowRegenDelimiter = 0.5f;
         if (biome == "snow")
         {
+            if (biomeResistSkillValue == 0)
+            {
+                snowRegenDelimiter = 0.7f;
+            }
             if (biomeResistSkillValue == 1)
             {
-                snowRegenDelimiter = 0.4f;
+                snowRegenDelimiter = 0.5f;
             }
-            if (biomeResistSkillValue == 2)
+            else if (biomeResistSkillValue == 2)
             {
                 snowRegenDelimiter = 0.3f;
             }
-            if (biomeResistSkillValue == 3)
+            else if (biomeResistSkillValue == 3)
             {
                 snowRegenDelimiter = 0.1f;
             }
@@ -127,6 +132,7 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
             yield return new WaitForSeconds(2);
             while (currentStamina < totalStamina)
             {
+                //Debug.Log("regening stamina in snow is " + (regenSpeed - snowRegenDelimiter));
                 //regen slower in snow region
 
                 //currentStamina += totalStamina / 150;

@@ -74,6 +74,11 @@ public class HungerBar : MonoBehaviour, IDataPersistence
         }
     }
 
+    public void recoverHungerBar()
+    {
+        currentHunger = 200f;
+    }
+
     public void LoadData(GameData data)
     {
         currentHunger = data.currentFood;
