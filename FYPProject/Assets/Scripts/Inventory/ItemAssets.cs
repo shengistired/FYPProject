@@ -16,6 +16,12 @@ public class ItemAssets : MonoBehaviour
     public Sprite ironAxeSprite;
     public Sprite goldAxeSprite;
     public Sprite diamondAxeSprite;
+    public Sprite pickAxeSprite;
+    public Sprite woodPickAxeSprite;
+    public Sprite stonePickAxeSprite;
+    public Sprite ironPickAxeSprite;
+    public Sprite goldPickAxeSprite;
+    public Sprite diamondPickAxeSprite;
     public Sprite potionSprite;
     public Sprite foodSprite;
     public Sprite meatSprite;

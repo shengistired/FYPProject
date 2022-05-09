@@ -63,6 +63,17 @@ public class Inventory
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
+    public void toolsDurability(Item item, int index)
+    {
+
+        if (item.isAxe())
+        {
+            item.durablilty -= 1;
+
+        }
+
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+    }
     public void MoveItem(int index)
     {
 

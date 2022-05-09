@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     [Header("set your own title")]
     [SerializeField] private GameObject axe;
+    [SerializeField] private GameObject pickAxe;
 
     [Header("settings")]
     [SerializeField] private GameObject options;
@@ -585,6 +586,15 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
                             terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
                             miningCounter = false;
+                            item.durablilty -= 1;
+                            if(item.durablilty == 0)
+                            {
+                                equipment.RemoveItem(item, index);
+                                if(item.amount != 0)
+                                {
+                                    item.durablilty = item.getDurability();
+                                }
+                            }
                             tileHealth = 0;
                             timeRemaining = 0;
                         }
@@ -824,12 +834,20 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 axeActive = true;
                 axeJump = true;
             }
-            if (itemType != Item.ItemType.Weapon && !item.isAxe())
+            if (item.isPickAxe())
+            {
+                axe.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
+                miningPower = item.miningPower();
+                mine = true;
+                axeActive = true;
+                axeJump = true;
+            }
+            if (itemType != Item.ItemType.Weapon && !item.isAxe() && !item.isPickAxe())
             {
                 others.GetComponent<Image>().sprite = item.GetSprite();
                 othersActive = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.cactusFruit  && itemType != Item.ItemType.Coin && !item.isAxe() && itemType != Item.ItemType.Potion)
+            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.cactusFruit  && itemType != Item.ItemType.Coin && !item.isAxe() && !item.isPickAxe() && itemType != Item.ItemType.Potion)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {

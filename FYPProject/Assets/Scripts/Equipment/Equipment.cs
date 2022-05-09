@@ -18,7 +18,8 @@ public class Equipment
         equipment = new Item[10];
 
         AddItem(new Item { itemType = Item.ItemType.Weapon, amount = 1 }, 0);
-        AddItem(new Item { itemType = Item.ItemType.Axe, amount = 1 }, 1);
+        AddItem(new Item { itemType = Item.ItemType.Axe, amount = 1 , durablilty = 10}, 1);
+        AddItem(new Item { itemType = Item.ItemType.PickAxe, amount = 2 , durablilty = 10}, 2);
     }
 
     public bool AddItemCollide(Item item, int index)
@@ -162,6 +163,16 @@ public class Equipment
         }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
 
+    }
+    public void reduceDurability(Item item)
+    {
+
+        if (item.isAxe())
+        {
+            item.durablilty -= 1;
+        }
+
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
     public void DeleteEquipment(int index)
     {

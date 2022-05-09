@@ -12,11 +12,12 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
 
     [HideInInspector]
     public static bool newPortal;
-
+    public bool worldRegenerated = false;
     public void OnPortalEnter()
     {
         portalCount++;
         Debug.Log(portalCount);
+        worldRegenerated = true;
         DataPersistenceManager.instance.SaveGame();
         //SceneManager.LoadScene("Map");
 
@@ -35,6 +36,7 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
     public void SaveData(ref GameData data)
     {
         data.portalEntered = this.portalCount;
+        data.worldRegenerated = worldRegenerated;
     }
 
     private void Awake()

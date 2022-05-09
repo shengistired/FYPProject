@@ -1242,6 +1242,10 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
         treeTypeDictionary = data.treeTypeDictionary;
         player.spawnPosition = data.playerPosition;
         allTilesType = data.allTilesTypeDictionary;
+        if (data.worldRegenerated)
+        {
+            worldGenerated = false;
+        }
     }
 
     public void SaveData(ref GameData data)

@@ -53,7 +53,6 @@ public class GameData
     public SerializeDictionary<string, string> allTilesTypeDictionary;
     public bool worldGenerated;
     public bool worldRegenerated;
-    public int portalLeftRight;
     public GameData()
     {
         portalEntered = 0;
@@ -101,7 +100,6 @@ public class GameData
         allTilesTypeDictionary = new SerializeDictionary<string, string>();
         worldGenerated = false;
         worldRegenerated = false;
-        portalLeftRight = 0;
 
         //equipment = null;
 
