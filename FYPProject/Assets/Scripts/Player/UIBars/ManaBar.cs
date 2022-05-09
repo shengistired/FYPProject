@@ -9,6 +9,7 @@ public class ManaBar : MonoBehaviour, IDataPersistence
     public Text manaText;
     public float totalMana;
     private float currentMana;
+    private float regenSpeed;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     private Coroutine regen;
@@ -95,15 +96,21 @@ public class ManaBar : MonoBehaviour, IDataPersistence
 
     }
 
+    public void onManaRegenSkillUp(float manaRegen)
+    {
+        regenSpeed = manaRegen;
+    }
+
     //manaRegen
     private IEnumerator manaRegen()
     {
+        regenSpeed = playerStat.manaRegen;
         yield return new WaitForSeconds(2);
-
         while (currentMana < totalMana)
         {
             // replace bottom with this for the mana regen you set in playerstat.cs >>> currentMana += playerStat.manaRegen;
-            currentMana += totalMana / 100;
+            //currentMana += totalMana / 100;
+            currentMana += regenSpeed;
             manaBar.value = currentMana;
             manaText.text = (int)currentMana + " / " + totalMana;
             yield return regenTick;

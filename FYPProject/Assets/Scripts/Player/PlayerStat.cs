@@ -37,11 +37,11 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     public float MaxManaBar;
     //increase dex to increase stamina  (each stat increase Stamina by 2 )
     public float MaxStamina;
- 
+
     public float healthRegen = 0.2f;
     public float manaRegen = 0.2f;
     public float staminaRegen = 0.2f;
-
+    public float hungerDegen = 0.5f;
 
     [Header("Player's misc stuff")]
     // Easy 5 death normal 3 death Hard 1 death
@@ -57,13 +57,14 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     private int staminaRegenSkillValue;
     private int manaRegenSkillValue;
     private int hungerResistSkillValue;
-    private int biomeResistSkillValue;
+    public int biomeResistSkillValue;
 
     [SerializeField] private Stats_UI stats_UI;
     [SerializeField] private Skills_UI skills_UI;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private ManaBar manaBar;
     [SerializeField] private StaminaBar staminaBar;
+    [SerializeField] private HungerBar hungerBar;
     private bool statScreen = false;
     private bool skillScreen = false;
 
@@ -324,22 +325,186 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
 
     public void addStaminaRegenSkill()
     {
-        
+        if (skillPoint != 0 && staminaRegenSkillValue <= 3)
+        {
+            //level 1 skill
+            if (staminaRegenSkillValue == 0)
+            {
+                skillPoint--;
+                staminaRegen = 0.4f;
+                staminaRegenSkillValue = 1;
+                staminaBar.onStamRegenSkillUp(staminaRegen);
+                updateStats();
+
+
+            }
+
+            //level 2 skill
+            else if (staminaRegenSkillValue == 1)
+            {
+                skillPoint--;
+                staminaRegen = 0.6f;
+                staminaRegenSkillValue = 2;
+                staminaBar.onStamRegenSkillUp(staminaRegen);
+                updateStats();
+
+            }
+
+            //level 3 skill
+            else if (staminaRegenSkillValue == 2)
+            {
+                skillPoint--;
+                staminaRegen = 1f;
+                staminaRegenSkillValue = 3;
+                staminaBar.onStamRegenSkillUp(staminaRegen);
+                updateStats();
+
+            }
+        }
+        else
+        {
+            Debug.Log("No stats point or max skill level reached");
+        }
+        DataPersistenceManager.instance.SaveGame();
+
+
 
     }
 
     public void addManaRegenSkill()
     {
+        if (skillPoint != 0 && manaRegenSkillValue <= 3)
+        {
+            //level 1 skill
+            if (manaRegenSkillValue == 0)
+            {
+                skillPoint--;
+                manaRegen = 0.4f;
+                manaRegenSkillValue = 1;
+                manaBar.onManaRegenSkillUp(manaRegen);
+                updateStats();
+
+
+            }
+
+            //level 2 skill
+            else if (manaRegenSkillValue == 1)
+            {
+                skillPoint--;
+                manaRegen = 0.6f;
+                manaRegenSkillValue = 2;
+                manaBar.onManaRegenSkillUp(manaRegen);
+                updateStats();
+
+            }
+
+            //level 3 skill
+            else if (manaRegenSkillValue == 2)
+            {
+                skillPoint--;
+                manaRegen = 1f;
+                manaRegenSkillValue = 3;
+                manaBar.onManaRegenSkillUp(manaRegen);
+                updateStats();
+
+            }
+        }
+        else
+        {
+            Debug.Log("No stats point or max skill level reached");
+        }
+        DataPersistenceManager.instance.SaveGame();
 
     }
 
     public void addHungerResistSkill()
     {
+        if (skillPoint != 0 && hungerResistSkillValue <= 3)
+        {
+            //level 1 skill
+            if (hungerResistSkillValue == 0)
+            {
+                skillPoint--;
+                hungerDegen = 0.4f;
+                hungerResistSkillValue = 1;
+                hungerBar.onHungerResistSkillUp(hungerDegen);
+                updateStats();
+
+
+            }
+
+            //level 2 skill
+            else if (hungerResistSkillValue == 1)
+            {
+                skillPoint--;
+                hungerDegen = 0.3f;
+                hungerResistSkillValue = 2;
+                hungerBar.onHungerResistSkillUp(hungerDegen);
+                updateStats();
+
+            }
+
+            //level 3 skill
+            else if (hungerResistSkillValue == 2)
+            {
+                skillPoint--;
+                hungerDegen = 0.1f;
+                hungerResistSkillValue = 3;
+                hungerBar.onHungerResistSkillUp(hungerDegen);
+                updateStats();
+
+            }
+        }
+        else
+        {
+            Debug.Log("No stats point or max skill level reached");
+        }
+        DataPersistenceManager.instance.SaveGame();
 
     }
 
     public void addBiomeResistSkill()
     {
+
+        if (skillPoint != 0 && biomeResistSkillValue <= 3)
+        {
+            //level 1 skill
+            if (biomeResistSkillValue == 0)
+            {
+                skillPoint--;
+                biomeResistSkillValue = 1;
+                healthBar.onBiomeResistSkillUp(biomeResistSkillValue);
+                staminaBar.onBiomeResistSkillUp(biomeResistSkillValue);
+                updateStats();
+
+
+            }
+
+            //level 2 skill
+            else if (biomeResistSkillValue == 1)
+            {
+                skillPoint--;
+                biomeResistSkillValue = 2;
+                hungerBar.onHungerResistSkillUp(hungerDegen);
+                updateStats();
+
+            }
+
+            //level 3 skill
+            else if (biomeResistSkillValue == 2)
+            {
+                skillPoint--;
+                biomeResistSkillValue = 3;
+                hungerBar.onHungerResistSkillUp(hungerDegen);
+                updateStats();
+
+            }
+        }
+        else
+        {
+            Debug.Log("No stats point or max skill level reached");
+        }
+        DataPersistenceManager.instance.SaveGame();
 
     }
     //End of survival skills//
@@ -459,6 +624,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         healthRegen = data.healthRegen;
         staminaRegen = data.staminaRegen;
         manaRegen = data.manaRegen;
+        //hungerDegen = data.hungerDegen;
         healthRegenSkillValue = data.healthRegenSkillValue;
         staminaRegenSkillValue = data.staminaRegenSkillValue;
         manaRegenSkillValue = data.manaRegenSkillValue;
@@ -486,6 +652,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         data.healthRegen = healthRegen;
         data.manaRegen = manaRegen;
         data.staminaRegen = staminaRegen;
+        //data.hungerDegen = hungerDegen;
         data.healthRegenSkillValue = healthRegenSkillValue;
         data.staminaRegenSkillValue = staminaRegenSkillValue;
         data.manaRegenSkillValue = manaRegenSkillValue;

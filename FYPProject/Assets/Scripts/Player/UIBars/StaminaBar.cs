@@ -12,7 +12,8 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
     public float totalStamina;
     public float currentStamina;
     private string biome;
-
+    private int biomeResistSkillValue;
+    private float regenSpeed;
 
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     private Coroutine regen;
@@ -66,6 +67,16 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
 
     }
 
+    public void onStamRegenSkillUp(float stamRegen)
+    {
+        regenSpeed = stamRegen;
+    }
+
+    public void onBiomeResistSkillUp(int biomeSkillValue)
+    {
+        biomeResistSkillValue = biomeSkillValue;
+    }
+
     public bool UseStamina(float stamina)
     {
         if (currentStamina >= stamina)
@@ -96,13 +107,30 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
 
     private IEnumerator RegenStamina()
     {
+        regenSpeed = playerStat.staminaRegen;
+        float snowRegenDelimiter = 0.5f;
         if (biome == "snow")
         {
+            if (biomeResistSkillValue == 1)
+            {
+                snowRegenDelimiter = 0.4f;
+            }
+            if (biomeResistSkillValue == 2)
+            {
+                snowRegenDelimiter = 0.3f;
+            }
+            if (biomeResistSkillValue == 3)
+            {
+                snowRegenDelimiter = 0.1f;
+            }
+
             yield return new WaitForSeconds(2);
             while (currentStamina < totalStamina)
             {
                 //regen slower in snow region
-                currentStamina += totalStamina / 150;
+
+                //currentStamina += totalStamina / 150;
+                currentStamina += (regenSpeed - snowRegenDelimiter);
                 staminaBar.value = currentStamina;
                 staminaText.text = (int)currentStamina + " / " + totalStamina;
 
@@ -117,7 +145,8 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
             yield return new WaitForSeconds(2);
             while (currentStamina < totalStamina)
             {
-                currentStamina += totalStamina / 70;
+                //currentStamina += totalStamina / 70;
+                currentStamina += regenSpeed;
                 staminaBar.value = currentStamina;
                 staminaText.text = (int)currentStamina + " / " + totalStamina;
 
@@ -138,6 +167,7 @@ public class StaminaBar : MonoBehaviour, IDataPersistence
     {
         biome = data.biome;
         currentStamina = data.currentStamina;
+        biomeResistSkillValue = data.biomeResistSkillValue;
     }
 
     public void SaveData(ref GameData data)

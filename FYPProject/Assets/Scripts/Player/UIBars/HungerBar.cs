@@ -8,10 +8,13 @@ public class HungerBar : MonoBehaviour, IDataPersistence
 {
     public Slider hungerBar;
     public Text hungerText;
+    public PlayerStat playerStat;
     public static float currentHunger;
     public float maxFood = 200f;
     public HealthBar healthBar;
     public audio_manager music;
+    private float degenSpeed;
+
 
 
     public bool UseFood(float amount)
@@ -45,25 +48,29 @@ public class HungerBar : MonoBehaviour, IDataPersistence
 
     }
 
-    void Update()
+
+    public void onHungerResistSkillUp(float hungerResist)
     {
+        degenSpeed = hungerResist;
+    }
+
+    void FixedUpdate()
+    {
+        degenSpeed = playerStat.hungerDegen;
         hungerBar.value = currentHunger;
         hungerText.text = (int)currentHunger + " / " + maxFood;
 
 
         if (currentHunger >= 0)
         {
-            currentHunger -= 0.5f * Time.deltaTime;
-
+            // currentHunger -= 0.5f * Time.deltaTime;
+            currentHunger -= degenSpeed * Time.deltaTime;
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                currentHunger -= 2f * Time.deltaTime;
-
+                //currentHunger -= 2f * Time.deltaTime;
+                currentHunger -= degenSpeed * 2 * Time.deltaTime;
             }
 
-            // if (Input.GetKey(KeyCode.Mouse0)){
-            //     food +=10f;
-            // }
         }
     }
 

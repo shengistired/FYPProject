@@ -35,6 +35,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     private float maxMana;
     private float maxStamina;
     private float MaxHungerBar;
+    private int biomeResistSkillValue;
 
     private bool playerDead = false;
 
@@ -77,8 +78,29 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         }
     }
 
+    public void onBiomeResistSkillUp(int biomeSkillValue)
+    {
+        biomeResistSkillValue = biomeSkillValue;
+    }
+
     public void desertBurn(float damage)
     {
+        biomeResistSkillValue = playerStat.biomeResistSkillValue;
+        if (biomeResistSkillValue == 1)
+        {
+            damage = 0.04f;
+        }
+
+        if (biomeResistSkillValue == 2)
+        {
+            damage = 0.03f;
+        }
+
+        if (biomeResistSkillValue == 3)
+        {
+            damage = 0.02f;
+        }
+
         if (currentHp - damage > 0)
         {
             currentHp -= damage;
@@ -314,6 +336,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         currentHp = data.currentHP;
         biome = data.biome;
         playerLife = data.life;
+        biomeResistSkillValue = data.biomeResistSkillValue;
     }
 
     public void SaveData(ref GameData data)

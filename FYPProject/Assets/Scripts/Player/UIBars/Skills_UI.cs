@@ -105,22 +105,22 @@ public class Skills_UI : MonoBehaviour
 
     void staminaRegenAdd()
     {
-
+        playerStat.addStaminaRegenSkill();
     }
 
     void manaRegenAdd()
     {
-
+        playerStat.addManaRegenSkill();
     }
 
     void hungerResistAdd()
     {
-
+        playerStat.addHungerResistSkill();
     }
 
     void biomeResistAdd()
     {
-
+        playerStat.addBiomeResistSkill();
     }
 
 
