@@ -188,7 +188,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         if (currentExp >= expNeededToNextLevel)
         {
             Playerlevel++;
-            //music.levelUp_Play();
+            music.levelUp_Play();
             //each level up gives 5 stat points
             statPoints += 5;
 

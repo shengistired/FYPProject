@@ -42,6 +42,8 @@ public class Item
         sand_wall,
         dirt_wall,
         campFire,
+        AxeMaterial,
+        PickAxeMaterial,
     }
 
     public ItemType itemType;
@@ -125,6 +127,10 @@ public class Item
                 return ItemAssets.Instance.dirtWallSprite;
             case ItemType.campFire:
                 return ItemAssets.Instance.campfireSprite;
+            case ItemType.AxeMaterial:
+                return ItemAssets.Instance.axeMaterialSprite;
+            case ItemType.PickAxeMaterial:
+                return ItemAssets.Instance.pickAxeMaterialSprite;
 
         }
     }
@@ -168,6 +174,8 @@ public class Item
             case ItemType.IronPickAxe:
             case ItemType.GoldPickAxe:
             case ItemType.DiamondPickAxe:
+            case ItemType.AxeMaterial:
+            case ItemType.PickAxeMaterial:
                 return true;
             case ItemType.Weapon:
 
@@ -210,6 +218,8 @@ public class Item
             case ItemType.IronPickAxe:
             case ItemType.GoldPickAxe:
             case ItemType.DiamondPickAxe:
+            case ItemType.AxeMaterial:
+            case ItemType.PickAxeMaterial:
                 return false;
             case ItemType.Axe:
             case ItemType.WoodAxe:
@@ -256,6 +266,8 @@ public class Item
             case ItemType.IronAxe:
             case ItemType.GoldAxe:
             case ItemType.DiamondAxe:
+            case ItemType.AxeMaterial:
+            case ItemType.PickAxeMaterial:
                 return false;
             case ItemType.PickAxe:
             case ItemType.WoodPickAxe:
@@ -295,6 +307,8 @@ public class Item
             case ItemType.sand_wall:
             case ItemType.dirt_wall:
             case ItemType.campFire:
+            case ItemType.AxeMaterial:
+            case ItemType.PickAxeMaterial:
                 return itemType.ToString();
             case ItemType.Weapon:
                 return itemType.ToString() + " Damage: 1";
@@ -369,27 +383,27 @@ public class Item
             case ItemType.Axe:
                 return 10;
             case ItemType.WoodAxe:
-                return 20;
-            case ItemType.StoneAxe:
                 return 30;
-            case ItemType.IronAxe:
-                return 40;
-            case ItemType.GoldAxe:
+            case ItemType.StoneAxe:
                 return 50;
+            case ItemType.IronAxe:
+                return 70;
+            case ItemType.GoldAxe:
+                return 90;
             case ItemType.DiamondAxe:
-                return 60;
+                return 110;
             case ItemType.PickAxe:
                 return 10;
             case ItemType.WoodPickAxe:
-                return 20;
-            case ItemType.StonePickAxe:
                 return 30;
-            case ItemType.IronPickAxe:
-                return 40;
-            case ItemType.GoldPickAxe:
+            case ItemType.StonePickAxe:
                 return 50;
+            case ItemType.IronPickAxe:
+                return 70;
+            case ItemType.GoldPickAxe:
+                return 90;
             case ItemType.DiamondPickAxe:
-                return 60;
+                return 100;
 
         }
 

@@ -32,7 +32,10 @@ public class Death_UI : MonoBehaviour
         respawnBtn.onClick.AddListener(respawn);
         mainMenuBtn.onClick.AddListener(returnToMainMenu);
 
-
+        if(difficultyMode == "")
+        {
+            difficultyMode = NewGame.difficultySelection;
+        }
 
 
         //mainMenuPanel.gameObject.SetActive(false);

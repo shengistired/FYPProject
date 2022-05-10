@@ -15,14 +15,11 @@ MonoBehaviour:
   Materials:
   - itemType: 1
     amount: 1
-    durablilty: 0
+    durablilty: 10
   - itemType: 27
     amount: 20
     durablilty: 0
   Results:
   - itemType: 2
     amount: 1
-    durablilty: 20
-  crafted: 0
-  num: 0
-  isRecraftable: 0
+    durablilty: 30

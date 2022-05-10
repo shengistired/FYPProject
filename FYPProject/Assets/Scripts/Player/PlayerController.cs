@@ -74,8 +74,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     public static bool mine = false;
     private bool staffActive = false;
     private bool axeActive = false;
-    private bool othersActive = false;
     private bool axeJump = false;
+    private bool pickAxeActive = false;
+    private bool pickAxeJump = false;
+
+    private bool othersActive = false;
     private bool miningCounter = false;
     public bool moved;
     public static bool openCraft = false;
@@ -364,6 +367,14 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         else
         {
             axe.SetActive(false);
+        }
+        if (pickAxeActive == true)
+        {
+            pickAxe.SetActive(true);
+        }
+        else
+        {
+            pickAxe.SetActive(false);
         }
         if (othersActive == true)
         {
@@ -839,8 +850,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 axe.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
                 miningPower = item.miningPower();
                 mine = true;
-                axeActive = true;
-                axeJump = true;
+                pickAxeActive = true;
+                pickAxeJump = true;
             }
             if (itemType != Item.ItemType.Weapon && !item.isAxe() && !item.isPickAxe())
             {

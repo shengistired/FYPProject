@@ -67,17 +67,25 @@ public class Craft_Slots : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        try
+        {
+			if (itemSlot.parent.name == "CraftingSlotResult")
+			{
+				ToolTip.ShowToolTip_Static(_item.descriptionText());
 
-		if(itemSlot.parent.name == "CraftingSlotResult")
+			}
+			else
+			{
+				ToolTip.ShowToolTip_Static(_item.descriptionText() + " Amount: " + _item.amount);
+
+			}
+		}
+        catch
         {
 			ToolTip.ShowToolTip_Static(_item.descriptionText());
 
 		}
-		else
-        {
-			ToolTip.ShowToolTip_Static(_item.descriptionText() + " Amount: " + _item.amount);
 
-		}
 	}
 
     public void OnPointerExit(PointerEventData eventData)

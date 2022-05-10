@@ -51,11 +51,12 @@ public class CraftingRecipeUI : MonoBehaviour
 				craftedActive.SetActive(true);
 
 			}
-
+			/*
 			if (craftingRecipe.crafted == true)
 			{
 				crafted.SetActive(true);
 			}
+			*/
 		}
         catch { 
 		}

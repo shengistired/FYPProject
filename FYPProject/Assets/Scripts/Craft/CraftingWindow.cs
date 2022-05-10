@@ -33,7 +33,7 @@ public class CraftingWindow : MonoBehaviour
 
 	public void UpdateCraftingRecipes()
 	{
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < CraftingRecipes.Count; i++)
 			{
 				if (craftingRecipeUIs.Count == i)
 				{

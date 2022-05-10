@@ -5,13 +5,13 @@ using System;
 
 [Serializable]
 [CreateAssetMenu]
-public class CraftingRecipe : ScriptableObject, IDataPersistence
+public class CraftingRecipe : ScriptableObject
 {
     public List<Item> Materials;
     public List<Item> Results;
-	public bool crafted = false;
-	public int num;
-	public bool isRecraftable;
+	//public bool crafted = false;
+	//public int num;
+	//public bool isRecraftable;
 	
 	public bool CanCraft(Inventory inventory)
 	{
@@ -99,11 +99,13 @@ public class CraftingRecipe : ScriptableObject, IDataPersistence
 			RemoveMaterials(inventory);
 			AddResults(inventory);
 
+			/*
             if (!isRecraftable)
             {
 				crafted = true;
 
 			}
+			*/
 		}
 
 	}
@@ -112,7 +114,7 @@ public class CraftingRecipe : ScriptableObject, IDataPersistence
     {
 		return true;
     }
-
+	/*
     public void LoadData(GameData data)
     {
 		crafted = data.crafted[num];
@@ -122,4 +124,5 @@ public class CraftingRecipe : ScriptableObject, IDataPersistence
     {
 		data.crafted[num] = crafted;
     }
+	*/
 }

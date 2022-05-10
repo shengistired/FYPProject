@@ -45,7 +45,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
     public string worldSizeSet;
     public static string biome;
     public int worldSize;
-    public string difficulty;
+    public static string difficulty;
     public string playerClass;
     public int life;
     public float heightMultiplier = 4f;
@@ -245,7 +245,11 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
                 DrawTextures();
                 CreateChunks();
                 GenerateTerrain();
-                GeneratePortal(worldSize, 78);
+                if (!worldGenerated)
+                {
+                    GeneratePortal(worldSize, 78);
+
+                }
 
                 camera.Spawn(new Vector3(player.spawnPosition.x, player.spawnPosition.y, camera.transform.position.z));
                 camera.worldSize = worldSize;
@@ -1032,6 +1036,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
     }
 
+
     public void BreakTile(int x, int y)
     {
         TileClass tile = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))];
@@ -1245,6 +1250,12 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         if (data.worldRegenerated)
         {
             worldGenerated = false;
+            tilePosition = new SerializeDictionary<string, Vector3>();
+            treePosition = new SerializeDictionary<string, Vector3>();
+            treeTypeDictionary = new SerializeDictionary<string, string>();
+            allTilesType = new SerializeDictionary<string, string>();
+
+
         }
     }
 

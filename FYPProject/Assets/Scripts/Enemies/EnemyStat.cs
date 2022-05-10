@@ -60,7 +60,24 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
         healthBar.setHealth(hitPts, maxHitPts);
         if (hitPts <= 0)
         {
+            Item item = new Item();
             Destroy(gameObject);
+            int randomNum = Random.Range(0, 5);
+            Debug.Log(randomNum);
+            if(randomNum == 4)
+            {
+                item.itemType = Item.ItemType.AxeMaterial;
+                item.amount = 1;
+                ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
+
+            }
+            if(randomNum == 0)
+            {
+                item.itemType = Item.ItemType.PickAxeMaterial;
+                item.amount = 1;
+                ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
+            }
+
             GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
 

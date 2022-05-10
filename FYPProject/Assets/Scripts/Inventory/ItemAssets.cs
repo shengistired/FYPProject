@@ -45,5 +45,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite sandWallSprite;
     public Sprite dirtWallSprite;
     public Sprite campfireSprite;
+    public Sprite axeMaterialSprite;
+    public Sprite pickAxeMaterialSprite;
 
 }
