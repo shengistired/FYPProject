@@ -46,6 +46,8 @@ public class GameData
     public int manaRegenSkillValue;
     public int hungerResistSkillValue;
     public int biomeResistSkillValue;
+    public int score;
+    public bool gameCleared;
     public bool[] crafted;
     public SerializeDictionary<string, Vector3> tilePosition;
     public SerializeDictionary<string, Vector3> treePosition;
@@ -53,6 +55,8 @@ public class GameData
     public SerializeDictionary<string, string> allTilesTypeDictionary;
     public bool worldGenerated;
     public bool worldRegenerated;
+
+
     public GameData()
     {
         portalEntered = 0;
@@ -64,7 +68,7 @@ public class GameData
         playerClass = "";
         biome = "";
         mode = ""; //??
-        life = 0;
+        life = -1;
         difficulty = "";
         worldSizeSet = "";
         equipmentItems = new List<Item>();
@@ -93,6 +97,8 @@ public class GameData
         staminaRegenSkillValue = 0;
         hungerResistSkillValue = 0;
         biomeResistSkillValue = 0;
+        score = 0;
+        gameCleared = false;
         crafted = new bool[6] { false, false, false, false, false, false };
         tilePosition = new SerializeDictionary<string, Vector3>();
         treePosition = new SerializeDictionary<string, Vector3>();

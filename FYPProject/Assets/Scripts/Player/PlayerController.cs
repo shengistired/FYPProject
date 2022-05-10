@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     //  [SerializeField] private UI_EquipmentSlot[] uiEquipmentSlot;
     [SerializeField] private UI_EquipmentSlot uiEquipmentSlot;
     [SerializeField] private UI_Equipment uiEquip;
-    
+
     //player stat info
 
 
@@ -587,10 +587,10 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                             terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
                             miningCounter = false;
                             item.durablilty -= 1;
-                            if(item.durablilty == 0)
+                            if (item.durablilty == 0)
                             {
                                 equipment.RemoveItem(item, index);
-                                if(item.amount != 0)
+                                if (item.amount != 0)
                                 {
                                     item.durablilty = item.getDurability();
                                 }
@@ -847,7 +847,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 others.GetComponent<Image>().sprite = item.GetSprite();
                 othersActive = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.cactusFruit  && itemType != Item.ItemType.Coin && !item.isAxe() && !item.isPickAxe() && itemType != Item.ItemType.Potion)
+            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.cactusFruit && itemType != Item.ItemType.Coin && !item.isAxe() && !item.isPickAxe() && itemType != Item.ItemType.Potion)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {

@@ -20,10 +20,10 @@ public class MainMenu : MonoBehaviour
             continueButton.GetComponent<EventTrigger>().enabled = false;
             originalColor.a = .6f;
             continueText.color = originalColor;
-            
-        }   
-        
-        
+
+        }
+
+
     }
 
     public void QuitGame()

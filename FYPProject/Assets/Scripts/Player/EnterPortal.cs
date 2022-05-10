@@ -26,15 +26,15 @@ public class EnterPortal : MonoBehaviour
             //SceneManager.LoadScene("Map", LoadSceneMode.Single);
             music.portal_Play();
             LevelLoader.Instance.LoadLevel("Map");
-            
+
             //LevelLoader.Instance.LoadLevel(nextLevel);
 
             portalEnteredText.OnPortalEnter();
-            
+
 
         }
 
     }
-    
+
 
 }

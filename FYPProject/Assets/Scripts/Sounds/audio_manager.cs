@@ -26,6 +26,7 @@ public class audio_manager : MonoBehaviour
     public AudioSource hurt;
     public AudioSource portal;
     public AudioSource eat;
+    public AudioSource levelUp;
     /*
     public AudioClip walk_effect_clip;
     public AudioClip hit_effect_clip;
@@ -60,13 +61,19 @@ public class audio_manager : MonoBehaviour
         hurt.playOnAwake = false;
         portal.playOnAwake = false;
         eat.playOnAwake = false;
-
+        levelUp.playOnAwake = false;
     }
 
+    public void levelUp_Play()
+    {
+        // walk.clip = walk_effect_clip;
+        levelUp.volume = PlayerPrefs.GetFloat("soundEffect");
+        levelUp.Play();
+    }
 
     public void walk_Play()
     {
-       // walk.clip = walk_effect_clip;
+        // walk.clip = walk_effect_clip;
         walk.loop = true;
         walk.volume = PlayerPrefs.GetFloat("soundEffect");
 
@@ -76,13 +83,14 @@ public class audio_manager : MonoBehaviour
     {
         walk.loop = false;
         walk.Stop();
+
     }
 
 
     public void portal_Play()
     {
 
-       // portal.clip = portal_effect_clip;
+        // portal.clip = portal_effect_clip;
         portal.volume = PlayerPrefs.GetFloat("soundEffect");
         portal.Play();
     }
@@ -94,7 +102,7 @@ public class audio_manager : MonoBehaviour
         //     print("no clip found."); return;
         // }
 
-       // eat.clip = eat_effect_clip;
+        // eat.clip = eat_effect_clip;
         eat.volume = PlayerPrefs.GetFloat("soundEffect");
         eat.Play();
     }

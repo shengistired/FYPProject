@@ -239,7 +239,7 @@ public class NewGame : MonoBehaviour
         notEmptyDifficulty[1] = false;
         notEmptyDifficulty[2] = true;
 
-        life = 5;
+        life = 1;
         difficultySelection = "hard";
 
 

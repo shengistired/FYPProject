@@ -67,6 +67,11 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
         }
 
+        if (playerLife == -1)
+        {
+            playerLife = NewGame.life;
+        }
+
     }
 
 
@@ -322,7 +327,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         currentHp = totalHp;
         manaBar.recoverManaFull();
         staminaBar.recoverStaminaFull();
-        hungerBar.recoverHungerBar(); 
+        hungerBar.recoverHungerBar();
 
         Debug.Log("mana " + maxMana + " stamina " + maxStamina + " hunger " + MaxHungerBar);
         death_UI.ToggleDeathPanel();
@@ -342,7 +347,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-         
+
         data.life = playerLife;
         data.currentHP = currentHp;
 

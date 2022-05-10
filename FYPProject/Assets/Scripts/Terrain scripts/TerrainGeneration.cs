@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class TerrainGeneration : MonoBehaviour,IDataPersistence
+public class TerrainGeneration : MonoBehaviour, IDataPersistence
 {
     // public BiomeClass ForestBiome;
     // public BiomeClass DesertBiome;
@@ -15,7 +15,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
     public CameraFollow camera;
     public audio_manager music;
     public PortalEnteredText portalEnteredText;
-    
+
     [Header("Tile Atlas")]
     public TileAtlas tileAtlas;
 
@@ -114,7 +114,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
         {
             difficulty = NewGame.difficultySelection;
         }
-        if(playerClass == "")
+        if (playerClass == "")
         {
             playerClass = NewGame.playerClass;
         }
@@ -586,7 +586,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                     */
 
                 }
-               
+
             }
 
         }
@@ -898,7 +898,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
             tilePositionDuplicate.Add(newTile.name, newTile.transform.position);
             if (isTree)
             {
-                Debug.Log("Tree");
+                //Debug.Log("Tree");
                 treePosition.Add(newTile.name, newTile.transform.position);
                 treePositionDuplicate.Add(newTile.name, newTile.transform.position);
                 treeTypeDictionary.Add(newTile.name, type);
@@ -933,7 +933,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
         if (worldGenerated)
         {
-            Debug.Log(treeType);
+            //Debug.Log(treeType);
             if (treeType == "treeLogs")
             {
                 PlaceTiles(tileAtlas.treeLog, x, y, true, true, treeType);
@@ -1000,7 +1000,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
             }
         }
- 
+
 
 
 
@@ -1095,10 +1095,10 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
                             else
                             {
                                 item.itemType = itemtype;
-                                if(itemtype.ToString().ToUpper() == "CACTUS")
+                                if (itemtype.ToString().ToUpper() == "CACTUS")
                                 {
                                     float randomNumber = Random.Range(0, 3);
-                                    if(randomNumber == 0)
+                                    if (randomNumber == 0)
                                     {
                                         Item cactusFruit = new Item();
                                         cactusFruit.itemType = Item.ItemType.cactusFruit;
@@ -1234,8 +1234,8 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
         biome = data.biome;
         difficulty = data.difficulty;
         worldSizeSet = data.worldSizeSet;
-        life = data.life;
-        playerClass = data.playerClass;
+        //life = data.life;
+        //playerClass = data.playerClass;
         tilePosition = data.tilePosition;
         worldGenerated = data.worldGenerated;
         treePosition = data.treePosition;
@@ -1250,10 +1250,15 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
 
     public void SaveData(ref GameData data)
     {
+        //if (difficulty == "")
+        //{
+        //data.life = life;
+
+        //}
         data.biome = biome;
         data.difficulty = difficulty;
         data.worldSizeSet = worldSizeSet;
-        data.life = life;
+        //data.life = life;
         data.playerClass = playerClass;
         data.tilePosition = tilePosition;
         if (worldGenerated)
@@ -1269,7 +1274,7 @@ public class TerrainGeneration : MonoBehaviour,IDataPersistence
             data.tilePosition = tilePosition;
             data.treePosition = treePosition;
             data.treeTypeDictionary = treeTypeDictionary;
-            data.allTilesTypeDictionary= allTilesType;
+            data.allTilesTypeDictionary = allTilesType;
 
         }
         data.worldGenerated = worldGenerated;

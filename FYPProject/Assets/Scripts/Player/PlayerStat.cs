@@ -65,6 +65,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     [SerializeField] private ManaBar manaBar;
     [SerializeField] private StaminaBar staminaBar;
     [SerializeField] private HungerBar hungerBar;
+    [SerializeField] private audio_manager music;
     private bool statScreen = false;
     private bool skillScreen = false;
 
@@ -187,7 +188,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         if (currentExp >= expNeededToNextLevel)
         {
             Playerlevel++;
-
+            //music.levelUp_Play();
             //each level up gives 5 stat points
             statPoints += 5;
 
@@ -195,6 +196,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             skillPoint++;
             currentExp -= expNeededToNextLevel;
             expNeededToNextLevel = Playerlevel * 100;
+
             DataPersistenceManager.instance.SaveGame();
             return Playerlevel;
 
