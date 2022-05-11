@@ -96,7 +96,6 @@ public class Inventory
     public Item GetItem(int index)
     {
 
-
         return itemList[index];
     }
 

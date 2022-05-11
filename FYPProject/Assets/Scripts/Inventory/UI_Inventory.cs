@@ -85,15 +85,22 @@ public class UI_Inventory : MonoBehaviour
                 enter1.eventID = EventTriggerType.PointerEnter;
                 enter2.eventID = EventTriggerType.PointerExit;
                 enter.callback.AddListener((e) => ItemDragged(item));
-                if (stringLength == 17)
+                try
                 {
-                    enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 1))).descriptionText()));
+                    if (stringLength == 17)
+                    {
+                        enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 1))).descriptionText()));
 
 
+                    }
+                    else if (stringLength == 18)
+                    {
+                        enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 2))).descriptionText()));
+
+                    }
                 }
-                else if (stringLength == 18)
+                catch
                 {
-                    enter1.callback.AddListener((e) => ToolTip.ShowToolTip_Static(inventory.GetItem(int.Parse(slot.name.Substring(slot.name.Length - 2))).descriptionText()));
 
                 }
                 enter2.callback.AddListener((e) => ToolTip.HideToolTip_Static());

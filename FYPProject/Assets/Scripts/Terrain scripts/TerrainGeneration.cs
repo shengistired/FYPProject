@@ -1024,6 +1024,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
             // }
             //string tileName = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0].name.ToUpper();
             int tileHealth = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileHealth;
+
             return tileHealth;
 
         }
@@ -1035,7 +1036,32 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
 
     }
+    public bool checkTileIsTree(int x, int y)
+    {
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+        {
+            return worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isTree;
 
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    public bool checkTileIsGround(int x, int y)
+    {
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+        {
+            return worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isGround;
+
+        }
+        else
+        {
+            return false;
+        }
+
+    }
 
     public void BreakTile(int x, int y)
     {

@@ -576,48 +576,95 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
                 // placeTiles = true;
                 //The tile's health
-
-                ani.SetBool("isMining", true);
-                int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                if (tileHealth > 0)
+                if(terrainGenerator.checkTileIsTree(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && axeActive == true)
                 {
+                    ani.SetBool("isMining", true);
+                    int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
 
-                    miningCounter = true;
-
-
-                    if (miningCounter == true)
+                    if (tileHealth > 0)
                     {
-                        timeRemaining += Time.deltaTime;
-                        //Debug.Log("tilehealth..." + tileHealth);
-                        //Debug.Log("timeRemaining..." + timeRemaining);
-                        //Debug.Log("mining..." + Time.deltaTime);
-                        music.chopTag();
-                        if (timeRemaining >= tileHealth - miningPower)
-                        {
 
-                            terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
-                            miningCounter = false;
-                            item.durablilty -= 1;
-                            if (item.durablilty == 0)
+                        miningCounter = true;
+
+
+                        if (miningCounter == true)
+                        {
+                            timeRemaining += Time.deltaTime;
+                            //Debug.Log("tilehealth..." + tileHealth);
+                            //Debug.Log("timeRemaining..." + timeRemaining);
+                            //Debug.Log("mining..." + Time.deltaTime);
+                            music.chopTag();
+                            if (timeRemaining >= tileHealth - miningPower)
                             {
-                                equipment.RemoveItem(item, index);
-                                if (item.amount != 0)
+
+                                terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                                miningCounter = false;
+                                item.durablilty -= 1;
+                                if (item.durablilty == 0)
                                 {
-                                    item.durablilty = item.getDurability();
+                                    equipment.RemoveItem(item, index);
+                                    if (item.amount != 0)
+                                    {
+                                        item.durablilty = item.getDurability();
+                                    }
                                 }
+                                tileHealth = 0;
+                                timeRemaining = 0;
                             }
-                            tileHealth = 0;
+
+                        }
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            miningCounter = false;
                             timeRemaining = 0;
+                            ani.SetBool("isMining", false);
                         }
 
                     }
-                    if (Input.GetMouseButtonUp(0))
-                    {
-                        miningCounter = false;
-                        timeRemaining = 0;
-                        ani.SetBool("isMining", false);
-                    }
+                }
+                else if (terrainGenerator.checkTileIsGround(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && pickAxeActive == true)
+                {
+                    ani.SetBool("isMining", true);
+                    int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
 
+                    if (tileHealth > 0)
+                    {
+
+                        miningCounter = true;
+
+
+                        if (miningCounter == true)
+                        {
+                            timeRemaining += Time.deltaTime;
+
+                            music.miningTag();
+                            if (timeRemaining >= tileHealth - miningPower)
+                            {
+
+                                terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                                miningCounter = false;
+                                item.durablilty -= 1;
+                                if (item.durablilty == 0)
+                                {
+                                    equipment.RemoveItem(item, index);
+                                    if (item.amount != 0)
+                                    {
+                                        item.durablilty = item.getDurability();
+                                    }
+                                }
+                                tileHealth = 0;
+                                timeRemaining = 0;
+                            }
+
+                        }
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            miningCounter = false;
+                            timeRemaining = 0;
+                            ani.SetBool("isMining", false);
+                        }
+
+                    }
                 }
 
                 //MineBlock(tileHealth, position);
@@ -826,6 +873,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
             axeActive = false;
             axeJump = false;
             mine = false;
+            pickAxeActive = false;
+            pickAxeJump = false;
             index = indexSelected;
             for (int i = 0; i < background.Length; i++)
             {

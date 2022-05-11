@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-public class Death_UI : MonoBehaviour
+public class Death_UI : MonoBehaviour, IDataPersistence
 {
 
     [SerializeField] private PlayerStat playerStat;

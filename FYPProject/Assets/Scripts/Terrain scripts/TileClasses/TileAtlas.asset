@@ -22,6 +22,7 @@ MonoBehaviour:
   cactus: {fileID: 11400000, guid: bb460df73c3af0d47994856a80dbe556, type: 2}
   snow: {fileID: 11400000, guid: 76ac677e270e9584e98dc683d79a5cf2, type: 2}
   snowLeaf: {fileID: 11400000, guid: 66768db72ff3ff644a14d56c3e2aa75c, type: 2}
+  campfire: {fileID: 11400000, guid: 390ed71d1a87f594ead437e6ab8f5ec0, type: 2}
   coal: {fileID: 11400000, guid: a99311f5043e7bc44b1d57399ab01421, type: 2}
   iron: {fileID: 11400000, guid: f6ae118266a41594ba32d0e77368bc1b, type: 2}
   gold: {fileID: 11400000, guid: 76b86552156542f4bbf0a888c25ce4f5, type: 2}

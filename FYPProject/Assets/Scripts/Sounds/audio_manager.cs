@@ -131,6 +131,14 @@ public class audio_manager : MonoBehaviour
         chop.Play();
 
     }
+    public void miningTag()
+    {
+
+        //chop.clip = chop_effect_clip;
+        mining.volume = PlayerPrefs.GetFloat("soundEffect");
+        mining.Play();
+
+    }
     public void fireBall_play()
     {
         // if (fireBall_effect_clip.length == 0)

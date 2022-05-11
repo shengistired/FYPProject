@@ -66,6 +66,8 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
     [SerializeField] private StaminaBar staminaBar;
     [SerializeField] private HungerBar hungerBar;
     [SerializeField] private audio_manager music;
+    [SerializeField] private Animator levelUpAni;
+    [SerializeField] private TextMeshProUGUI levelUpText;
     private bool statScreen = false;
     private bool skillScreen = false;
 
@@ -183,12 +185,20 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         return MaxManaBar;
     }
 
+    public void closeLevelUpScreen()
+    {
+        levelUpAni.SetBool("openLevel", false);
+
+    }
     public int checkForLevelUp()
     {
         if (currentExp >= expNeededToNextLevel)
         {
             Playerlevel++;
             music.levelUp_Play();
+            levelUpAni.SetBool("openLevel", true);
+            levelUpText.text = "YOU ARE NOW LEVEL " + Playerlevel;
+            
             //each level up gives 5 stat points
             statPoints += 5;
 

@@ -20,3 +20,5 @@ MonoBehaviour:
   isSolidTile: 1
   tileDrop: 1
   tileHealth: 2
+  isTree: 1
+  isGround: 0
