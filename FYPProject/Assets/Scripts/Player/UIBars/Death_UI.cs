@@ -88,9 +88,21 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         //if player clear game calculate normal way , if not - 50000 score
         totalTime = TimeManager.AllSecond;
 
+
         if (gameCleared == false)
         {
+
             calculatedScore = 50000 - (totalTime / playerLife) / difficultyMultiplier;
+            if (calculatedScore < 0)
+            {
+                calculatedScore = 1;
+                scorePanel.gameObject.SetActive(true);
+                respawnBtnPanel.gameObject.SetActive(false);
+                scoreValue.GetComponent<TMPro.TextMeshProUGUI>().text = calculatedScore.ToString();
+                //DataPersistenceManager.instance.SaveGame();
+                return calculatedScore;
+            }
+
             return calculatedScore;
         }
 
@@ -100,7 +112,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         scorePanel.gameObject.SetActive(true);
         respawnBtnPanel.gameObject.SetActive(false);
         scoreValue.GetComponent<TMPro.TextMeshProUGUI>().text = calculatedScore.ToString();
-        DataPersistenceManager.instance.SaveGame();
+       // DataPersistenceManager.instance.SaveGame();
         return calculatedScore;
     }
 
@@ -110,7 +122,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         scorePanel.gameObject.SetActive(true);
         respawnBtnPanel.gameObject.SetActive(false);
         gameCleared = true;
-        DataPersistenceManager.instance.SaveGame();
+        //DataPersistenceManager.instance.SaveGame();
         return score;
     }
 

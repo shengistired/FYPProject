@@ -207,7 +207,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             currentExp -= expNeededToNextLevel;
             expNeededToNextLevel = Playerlevel * 100;
 
-            DataPersistenceManager.instance.SaveGame();
+            //DataPersistenceManager.instance.SaveGame();
             return Playerlevel;
 
         }
@@ -229,7 +229,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             statPoints--;
             calculateTotalHP();
             updateStats();
-            DataPersistenceManager.instance.SaveGame();
+            //DataPersistenceManager.instance.SaveGame();
         }
         else
         {
@@ -245,7 +245,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             statPoints--;
             calculatetotalStamina();
             updateStats();
-            DataPersistenceManager.instance.SaveGame();
+            //DataPersistenceManager.instance.SaveGame();
         }
         else
         {
@@ -261,7 +261,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             statPoints--;
             calculateTotalMana();
             updateStats();
-            DataPersistenceManager.instance.SaveGame();
+            //DataPersistenceManager.instance.SaveGame();
         }
         else
         {
@@ -277,7 +277,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             luck++;
             statPoints--;
             updateStats();
-            DataPersistenceManager.instance.SaveGame();
+            //DataPersistenceManager.instance.SaveGame();
         }
         else
         {
@@ -331,7 +331,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-        DataPersistenceManager.instance.SaveGame();
+        //DataPersistenceManager.instance.SaveGame();
 
     }
 
@@ -377,7 +377,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-        DataPersistenceManager.instance.SaveGame();
+       // DataPersistenceManager.instance.SaveGame();
 
 
 
@@ -425,7 +425,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-        DataPersistenceManager.instance.SaveGame();
+       // DataPersistenceManager.instance.SaveGame();
 
     }
 
@@ -471,7 +471,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-        DataPersistenceManager.instance.SaveGame();
+       // DataPersistenceManager.instance.SaveGame();
 
     }
 
@@ -518,7 +518,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-        DataPersistenceManager.instance.SaveGame();
+       // DataPersistenceManager.instance.SaveGame();
 
     }
     //End of survival skills//

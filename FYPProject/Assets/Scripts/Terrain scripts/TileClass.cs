@@ -14,6 +14,8 @@ public class TileClass : ScriptableObject
     public int tileHealth;
     public bool isTree;
     public bool isGround;
+    public bool isDirt;
+    public bool isBackground;
 
     //each tile will have their own tileclass 
     public static TileClass CreateInstance(TileClass tile, bool isGeneratedNaturally)
@@ -33,14 +35,9 @@ public class TileClass : ScriptableObject
         generatedNaturally = isGeneratedNaturally;
         tileHealth = tile.tileHealth;
         isTree = tile.isTree;
-        if (!isTree)
-        {
-            isGround = true;
-        }
-        else
-        {
-            isGround = false;
-        }
+        isGround = tile.isGround;
+        isDirt = tile.isDirt;
+        isBackground = tile.isBackground;
     }
 
     public static implicit operator TileClass(string v)

@@ -21,6 +21,7 @@ public class GameData
     public List<Item> inventoryItems;
     public Vector3 tilesPosition;
     public Vector3 playerPosition;
+    public Vector3 playerStartPosition;
     public int playerlevel;
     public int currentExp;
     public int expNeededToNextLevel;
@@ -55,6 +56,7 @@ public class GameData
     public SerializeDictionary<string, string> allTilesTypeDictionary;
     public bool worldGenerated;
     public bool worldRegenerated;
+    public float time;
 
 
     public GameData()
@@ -106,7 +108,7 @@ public class GameData
         allTilesTypeDictionary = new SerializeDictionary<string, string>();
         worldGenerated = false;
         worldRegenerated = false;
-
+        time = 0;
         //equipment = null;
 
     }

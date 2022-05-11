@@ -44,6 +44,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
     public int dirtLayerHeight = 5;
     public string worldSizeSet;
     public static string biome;
+    public string mode;
     public int worldSize;
     public static string difficulty;
     public string playerClass;
@@ -80,7 +81,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
     private SerializeDictionary<string, string> treeTypeDictionaryDuplicate = new SerializeDictionary<string, string>();
     private SerializeDictionary<string, string> allTilesType = new SerializeDictionary<string, string>();
     private SerializeDictionary<string, string> allTilesTypeDuplicate = new SerializeDictionary<string, string>();
-
+    private Vector3 playerStartPosition;
     private bool worldGenerated = false;
     private int treeHeightIncrement = 0;
 
@@ -609,7 +610,12 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
                         if (x == worldSize / 2)
                         {
-                            player.spawnPosition = new Vector2(x, height + 15);
+                            if(playerStartPosition == Vector3.zero)
+                            {
+                                player.spawnPosition = new Vector2(x, height + 15);
+                                playerStartPosition = player.spawnPosition;
+                            }            
+
                         }
 
 
@@ -1017,12 +1023,6 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         //only check for blocks that are generated
         if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
-            //break block if mining power higher than tile's health
-            // if (miningPower - worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileHealth >= 0)
-            // {
-            //     BreakTile(x, y);
-            // }
-            //string tileName = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileSprites[0].name.ToUpper();
             int tileHealth = worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].tileHealth;
 
             return tileHealth;
@@ -1054,6 +1054,53 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
             return worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isGround;
+
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    public bool checkTileIsBackground(int x, int y)
+    {
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+        {
+            return worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isBackground;
+
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    public bool checkTileIsDirt(int x, int y)
+    {
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+        {
+            return worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isDirt;
+
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    public bool checkTileBottom(int x, int y)
+    {
+
+        if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
+        {
+            if(y <= 1.5)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
 
         }
         else
@@ -1272,6 +1319,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         treePosition = data.treePosition;
         treeTypeDictionary = data.treeTypeDictionary;
         player.spawnPosition = data.playerPosition;
+        
         allTilesType = data.allTilesTypeDictionary;
         if (data.worldRegenerated)
         {
@@ -1292,12 +1340,14 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         //data.life = life;
 
         //}
+        
         data.biome = biome;
         data.difficulty = difficulty;
         data.worldSizeSet = worldSizeSet;
         //data.life = life;
         data.playerClass = playerClass;
         data.tilePosition = tilePosition;
+        data.playerStartPosition = playerStartPosition;
         if (worldGenerated)
         {
             data.tilePosition = tilePositionDuplicate;

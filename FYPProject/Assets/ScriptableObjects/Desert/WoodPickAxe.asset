@@ -20,6 +20,6 @@ MonoBehaviour:
     amount: 20
     durablilty: 0
   Results:
-  - itemType: 8
+  - itemType: 39
     amount: 1
     durablilty: 30

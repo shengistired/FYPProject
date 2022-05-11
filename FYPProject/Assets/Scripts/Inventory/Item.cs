@@ -44,6 +44,20 @@ public class Item
         campFire,
         AxeMaterial,
         PickAxeMaterial,
+        Hammer,
+        WoodHammer,
+        StoneHammer,
+        IronHammer,
+        GoldHammer,
+        DiamondHammer,
+        HammerMaterial,
+        Shovel,
+        WoodShovel,
+        StoneShovel,
+        IronShovel,
+        GoldShovel,
+        DiamondShovel,
+        ShovelMaterial,
     }
 
     public ItemType itemType;
@@ -131,7 +145,34 @@ public class Item
                 return ItemAssets.Instance.axeMaterialSprite;
             case ItemType.PickAxeMaterial:
                 return ItemAssets.Instance.pickAxeMaterialSprite;
-
+            case ItemType.Hammer:
+                return ItemAssets.Instance.hammerSprite;
+            case ItemType.WoodHammer:
+                return ItemAssets.Instance.woodHammerSprite;
+            case ItemType.StoneHammer:
+                return ItemAssets.Instance.stoneHammerSprite;
+            case ItemType.IronHammer:
+                return ItemAssets.Instance.ironHammerSprite;
+            case ItemType.GoldHammer:
+                return ItemAssets.Instance.goldHammerSprite;
+            case ItemType.DiamondHammer:
+                return ItemAssets.Instance.diamondHammerSprite;
+            case ItemType.HammerMaterial:
+                return ItemAssets.Instance.hammerMaterialSprite;
+            case ItemType.Shovel:
+                return ItemAssets.Instance.shovelSprite;
+            case ItemType.WoodShovel:
+                return ItemAssets.Instance.woodShovelSprite;
+            case ItemType.StoneShovel:
+                return ItemAssets.Instance.stoneShovelSprite;
+            case ItemType.IronShovel:
+                return ItemAssets.Instance.ironShovelSprite;
+            case ItemType.GoldShovel:
+                return ItemAssets.Instance.goldShovelSprite;
+            case ItemType.DiamondShovel:
+                return ItemAssets.Instance.diamondShovelSprite;
+            case ItemType.ShovelMaterial:
+                return ItemAssets.Instance.shovelMaterialSprite;
         }
     }
 
@@ -176,6 +217,20 @@ public class Item
             case ItemType.DiamondPickAxe:
             case ItemType.AxeMaterial:
             case ItemType.PickAxeMaterial:
+            case ItemType.HammerMaterial:
+            case ItemType.ShovelMaterial:
+            case ItemType.Shovel:
+            case ItemType.WoodShovel:
+            case ItemType.StoneShovel:
+            case ItemType.IronShovel:
+            case ItemType.GoldShovel:
+            case ItemType.DiamondShovel:
+            case ItemType.Hammer:
+            case ItemType.WoodHammer:
+            case ItemType.StoneHammer:
+            case ItemType.IronHammer:
+            case ItemType.GoldHammer:
+            case ItemType.DiamondHammer:
                 return true;
             case ItemType.Weapon:
 
@@ -220,6 +275,20 @@ public class Item
             case ItemType.DiamondPickAxe:
             case ItemType.AxeMaterial:
             case ItemType.PickAxeMaterial:
+            case ItemType.HammerMaterial:
+            case ItemType.ShovelMaterial:
+            case ItemType.Shovel:
+            case ItemType.WoodShovel:
+            case ItemType.StoneShovel:
+            case ItemType.IronShovel:
+            case ItemType.GoldShovel:
+            case ItemType.DiamondShovel:
+            case ItemType.Hammer:
+            case ItemType.WoodHammer:
+            case ItemType.StoneHammer:
+            case ItemType.IronHammer:
+            case ItemType.GoldHammer:
+            case ItemType.DiamondHammer:
                 return false;
             case ItemType.Axe:
             case ItemType.WoodAxe:
@@ -268,6 +337,20 @@ public class Item
             case ItemType.DiamondAxe:
             case ItemType.AxeMaterial:
             case ItemType.PickAxeMaterial:
+            case ItemType.HammerMaterial:
+            case ItemType.ShovelMaterial:
+            case ItemType.Shovel:
+            case ItemType.WoodShovel:
+            case ItemType.StoneShovel:
+            case ItemType.IronShovel:
+            case ItemType.GoldShovel:
+            case ItemType.DiamondShovel:
+            case ItemType.Hammer:
+            case ItemType.WoodHammer:
+            case ItemType.StoneHammer:
+            case ItemType.IronHammer:
+            case ItemType.GoldHammer:
+            case ItemType.DiamondHammer:
                 return false;
             case ItemType.PickAxe:
             case ItemType.WoodPickAxe:
@@ -275,6 +358,130 @@ public class Item
             case ItemType.IronPickAxe:
             case ItemType.GoldPickAxe:
             case ItemType.DiamondPickAxe:
+                return true;
+
+
+        }
+    }
+    public bool isShovel()
+    {
+        switch (itemType)
+        {
+            default:
+            case ItemType.Coin:
+            case ItemType.Food:
+            case ItemType.Meat:
+            case ItemType.Potion:
+            case ItemType.Dirt:
+            case ItemType.coal:
+            case ItemType.diamond:
+            case ItemType.gold:
+            case ItemType.Grass:
+            case ItemType.iron:
+            case ItemType.leaf:
+            case ItemType.sand:
+            case ItemType.snow:
+            case ItemType.snowLeaf:
+            case ItemType.cactus:
+            case ItemType.Stone:
+            case ItemType.treeLogs:
+            case ItemType.treeWood:
+            case ItemType.stone_wall:
+            case ItemType.sand_wall:
+            case ItemType.dirt_wall:
+            case ItemType.campFire:
+            case ItemType.Weapon:
+            case ItemType.Axe:
+            case ItemType.WoodAxe:
+            case ItemType.StoneAxe:
+            case ItemType.IronAxe:
+            case ItemType.GoldAxe:
+            case ItemType.DiamondAxe:
+            case ItemType.AxeMaterial:
+            case ItemType.PickAxeMaterial:
+            case ItemType.HammerMaterial:
+            case ItemType.ShovelMaterial:
+            case ItemType.PickAxe:
+            case ItemType.WoodPickAxe:
+            case ItemType.StonePickAxe:
+            case ItemType.IronPickAxe:
+            case ItemType.GoldPickAxe:
+            case ItemType.DiamondPickAxe:
+            case ItemType.Hammer:
+            case ItemType.WoodHammer:
+            case ItemType.StoneHammer:
+            case ItemType.IronHammer:
+            case ItemType.GoldHammer:
+            case ItemType.DiamondHammer:
+                return false;
+            case ItemType.Shovel:
+            case ItemType.WoodShovel:
+            case ItemType.StoneShovel:
+            case ItemType.IronShovel:
+            case ItemType.GoldShovel:
+            case ItemType.DiamondShovel:
+                return true;
+
+
+        }
+    }
+    public bool isHammer()
+    {
+        switch (itemType)
+        {
+            default:
+            case ItemType.Coin:
+            case ItemType.Food:
+            case ItemType.Meat:
+            case ItemType.Potion:
+            case ItemType.Dirt:
+            case ItemType.coal:
+            case ItemType.diamond:
+            case ItemType.gold:
+            case ItemType.Grass:
+            case ItemType.iron:
+            case ItemType.leaf:
+            case ItemType.sand:
+            case ItemType.snow:
+            case ItemType.snowLeaf:
+            case ItemType.cactus:
+            case ItemType.Stone:
+            case ItemType.treeLogs:
+            case ItemType.treeWood:
+            case ItemType.stone_wall:
+            case ItemType.sand_wall:
+            case ItemType.dirt_wall:
+            case ItemType.campFire:
+            case ItemType.Weapon:
+            case ItemType.Axe:
+            case ItemType.WoodAxe:
+            case ItemType.StoneAxe:
+            case ItemType.IronAxe:
+            case ItemType.GoldAxe:
+            case ItemType.DiamondAxe:
+            case ItemType.AxeMaterial:
+            case ItemType.PickAxeMaterial:
+            case ItemType.HammerMaterial:
+            case ItemType.ShovelMaterial:
+            case ItemType.PickAxe:
+            case ItemType.WoodPickAxe:
+            case ItemType.StonePickAxe:
+            case ItemType.IronPickAxe:
+            case ItemType.GoldPickAxe:
+            case ItemType.DiamondPickAxe:
+            case ItemType.Shovel:
+            case ItemType.WoodShovel:
+            case ItemType.StoneShovel:
+            case ItemType.IronShovel:
+            case ItemType.GoldShovel:
+            case ItemType.DiamondShovel:
+                return false;
+            case ItemType.Hammer:
+            case ItemType.WoodHammer:
+            case ItemType.StoneHammer:
+            case ItemType.IronHammer:
+            case ItemType.GoldHammer:
+            case ItemType.DiamondHammer:
                 return true;
 
 
@@ -308,6 +515,8 @@ public class Item
             case ItemType.dirt_wall:
             case ItemType.campFire:
             case ItemType.AxeMaterial:
+            case ItemType.HammerMaterial:
+            case ItemType.ShovelMaterial:
             case ItemType.PickAxeMaterial:
                 return itemType.ToString();
             case ItemType.Weapon:
@@ -335,6 +544,30 @@ public class Item
             case ItemType.GoldPickAxe:
                 return itemType.ToString() + " Mining Power: 5 Durability: " + durablilty;
             case ItemType.DiamondPickAxe:
+                return itemType.ToString() + " Mining Power: 6 Durability: " + durablilty;            
+            case ItemType.Hammer:
+                return itemType.ToString() + " Mining Power: 1 Durability: " + durablilty;
+            case ItemType.WoodHammer:
+                return itemType.ToString() + " Mining Power: 2 Durability: " + durablilty;
+            case ItemType.StoneHammer:
+                return itemType.ToString() + " Mining Power: 3 Durability: " + durablilty;
+            case ItemType.IronHammer:
+                return itemType.ToString() + " Mining Power: 4 Durability: " + durablilty;
+            case ItemType.GoldHammer:
+                return itemType.ToString() + " Mining Power: 5 Durability: " + durablilty;
+            case ItemType.DiamondHammer:
+                return itemType.ToString() + " Mining Power: 6 Durability: " + durablilty;            
+            case ItemType.Shovel:
+                return itemType.ToString() + " Mining Power: 1 Durability: " + durablilty;
+            case ItemType.WoodShovel:
+                return itemType.ToString() + " Mining Power: 2 Durability: " + durablilty;
+            case ItemType.StoneShovel:
+                return itemType.ToString() + " Mining Power: 3 Durability: " + durablilty;
+            case ItemType.IronShovel:
+                return itemType.ToString() + " Mining Power: 4 Durability: " + durablilty;
+            case ItemType.GoldShovel:
+                return itemType.ToString() + " Mining Power: 5 Durability: " + durablilty;
+            case ItemType.DiamondShovel:
                 return itemType.ToString() + " Mining Power: 6 Durability: " + durablilty;
 
 
@@ -370,6 +603,30 @@ public class Item
                 return 5;
             case ItemType.DiamondPickAxe:
                 return 6;
+            case ItemType.Hammer:
+                return 1;
+            case ItemType.WoodHammer:
+                return 2;
+            case ItemType.StoneHammer:
+                return 3;
+            case ItemType.IronHammer:
+                return 4;
+            case ItemType.GoldHammer:
+                return 5;
+            case ItemType.DiamondHammer:
+                return 6;
+            case ItemType.Shovel:
+                return 1;
+            case ItemType.WoodShovel:
+                return 2;
+            case ItemType.StoneShovel:
+                return 3;
+            case ItemType.IronShovel:
+                return 4;
+            case ItemType.GoldShovel:
+                return 5;
+            case ItemType.DiamondShovel:
+                return 6;
         }
 
 
@@ -403,7 +660,31 @@ public class Item
             case ItemType.GoldPickAxe:
                 return 90;
             case ItemType.DiamondPickAxe:
-                return 100;
+                return 110;
+            case ItemType.Hammer:
+                return 10;
+            case ItemType.WoodHammer:
+                return 30;
+            case ItemType.StoneHammer:
+                return 50;
+            case ItemType.IronHammer:
+                return 70;
+            case ItemType.GoldHammer:
+                return 90;
+            case ItemType.DiamondHammer:
+                return 110;
+            case ItemType.Shovel:
+                return 10;
+            case ItemType.WoodShovel:
+                return 30;
+            case ItemType.StoneShovel:
+                return 50;
+            case ItemType.IronShovel:
+                return 70;
+            case ItemType.GoldShovel:
+                return 90;
+            case ItemType.DiamondShovel:
+                return 110;
 
         }
 

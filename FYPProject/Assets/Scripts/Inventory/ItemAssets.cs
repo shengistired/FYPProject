@@ -47,5 +47,20 @@ public class ItemAssets : MonoBehaviour
     public Sprite campfireSprite;
     public Sprite axeMaterialSprite;
     public Sprite pickAxeMaterialSprite;
+    public Sprite hammerSprite;
+    public Sprite woodHammerSprite;
+    public Sprite stoneHammerSprite;
+    public Sprite ironHammerSprite;
+    public Sprite goldHammerSprite;
+    public Sprite diamondHammerSprite;
+    public Sprite hammerMaterialSprite;
+    public Sprite shovelSprite;
+    public Sprite woodShovelSprite;
+    public Sprite stoneShovelSprite;
+    public Sprite ironShovelSprite;
+    public Sprite goldShovelSprite;
+    public Sprite diamondShovelSprite;
+    public Sprite shovelMaterialSprite;
+
 
 }

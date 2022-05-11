@@ -13,6 +13,8 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
     [HideInInspector]
     public static bool newPortal;
     public bool worldRegenerated = false;
+    public bool dieBoss = false;
+    
     public void OnPortalEnter()
     {
         portalCount++;
@@ -25,8 +27,9 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
     }
     public void diedOnBoss()
     {
-        portalCount--;
-        DataPersistenceManager.instance.SaveGame();
+        portalCount = 3;
+        OnPortalEnter();
+        dieBoss = true;
     }
     public void LoadData(GameData data)
     {
@@ -37,12 +40,17 @@ public class PortalEnteredText : MonoBehaviour, IDataPersistence
     {
         data.portalEntered = this.portalCount;
         data.worldRegenerated = worldRegenerated;
+        if (dieBoss)
+        {
+            data.playerPosition = data.playerStartPosition;
+        }
+        
     }
 
     private void Awake()
     {
-
         portalEnterText = GetComponent<TextMeshProUGUI>();
+        dieBoss = false;
     }
     private void Update()
     {

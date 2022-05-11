@@ -62,21 +62,34 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
         {
             Item item = new Item();
             Destroy(gameObject);
-            int randomNum = Random.Range(0, 5);
+            int randomNum = Random.Range(0, 4);
             Debug.Log(randomNum);
-            if(randomNum == 4)
+            if (randomNum == 0)
+            {
+                item.itemType = Item.ItemType.PickAxeMaterial;
+                item.amount = 1;
+                ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
+            }
+            if (randomNum == 1)
+            {
+                item.itemType = Item.ItemType.HammerMaterial;
+                item.amount = 1;
+                ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
+            }
+            if (randomNum == 2)
+            {
+                item.itemType = Item.ItemType.ShovelMaterial;
+                item.amount = 1;
+                ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
+            }
+            if (randomNum == 3)
             {
                 item.itemType = Item.ItemType.AxeMaterial;
                 item.amount = 1;
                 ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
 
             }
-            if(randomNum == 0)
-            {
-                item.itemType = Item.ItemType.PickAxeMaterial;
-                item.amount = 1;
-                ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
-            }
+
 
             GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp

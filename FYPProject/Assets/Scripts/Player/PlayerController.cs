@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     [Header("set your own title")]
     [SerializeField] private GameObject axe;
     [SerializeField] private GameObject pickAxe;
+    [SerializeField] private GameObject hammer;
+    [SerializeField] private GameObject shovel;
 
     [Header("settings")]
     [SerializeField] private GameObject options;
@@ -77,6 +79,10 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     private bool axeJump = false;
     private bool pickAxeActive = false;
     private bool pickAxeJump = false;
+    private bool hammerActive = false;
+    private bool hammerJump = false;
+    private bool shovelActive = false;
+    private bool shovelJump = false;
 
     private bool othersActive = false;
     private bool miningCounter = false;
@@ -376,6 +382,22 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         {
             pickAxe.SetActive(false);
         }
+        if (hammerActive == true)
+        {
+            hammer.SetActive(true);
+        }
+        else
+        {
+            hammer.SetActive(false);
+        }
+        if (shovelActive == true)
+        {
+            shovel.SetActive(true);
+        }
+        else
+        {
+            shovel.SetActive(false);
+        }
         if (othersActive == true)
         {
             others.SetActive(true);
@@ -405,6 +427,12 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 othersActive = false;
                 axeActive = false;
                 axeJump = false;
+                pickAxeActive = false;
+                pickAxeJump = false;
+                hammerActive = false;
+                hammerJump = false;
+                shovelActive = false;
+                shovelJump = false;
                 mine = false;
 
             }
@@ -424,6 +452,27 @@ public class PlayerController : MonoBehaviour, IDataPersistence
             {
                 axeActive = false;
                 axeJump = false;
+                mine = false;
+
+            }
+            else if (original.isPickAxe())
+            {
+                pickAxeActive = false;
+                pickAxeJump = false;
+                mine = false;
+
+            }
+            else if (original.isHammer())
+            {
+                hammerActive = false;
+                hammerJump = false;
+                mine = false;
+
+            }
+            else if (original.isShovel())
+            {
+                shovelActive = false;
+                shovelJump = false;
                 mine = false;
 
             }
@@ -606,6 +655,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                                     if (item.amount != 0)
                                     {
                                         item.durablilty = item.getDurability();
+
+                                    }
+                                    else
+                                    {
+                                        axeActive = false;
                                     }
                                 }
                                 tileHealth = 0;
@@ -622,7 +676,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
                     }
                 }
-                else if (terrainGenerator.checkTileIsGround(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && pickAxeActive == true)
+                else if (terrainGenerator.checkTileIsGround(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && pickAxeActive == true && terrainGenerator.checkTileBottom(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)))
                 {
                     ani.SetBool("isMining", true);
                     int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
@@ -650,6 +704,106 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                                     if (item.amount != 0)
                                     {
                                         item.durablilty = item.getDurability();
+                                    }
+                                    else
+                                    {
+                                        pickAxeActive = false;
+                                    }
+                                }
+                                tileHealth = 0;
+                                timeRemaining = 0;
+                            }
+
+                        }
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            miningCounter = false;
+                            timeRemaining = 0;
+                            ani.SetBool("isMining", false);
+                        }
+
+                    }
+                }
+                else if (terrainGenerator.checkTileIsBackground(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && hammerActive == true && terrainGenerator.checkTileBottom(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)))
+                {
+                    ani.SetBool("isMining", true);
+                    int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+
+                    if (tileHealth > 0)
+                    {
+
+                        miningCounter = true;
+
+
+                        if (miningCounter == true)
+                        {
+                            timeRemaining += Time.deltaTime;
+
+                            music.miningTag();
+                            if (timeRemaining >= tileHealth - miningPower)
+                            {
+
+                                terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                                miningCounter = false;
+                                item.durablilty -= 1;
+                                if (item.durablilty == 0)
+                                {
+                                    equipment.RemoveItem(item, index);
+                                    if (item.amount != 0)
+                                    {
+                                        item.durablilty = item.getDurability();
+                                    }
+                                    else
+                                    {
+                                        pickAxeActive = false;
+                                    }
+                                }
+                                tileHealth = 0;
+                                timeRemaining = 0;
+                            }
+
+                        }
+                        if (Input.GetMouseButtonUp(0))
+                        {
+                            miningCounter = false;
+                            timeRemaining = 0;
+                            ani.SetBool("isMining", false);
+                        }
+
+                    }
+                }
+                else if (terrainGenerator.checkTileIsDirt(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && shovelActive == true && terrainGenerator.checkTileBottom(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)))
+                {
+                    ani.SetBool("isMining", true);
+                    int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+
+                    if (tileHealth > 0)
+                    {
+
+                        miningCounter = true;
+
+
+                        if (miningCounter == true)
+                        {
+                            timeRemaining += Time.deltaTime;
+
+                            music.miningTag();
+                            if (timeRemaining >= tileHealth - miningPower)
+                            {
+
+                                terrainGenerator.BreakTile(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
+                                miningCounter = false;
+                                item.durablilty -= 1;
+                                if (item.durablilty == 0)
+                                {
+                                    equipment.RemoveItem(item, index);
+                                    if (item.amount != 0)
+                                    {
+                                        item.durablilty = item.getDurability();
+                                    }
+                                    else
+                                    {
+                                        pickAxeActive = false;
                                     }
                                 }
                                 tileHealth = 0;
@@ -875,6 +1029,10 @@ public class PlayerController : MonoBehaviour, IDataPersistence
             mine = false;
             pickAxeActive = false;
             pickAxeJump = false;
+            hammerActive = false;
+            hammerJump = false;
+            shovelActive = false;
+            shovelJump = false;
             index = indexSelected;
             for (int i = 0; i < background.Length; i++)
             {
@@ -896,18 +1054,34 @@ public class PlayerController : MonoBehaviour, IDataPersistence
             }
             if (item.isPickAxe())
             {
-                axe.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
+                pickAxe.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
                 miningPower = item.miningPower();
                 mine = true;
                 pickAxeActive = true;
                 pickAxeJump = true;
             }
-            if (itemType != Item.ItemType.Weapon && !item.isAxe() && !item.isPickAxe())
+            if (item.isHammer())
+            {
+                hammer.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
+                miningPower = item.miningPower();
+                mine = true;
+                hammerActive = true;
+                hammerJump = true;
+            }
+            if (item.isShovel())
+            {
+                shovel.GetComponent<SpriteRenderer>().sprite = item.GetSprite();
+                miningPower = item.miningPower();
+                mine = true;
+                shovelActive = true;
+                shovelJump = true;
+            }
+            if (itemType != Item.ItemType.Weapon && !item.isAxe() && !item.isPickAxe() && !item.isHammer() && !item.isShovel())
             {
                 others.GetComponent<Image>().sprite = item.GetSprite();
                 othersActive = true;
             }
-            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.cactusFruit && itemType != Item.ItemType.Coin && !item.isAxe() && !item.isPickAxe() && itemType != Item.ItemType.Potion)
+            if (itemType != Item.ItemType.Weapon && itemType != Item.ItemType.Food && itemType != Item.ItemType.Meat && itemType != Item.ItemType.cactusFruit && itemType != Item.ItemType.Coin && !item.isAxe() && !item.isPickAxe() && !item.isHammer() && !item.isShovel() && itemType != Item.ItemType.Potion)
             {
                 for (int i = 0; i < tile.Length; i++)
                 {
@@ -917,8 +1091,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                         selectedTile = tile[i];
                         customCursor.gameObject.SetActive(true);
                         customCursor.GetComponent<SpriteRenderer>().sprite = selectedTile.tileSprites[0];
-
-
 
                         Cursor.visible = false;
                         placeTiles = true;

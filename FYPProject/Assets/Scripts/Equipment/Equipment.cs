@@ -18,8 +18,6 @@ public class Equipment
         equipment = new Item[10];
 
         AddItem(new Item { itemType = Item.ItemType.Weapon, amount = 1 }, 0);
-        AddItem(new Item { itemType = Item.ItemType.Axe, amount = 1 , durablilty = 10}, 1);
-        AddItem(new Item { itemType = Item.ItemType.PickAxe, amount = 2 , durablilty = 10}, 2);
     }
 
     public bool AddItemCollide(Item item, int index)
