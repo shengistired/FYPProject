@@ -16,8 +16,6 @@ public class SheepAI : MonoBehaviour
     public Transform player;
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
-    //public GameObject boom;
-
 
     void Start()
     {
@@ -56,7 +54,6 @@ public class SheepAI : MonoBehaviour
         {
             Destroy(gameObject);
             GameObject.Find("Spawn_Sheep").GetComponent<Spawn_Sheep>().animalMin -= 1;
-            //Debug.Log("Invisible");
         }
 
         //mustPatrol = true;
@@ -65,7 +62,7 @@ public class SheepAI : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         Item item = new Item();
-        if(col.gameObject.name == "Staff" && PlayerController.normalAttack)
+        if (col.gameObject.name == "Staff" && PlayerController.normalAttack)
         {
             item.itemType = Item.ItemType.Meat;
             item.amount = 1;
@@ -79,7 +76,6 @@ public class SheepAI : MonoBehaviour
             switch (col.gameObject.name)
             {
                 case "Fireball(Clone)":
-                    //Instantiate(boom, col.gameObject.transform.position, Quaternion.identity);
                     //gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
                     item.itemType = Item.ItemType.Meat;
                     item.amount = 1;
@@ -121,14 +117,4 @@ public class SheepAI : MonoBehaviour
         walkSpeed *= -1;
         mustTurn = false;
     }
-
-    /*void Avoid()
-    {
-        //Vector3 direction = transform.position - player.transform.position;
-        //direction.Normalize();
-        //transform.Translate(direction * walkSpeed * Time.deltaTime);
-
-        transform.position = Vector2.MoveTowards(transform.position, player.transform.position,
-                                                 -1 * walkSpeed * Time.deltaTime);
-    }*/
 }

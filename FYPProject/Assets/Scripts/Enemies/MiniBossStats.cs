@@ -49,8 +49,7 @@ public class MiniBossStats : MonoBehaviour, IDataPersistence
             Debug.Log("damage hard");
         }
 
-        maxHitPts = damageLvl * 60;
-        Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+        maxHitPts = damageLvl * 30;
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 

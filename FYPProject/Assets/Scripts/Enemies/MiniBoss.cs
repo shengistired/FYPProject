@@ -10,7 +10,7 @@ public class MiniBoss : MonoBehaviour
 
     [HideInInspector]
     public bool mustPatrol, haveToFlip;
-    private bool mustTurn, canShoot, isAttacking;
+    private bool mustTurn, canShoot;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
@@ -27,8 +27,6 @@ public class MiniBoss : MonoBehaviour
     private Material matRed;
     private Material matDefault;
     SpriteRenderer sr;
-
-    private float oldPosition = 0.0f;
 
     void Start()
     {
@@ -53,7 +51,6 @@ public class MiniBoss : MonoBehaviour
         }
 
         target = new Vector2(0.0f, 0.0f);
-        oldPosition = transform.position.x;
     }
 
     void Update()
@@ -74,8 +71,8 @@ public class MiniBoss : MonoBehaviour
 
             if (disToPlayer <= range && haveToFlip == false)
             {
-                mustPatrol = false;
-                rb.velocity = Vector2.zero;
+                //mustPatrol = false;
+                //rb.velocity = Vector2.zero;
 
                 if (canShoot)
                 {
@@ -84,11 +81,11 @@ public class MiniBoss : MonoBehaviour
                 }
             }
 
-            else
-            {
-                mustPatrol = true;
-                haveToFlip = true;
-            }
+            //else
+            //{
+             //   mustPatrol = true;
+              //  haveToFlip = true;
+            //}
         }
     }
 
@@ -122,17 +119,19 @@ public class MiniBoss : MonoBehaviour
     {
         if (collide.gameObject.name == "Mage")
         {
-            if(transform.position.x > oldPosition) //right
+            if(transform.localScale.x > 0) //right
             {
                 sr.material = matWhite;
                 Invoke("ResetMaterial", .05f);
                 transform.localScale += new Vector3(0.1f, 0.1f, 0);
+                Debug.Log("RIGHT");
             }
-            if (transform.position.x < oldPosition) //left
+            if (transform.localScale.x < 0) //left
             {
                 sr.material = matWhite;
                 Invoke("ResetMaterial", .05f);
                 transform.localScale += new Vector3(-0.1f, 0.1f, 0);
+                Debug.Log("LEFT");
             }
                 
         }

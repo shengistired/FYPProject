@@ -14,7 +14,7 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
     //public float startTimeBtweenSpawn;
     //private float timeBtweenSpawn;
 
-    public int enemyMin, enemyMax;
+    public int enemyMin, enemyMax, count;
     public LayerMask groundLayer;
     public Transform player;
 
@@ -59,18 +59,24 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
             if (difficulty == "easy")
             {
                 InvokeRepeating("SpawnEnemiesTimer", 0f, 5f);
+                enemyMax = 10;
+                count = enemyMax;
                 Debug.Log("Spawn timer easy");
             }
 
             if (difficulty == "normal")
             {
                 InvokeRepeating("SpawnEnemiesTimer", 0f, 3f);
+                enemyMax = 14;
+                count = enemyMax;
                 Debug.Log("Spawn timer normal");
             }
 
             if (difficulty == "hard")
             {
-                InvokeRepeating("SpawnEnemiesTimer", 0f, 1f);
+                InvokeRepeating("SpawnEnemiesTimer", 0f, 2f);
+                enemyMax = 18;
+                count = enemyMax;
                 Debug.Log("Spawn timer hard");
             }
         }
@@ -99,7 +105,7 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
                 Vector3 spawnPosS = new Vector3(xs, height + 9, 0.0f);
                 Vector3 spawnPosC = new Vector3(xc, height + 9, 0.0f);
 
-                if ((spawnPosC - player.position).magnitude < 10)
+                if ((spawnPosC - player.position).magnitude < 10 && (spawnPosS - player.position).magnitude < 10)
                 {
                     continue;
                 }
@@ -126,12 +132,12 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
             {
                 //Vector3 playerPos = player.transform.position;
                 float height = GameObject.Find("Terrain").GetComponent<TerrainGeneration>().heightAddition;
-                float xs = Random.Range(player.position.x - 7, player.position.x + 7);
-                float xc = Random.Range(player.position.x - 6, player.position.x + 6);
+                float xs = Random.Range(player.position.x - 9, player.position.x + 9);
+                float xc = Random.Range(player.position.x - 8, player.position.x + 8);
                 Vector3 spawnPosS = new Vector3(xs, height + 9, 0.0f);
                 Vector3 spawnPosC = new Vector3(xc, height + 9, 0.0f);
 
-                if ((spawnPosC - player.position).magnitude < 5)
+                if ((spawnPosC - player.position).magnitude < 7 && (spawnPosS - player.position).magnitude < 7)
                 {
                     continue;
                 }
@@ -141,7 +147,7 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
                     {
                         GameObject golem = Instantiate(collide, spawnPosC, Quaternion.identity) as GameObject;
                         GameObject goblin = Instantiate(shoot, spawnPosS, Quaternion.identity) as GameObject;
-                        enemyMin+=1;
+                        enemyMin+=2;
                         spawnAllowed = true;
                     }
                 }

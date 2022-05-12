@@ -19,7 +19,7 @@ public class Spawn_Sheep : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Mage").transform;
-        InvokeRepeating("SpawnAnimals", 0f, 8f);
+        InvokeRepeating("SpawnAnimals", 0f, 5f);
 
         if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {

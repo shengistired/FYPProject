@@ -17,6 +17,7 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
     public static int damageLvl;
 
     public string difficulty;
+    public string mode;
 
     private void Start()
     {
@@ -26,6 +27,11 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
         if (difficulty == "")
         {
             difficulty = NewGame.difficultySelection;
+        }
+
+        if (mode == "")
+        {
+            mode = NewGame.modeSelection;
         }
 
         if (difficulty == "easy")
@@ -45,9 +51,8 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
             damageLvl = lvl + 3;
             Debug.Log("damage hard");
         }
- 
-        maxHitPts = damageLvl * 60;
-        //Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+
+        maxHitPts = damageLvl * 30;
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 
@@ -90,32 +95,34 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
 
             }
 
+            if (mode == "casual")
+            {
+                GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
+            }
 
-            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
+            if (mode == "timer")
+            {
+                GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().count -= 1;
+            }
+
+            if (GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().count == 0)
+            {
+                Debug.Log("ALL ENEMIES KILLED");
+            }
+
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
-
         }
     }
 
     public void LoadData(GameData data)
     {
         difficulty = data.difficulty;
+        mode = data.mode;
     }
 
     public void SaveData(ref GameData data)
     {
         data.difficulty = difficulty;
+        data.mode = mode;
     }
-
-
-    /*void Die()
-    {
-        if(diePEffect != null)
-        {
-            Instantiate(diePEffect, transform.position, Quaternion.identity);
-        }
-
-        Destroy(gameObject);
-        GameObject.Find("Spawn_Shoot").GetComponent<Spawn_Shoot>().enemyMin -= 1;
-    }*/
 }

@@ -53,7 +53,7 @@ public class PlayerBars : MonoBehaviour
         if (collide.gameObject.tag.Equals("BossBullet"))
         {
             // insert enemy damage >>>>>>
-            int damageB = 60;
+            int damageB = 40;
             Debug.Log("Damage " + damageB);
             HealthBar.instance.takeDamage(damageB);
             music.hurt.Play();
@@ -64,7 +64,7 @@ public class PlayerBars : MonoBehaviour
         if (collide.gameObject.tag.Equals("MiniBoss"))
         {
             // insert enemy damage >>>>>>
-            int damageM = 60;
+            int damageM = 40;
             Debug.Log("Damage " + damageM);
             HealthBar.instance.takeDamage(damageM);
             music.hurt.Play();
