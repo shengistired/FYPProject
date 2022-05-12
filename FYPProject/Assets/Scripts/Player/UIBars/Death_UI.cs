@@ -27,6 +27,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
     private int playerLife;
     private bool gameCleared;
     private string difficultyMode;
+    public static bool respawnBool = false;
     void Start()
     {
         respawnBtn.onClick.AddListener(respawn);
@@ -37,6 +38,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
             difficultyMode = NewGame.difficultySelection;
         }
 
+        respawnBool = false;
 
         //mainMenuPanel.gameObject.SetActive(false);
     }
@@ -153,6 +155,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         deathPanel.gameObject.SetActive(false);
         gameObject.SetActive(true);
         Time.timeScale = 1;
+        respawnBool = true;
         //SceneManager.LoadScene("Map", LoadSceneMode.Single);
         LevelLoader.Instance.LoadLevel("Map");
     }

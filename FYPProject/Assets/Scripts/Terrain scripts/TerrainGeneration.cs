@@ -610,10 +610,11 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
                         if (x == worldSize / 2)
                         {
-                            if(playerStartPosition == Vector3.zero)
+                            if(Death_UI.respawnBool || !worldGenerated)
                             {
                                 player.spawnPosition = new Vector2(x, height + 15);
                                 playerStartPosition = player.spawnPosition;
+                                
                             }            
 
                         }

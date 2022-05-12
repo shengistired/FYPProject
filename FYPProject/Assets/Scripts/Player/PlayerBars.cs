@@ -5,6 +5,7 @@ public class PlayerBars : MonoBehaviour
 {
     public Spawn_Enemies enemy;
     public float runningStamina = 0.5f;
+    public audio_manager music;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -34,6 +35,7 @@ public class PlayerBars : MonoBehaviour
             // insert enemy damage >>>>>>
             int damageC = EnemyStat.lvl + 1;
             HealthBar.instance.takeDamage(damageC * 10);
+            music.hurt.Play();
             //Collide damage
         }
 
@@ -43,6 +45,8 @@ public class PlayerBars : MonoBehaviour
             int damageS = EnemyStat.lvl + 1;
             Debug.Log("Damage " + damageS);
             HealthBar.instance.takeDamage(damageS * 5);
+            music.hurt.Play();
+
             //Collide damage
         }
 
@@ -52,6 +56,8 @@ public class PlayerBars : MonoBehaviour
             int damageB = 60;
             Debug.Log("Damage " + damageB);
             HealthBar.instance.takeDamage(damageB);
+            music.hurt.Play();
+
             //Collide damage
         }
 
@@ -61,6 +67,8 @@ public class PlayerBars : MonoBehaviour
             int damageM = 60;
             Debug.Log("Damage " + damageM);
             HealthBar.instance.takeDamage(damageM);
+            music.hurt.Play();
+
             //Collide damage
         }
     }

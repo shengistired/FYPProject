@@ -34,7 +34,7 @@ public class DataPersistenceManager : MonoBehaviour
     }
 
 
-    public void NewGame()
+    public void NewGameCreation()
     {
         List<string> listFiles = new List<string>();
         listFiles.Add("0data.game");
@@ -62,6 +62,12 @@ public class DataPersistenceManager : MonoBehaviour
 
         }
 
+    }
+    public void NewTimerGame()
+    {
+        fileName = "timerMode.game";
+        this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        this.gameData = new GameData();
     }
 
     public void OverWriteData(string name)
@@ -125,7 +131,6 @@ public class DataPersistenceManager : MonoBehaviour
 
         fileDataHandler.Save(gameData);
         
-
     }
     private void OnEnable()
     {
@@ -153,6 +158,10 @@ public class DataPersistenceManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveGame();
+        if(NewGame.modeSelection == "timer")
+        {         
+            File.Delete(Application.persistentDataPath + "/timerMode.game");
+        }
     }
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {

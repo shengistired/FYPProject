@@ -318,7 +318,7 @@ public class NewGame : MonoBehaviour
         if (size == true && biome == true && difficulty == true && mode == true)
         {
             errorMsg.gameObject.SetActive(false);
-            if (DataPersistenceManager.instance.fullSaveData())
+            if (DataPersistenceManager.instance.fullSaveData() && modeSelection == "casual")
             {
                 gameObject.SetActive(false);
                 overWriteGameData.SetActive(true);
@@ -345,7 +345,15 @@ public class NewGame : MonoBehaviour
     }
     public void newGameCreation()
     {
-        DataPersistenceManager.instance.NewGame();
+        if(modeSelection == "casual")
+        {
+            DataPersistenceManager.instance.NewGameCreation();
+
+        }
+        else if(modeSelection == "timer")
+        {
+            DataPersistenceManager.instance.NewTimerGame();
+        }
         LevelLoader.Instance.LoadLevel("Map");
     }
     public void overWriteData(string name)
