@@ -119,6 +119,10 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         {
             playerClass = NewGame.playerClass;
         }
+        if (mode == "")
+        {
+            mode = NewGame.modeSelection;
+        }
 
         if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {
@@ -246,7 +250,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
                 DrawTextures();
                 CreateChunks();
                 GenerateTerrain();
-                if (!worldGenerated)
+                if (!worldGenerated && mode != "timer")
                 {
                     GeneratePortal(worldSize, 78);
 
@@ -610,12 +614,12 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
                         if (x == worldSize / 2)
                         {
-                            if(Death_UI.respawnBool || !worldGenerated)
+                            if (Death_UI.respawnBool || !worldGenerated)
                             {
                                 player.spawnPosition = new Vector2(x, height + 15);
                                 playerStartPosition = player.spawnPosition;
-                                
-                            }            
+
+                            }
 
                         }
 
@@ -871,6 +875,17 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
                 newTile.GetComponent<EnterPortal>().music = music;
             }
 
+            if (tile.name == "winPortal")
+            {
+                BoxCollider2D winPortal = newTile.AddComponent<BoxCollider2D>();
+                winPortal.isTrigger = true;
+                winPortal.size = new Vector2(2f, 2f);
+
+                // newTile.AddComponent<EnterPortal>();
+                // newTile.GetComponent<EnterPortal>().portalEnteredText = portalEnteredText;
+                // newTile.GetComponent<EnterPortal>().music = music;
+            }
+
             newTile.tag = "Ground";
             newTile.layer = 6;
             int spriteIndex = UnityEngine.Random.Range(0, tile.tileSprites.Length);
@@ -1094,7 +1109,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
         if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
-            if(y <= 1.5)
+            if (y <= 1.5)
             {
                 return false;
             }
@@ -1320,7 +1335,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         treePosition = data.treePosition;
         treeTypeDictionary = data.treeTypeDictionary;
         player.spawnPosition = data.playerPosition;
-        
+
         allTilesType = data.allTilesTypeDictionary;
         if (data.worldRegenerated)
         {
@@ -1341,7 +1356,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         //data.life = life;
 
         //}
-        
+
         data.biome = biome;
         data.difficulty = difficulty;
         data.worldSizeSet = worldSizeSet;

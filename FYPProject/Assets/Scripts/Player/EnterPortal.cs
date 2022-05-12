@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class EnterPortal : MonoBehaviour
 {
     [SerializeField]
-    private string nextLevel = "Map";
+    //private string nextLevel = "Map";
     public PortalEnteredText portalEnteredText;
     public audio_manager music;
     [HideInInspector]

@@ -35,7 +35,7 @@ public class Spawn_Shoot : MonoBehaviour
         }
         */
         
-        Debug.Log("Enemy Level " + lvl);
+        //Debug.Log("Enemy Level " + lvl);
         player = GameObject.Find("Mage").transform;
         InvokeRepeating("SpawnEnemies", 0f, 12f);
 
@@ -71,7 +71,7 @@ public class Spawn_Shoot : MonoBehaviour
             Debug.Log("lvl up enemy");
         }
         */
-        Debug.Log("Enemy Level: " + lvl);
+        //Debug.Log("Enemy Level: " + lvl);
     }
     private void SpawnEnemies()
     {

@@ -56,7 +56,7 @@ public class SheepAI : MonoBehaviour
         {
             Destroy(gameObject);
             GameObject.Find("Spawn_Sheep").GetComponent<Spawn_Sheep>().animalMin -= 1;
-            Debug.Log("Invisible");
+            //Debug.Log("Invisible");
         }
 
         //mustPatrol = true;

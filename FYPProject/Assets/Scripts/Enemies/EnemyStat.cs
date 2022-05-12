@@ -47,7 +47,7 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
         }
  
         maxHitPts = damageLvl * 60;
-        Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
+        //Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 

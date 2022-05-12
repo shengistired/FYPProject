@@ -37,7 +37,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
     private float MaxHungerBar;
     private int biomeResistSkillValue;
 
-    private bool playerDead = false;
+
 
     private void Awake()
     {
@@ -308,19 +308,20 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     private void PlayerDied()
     {
-        playerDead = true;
+
 
         if (playerStat.life > 0)
         {
-            playerLife--;
             death_UI.getPlayerLife(playerLife);
+            playerLife--;
             Debug.Log("life left is " + playerLife);
         }
 
         if (playerStat.life == 0)
         {
-
+            //playerLife--;
             death_UI.getPlayerLife(playerLife);
+            playerLife--;
             Debug.Log("life left is " + playerLife);
         }
         //set hp mana stamina hunger to full

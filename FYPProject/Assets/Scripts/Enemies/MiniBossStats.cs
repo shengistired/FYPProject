@@ -20,6 +20,7 @@ public class MiniBossStats : MonoBehaviour, IDataPersistence
 
     private UnityEngine.Object explosionObject;
 
+
     private void Start()
     {
         portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
@@ -64,12 +65,29 @@ public class MiniBossStats : MonoBehaviour, IDataPersistence
         healthBar.setHealth(hitPts, maxHitPts);
         if (hitPts <= 0)
         {
+            int expNeeded;
+            
             Destroy(gameObject);
-            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
+            expNeeded = GameObject.Find("Mage").GetComponent<PlayerStat>().expNeededToNextLevel;
+            GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += expNeeded; //player exp
+            
             GameObject explosion = (GameObject)Instantiate(explosionObject);
             explosion.transform.position = new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z);
+
+
+
+
         }
     }
+
+    void OnDestroy()
+    {
+      GameObject.Find("DeathObject").GetComponent<Death_UI>().winGame(); 
+    }
+
+
+     
+
 
     public void LoadData(GameData data)
     {
