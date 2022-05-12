@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MiniBoss : MonoBehaviour
 {
+    private Animator animator;
     public float walkSpeed, range, timeBTWshots, shootSpeed, damage, distance;
     private float disToPlayer;
 
     [HideInInspector]
     public bool mustPatrol, haveToFlip;
-    private bool mustTurn, canShoot;
+    private bool mustTurn, canShoot, isAttacking;
 
     public Rigidbody2D rb;
     public Transform groundcheckPos;
@@ -19,9 +20,15 @@ public class MiniBoss : MonoBehaviour
     public GameObject bullet;
 
     public PortalEnteredText portalEnteredText;
-    public PlayerStat playerStat;
 
     private Vector2 target;
+
+    private Material matWhite;
+    private Material matRed;
+    private Material matDefault;
+    SpriteRenderer sr;
+
+    private float oldPosition = 0.0f;
 
     void Start()
     {
@@ -29,8 +36,12 @@ public class MiniBoss : MonoBehaviour
         canShoot = true;
         haveToFlip = false;
         //Physics2D.IgnoreLayerCollision(7, 7, true);
-
+        animator = GetComponent<Animator>();
         player = GameObject.Find("Mage").transform;
+        sr = GetComponent<SpriteRenderer>();
+        matWhite = Resources.Load("WhiteFlash", typeof(Material)) as Material;
+        matRed = Resources.Load("RedFlash", typeof(Material)) as Material;
+        matDefault = sr.material;
 
         if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
         {
@@ -42,6 +53,7 @@ public class MiniBoss : MonoBehaviour
         }
 
         target = new Vector2(0.0f, 0.0f);
+        oldPosition = transform.position.x;
     }
 
     void Update()
@@ -67,6 +79,7 @@ public class MiniBoss : MonoBehaviour
 
                 if (canShoot)
                 {
+                    animator.SetTrigger("Attack");
                     StartCoroutine(Shot());
                 }
             }
@@ -94,8 +107,40 @@ public class MiniBoss : MonoBehaviour
                 damage = GameObject.Find("Mage").GetComponent<PlayerStat>().damageDealt(2);
                 gameObject.GetComponent<MiniBossStats>().TakeDamage(damage);
                 Debug.Log("BOSS " + damage);
+
+                for (int i = 0; i < 2; i++)
+                {
+                    sr.material = matRed;
+                    Invoke("ResetMaterial", .07f);
+                }
+                    
                 break;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collide)
+    {
+        if (collide.gameObject.name == "Mage")
+        {
+            if(transform.position.x > oldPosition) //right
+            {
+                sr.material = matWhite;
+                Invoke("ResetMaterial", .05f);
+                transform.localScale += new Vector3(0.1f, 0.1f, 0);
+            }
+            if (transform.position.x < oldPosition) //left
+            {
+                sr.material = matWhite;
+                Invoke("ResetMaterial", .05f);
+                transform.localScale += new Vector3(-0.1f, 0.1f, 0);
+            }
+                
+        }
+    }
+
+    void ResetMaterial()
+    {
+        sr.material = matDefault;
     }
 
     private void FixedUpdate()
@@ -115,7 +160,7 @@ public class MiniBoss : MonoBehaviour
         {
             //Flip();
             haveToFlip = true;
-            rb.AddForce(Vector2.up * 30f);
+            rb.AddForce(Vector2.up * 23f);
         }
     }
 
@@ -143,6 +188,7 @@ public class MiniBoss : MonoBehaviour
         newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
 
         canShoot = true;
+       
     }
 
     //enemy die

@@ -9,9 +9,7 @@ public class EnemyHB : MonoBehaviour
     public Color low;
     public Color high;
 
-    public Vector3 offset;
-
-    public void setHealth (float health, float maxHealth)
+    public void setHealth(float health, float maxHealth)
     {
         slider.gameObject.SetActive(health < maxHealth);
         slider.value = health;

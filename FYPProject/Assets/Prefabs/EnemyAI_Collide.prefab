@@ -452,7 +452,11 @@ MonoBehaviour:
   slider: {fileID: 8765869071896790452}
   low: {r: 1, g: 0, b: 0, a: 1}
   high: {r: 0.19751115, g: 0.9811321, b: 0, a: 1}
-  offset: {x: 0, y: 0, z: 0}
+  offsetC: {x: 0, y: 0, z: 0}
+  offsetS: {x: 0, y: 0, z: 0}
+  offsetB: {x: 0, y: 0, z: 0}
+  collide: {fileID: 0}
+  shoot: {fileID: 0}
 --- !u!1 &7679165419629586004
 GameObject:
   m_ObjectHideFlags: 0

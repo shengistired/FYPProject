@@ -54,5 +54,14 @@ public class PlayerBars : MonoBehaviour
             HealthBar.instance.takeDamage(damageB);
             //Collide damage
         }
+
+        if (collide.gameObject.tag.Equals("MiniBoss"))
+        {
+            // insert enemy damage >>>>>>
+            int damageM = 60;
+            Debug.Log("Damage " + damageM);
+            HealthBar.instance.takeDamage(damageM);
+            //Collide damage
+        }
     }
 }

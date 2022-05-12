@@ -2,28 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiniBossStats : MonoBehaviour
+public class MiniBossStats : MonoBehaviour, IDataPersistence
 {
     public float hitPts;
-    public float maxHitPts=200;
-    public EnemyHB healthBar;
+    public float maxHitPts;
+    public BossHB healthBar;
     //leveling
     public int XP;
 
+    public static int lvl;
     public int portalEnteredText;
 
     public int enemyMin;
+    public static int damageLvl;
+
+    public string difficulty;
+
+    private UnityEngine.Object explosionObject;
 
     private void Start()
     {
+        portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
+        lvl = portalEnteredText;
+
+        if (difficulty == "")
+        {
+            difficulty = NewGame.difficultySelection;
+        }
+
+        if (difficulty == "easy")
+        {
+            damageLvl = lvl + 1;
+            Debug.Log("damage easy");
+        }
+
+        if (difficulty == "normal")
+        {
+            damageLvl = lvl + 2;
+            Debug.Log("damage normal");
+        }
+
+        if (difficulty == "hard")
+        {
+            damageLvl = lvl + 3;
+            Debug.Log("damage hard");
+        }
+
+        maxHitPts = damageLvl * 60;
+        Debug.Log("Enemy Level " + damageLvl + " " + maxHitPts);
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 
-        XP = 10;
-        if (PortalEnteredText.newPortal == true)
-        {
-            XP += 5;
-        }
+        XP = (lvl + 1) * 10;
+
+        explosionObject = Resources.Load("Explosion");
     }
 
     public void TakeDamage(float damage)
@@ -34,8 +66,19 @@ public class MiniBossStats : MonoBehaviour
         {
             Destroy(gameObject);
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
-
+            GameObject explosion = (GameObject)Instantiate(explosionObject);
+            explosion.transform.position = new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z);
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        difficulty = data.difficulty;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.difficulty = difficulty;
     }
 
     /*void Die()

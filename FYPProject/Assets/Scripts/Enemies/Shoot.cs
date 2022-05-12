@@ -32,7 +32,6 @@ public class Shoot : MonoBehaviour
         canShoot = true;
         haveToFlip = false;
         Physics2D.IgnoreLayerCollision(7, 7, true);
-        //EnemyHealthBar.SetActive(false);
 
         player = GameObject.Find("Mage").transform;
         int portal = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
@@ -49,9 +48,6 @@ public class Shoot : MonoBehaviour
 
     void Update()
     {
-        //lvl += EnterPortal.portalsEntered;
-        //Debug.Log(EnterPortal.portalsEntered);
-
         if (mustPatrol)
         {
             Patrol();
