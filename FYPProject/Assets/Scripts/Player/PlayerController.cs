@@ -134,8 +134,15 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
 
     private TileClass tileWood;
+    public static float freeFall = 0;
 
-
+    private void Start()
+    {
+        foreach (CraftingRecipeUI craftingRecipeUI in content.GetComponentsInChildren<CraftingRecipeUI>())
+        {
+            craftingRecipeUI.setPlayer(this);
+        }
+    }
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -178,10 +185,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         uiInventory.SetInventory(inventory);
         uiEquipmentSlot.SetEquipment(equipment);
 
-        foreach (CraftingRecipeUI craftingRecipeUI in content.GetComponentsInChildren<CraftingRecipeUI>())
-        {
-            craftingRecipeUI.setPlayer(this);
-        }
+
 
     }
 
@@ -301,7 +305,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         //press F to open stat screen
         playerStat.openStatScreen();
         playerStat.openSkillScreen();
+        if(rigid.velocity.y < -7f)
+        {
+            freeFall = rigid.velocity.y;
 
+        }
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;

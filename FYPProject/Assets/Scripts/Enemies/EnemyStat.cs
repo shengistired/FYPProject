@@ -68,7 +68,6 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
             Item item = new Item();
             Destroy(gameObject);
             int randomNum = Random.Range(0, 4);
-            Debug.Log(randomNum);
             if (randomNum == 0)
             {
                 item.itemType = Item.ItemType.PickAxeMaterial;

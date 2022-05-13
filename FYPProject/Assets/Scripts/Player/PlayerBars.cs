@@ -71,5 +71,22 @@ public class PlayerBars : MonoBehaviour
 
             //Collide damage
         }
+        if (collide.gameObject.tag.Equals("Ground"))
+        {
+            if (!TerrainGeneration.justSpawn)
+            {
+                if (PlayerController.freeFall != 0)
+                {
+                    Debug.Log(PlayerController.freeFall);
+                    HealthBar.instance.takeDamage(PlayerController.freeFall * -2);
+                    music.hurt.Play();
+                }
+            }
+
+            PlayerController.freeFall = 0;
+
+
+            //Collide damage
+        }
     }
 }

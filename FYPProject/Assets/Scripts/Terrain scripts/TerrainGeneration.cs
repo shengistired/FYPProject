@@ -83,6 +83,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
     private SerializeDictionary<string, string> allTilesTypeDuplicate = new SerializeDictionary<string, string>();
     private Vector3 playerStartPosition;
     private bool worldGenerated = false;
+    public static bool justSpawn = false;
     private int treeHeightIncrement = 0;
 
 
@@ -616,8 +617,14 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
                         {
                             if (Death_UI.respawnBool || !worldGenerated)
                             {
+                                justSpawn = true;
                                 player.spawnPosition = new Vector2(x, height + 15);
                                 playerStartPosition = player.spawnPosition;
+
+                            }
+                            else
+                            {
+                                justSpawn = false;
 
                             }
 

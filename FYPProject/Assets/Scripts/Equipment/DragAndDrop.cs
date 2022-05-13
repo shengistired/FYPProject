@@ -159,55 +159,55 @@ public class DragAndDrop : MonoBehaviour, IInitializePotentialDragHandler, IBegi
                         canvasGroup.blocksRaycasts = true;
 
                         uiInventory.Move(indexInventory);
-                        if (name == "equipSlotTemplate1")
+                        if (name == "equipSlotTemplate0")
                         {
 
                             index = 0;
 
                         }
-                        else if (name == "equipSlotTemplate2")
+                        else if (name == "equipSlotTemplate1")
                         {
 
                             index = 1;
 
                         }
-                        else if (name == "equipSlotTemplate3")
+                        else if (name == "equipSlotTemplate2")
                         {
 
                             index = 2;
 
                         }
-                        else if (name == "equipSlotTemplate4")
+                        else if (name == "equipSlotTemplate3")
                         {
                             index = 3;
 
                         }
-                        else if (name == "equipSlotTemplate5")
+                        else if (name == "equipSlotTemplate4")
                         {
                             index = 4;
 
                         }
-                        else if (name == "equipSlotTemplate6")
+                        else if (name == "equipSlotTemplate5")
                         {
                             index = 5;
 
                         }
-                        else if (name == "equipSlotTemplate7")
+                        else if (name == "equipSlotTemplate6")
                         {
                             index = 6;
 
                         }
-                        else if (name == "equipSlotTemplate8")
+                        else if (name == "equipSlotTemplate7")
                         {
                             index = 7;
 
                         }
-                        else if (name == "equipSlotTemplate9")
+                        else if (name == "equipSlotTemplate8")
                         {
                             index = 8;
 
                         }
-                        else if (name == "equipSlotTemplate10")
+                        else if (name == "equipSlotTemplate9")
                         {
                             index = 9;
                         }
