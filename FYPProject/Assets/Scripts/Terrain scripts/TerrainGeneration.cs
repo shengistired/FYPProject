@@ -613,18 +613,29 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
                     if (y < height - dirtLayerHeight)
                     {
 
+                        // if (x == worldSize / 2)
+                        // {
+                        //     if (Death_UI.respawnBool || !worldGenerated)
+                        //     {
+                        //         justSpawn = true;
+                        //         player.spawnPosition = new Vector2(x, height + 15);
+                        //         playerStartPosition = player.spawnPosition;
+
+                        //     }
+                        //     else
+                        //     {
+                        //         justSpawn = false;
+
+                        //     }
+
+                        // }
+
                         if (x == worldSize / 2)
                         {
-                            if (Death_UI.respawnBool || !worldGenerated)
+                            if (playerStartPosition == Vector3.zero)
                             {
-                                justSpawn = true;
                                 player.spawnPosition = new Vector2(x, height + 15);
                                 playerStartPosition = player.spawnPosition;
-
-                            }
-                            else
-                            {
-                                justSpawn = false;
 
                             }
 

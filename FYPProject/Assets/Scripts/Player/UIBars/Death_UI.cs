@@ -27,7 +27,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
     private int playerLife;
     private bool gameCleared;
     private string difficultyMode;
-    public static bool respawnBool = false;
+    // public static bool respawnBool = false;
     void Start()
     {
         respawnBtn.onClick.AddListener(respawn);
@@ -38,7 +38,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
             difficultyMode = NewGame.difficultySelection;
         }
 
-        respawnBool = false;
+        //respawnBool = false;
 
         //mainMenuPanel.gameObject.SetActive(false);
     }
@@ -47,32 +47,20 @@ public class Death_UI : MonoBehaviour, IDataPersistence
 
     public void getPlayerLife(int life)
     {
-        // if (life == 0)
-        // {
-        //     liveRemainingValue.GetComponent<TMPro.TextMeshProUGUI>().text = "0";
-        // }
-        // else if (life < 0)
-        // {
-        //     liveRemainingValue.GetComponent<TMPro.TextMeshProUGUI>().text = "0";
-        // }
-        // else
-        // {
-        //     liveRemainingValue.GetComponent<TMPro.TextMeshProUGUI>().text = life.ToString();
-        // }
-
+         
         liveRemainingValue.GetComponent<TMPro.TextMeshProUGUI>().text = life.ToString();
 
 
     }
 
-    public int calculateScore(bool gameCleared)
+    public int calculateScore(bool gameCleared, int life)
     {
         int calculatedScore;
         int difficultyMultiplier;
         int lifeMultiplier;
         //Debug.Log("asdsadsad " + difficultyMode);
 
-        lifeMultiplier = playerLife;
+        lifeMultiplier = life;
 
 
         if (difficultyMode == "easy")
@@ -92,7 +80,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
             difficultyMultiplier = 1;
         }
 
-        if (playerLife == 0)
+        if (life == 0)
         {
             lifeMultiplier = 1;
         }
@@ -105,9 +93,9 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         {
             totalTime = 1;
         }
-        Debug.Log("playerLife " + playerLife);
+        Debug.Log("playerLife " + life);
         Debug.Log(" total time " + totalTime + " lifeMultiplier " + lifeMultiplier + " difficultyMulti " + difficultyMultiplier);
-        if (gameCleared == false && playerLife == 0)
+        if (gameCleared == false && life == 0)
         {
             //Debug.Log(" total time " + totalTime + " lifeMultiplier " + lifeMultiplier + " difficultyMulti " + difficultyMultiplier);
             calculatedScore = (totalTime / lifeMultiplier) / difficultyMultiplier;
@@ -118,14 +106,14 @@ public class Death_UI : MonoBehaviour, IDataPersistence
                 scorePanel.gameObject.SetActive(true);
                 respawnBtnPanel.gameObject.SetActive(false);
                 scoreValue.GetComponent<TMPro.TextMeshProUGUI>().text = calculatedScore.ToString();
-                playerLife--;
+                //playerLife--;
                 DataPersistenceManager.instance.SaveGame();
                 //Debug.Log(" calculatedScore 1 is  " + calculatedScore);
                 return calculatedScore;
             }
             else
             {
-                playerLife--;
+                //playerLife--;
                 scorePanel.gameObject.SetActive(true);
                 respawnBtnPanel.gameObject.SetActive(false);
                 scoreValue.GetComponent<TMPro.TextMeshProUGUI>().text = calculatedScore.ToString();
@@ -139,9 +127,15 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         else if (gameCleared == true)
         {
             // if game won
-            calculatedScore = (100000 * (difficultyMultiplier * lifeMultiplier)) + totalTime;
+            if (totalTime >= 500000)
+            {
+                totalTime = 450000;
+            }
+
+            calculatedScore = ((500000 - totalTime) * (difficultyMultiplier * lifeMultiplier));
+
             score = calculatedScore;
-            Debug.Log(" total time " + totalTime + " playerLife " + playerLife + " difficultyMulti " + difficultyMultiplier);
+            Debug.Log(" total time " + totalTime + " playerLife " + life + " difficultyMulti " + difficultyMultiplier);
 
             //scorePanel.gameObject.SetActive(true);
             //respawnBtnPanel.gameObject.SetActive(false);
@@ -153,6 +147,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         else
         {
             calculatedScore = 1;
+            scoreValue.GetComponent<TMPro.TextMeshProUGUI>().text = calculatedScore.ToString();
             return calculatedScore;
         }
 
@@ -164,16 +159,16 @@ public class Death_UI : MonoBehaviour, IDataPersistence
 
 
 
-    public void ToggleDeathPanel()
+    public void ToggleDeathPanel(int life)
     {
 
         deathPanel.gameObject.SetActive(true);
 
-        if (score == 0 && playerLife == 0)
+        if (score == 0 && life == 0)
         {
             //score = gameClearedScore();
             gameCleared = false;
-            score = calculateScore(false);
+            score = calculateScore(false, life);
             scorePanel.gameObject.SetActive(true);
             respawnBtnPanel.gameObject.SetActive(false);
 
@@ -192,7 +187,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
         deathPanel.gameObject.SetActive(false);
         gameObject.SetActive(true);
         Time.timeScale = 1;
-        respawnBool = true;
+        //respawnBool = true;
         //SceneManager.LoadScene("Map", LoadSceneMode.Single);
         LevelLoader.Instance.LoadLevel("Map");
     }
@@ -208,7 +203,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
 
     public void winGame()
     {
-        score = calculateScore(true);
+        score = calculateScore(true, playerStat.life);
         gameCleared = true;
         DataPersistenceManager.instance.SaveGame();
         Invoke("goWinScreen", 5);
