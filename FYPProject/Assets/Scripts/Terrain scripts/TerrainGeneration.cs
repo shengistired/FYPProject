@@ -83,7 +83,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
     private SerializeDictionary<string, string> allTilesTypeDuplicate = new SerializeDictionary<string, string>();
     private Vector3 playerStartPosition;
     private bool worldGenerated = false;
-    public static bool justSpawn = false;
+    //public static bool justSpawn = false;
     private int treeHeightIncrement = 0;
 
 
@@ -418,7 +418,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
     {
         if (worldGenerated)
         {
-            justSpawn = false;
+            //justSpawn = false;
             foreach (KeyValuePair<string, Vector3> pair in tilePosition.ToList())
             {
                 int x = (int)(pair.Value.x - 0.5f);
@@ -633,11 +633,14 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
                         if (x == worldSize / 2)
                         {
-                                justSpawn = true;
+                            //pls dont remove 
+                            if (playerStartPosition == Vector3.zero)
+                            {
+                                //justSpawn = true;
                                 player.spawnPosition = new Vector2(x, height + 15);
                                 playerStartPosition = player.spawnPosition;
-                            
 
+                            }
                         }
 
 

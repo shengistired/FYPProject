@@ -134,8 +134,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
 
     private TileClass tileWood;
-    public static float freeFall = 0;
-    public static float freeFallMagnitude = 0;
+    // public static float freeFall = 0;
+    // public static float freeFallMagnitude = 0;
 
     private void Start()
     {
@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     }
     private void Update()
     {
-        Debug.Log("Magnitude " + rigid.velocity.magnitude);
+        //Debug.Log("Magnitude " + rigid.velocity.magnitude);
         //makes player not able to walk out of camera
         Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
@@ -306,12 +306,12 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         //press F to open stat screen
         playerStat.openStatScreen();
         playerStat.openSkillScreen();
-        if(rigid.velocity.y < -7f)
-        {
-            freeFall = rigid.velocity.y;
-            freeFallMagnitude = rigid.velocity.magnitude;
+        // if(rigid.velocity.y < -7f)
+        // {
+        //     freeFall = rigid.velocity.y;
+        //     freeFallMagnitude = rigid.velocity.magnitude;
 
-        }
+        // }
 
         Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10f));
         float distance = position.x - transform.position.x;

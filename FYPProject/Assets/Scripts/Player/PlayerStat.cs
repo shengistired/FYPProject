@@ -198,7 +198,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
             music.levelUp_Play();
             levelUpAni.SetBool("openLevel", true);
             levelUpText.text = "YOU ARE NOW LEVEL " + Playerlevel;
-            
+
             //each level up gives 5 stat points
             statPoints += 5;
 
@@ -377,7 +377,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-       // DataPersistenceManager.instance.SaveGame();
+        // DataPersistenceManager.instance.SaveGame();
 
 
 
@@ -425,7 +425,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-       // DataPersistenceManager.instance.SaveGame();
+        // DataPersistenceManager.instance.SaveGame();
 
     }
 
@@ -471,7 +471,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-       // DataPersistenceManager.instance.SaveGame();
+        // DataPersistenceManager.instance.SaveGame();
 
     }
 
@@ -518,7 +518,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         {
             Debug.Log("No stats point or max skill level reached");
         }
-       // DataPersistenceManager.instance.SaveGame();
+        // DataPersistenceManager.instance.SaveGame();
 
     }
     //End of survival skills//
@@ -667,6 +667,7 @@ public class PlayerStat : MonoBehaviour, IDataPersistence
         data.manaRegenSkillValue = manaRegenSkillValue;
         data.hungerResistSkillValue = hungerResistSkillValue;
         data.biomeResistSkillValue = biomeResistSkillValue;
+        
 
     }
 }

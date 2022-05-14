@@ -308,22 +308,20 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     private void PlayerDied()
     {
-
-
-        if (playerStat.life > 0)
+        playerLife--;
+        if (playerLife > 0)
         {
-            playerLife--;
             death_UI.getPlayerLife(playerLife);
             DataPersistenceManager.instance.SaveGame();
             Debug.Log("life left is " + playerLife);
         }
 
-        else if (playerStat.life == 0)
+        else if (playerLife == 0)
         {
-            //playerLife--;
+
             death_UI.getPlayerLife(playerLife);
             DataPersistenceManager.instance.SaveGame();
-            Debug.Log("life left is " + playerLife);
+            Debug.Log("life left should be 0 : " + playerLife);
         }
 
         //set hp mana stamina hunger to full
@@ -333,11 +331,11 @@ public class HealthBar : MonoBehaviour, IDataPersistence
         hungerBar.recoverHungerBar();
 
         //Debug.Log("mana " + maxMana + " stamina " + maxStamina + " hunger " + MaxHungerBar);
-        death_UI.getPlayerLife(playerLife);
+        //death_UI.getPlayerLife(playerStat.life);
         death_UI.ToggleDeathPanel(playerLife);
         DataPersistenceManager.instance.SaveGame();
         gameObject.SetActive(false);
-        
+
 
     }
 
@@ -351,8 +349,9 @@ public class HealthBar : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
+        playerStat.life = playerLife;
 
-        data.life = playerLife;
+        data.life = playerStat.life;
         data.currentHP = currentHp;
 
 

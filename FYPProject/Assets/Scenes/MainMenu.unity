@@ -18448,8 +18448,8 @@ RectTransform:
   m_Children:
   - {fileID: 77240002}
   - {fileID: 504950015}
-  - {fileID: 1612420409}
   - {fileID: 1328261496}
+  - {fileID: 1612420409}
   m_Father: {fileID: 2013167236}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20900,7 +20900,7 @@ MonoBehaviour:
   m_text: 'Score:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2140474, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -21996,7 +21996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1289003973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22356,7 +22356,7 @@ RectTransform:
   - {fileID: 780723226}
   - {fileID: 1866132374}
   m_Father: {fileID: 1076544250}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -26488,7 +26488,7 @@ RectTransform:
   - {fileID: 97934423}
   - {fileID: 947444027}
   m_Father: {fileID: 1076544250}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

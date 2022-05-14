@@ -60,16 +60,22 @@ public class MiniBossStats : MonoBehaviour, IDataPersistence
 
     public void TakeDamage(float damage)
     {
+        bool bossDead = false;
         hitPts -= damage;
         healthBar.setHealth(hitPts, maxHitPts);
         if (hitPts <= 0)
         {
             int expNeeded;
+            bossDead = true;
+            if (bossDead == true)
+            {
+                GameObject.Find("DeathObject").GetComponent<Death_UI>().winGame();
+            }
             
             Destroy(gameObject);
             expNeeded = GameObject.Find("Mage").GetComponent<PlayerStat>().expNeededToNextLevel;
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += expNeeded; //player exp
-            
+
             GameObject explosion = (GameObject)Instantiate(explosionObject);
             explosion.transform.position = new Vector3(transform.position.x, transform.position.y + .3f, transform.position.z);
 
@@ -79,13 +85,10 @@ public class MiniBossStats : MonoBehaviour, IDataPersistence
         }
     }
 
-    void OnDestroy()
-    {
-      GameObject.Find("DeathObject").GetComponent<Death_UI>().winGame(); 
-    }
 
 
-     
+
+
 
 
     public void LoadData(GameData data)

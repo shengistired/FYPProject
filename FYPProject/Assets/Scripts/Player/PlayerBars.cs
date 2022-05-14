@@ -71,24 +71,24 @@ public class PlayerBars : MonoBehaviour
 
             //Collide damage
         }
-        if (collide.gameObject.tag.Equals("Ground"))
-        {
-            if (!TerrainGeneration.justSpawn)
-            {
-                if (PlayerController.freeFall != 0 && PlayerController.freeFallMagnitude > 6f)
-                {
-                    Debug.Log(PlayerController.freeFall);
-                    HealthBar.instance.takeDamage(PlayerController.freeFall * -7);
-                    music.hurt.Play();
-                }
-            }
+        // if (collide.gameObject.tag.Equals("Ground"))
+        // {
+        //     if (!TerrainGeneration.justSpawn)
+        //     {
+        //         if (PlayerController.freeFall != 0 && PlayerController.freeFallMagnitude > 6f)
+        //         {
+        //             Debug.Log(PlayerController.freeFall);
+        //             HealthBar.instance.takeDamage(PlayerController.freeFall * -7);
+        //             music.hurt.Play();
+        //         }
+        //     }
 
-            PlayerController.freeFall = 0;
-            PlayerController.freeFallMagnitude = 0;
-            TerrainGeneration.justSpawn = false;
+        //     PlayerController.freeFall = 0;
+        //     PlayerController.freeFallMagnitude = 0;
+        //     TerrainGeneration.justSpawn = false;
 
 
-            //Collide damage
-        }
+        //     //Collide damage
+        // }
     }
 }
