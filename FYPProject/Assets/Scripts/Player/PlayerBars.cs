@@ -75,15 +75,17 @@ public class PlayerBars : MonoBehaviour
         {
             if (!TerrainGeneration.justSpawn)
             {
-                if (PlayerController.freeFall != 0)
+                if (PlayerController.freeFall != 0 && PlayerController.freeFallMagnitude > 6f)
                 {
                     Debug.Log(PlayerController.freeFall);
-                    HealthBar.instance.takeDamage(PlayerController.freeFall * -2);
+                    HealthBar.instance.takeDamage(PlayerController.freeFall * -7);
                     music.hurt.Play();
                 }
             }
 
             PlayerController.freeFall = 0;
+            PlayerController.freeFallMagnitude = 0;
+            TerrainGeneration.justSpawn = false;
 
 
             //Collide damage

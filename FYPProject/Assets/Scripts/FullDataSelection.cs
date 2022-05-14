@@ -23,7 +23,14 @@ public class FullDataSelection : MonoBehaviour
 
                     int index = int.Parse(fileInfo.Name.Substring(0, 1));
                     RectTransform hasData = dataObject[index].GetComponent<RectTransform>().Find("HasData").GetComponent<RectTransform>();
+
+                    if (!DataPersistenceManager.instance.AllData(dataObject[index].name).gameCleared)
+                    {
+                        hasData.Find("GameStatus").GetComponent<TextMeshProUGUI>().text = "NOT CLEARED";
+                    }
+                    hasData.Find("Score").GetComponent<TextMeshProUGUI>().text = "Score: " + DataPersistenceManager.instance.AllData(dataObject[index].name).score.ToString();
                     hasData.Find("SaveTime").GetComponent<TextMeshProUGUI>().text = "Save Time: " + fileInfo.LastWriteTime.ToString();
+                    hasData.Find("Life").GetComponent<TextMeshProUGUI>().text = "Life: " + DataPersistenceManager.instance.AllData(dataObject[index].name).life;
                     hasData.Find("PortalEntered").GetComponent<TextMeshProUGUI>().text = "Portal Entered: " + DataPersistenceManager.instance.AllData(dataObject[index].name).portalEntered;
                     hasData.Find("Biome").GetComponent<TextMeshProUGUI>().text = "Biome: " + DataPersistenceManager.instance.AllData(dataObject[index].name).biome;
                     hasData.Find("Difficulty").GetComponent<TextMeshProUGUI>().text = "Difficulty: " + DataPersistenceManager.instance.AllData(dataObject[index].name).difficulty;

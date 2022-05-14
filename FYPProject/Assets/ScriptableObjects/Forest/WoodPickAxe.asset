@@ -15,11 +15,11 @@ MonoBehaviour:
   Materials:
   - itemType: 7
     amount: 1
-    durablilty: 10
+    durablilty: 30
   - itemType: 31
-    amount: 20
+    amount: 3
     durablilty: 0
   Results:
   - itemType: 8
     amount: 1
-    durablilty: 30
+    durablilty: 50

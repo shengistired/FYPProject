@@ -418,6 +418,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
     {
         if (worldGenerated)
         {
+            justSpawn = false;
             foreach (KeyValuePair<string, Vector3> pair in tilePosition.ToList())
             {
                 int x = (int)(pair.Value.x - 0.5f);
@@ -632,12 +633,10 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
 
                         if (x == worldSize / 2)
                         {
-                            if (playerStartPosition == Vector3.zero)
-                            {
+                                justSpawn = true;
                                 player.spawnPosition = new Vector2(x, height + 15);
                                 playerStartPosition = player.spawnPosition;
-
-                            }
+                            
 
                         }
 

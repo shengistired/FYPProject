@@ -18,8 +18,7 @@ public class CraftingRecipe : ScriptableObject
 		return HasMaterials(inventory);
 	}
 
-
-	private bool HasMaterials(Inventory inventory)
+    private bool HasMaterials(Inventory inventory)
 	{
 		List<bool> hasMaterials = new List<bool>();
 		foreach (Item item in Materials)

@@ -638,53 +638,53 @@ public class Item
 
             default:
             case ItemType.Axe:
-                return 10;
+                return 30;
             case ItemType.WoodAxe:
-                return 30;
+                return 50;
             case ItemType.StoneAxe:
-                return 50;
+                return 70;
             case ItemType.IronAxe:
-                return 70;
+                return 90;
             case ItemType.GoldAxe:
-                return 90;
+                return 110;
             case ItemType.DiamondAxe:
-                return 110;
+                return 130;
             case ItemType.PickAxe:
-                return 10;
+                return 30;
             case ItemType.WoodPickAxe:
-                return 30;
+                return 50;
             case ItemType.StonePickAxe:
-                return 50;
+                return 70;
             case ItemType.IronPickAxe:
-                return 70;
+                return 90;
             case ItemType.GoldPickAxe:
-                return 90;
+                return 1100;
             case ItemType.DiamondPickAxe:
-                return 110;
+                return 130;
             case ItemType.Hammer:
-                return 10;
+                return 30;
             case ItemType.WoodHammer:
-                return 30;
+                return 50;
             case ItemType.StoneHammer:
-                return 50;
+                return 70;
             case ItemType.IronHammer:
-                return 70;
+                return 90;
             case ItemType.GoldHammer:
-                return 90;
+                return 110;
             case ItemType.DiamondHammer:
-                return 110;
+                return 130;
             case ItemType.Shovel:
-                return 10;
-            case ItemType.WoodShovel:
                 return 30;
-            case ItemType.StoneShovel:
+            case ItemType.WoodShovel:
                 return 50;
-            case ItemType.IronShovel:
+            case ItemType.StoneShovel:
                 return 70;
-            case ItemType.GoldShovel:
+            case ItemType.IronShovel:
                 return 90;
-            case ItemType.DiamondShovel:
+            case ItemType.GoldShovel:
                 return 110;
+            case ItemType.DiamondShovel:
+                return 130;
 
         }
 

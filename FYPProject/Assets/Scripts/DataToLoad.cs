@@ -24,8 +24,16 @@ public class DataToLoad : MonoBehaviour
                     dataObject[index].GetComponent<Button>().interactable = true;
                     RectTransform hasData = dataObject[index].GetComponent<RectTransform>().Find("HasData").GetComponent<RectTransform>();
                     hasData.gameObject.SetActive(true);
+
+
                     Transform nodata = dataObject[index].GetComponent<RectTransform>().Find("NoData");
                     nodata.gameObject.SetActive(false);
+
+                    if (!DataPersistenceManager.instance.AllData(dataObject[index].name).gameCleared)
+                    {
+                        hasData.Find("GameStatus").GetComponent<TextMeshProUGUI>().text = "NOT CLEARED";
+                    }
+                    hasData.Find("Score").GetComponent<TextMeshProUGUI>().text = "Score: " + DataPersistenceManager.instance.AllData(dataObject[index].name).score.ToString();
                     hasData.Find("Image").GetComponent<RectTransform>().Find("Lv").GetComponent<TextMeshProUGUI>().text = "Lv." + DataPersistenceManager.instance.AllData(dataObject[index].name).playerlevel.ToString();
                     hasData.Find("SaveTime").GetComponent<TextMeshProUGUI>().text = "Save Time: " + fileInfo.LastWriteTime.ToString();
                     hasData.Find("Life").GetComponent<TextMeshProUGUI>().text = "Life: " + DataPersistenceManager.instance.AllData(dataObject[index].name).life;
@@ -33,9 +41,8 @@ public class DataToLoad : MonoBehaviour
                     hasData.Find("Biome").GetComponent<TextMeshProUGUI>().text = "Biome: " + DataPersistenceManager.instance.AllData(dataObject[index].name).biome;
                     hasData.Find("Difficulty").GetComponent<TextMeshProUGUI>().text = "Difficulty: " + DataPersistenceManager.instance.AllData(dataObject[index].name).difficulty;
                     hasData.Find("Timer").GetComponent<TextMeshProUGUI>().text = "Timer: " + DataPersistenceManager.instance.AllData(dataObject[index].name).hour + " : " + DataPersistenceManager.instance.AllData(dataObject[index].name).min + " : " + DataPersistenceManager.instance.AllData(dataObject[index].name).second;
-                    hasData.Find("Image").GetComponent<RectTransform>().Find("Lv").GetComponent<TextMeshProUGUI>().text = "Lv. " + DataPersistenceManager.instance.AllData(dataObject[index].name).playerlevel;
 
-                    if (DataPersistenceManager.instance.AllData(dataObject[index].name).life == 0)
+                    if (DataPersistenceManager.instance.AllData(dataObject[index].name).life == 0 || DataPersistenceManager.instance.AllData(dataObject[index].name).gameCleared)
                     {
                         dataObject[index].GetComponent<Button>().interactable = false;
                     }
