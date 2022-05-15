@@ -5,7 +5,7 @@ using UnityEngine;
 public class MiniBoss : MonoBehaviour
 {
     private Animator animator;
-    public float walkSpeed, range, timeBTWshots, shootSpeed, damage, distance;
+    public float walkSpeed, range, timeBTWshots, shootSpeed, damage, distance, stop;
     private float disToPlayer;
 
     [HideInInspector]
@@ -80,12 +80,11 @@ public class MiniBoss : MonoBehaviour
                     StartCoroutine(Shot());
                 }
             }
+        }
 
-            //else
-            //{
-             //   mustPatrol = true;
-              //  haveToFlip = true;
-            //}
+        if(disToPlayer <= stop)
+        {
+            rb.AddForce(Vector2.up * 10f);
         }
     }
 
