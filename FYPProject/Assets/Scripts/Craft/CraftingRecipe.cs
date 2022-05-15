@@ -83,6 +83,13 @@ public class CraftingRecipe : ScriptableObject
 	}
 	private void AddResults(Inventory inventory)
 	{
+		Item item = new Item();
+		item.itemType = Results[0].itemType;
+		item.durablilty = Results[0].durablilty;
+		item.amount = 1;
+		inventory.AddItem(item);
+
+		/*
 		foreach (Item item in Results)
 		{
 			for (int i = 0; i < item.amount; i++)
@@ -90,6 +97,7 @@ public class CraftingRecipe : ScriptableObject
 				inventory.AddItem(item);
 			}
 		}
+		*/
 	}
 	public void Craft(Inventory inventory)
 	{

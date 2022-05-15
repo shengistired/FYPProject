@@ -686,7 +686,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
                     }
                 }
-                else if (terrainGenerator.checkTileIsGround(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && pickAxeActive == true && terrainGenerator.checkTileBottom(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)))
+                else if (terrainGenerator.checkTileIsRock(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && pickAxeActive == true && terrainGenerator.checkTileBottom(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)))
                 {
                     ani.SetBool("isMining", true);
                     int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));
@@ -782,7 +782,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
                     }
                 }
-                else if (terrainGenerator.checkTileIsDirt(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && shovelActive == true && terrainGenerator.checkTileBottom(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)))
+                else if (terrainGenerator.checkTileIsGround(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)) && shovelActive == true && terrainGenerator.checkTileBottom(Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f)))
                 {
                     ani.SetBool("isMining", true);
                     int tileHealth = terrainGenerator.checkTileHealth(miningPower, Mathf.RoundToInt(position.x - 0.1f), Mathf.RoundToInt(position.y - 0.1f));

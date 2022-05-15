@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Materials:
   - itemType: 37
-    amount: 3
+    amount: 2
     durablilty: 0
   Results:
   - itemType: 7

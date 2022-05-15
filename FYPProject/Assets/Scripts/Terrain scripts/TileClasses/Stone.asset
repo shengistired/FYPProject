@@ -22,3 +22,5 @@ MonoBehaviour:
   tileHealth: 3
   isTree: 0
   isGround: 1
+  isRock: 1
+  isBackground: 0

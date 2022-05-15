@@ -1111,11 +1111,11 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         }
 
     }
-    public bool checkTileIsDirt(int x, int y)
+    public bool checkTileIsRock(int x, int y)
     {
         if (worldTiles.Contains(new Vector2Int(x, y)) && x >= 0 && x <= worldSize && y >= 0 && y <= worldSize)
         {
-            return worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isDirt;
+            return worldTileClasses[worldTiles.IndexOf(new Vector2(x, y))].isRock;
 
         }
         else

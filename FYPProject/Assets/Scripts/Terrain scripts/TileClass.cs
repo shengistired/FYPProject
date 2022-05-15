@@ -14,7 +14,7 @@ public class TileClass : ScriptableObject
     public int tileHealth;
     public bool isTree;
     public bool isGround;
-    public bool isDirt;
+    public bool isRock;
     public bool isBackground;
 
     //each tile will have their own tileclass 
@@ -36,7 +36,7 @@ public class TileClass : ScriptableObject
         tileHealth = tile.tileHealth;
         isTree = tile.isTree;
         isGround = tile.isGround;
-        isDirt = tile.isDirt;
+        isRock = tile.isRock;
         isBackground = tile.isBackground;
     }
 
