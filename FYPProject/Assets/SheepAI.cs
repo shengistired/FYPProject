@@ -69,7 +69,6 @@ public class SheepAI : MonoBehaviour
             ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
 
             Destroy(gameObject);
-            Debug.Log("Killed sheep");
         }
         else
         {
@@ -83,7 +82,6 @@ public class SheepAI : MonoBehaviour
 
                     Destroy(gameObject);
                     GameObject.Find("Spawn_Sheep").GetComponent<Spawn_Sheep>().animalMin -= 1;
-                    Debug.Log("Killed sheep");
                     break;
             }
         }

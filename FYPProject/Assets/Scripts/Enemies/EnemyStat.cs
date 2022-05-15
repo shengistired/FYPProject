@@ -6,32 +6,29 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
 {
     public float hitPts;
     public float maxHitPts;
+    //public static float addPts;
     public EnemyHB healthBar;
     //leveling
     public int XP;
 
     public static int lvl;
-    public int portalEnteredText;
+    public int portalEnteredText, addPts;
+    //public int addPts;
 
     public int enemyMin;
     public static int damageLvl;
 
     public string difficulty;
-    public string mode;
 
     private void Start()
     {
         portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
+        addPts = GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().addPts;
         lvl = portalEnteredText;
 
         if (difficulty == "")
         {
             difficulty = NewGame.difficultySelection;
-        }
-
-        if (mode == "")
-        {
-            mode = NewGame.modeSelection;
         }
 
         if (difficulty == "easy")
@@ -52,7 +49,12 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
             Debug.Log("damage hard");
         }
 
-        maxHitPts = damageLvl * 30;
+        maxHitPts = (damageLvl * 30);
+        if (Spawn_Enemies.spawning == true)
+        {
+            maxHitPts += addPts;
+        }
+        Debug.Log(maxHitPts + " MAXHITPTS");
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 
@@ -93,22 +95,8 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
                 ItemWorld.SpawnItemWorld(new Vector2(transform.position.x, transform.position.y), item);
 
             }
-
-            if (mode == "casual")
-            {
-                GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-            }
-
-            if (mode == "timer")
-            {
-                GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().count -= 1;
-            }
-
-            if (GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().count == 0)
-            {
-                Debug.Log("ALL ENEMIES KILLED");
-            }
-
+            
+            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
             GameObject.Find("Mage").GetComponent<PlayerStat>().currentExp += XP; //player exp
         }
     }
@@ -116,12 +104,10 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         difficulty = data.difficulty;
-        mode = data.mode;
     }
 
     public void SaveData(ref GameData data)
     {
         data.difficulty = difficulty;
-        data.mode = mode;
     }
 }

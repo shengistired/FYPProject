@@ -81,7 +81,6 @@ public class Shoot : MonoBehaviour
         {
             Destroy(gameObject);
             GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().enemyMin -= 1;
-            GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().count += 1;
         }
     }
 

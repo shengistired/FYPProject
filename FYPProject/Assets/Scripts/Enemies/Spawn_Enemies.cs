@@ -14,24 +14,24 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
     //public float startTimeBtweenSpawn;
     //private float timeBtweenSpawn;
 
-    public int enemyMin, enemyMax, count;
+    public int enemyMin, enemyMax;
     public LayerMask groundLayer;
     public Transform player;
 
     public PortalEnteredText portalEnteredText;
     public string mode;
-    public string difficulty;
+
+    public static bool spawning;
+    public int addPts = 0;
 
     public void LoadData(GameData data)
     {
         mode = data.mode;
-        difficulty = data.difficulty;
     }
 
     public void SaveData(ref GameData data)
     {
         data.mode = mode;
-        data.difficulty = difficulty;
     }
 
     private void Start()
@@ -41,44 +41,18 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
             mode = NewGame.modeSelection;
         }
 
-        if (difficulty == "")
-        {
-            difficulty = NewGame.difficultySelection;
-        }
-
         player = GameObject.Find("Mage").transform;
 
         if (mode == "casual")
         {
-            InvokeRepeating("SpawnEnemiesCasual", 0f, 15f);
+            InvokeRepeating("SpawnEnemiesCasual", 0f, 13f);
             Debug.Log("Spawn casual");
         }
 
         if (mode == "timer")
         {
-            if (difficulty == "easy")
-            {
-                InvokeRepeating("SpawnEnemiesTimer", 0f, 5f);
-                enemyMax = 10;
-                count = enemyMax;
-                Debug.Log("Spawn timer easy");
-            }
-
-            if (difficulty == "normal")
-            {
-                InvokeRepeating("SpawnEnemiesTimer", 0f, 3f);
-                enemyMax = 14;
-                count = enemyMax;
-                Debug.Log("Spawn timer normal");
-            }
-
-            if (difficulty == "hard")
-            {
-                InvokeRepeating("SpawnEnemiesTimer", 0f, 2f);
-                enemyMax = 18;
-                count = enemyMax;
-                Debug.Log("Spawn timer hard");
-            }
+            InvokeRepeating("SpawnEnemiesTimer", 0f, 13f);
+            Debug.Log("Spawn timers");
         }
 
         if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
@@ -89,6 +63,8 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
         {
             gameObject.SetActive(true);
         }
+
+        spawning = false;
     }
 
     private void SpawnEnemiesCasual()
@@ -149,6 +125,8 @@ public class Spawn_Enemies : MonoBehaviour, IDataPersistence
                         GameObject goblin = Instantiate(shoot, spawnPosS, Quaternion.identity) as GameObject;
                         enemyMin+=2;
                         spawnAllowed = true;
+                        spawning = true;
+                        addPts += 10;
                     }
                 }
             }
