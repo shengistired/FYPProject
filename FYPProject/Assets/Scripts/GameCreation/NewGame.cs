@@ -31,8 +31,8 @@ public class NewGame : MonoBehaviour
     private ColorBlock origin;
     private bool[] notEmptySize = { false, false, false };
     private bool[] notEmptyBiome = { false, false, false, false };
-    private bool[] notEmptyDifficulty = { false, false, false};
-    private bool[] notEmptyMode = { false, false};
+    private bool[] notEmptyDifficulty = { false, false, false };
+    private bool[] notEmptyMode = { false, false };
     private bool biome = false;
     private bool size = false;
     private bool difficulty = false;
@@ -123,7 +123,11 @@ public class NewGame : MonoBehaviour
         notEmptyBiome[2] = false;
         notEmptyBiome[3] = false;
 
-        biomeSelection = "random";
+
+        string[] array = { "forest", "desert", "snow" };
+        biomeSelection = array[UnityEngine.Random.Range(0, 2)];
+
+        //biomeSelection = "random";
 
     }
     public void forestClick()
@@ -278,7 +282,7 @@ public class NewGame : MonoBehaviour
     }
     public void newGameClick()
     {
-        
+
         foreach (bool check in notEmptySize)
         {
             if (check == true)
@@ -345,12 +349,12 @@ public class NewGame : MonoBehaviour
     }
     public void newGameCreation()
     {
-        if(modeSelection == "casual")
+        if (modeSelection == "casual")
         {
             DataPersistenceManager.instance.NewGameCreation();
 
         }
-        else if(modeSelection == "timer")
+        else if (modeSelection == "timer")
         {
             DataPersistenceManager.instance.NewTimerGame();
         }

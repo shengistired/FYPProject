@@ -107,11 +107,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
             worldSizeSet = NewGame.worldsizeSelection;
 
         }
-        if (biome == "")
-        {
-            biome = NewGame.biomeSelection;
 
-        }
         if (difficulty == "")
         {
             difficulty = NewGame.difficultySelection;
@@ -123,6 +119,18 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
         if (mode == "")
         {
             mode = NewGame.modeSelection;
+        }
+
+        if (biome == "")
+        {
+            biome = NewGame.biomeSelection;
+            // if (biome == "random")
+            // {
+            //     string[] array = { "forest", "desert", "snow" };
+            //     biome = array[UnityEngine.Random.Range(0, 2)];
+            //     DataPersistenceManager.instance.SaveGame();
+
+            // }
         }
 
         if (portalEnteredText.portalCount == 5 || portalEnteredText.portalCount == 10)
@@ -201,25 +209,25 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
             }
 
 
-            if (biome == "random")
-            {
-                string[] array = { "forest", "desert", "snow" };
-                biome = array[UnityEngine.Random.Range(0, 2)];
+            // if (biome == "random")
+            // {
+            //     string[] array = { "forest", "desert", "snow" };
+            //     biome = array[UnityEngine.Random.Range(0, 2)];
 
-                if (biome == "forest")
-                {
-                    music.forest_music_play();
-                }
+            //     // if (biome == "forest")
+            //     // {
+            //     //     music.forest_music_play();
+            //     // }
 
-                if (biome == "desert")
-                {
-                    music.desert_music_play();
-                }
-                if (biome == "snow")
-                {
-                    music.snow_music_play();
-                }
-            }
+            //     // if (biome == "desert")
+            //     // {
+            //     //     music.desert_music_play();
+            //     // }
+            //     // if (biome == "snow")
+            //     // {
+            //     //     music.snow_music_play();
+            //     // }
+            // }
             if (worldSizeSet == "small")
             {
                 worldSize = 260;
