@@ -28,6 +28,9 @@ public class Collide : MonoBehaviour
         Physics2D.IgnoreLayerCollision(7, 7, true);
 
         player = GameObject.Find("Mage").transform;
+        try
+        {
+        
         int portal = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
 
         if (portal == 5 || portal == 10)
@@ -37,6 +40,11 @@ public class Collide : MonoBehaviour
         else
         {
             gameObject.SetActive(true);
+        }
+        }
+        catch
+        {
+
         }
     }
 

@@ -144,14 +144,30 @@ public class DataPersistenceManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-       // Debug.Log("OnSceneLoaded Called");
+        //Debug.Log("OnSceneLoaded Called");
+        try
+        {
+            Debug.Log("OnSceneLoaded Called" + scene.name);
+
+        }
+        catch
+        {
+            Debug.Log("load nothing");
+        }
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
     }
     private void OnSceneUnloaded(Scene scene)
     {
-       // Debug.Log("OnSceneLoaded Called");
+        try
+        {
+            Debug.Log("OnSceneUnloaded Called" + scene.name);
 
+        }
+        catch
+        {
+            Debug.Log("Unload nothing");
+        }
         SaveGame();
     }
 

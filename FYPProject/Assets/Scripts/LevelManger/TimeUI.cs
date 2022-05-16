@@ -7,6 +7,22 @@ public class TimeUI : MonoBehaviour
 {
     public TextMeshProUGUI timeText;
 
+    private void Start()
+    {
+        /*
+        try
+        {
+            if(NewGame.modeSelection == "timer")
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        catch
+        {
+
+        }
+        */
+    }
     private void OnEnable()
     {
         TimeManager.OnMinuteChanged += UpdateTime;

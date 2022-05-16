@@ -27,6 +27,7 @@ public class audio_manager : MonoBehaviour
     public AudioSource portal;
     public AudioSource eat;
     public AudioSource levelUp;
+    public AudioSource clockTicking;
     /*
     public AudioClip walk_effect_clip;
     public AudioClip hit_effect_clip;
@@ -62,6 +63,7 @@ public class audio_manager : MonoBehaviour
         portal.playOnAwake = false;
         eat.playOnAwake = false;
         levelUp.playOnAwake = false;
+        clockTicking.playOnAwake = false;
     }
 
     public void levelUp_Play()
@@ -200,6 +202,24 @@ public class audio_manager : MonoBehaviour
         //miniBoss_music.clip = miniBoss_BGM_clip;
         miniBoss_music.Play();
         miniBoss_music.loop = true;
+
+    }
+    public void clockTicking_play()
+    {
+        clockTicking.volume = PlayerPrefs.GetFloat("soundEffect");
+
+        //miniBoss_music.clip = miniBoss_BGM_clip;
+        clockTicking.Play();
+
+        clockTicking.loop = true;
+
+    }
+
+    public void clockTicking_stop()
+    {
+        //miniBoss_music.clip = miniBoss_BGM_clip;
+        clockTicking.Stop();
+
 
     }
 }

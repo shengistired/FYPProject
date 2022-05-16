@@ -34,16 +34,24 @@ public class Shoot : MonoBehaviour
         Physics2D.IgnoreLayerCollision(7, 7, true);
 
         player = GameObject.Find("Mage").transform;
-        int portal = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
+        try
+        {
+            int portal = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
+            if (portal == 5 || portal == 10)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(true);
+            }
 
-        if (portal == 5 || portal== 10)
-        {
-            gameObject.SetActive(false);
         }
-        else
-        {
-            gameObject.SetActive(true);
+        catch{
+
         }
+
+
     }
 
     void Update()

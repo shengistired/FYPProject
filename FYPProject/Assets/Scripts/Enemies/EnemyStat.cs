@@ -22,9 +22,16 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-        portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
-        addPts = GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().addPts;
-        lvl = portalEnteredText;
+        try
+        {
+            portalEnteredText = GameObject.Find("NumberPortal").GetComponent<PortalEnteredText>().portalCount;
+            addPts = GameObject.Find("Spawn_Enemies").GetComponent<Spawn_Enemies>().addPts;
+            lvl = portalEnteredText;
+        }
+        catch{
+
+        }
+
 
         if (difficulty == "")
         {
@@ -34,19 +41,19 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
         if (difficulty == "easy")
         {
             damageLvl = lvl + 1;
-            Debug.Log("damage easy");
+          //  Debug.Log("damage easy");
         }
 
         if (difficulty == "normal")
         {
             damageLvl = lvl + 2;
-            Debug.Log("damage normal");
+          //  Debug.Log("damage normal");
         }
 
         if (difficulty == "hard")
         {
             damageLvl = lvl + 3;
-            Debug.Log("damage hard");
+          //  Debug.Log("damage hard");
         }
 
         maxHitPts = (damageLvl * 30);
@@ -54,7 +61,7 @@ public class EnemyStat : MonoBehaviour, IDataPersistence
         {
             maxHitPts += addPts;
         }
-        Debug.Log(maxHitPts + " MAXHITPTS");
+       // Debug.Log(maxHitPts + " MAXHITPTS");
         hitPts = maxHitPts;
         healthBar.setHealth(hitPts, maxHitPts);
 

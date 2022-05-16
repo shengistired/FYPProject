@@ -164,7 +164,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
                 currentHp -= damage;
                 healthBar.value = currentHp;
                 hpText.text = (int)currentHp + " / " + totalHp;
-                Debug.Log("Taken " + damage + "damage, HP left is " + healthBar.value);
+               // Debug.Log("Taken " + damage + "damage, HP left is " + healthBar.value);
 
                 //run function to check if player can regen after
 
@@ -175,7 +175,7 @@ public class HealthBar : MonoBehaviour, IDataPersistence
                 currentHp -= damage;
                 healthBar.value = currentHp;
                 hpText.text = (int)currentHp + " / " + totalHp;
-                Debug.Log("Taken " + damage + "damage, HP left is " + healthBar.value);
+              //  Debug.Log("Taken " + damage + "damage, HP left is " + healthBar.value);
                 PlayerDied();
             }
 

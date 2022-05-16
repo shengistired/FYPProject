@@ -356,9 +356,11 @@ public class NewGame : MonoBehaviour
         }
         else if (modeSelection == "timer")
         {
+            life = 0;
             DataPersistenceManager.instance.NewTimerGame();
         }
         LevelLoader.Instance.LoadLevel("Map");
+
     }
     public void overWriteData(string name)
     {

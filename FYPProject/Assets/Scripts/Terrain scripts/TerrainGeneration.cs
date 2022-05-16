@@ -645,7 +645,7 @@ public class TerrainGeneration : MonoBehaviour, IDataPersistence
                             if (playerStartPosition == Vector3.zero)
                             {
                                 //justSpawn = true;
-                                player.spawnPosition = new Vector2(x, height + 15);
+                                player.spawnPosition = new Vector2(x, height + 10);
                                 playerStartPosition = player.spawnPosition;
 
                             }
