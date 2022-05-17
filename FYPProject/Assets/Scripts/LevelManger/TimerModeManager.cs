@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class TimerModeManager : MonoBehaviour
 {
-    private float Second = 20;
+    private float Second = 60;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private GameObject timeObject;
     [SerializeField] private GameObject SurvivalPanel;
@@ -13,7 +13,7 @@ public class TimerModeManager : MonoBehaviour
     [SerializeField] private Animator timeLeft;
     [SerializeField] private audio_manager audio_Manager;
 
-
+    private int enemyLevel = 0;
     private bool isTimer = false;
     private void Start()
     {
@@ -27,21 +27,22 @@ public class TimerModeManager : MonoBehaviour
 
                 if (NewGame.difficultySelection == "easy")
                 {
-                    EnemyStat.lvl = 2;
+                    enemyLevel = 2;
 
                 }
 
                 if (NewGame.difficultySelection == "normal") 
                 {
-                    EnemyStat.lvl = 3;
+                    enemyLevel = 3;
 
                 }
 
                 if (NewGame.difficultySelection == "hard")
                 {
-                    EnemyStat.lvl = 4;
+                    enemyLevel = 4;
 
                 }
+                EnemyStat.lvl = enemyLevel;
 
             }
         }
@@ -52,32 +53,53 @@ public class TimerModeManager : MonoBehaviour
     }
     private void Update()
     {
-        // Debug.Log(Second);
-        if (Second < 10)
+        try
         {
-            timeText.color = Color.red;
-            timeLeft.SetFloat("TimeLeft", Second);
-            if (!audio_Manager.clockTicking.isPlaying)
+            if(NewGame.modeSelection == "timer")
             {
-                audio_Manager.clockTicking_play();
+                // Debug.Log(Second);
+                if (Second < 10)
+                {
+                    timeText.color = Color.red;
+                    timeLeft.SetFloat("TimeLeft", Second);
+                    if (!audio_Manager.clockTicking.isPlaying)
+                    {
+                        audio_Manager.clockTicking_play();
+                    }
+                }
+                if (Second > 0)
+                {
+                    timeText.text = ((int)Second).ToString();
+                    Second -= Time.deltaTime;
+                }
+                if (Second < 0.1)
+                {
+                    SurvivalPanel.SetActive(true);
+                    audio_Manager.clockTicking_stop();
+                    Time.timeScale = 0;
+
+                    if (Second == -1)
+                    {
+                        SurvivalPanel.SetActive(false);
+                        audio_Manager.clockTicking_stop();
+                        timeText.text = "";
+
+
+                    }
+                }
+
+                if (isTimer)
+                {
+                    LevelUp();
+                }
             }
+
         }
-        if (Second > 0)
+        catch
         {
-            timeText.text = ((int)Second).ToString();
-            Second -= Time.deltaTime;
-        }
-        if(Second < 0.1)
-        {
-            SurvivalPanel.SetActive(true);
-            audio_Manager.clockTicking_stop();
-            Time.timeScale = 0;
+
         }
 
-        if (isTimer)
-        {
-            LevelUp();
-        }
 
 
     }
@@ -85,33 +107,31 @@ public class TimerModeManager : MonoBehaviour
     {
         if ((int)Second == 50)
         {
-            EnemyStat.lvl = 3;
+            EnemyStat.lvl = enemyLevel + 2;
         }        
         if ((int)Second == 40)
         {
-            EnemyStat.lvl = 4;
-        }        
+            EnemyStat.lvl = enemyLevel + 4;
+        }
         if ((int)Second == 30)
         {
-            EnemyStat.lvl = 5;
-        }       
+            EnemyStat.lvl = enemyLevel + 6;
+        }
         if ((int)Second == 20)
         {
-            EnemyStat.lvl = 6;
-        }        
+            EnemyStat.lvl = enemyLevel + 8;
+        }
         if ((int)Second == 10)
         {
-            EnemyStat.lvl = 7;
+            EnemyStat.lvl = enemyLevel + 10;
         }
-
+        Debug.Log(EnemyStat.lvl);
 
     }
 
     public void MainMenu()
     {
-        SurvivalPanel.SetActive(false);
-        Time.timeScale = 1;
-
+        Second = -1;
         LevelLoader.Instance.LoadLevel("MainMenu");
     }
 }

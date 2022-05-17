@@ -9,7 +9,7 @@ public class TimeUI : MonoBehaviour
 
     private void Start()
     {
-        /*
+        
         try
         {
             if(NewGame.modeSelection == "timer")
@@ -21,7 +21,7 @@ public class TimeUI : MonoBehaviour
         {
 
         }
-        */
+        
     }
     private void OnEnable()
     {

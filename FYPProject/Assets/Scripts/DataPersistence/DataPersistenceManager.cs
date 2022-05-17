@@ -18,7 +18,6 @@ public class DataPersistenceManager : MonoBehaviour
     {
         if(instance != null)
         {
-            Debug.LogError("Found more than one data persistence manager in the scene,Destroying the latest one");
             Destroy(gameObject);
             return;
         }

@@ -22,10 +22,14 @@ public class NewGame : MonoBehaviour
     [SerializeField] Button casual;
     [SerializeField] Button timer;
 
-    [SerializeField] Color color;
-    [SerializeField] Color colorOriginal;
-    [SerializeField] TMP_Text errorMsg;
+    [SerializeField] GameObject timerMedium;
+    [SerializeField] GameObject timerLarge;
 
+    [SerializeField] Color color;
+    [SerializeField] Color colorWhite;
+    [SerializeField] Color colorOriginal;
+    [SerializeField] Color colorDisabled;
+    [SerializeField] TMP_Text errorMsg;
     [SerializeField] GameObject overWriteGameData;
 
     private ColorBlock origin;
@@ -43,6 +47,8 @@ public class NewGame : MonoBehaviour
     public static string modeSelection;
     public static int life;
     public static string playerClass;
+    private bool isTimer = false;
+    //public bool isTimer;
 
     // Start is called before the first frame update
     void Awake()
@@ -61,8 +67,12 @@ public class NewGame : MonoBehaviour
         colorNew.normalColor = color;
 
         small.GetComponent<Button>().colors = colorNew;
-        medium.GetComponent<Button>().colors = origin;
-        large.GetComponent<Button>().colors = origin;
+        if (!isTimer)
+        {
+            medium.GetComponent<Button>().colors = origin;
+            large.GetComponent<Button>().colors = origin;
+        }
+
 
         notEmptySize[0] = true;
         notEmptySize[1] = false;
@@ -256,10 +266,14 @@ public class NewGame : MonoBehaviour
 
         casual.GetComponent<Button>().colors = colorNew;
         timer.GetComponent<Button>().colors = origin;
+        timerMedium.SetActive(false);
+        timerLarge.SetActive(false);
+        medium.interactable = true;
+        large.interactable = true;
 
         notEmptyMode[0] = true;
         notEmptyMode[1] = false;
-
+        isTimer = false;
         modeSelection = "casual";
 
 
@@ -272,9 +286,19 @@ public class NewGame : MonoBehaviour
 
         casual.GetComponent<Button>().colors = origin;
         timer.GetComponent<Button>().colors = colorNew;
+        medium.GetComponent<Button>().colors = origin;
+        large.GetComponent<Button>().colors = origin;
 
+        timerMedium.SetActive(true);
+        timerLarge.SetActive(true);
+        medium.interactable = false;
+        large.interactable = false;
+
+        notEmptySize[1] = false;
+        notEmptySize[2] = false;
         notEmptyMode[0] = false;
         notEmptyMode[1] = true;
+        isTimer = true;
 
         modeSelection = "timer";
 

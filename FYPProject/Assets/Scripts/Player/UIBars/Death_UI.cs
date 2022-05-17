@@ -18,6 +18,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
     public GameObject respawnBtnPanel;
     public GameObject mainMenuPanel;
     public GameObject scorePanel;
+    public audio_manager audio_Manager;
 
     public Button respawnBtn;
     public Button mainMenuBtn;
@@ -174,7 +175,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
 
     public void ToggleDeathPanel(int life)
     {
-
+        audio_Manager.clockTicking_stop();
         deathPanel.gameObject.SetActive(true);
 
         if (score == 0 && life == 0 && gameMode != "timer")

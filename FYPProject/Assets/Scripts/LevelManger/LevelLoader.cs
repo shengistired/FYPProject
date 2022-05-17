@@ -41,6 +41,10 @@ public class LevelLoader : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("QualityLevel"));
     }
+    private void Start()
+    {
+        Time.timeScale = 1;
+    }
     private void Awake()
     {
         try
