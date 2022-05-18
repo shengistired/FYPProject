@@ -133,5 +133,6 @@ public class TimerModeManager : MonoBehaviour
     {
         Second = -1;
         LevelLoader.Instance.LoadLevel("MainMenu");
+        NewGame.modeSelection = null;
     }
 }

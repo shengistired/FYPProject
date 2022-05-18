@@ -175,6 +175,7 @@ public class Death_UI : MonoBehaviour, IDataPersistence
 
     public void ToggleDeathPanel(int life)
     {
+        NewGame.modeSelection = null;
         audio_Manager.clockTicking_stop();
         deathPanel.gameObject.SetActive(true);
 
