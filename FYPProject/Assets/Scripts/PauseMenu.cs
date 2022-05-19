@@ -44,7 +44,11 @@ public class PauseMenu : MonoBehaviour
             PauseGame();
         }
     }
-
+    public void BackToMenu()
+    {
+        DataPersistenceManager.instance.SaveGame();
+        LevelLoader.Instance.LoadLevel("MainMenu");
+    }
     public void QuitGame()
     {
         Application.Quit();
